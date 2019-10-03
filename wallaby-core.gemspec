@@ -1,33 +1,35 @@
+# frozen_string_literal: true
+
 lib = File.expand_path("lib", __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require "wallaby/core/version"
+require 'wallaby/core/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "wallaby-core"
+  spec.name          = 'wallaby-core'
   spec.version       = Wallaby::Core::VERSION
-  spec.authors       = ["Tian Chen"]
-  spec.email         = ["me@tian.im"]
+  spec.authors       = ['Tian Chen']
+  spec.email         = ['me@tian.im']
+  spec.license       = 'MIT'
 
-  spec.summary       = %q{TODO: Write a short summary, because RubyGems requires one.}
-  spec.description   = %q{TODO: Write a longer description or delete this line.}
-  spec.homepage      = "TODO: Put your gem's website or public repo URL here."
+  spec.summary       = %q{The core of Wallaby}
+  spec.description   = spec.summary
+  spec.homepage      = 'https://github.com/wallaby-rails/wallaby-core'
 
-  spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
+  spec.metadata = {
+    'homepage_uri' => spec.homepage,
+    'source_code_uri' => spec.homepage,
+    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md"
+  }
 
-  spec.metadata["homepage_uri"] = spec.homepage
-  spec.metadata["source_code_uri"] = "TODO: Put your gem's public repo URL here."
-  spec.metadata["changelog_uri"] = "TODO: Put your gem's CHANGELOG.md URL here."
+  spec.files = Dir[
+    '{app,lib}/**/*',
+    'LICENSE',
+    'README.md'
+  ]
+  spec.test_files = Dir['spec/**/*']
+  spec.require_paths = ['lib']
 
-  # Specify which files should be added to the gem when it is released.
-  # The `git ls-files -z` loads the files in the RubyGem that have been added into git.
-  spec.files         = Dir.chdir(File.expand_path('..', __FILE__)) do
-    `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
-  end
-  spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
-  spec.require_paths = ["lib"]
-
-  spec.add_development_dependency "bundler", "~> 2.0"
-  spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.0"
+  spec.add_dependency 'rails', '>= 4.2.0'
+  spec.add_dependency 'parslet'
+  spec.add_dependency 'responders'
 end
