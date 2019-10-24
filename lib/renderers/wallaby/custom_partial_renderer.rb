@@ -10,7 +10,11 @@ module Wallaby
     # @param block [Proc]
     # @return [String] HTML output
     def render(context, options, block)
-      super
+      if Rails::VERSION::MAJOR >= 6
+        super.body
+      else
+        super
+      end  
     rescue CellHandling => e
       CellUtils.render context, e.message, options[:locals], &block
     end
