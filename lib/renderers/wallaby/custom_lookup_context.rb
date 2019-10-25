@@ -3,9 +3,15 @@ module Wallaby
   class CustomLookupContext < ::ActionView::LookupContext
     # It overrides the origin method to convert paths to {Wallaby::CellResolver}
     # @param paths [Array]
-    def view_paths=(paths)
-      @view_paths = ActionView::PathSet.new Array(paths).map(&method(:convert))
-    end
+    if Rails::VERSION::MAJOR >= 6
+      def build_view_paths(paths)
+        ActionView::PathSet.new Array(paths).map(&method(:convert))
+      end
+    else  
+      def view_paths=(paths)
+        @view_paths = ActionView::PathSet.new Array(paths).map(&method(:convert))
+      end
+    end   
 
     # It overrides the oirgin method to call the origin `find_template` and cache the result during a request.
     # @param name [String]
