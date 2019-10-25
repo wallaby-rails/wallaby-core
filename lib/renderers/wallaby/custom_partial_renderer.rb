@@ -14,7 +14,7 @@ module Wallaby
         super.body
       else
         super
-      end  
+      end
     rescue CellHandling => e
       CellUtils.render context, e.message, options[:locals], &block
     end
@@ -24,7 +24,11 @@ module Wallaby
     # @raise [Wallaby:::CellHandling] when a cell is found
     def find_partial(*)
       super.tap do |partial|
-        raise CellHandling, partial.inspect if CellUtils.cell? partial.inspect
+        if Rails::VERSION::MAJOR >= 6
+          raise CellHandling, partial.identifier if CellUtils.cell? partial
+        else
+          raise CellHandling, partial.inspect if CellUtils.cell? partial.inspect
+        end
       end
     end
   end

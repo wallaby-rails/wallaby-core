@@ -18,8 +18,12 @@ module Wallaby
       # @param partial_path [String]
       # @return [true] if partial is a `rb` file
       # @return [false] otherwise
-      def cell?(partial_path)
-        partial_path.end_with? '.rb'
+      def cell?(partial)
+        if Rails::VERSION::MAJOR >= 6
+          partial.identifier.end_with? '.rb'
+        else
+          partial.end_with? '.rb'
+        end
       end
 
       # @param action_name [String, Symbol]

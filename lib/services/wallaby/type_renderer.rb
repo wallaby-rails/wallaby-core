@@ -14,10 +14,18 @@ module Wallaby
         # view.render options, locals, &block
         partial = find_partial options, view
 
-        if CellUtils.cell? partial.inspect
-          CellUtils.render view, partial.inspect, locals, &block
+        if Rails::VERSION::MAJOR >= 6
+          if CellUtils.cell? partial
+            CellUtils.render view, partial.identifier, locals, &block
+          else
+            view.render options, locals, &block
+          end
         else
-          view.render options, locals, &block
+          if CellUtils.cell? partial.inspect
+            CellUtils.render view, partial.inspect, locals, &block
+          else
+            view.render options, locals, &block
+          end
         end
       end
 
