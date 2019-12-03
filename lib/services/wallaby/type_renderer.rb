@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Type renderer
   class TypeRenderer
@@ -11,11 +13,11 @@ module Wallaby
         locals[:object] ||= locals[:form].try :object
         check locals
         complete locals, view.params[:action]
-        # view.render options, locals, &block
-        partial = find_partial options, view
 
-        if CellUtils.cell? partial.inspect
-          CellUtils.render view, partial.inspect, locals, &block
+        partial = find_partial options, view
+        cell = CellUtils.find_cell(partial.identifier, partial.inspect)
+        if cell
+          CellUtils.render view, cell, locals, &block
         else
           view.render options, locals, &block
         end
