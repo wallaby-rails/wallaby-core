@@ -41,7 +41,7 @@ module Wallaby
       # @param hash [Hash] sort order hash
       # @return [String] a sort order string, e.g. `'name asc'`
       def rebuild_str_from(hash)
-        hash.each_with_object('') do |(name, sort), str|
+        hash.each_with_object(EMPTY_STRING.dup) do |(name, sort), str|
           next unless sort
 
           str << (str == EMPTY_STRING ? str : COMMA)

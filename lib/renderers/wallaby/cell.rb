@@ -90,7 +90,7 @@ module Wallaby
     # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell
     def render_complete(&block)
-      @buffer = EMPTY_STRING # reset buffer before rendering
+      @buffer = EMPTY_STRING.dup # reset buffer before rendering
       last_part = render(&block)
       @buffer << last_part.to_s
     end
@@ -98,7 +98,7 @@ module Wallaby
     # Append string to output buffer
     # @param string [String] string to concat
     def concat(string)
-      (@buffer ||= EMPTY_STRING) << string
+      (@buffer ||= EMPTY_STRING.dup) << string
     end
 
     # @overload at(name)
