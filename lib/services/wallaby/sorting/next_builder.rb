@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 module Wallaby
   module Sorting
     # Generate sort param for given field's next sort order
     # (e.g. from empty to `asc`, from `asc` to `desc`, from `desc` to empty)
     class NextBuilder
-      ASC = 'asc'.freeze
-      DESC = 'desc'.freeze
+      ASC = 'asc'
+      DESC = 'desc'
 
       # @param params [ActionController::Parameters]
       # @param hash [Hash, nil] a hash containing sorting info, e.g. `{ name: 'asc' }`
@@ -41,6 +43,7 @@ module Wallaby
       def rebuild_str_from(hash)
         hash.each_with_object('') do |(name, sort), str|
           next unless sort
+
           str << (str == EMPTY_STRING ? str : COMMA)
           str << name.to_s << SPACE << sort
         end

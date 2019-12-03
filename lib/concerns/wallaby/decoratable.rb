@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Decorator related attributes
   module Decoratable
@@ -83,6 +85,7 @@ module Wallaby
     def decorate(resource)
       return resource if resource.is_a? ResourceDecorator
       return resource.map { |item| decorate item } if resource.respond_to? :map
+
       decorator = Map.resource_decorator_map resource.class, controller_to_get(:application_decorator)
       decorator ? decorator.new(resource) : resource
     end
@@ -91,6 +94,7 @@ module Wallaby
     # @return [Object] the unwrapped resource object
     def extract(resource)
       return resource.resource if resource.is_a? ResourceDecorator
+
       resource
     end
   end

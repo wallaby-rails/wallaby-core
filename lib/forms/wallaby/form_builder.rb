@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Custom form builder to add more helper functions
   class FormBuilder < ::ActionView::Helpers::FormBuilder
@@ -17,7 +19,9 @@ module Wallaby
 
       content_tag :ul, class: 'errors' do
         errors.each do |message|
-          concat content_tag :li, content_tag(:small, raw(message))
+          concat content_tag :li, content_tag(
+            :small, raw(message) # rubocop:disable Rails/OutputSafety
+          )
         end
       end
     end
@@ -41,6 +45,7 @@ module Wallaby
     # Delegate missing method to `@template`
     def method_missing(method, *args, &block)
       return super unless @template.respond_to? method
+
       # Delegate the method so that we don't come in here the next time
       # when same method is called
       self.class.delegate method, to: :@template

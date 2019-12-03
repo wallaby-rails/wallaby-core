@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Paginator related attributes
   module Paginatable

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # NOTE: Global helper methods should go in here
   module BaseHelper
@@ -49,7 +51,8 @@ module Wallaby
     # @param array [Array<Wallaby::Node>] root classes
     # @return [String] HTML for the whole tree
     def model_tree(array, base_class = nil)
-      return EMPTY_STRING.html_safe if array.blank?
+      return EMPTY_STRING if array.blank?
+
       options = { html_options: { class: 'dropdown-item' } }
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do
         array.sort_by(&:name).each do |node|

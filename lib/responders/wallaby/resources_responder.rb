@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resources responder
   class ResourcesResponder < ActionController::Responder

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Like ordinary Rails application, it's the base controller that
   # other Wallaby controllers inherit from.

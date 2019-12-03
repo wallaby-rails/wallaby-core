@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # This is the controller with only authentication logics.
   class SecureController < ::Wallaby::ApplicationController
@@ -72,6 +74,7 @@ module Wallaby
           super
         end
       raise NotAuthenticated unless authenticated
+
       true
     end
   end

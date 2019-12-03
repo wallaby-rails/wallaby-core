@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model service provider interface
   class ModelServiceProvider
@@ -5,6 +7,7 @@ module Wallaby
     # @param model_decorator [Wallaby::ModelDecorator, nil] model decorator
     def initialize(model_class, model_decorator)
       raise ::ArgumentError, 'model class required' unless model_class
+
       @model_class = model_class
       @model_decorator = model_decorator
     end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Field utils
   module FieldUtils
@@ -12,6 +14,7 @@ module Wallaby
       # @return [String, Symbol] field name
       def first_field_by(*conditions, fields)
         return if [conditions, fields].any?(&:blank?)
+
         conditions.each do |condition|
           fields.each do |field_name, metadata|
             return field_name if meet? field_name, metadata.with_indifferent_access, condition

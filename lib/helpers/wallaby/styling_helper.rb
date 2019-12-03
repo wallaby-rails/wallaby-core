@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Helper methods to build custom elements
   module StylingHelper

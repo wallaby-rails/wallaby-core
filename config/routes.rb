@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Wallaby::Engine.routes.draw do
   # NOTE: For health check if needed
   # @see Wallaby::ApplicationController#healthy

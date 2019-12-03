@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model pagination provider interface
   class ModelPaginationProvider

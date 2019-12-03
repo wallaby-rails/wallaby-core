@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Abstract related class methods
   module Baseable

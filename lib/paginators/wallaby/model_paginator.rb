@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model paginator to provide support for pagination on index page
   class ModelPaginator
@@ -29,6 +31,7 @@ module Wallaby
       def model_class
         return unless self < ModelPaginator
         return if base_class? || self == Wallaby.configuration.mapping.model_paginator
+
         @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Paginator$)/, EMPTY_STRING))
       end
 
@@ -57,6 +60,7 @@ module Wallaby
     def initialize(model_class, collection, params)
       @model_class = self.class.model_class || model_class
       raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
+
       @collection = collection
       @params = params
       @provider = Map.pagination_provider_map(@model_class).new(@collection, @params)

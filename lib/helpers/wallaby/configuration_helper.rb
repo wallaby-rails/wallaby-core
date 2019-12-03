@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Configuration helper module. Provide shortcut methods to configurations.
   module ConfigurationHelper

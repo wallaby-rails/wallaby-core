@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # In order to improve the rendering performance, cell is designed as simple partial component.
   # @since 5.2.0
@@ -88,7 +90,7 @@ module Wallaby
     # This method produces the complete rendered string including the buffer produced by {#concat}.
     # @return [String] output of the cell
     def render_complete(&block)
-      @buffer = EMPTY_STRING.html_safe # reset buffer before rendering
+      @buffer = EMPTY_STRING # reset buffer before rendering
       last_part = render(&block)
       @buffer << last_part.to_s
     end
@@ -96,7 +98,7 @@ module Wallaby
     # Append string to output buffer
     # @param string [String] string to concat
     def concat(string)
-      (@buffer ||= EMPTY_STRING.html_safe) << string
+      (@buffer ||= EMPTY_STRING) << string
     end
 
     # @overload at(name)
@@ -114,6 +116,7 @@ module Wallaby
     def at(*args)
       raise ArgumentError unless args.length.in? [1, 2]
       return context.instance_variable_get :"@#{args.first}" if args.length == 1
+
       context.instance_variable_set :"@#{args.first}", args.last
     end
 
@@ -122,6 +125,7 @@ module Wallaby
     # Delegate missing method to {#context}
     def method_missing(method_id, *args, &block)
       return super unless context.respond_to? method_id
+
       context.public_send method_id, *args, &block
     end
 

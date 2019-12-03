@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Field helper for model decorator
   module Fieldable

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Easter egg: simple responder for JSON API
   class JsonApiResponder < ResourcesResponder

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resources related attributes
   module Resourcable
@@ -31,6 +33,7 @@ module Wallaby
       def model_class
         return unless self < ResourcesController
         return if base_class? || self == Wallaby.configuration.mapping.resources_controller
+
         @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Controller$)/, EMPTY_STRING))
       end
     end

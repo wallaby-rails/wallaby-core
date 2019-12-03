@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Global storage to hold all the information that Wallaby needs to look up.
   class Map
@@ -153,6 +155,7 @@ module Wallaby
       # @return [Class]
       def map_of(variable_name, model_class, application_class)
         return unless model_class
+
         unless mode_map[model_class]
           Rails.logger.warn I18n.t('wallaby.map.missing_mode_for_model_class', model: model_class.name)
           return

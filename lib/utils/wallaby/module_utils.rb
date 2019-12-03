@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Utils for module and class
   module ModuleUtils
@@ -10,6 +12,7 @@ module Wallaby
       # @return [nil] if subject doesn't respond to given method
       def try_to(subject, method_id, *args, &block)
         return if method_id.blank?
+
         subject.respond_to?(method_id) && subject.public_send(method_id, *args, &block) || nil
       end
 
@@ -28,6 +31,7 @@ module Wallaby
       def inheritance_check(child, parent)
         return unless child && parent
         return if child < parent
+
         raise ::ArgumentError, I18n.t('errors.invalid.inheritance', klass: child, parent: parent)
       end
 

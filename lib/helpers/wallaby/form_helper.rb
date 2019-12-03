@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Form helper
   module FormHelper
@@ -53,6 +55,7 @@ module Wallaby
       hint ||= type && t("hints.#{type}_html", default: '').presence
       hint ||= type && t("hints.#{type}", default: '').presence
       return unless hint
+
       content_tag :p, hint, class: 'help-block'
     end
   end

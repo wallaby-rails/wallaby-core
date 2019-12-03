@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Engine related helper methods for both controller and view
   module Engineable

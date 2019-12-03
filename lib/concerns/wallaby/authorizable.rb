@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Authorizer related attributes
   module Authorizable
@@ -66,6 +68,7 @@ module Wallaby
     # @since 5.2.0
     def authorized?(action, subject)
       return false unless subject
+
       klass = subject.is_a?(Class) ? subject : subject.class
       authorizer_of(klass).authorized? action, subject
     end

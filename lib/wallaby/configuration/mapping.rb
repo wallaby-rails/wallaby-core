@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   class Configuration
     # Configuration used in {Wallaby::Map}

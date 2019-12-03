@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   class Map
     # To collect model classes that are configured to be handled by Wallaby
@@ -12,6 +14,7 @@ module Wallaby
       # @return [Array<Class>] model class
       def collect
         return @models - excluded_models if configured_models.blank?
+
         invalid_models_check
         configured_models
       end
@@ -22,6 +25,7 @@ module Wallaby
       def invalid_models_check
         invalid_models = configured_models - @models
         return if invalid_models.blank?
+
         message = I18n.t 'errors.invalid.models', models: invalid_models.to_sentence
         raise InvalidError, message
       end

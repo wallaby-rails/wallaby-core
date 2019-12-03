@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   class Map
     # To generate a hash map (`model` => `mode`).
@@ -13,6 +15,7 @@ module Wallaby
       # @return [Hash] { model_class => mode }
       def map
         return {} if @mode_classes.blank?
+
         @mode_classes.each_with_object({}) do |mode_class, map|
           mode_class.model_finder.new.all.each do |model_class|
             map[model_class] = mode_class

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model finder interface
   class ModelFinder

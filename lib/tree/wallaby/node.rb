@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # To present classes in tree structure.
   class Node

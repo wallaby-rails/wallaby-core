@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Helper methods for index action
   module IndexHelper
@@ -26,6 +28,7 @@ module Wallaby
     # @return [Array<String>] a list of field names for json builder
     def json_fields_of(decorated_collection, fields_from_params = params[:fields])
       return [] if decorated_collection.blank?
+
       decorated = decorated_collection.first
       index_field_names = decorated.index_field_names.map(&:to_s)
       fields = (fields_from_params.presence || index_field_names).split(/\s*,\s*/).flatten

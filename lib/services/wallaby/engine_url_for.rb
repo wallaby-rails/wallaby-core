@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # {Wallaby::ApplicationHelper#url_for} helper for Wallaby engine
   class EngineUrlFor

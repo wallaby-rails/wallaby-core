@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Cancancan base authorization provider
   class CancancanAuthorizationProvider < ModelAuthorizationProvider
@@ -57,9 +59,7 @@ module Wallaby
     # @param action [Symbol, String]
     # @param subject [Object]
     # @return nil
-    def attributes_for(action, subject)
-      ability.attributes_for action, subject
-    end
+    delegate :attributes_for, to: :ability
 
     # Just return nil
     # @param action [Symbol, String]

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Utils for model
   module ModelUtils
@@ -7,6 +9,7 @@ module Wallaby
       # @return [String] resources name
       def to_resources_name(model_class)
         return EMPTY_STRING if model_class.blank?
+
         model_class.to_s.underscore.gsub(SLASH, COLONS).pluralize
       end
 
@@ -16,6 +19,7 @@ module Wallaby
       def to_model_label(model_class)
         # TODO: change to use i18n translation
         return EMPTY_STRING if model_class.blank?
+
         model_class_name = to_model_name model_class
         model_class_name.titleize.gsub(SLASH, SPACE + SLASH + SPACE)
       end
@@ -26,6 +30,7 @@ module Wallaby
       # @return [nil] when not found
       def to_model_class(resources_name)
         return if resources_name.blank?
+
         class_name = to_model_name resources_name
         class_name.constantize
       rescue NameError
@@ -38,6 +43,7 @@ module Wallaby
       # @return [String] model name
       def to_model_name(resources_name)
         return EMPTY_STRING if resources_name.blank?
+
         resources_name.to_s.singularize.gsub(COLONS, SLASH).camelize
       end
     end

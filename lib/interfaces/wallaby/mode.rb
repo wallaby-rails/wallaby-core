@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # This is the interface that all ORM modes should inherit from and implement.
   class Mode
@@ -58,6 +60,7 @@ module Wallaby
         parent_class = "Wallaby::#{method_class}".constantize
         class_name.constantize.tap do |klass|
           next if klass < parent_class
+
           raise InvalidError, I18n.t('wallaby.mode.inherit_required', klass: klass, parent: parent_class)
         end
       rescue NameError => e
