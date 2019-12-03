@@ -14,7 +14,7 @@ module Wallaby
     def render(context, options, block)
       super.try do |rendered|
         ModuleUtils.try_to(rendered, :body) || # Rails 6 and above
-          rendered # below Rails 6
+          rendered # Rails 5.2 and below
       end
     rescue CellHandling => e
       CellUtils.render context, e.message, options[:locals], &block

@@ -13,7 +13,7 @@ module Wallaby
       )
     end
 
-    # @note for Rails version 6 and above
+    # @note for Rails 6 and above
     # It overrides the origin method to convert paths to {Wallaby::CellResolver}
     # @param paths [Array]
     # @return [ActionView::PathSet]
@@ -21,7 +21,7 @@ module Wallaby
       ActionView::PathSet.new Array(paths).map(&method(:convert))
     end
 
-    # @note for Rails version below 6
+    # @note for Rails 5.2 and below
     # It overrides the origin method to convert paths to {Wallaby::CellResolver}
     # @param paths [Array]
     # @return [ActionView::PathSet]
