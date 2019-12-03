@@ -13,10 +13,20 @@ module Wallaby
       )
     end
 
+    # @note for Rails version 6 and above
     # It overrides the origin method to convert paths to {Wallaby::CellResolver}
     # @param paths [Array]
+    # @return [ActionView::PathSet]
     def build_view_paths(paths)
       ActionView::PathSet.new Array(paths).map(&method(:convert))
+    end
+
+    # @note for Rails version below 6
+    # It overrides the origin method to convert paths to {Wallaby::CellResolver}
+    # @param paths [Array]
+    # @return [ActionView::PathSet]
+    def view_paths=(paths)
+      @view_paths = build_view_paths paths
     end
 
     # It overrides the oirgin method to call the origin `find_template` and cache the result during a request.

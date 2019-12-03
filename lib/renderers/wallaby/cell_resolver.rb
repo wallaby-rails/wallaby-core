@@ -24,8 +24,9 @@ module Wallaby
       #   Detials from ViewPaths}
       # @return [String] a path query
       def build_query(path, details)
+        # NOTE: super is impacted by {#escape_entry}
         origin = super
-        file_name = origin[%r{(?<=/_)[^/\{]+}]
+        file_name = origin[%r{(?<=/\{,_\})[^/\{]+}]
         return origin unless file_name
 
         base_dir = origin.gsub(%r{/[^/]*$}, '')
@@ -52,10 +53,10 @@ module Wallaby
             .gsub('raw|', 'rb|raw|')
         )
       end
+    end
 
-      def escape_entry(entry)
-        super.gsub(%r{/_([^/]+)\z}, '/{,_}\1')
-      end
+    def escape_entry(entry)
+      super.gsub(%r{/_([^/]+)\z}, '/{,_}\1')
     end
 
     private
