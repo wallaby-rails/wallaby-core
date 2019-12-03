@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-lib = File.expand_path("lib", __dir__)
+lib = File.expand_path('lib', __dir__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'wallaby/core/version'
 
@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.email         = ['me@tian.im']
   spec.license       = 'MIT'
 
-  spec.summary       = %q{The core of Wallaby}
+  spec.summary       = 'The core of Wallaby'
   spec.description   = spec.summary
   spec.homepage      = 'https://github.com/wallaby-rails/wallaby-core'
 
@@ -29,7 +29,9 @@ Gem::Specification.new do |spec|
   spec.test_files = Dir['spec/**/*']
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'rails', '>= 4.2.0'
   spec.add_dependency 'parslet'
+  spec.add_dependency 'rails', '>= 4.2.0'
   spec.add_dependency 'responders'
+
+  spec.add_development_dependency 'wallaby-cop'
 end
