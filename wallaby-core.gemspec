@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   }
 
   spec.files = Dir[
-    '{app,lib}/**/*',
+    '{app,lib,config}/**/*',
     'LICENSE',
     'README.md'
   ]
