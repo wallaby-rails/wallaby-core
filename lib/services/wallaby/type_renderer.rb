@@ -13,14 +13,7 @@ module Wallaby
         locals[:object] ||= locals[:form].try :object
         check locals
         complete locals, view.params[:action]
-
-        partial = find_partial options, view
-        cell = CellUtils.find_cell(partial.identifier, partial.inspect)
-        if cell
-          CellUtils.render view, cell, locals, &block
-        else
-          view.render options, locals, &block
-        end
+        view.render options, locals, &block
       end
 
       private
