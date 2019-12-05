@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model servicer contains resourceful operations for Rails resourceful actions.
   class ModelServicer
@@ -29,6 +31,7 @@ module Wallaby
       def model_class
         return unless self < ModelServicer
         return if base_class? || self == Wallaby.configuration.mapping.model_servicer
+
         @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Servicer$)/, EMPTY_STRING))
       end
 
@@ -73,6 +76,7 @@ module Wallaby
     def initialize(model_class, authorizer, model_decorator = nil)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
+
       @model_decorator = model_decorator || Map.model_decorator_map(model_class)
       @authorizer = authorizer
       provider_class = self.class.provider_class || Map.service_provider_map(@model_class)
@@ -101,9 +105,7 @@ module Wallaby
     # @param query [Enumerable]
     # @param params [ActionController::Parameters]
     # @return [Enumerable] list of records
-    def paginate(query, params)
-      provider.paginate query, params
-    end
+    delegate :paginate, to: :provider
 
     # @note This is a template method that can be overridden by subclasses.
     # Initialize an instance of the model class.

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resources controller, superclass for all customization controllers.
   # It contains CRUD template action methods (`index`/`new`/`create`/`edit`/`update`/`destroy`)
@@ -24,7 +26,7 @@ module Wallaby
     respond_to :json
     respond_to :csv, only: :index
     helper ResourcesHelper
-    before_action :authenticate_user!, except: [:status]
+    before_action :authenticate_user!
 
     # @note This is a template method that can be overridden by subclasses.
     # This is an action for landing page display. It does nothing more than rendering `home` template.

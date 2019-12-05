@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # To extend prefixes to provide more possibility
   class PrefixesBuilder

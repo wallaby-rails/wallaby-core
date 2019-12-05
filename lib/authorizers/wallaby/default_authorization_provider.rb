@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Default authorization provider
   class DefaultAuthorizationProvider < ModelAuthorizationProvider

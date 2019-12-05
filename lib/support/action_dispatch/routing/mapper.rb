@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ActionDispatch
   module Routing
     # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for Wallaby.

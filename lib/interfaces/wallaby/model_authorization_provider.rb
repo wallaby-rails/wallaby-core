@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model Authorizer interface.
   # @since 5.2.0

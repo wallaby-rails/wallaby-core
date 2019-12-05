@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model not found error
   class ModelNotFound < NotFound

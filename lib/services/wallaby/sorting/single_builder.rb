@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   module Sorting
     # Generate sort param for only one field's next sort order

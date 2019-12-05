@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # This is the core of wallaby that dynamically dispatches request to appropriate controller and action.
   class ResourcesRouter
@@ -53,6 +55,7 @@ module Wallaby
       unless Map.mode_map[model_class]
         raise UnprocessableEntity, I18n.t('errors.unprocessable_entity.model', model: model_class)
       end
+
       model_class
     end
 

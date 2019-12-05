@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   class Map
     # Generate a map.
@@ -16,6 +18,7 @@ module Wallaby
       def map(class_array)
         (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
           next if anonymous?(klass) || base_class?(klass) || !klass.model_class
+
           map[klass.model_class] = block_given? ? yield(klass) : klass
         end
       end

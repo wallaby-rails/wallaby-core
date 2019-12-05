@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Wallaby engine
   class Engine < ::Rails::Engine
@@ -7,6 +9,7 @@ module Wallaby
       # and therefore, Wallaby's renderer can function properly
       [Rails.configuration].each do |conf|
         next if conf.paths['app/views'].eager_load?
+
         conf.paths.add 'app/views', eager_load: true
       end
     end

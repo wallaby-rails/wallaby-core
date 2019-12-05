@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # a parser to handle colon query
   class Parser < Parslet::Parser

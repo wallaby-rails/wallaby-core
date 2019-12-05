@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model Decorator interface, designed to maintain metadata for all fields from the data source (database/api)
   # @see Wallaby::ResourceDecorator for more information on how to customize metadata

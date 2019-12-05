@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Utils for test
   module TestUtils

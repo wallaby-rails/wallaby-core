@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   module Sorting
     # Turn a string e.g.`'name asc,id desc'` into sort hash e.g.`{name: 'asc', id: 'desc'}`

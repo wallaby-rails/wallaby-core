@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resource Decorator base class, designed for decorator pattern.
   # @see Wallaby::ModelDecorator
@@ -35,6 +37,7 @@ module Wallaby
       def model_class
         return unless self < ResourceDecorator
         return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
+
         @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Decorator$)/, EMPTY_STRING))
       end
 
@@ -86,6 +89,7 @@ module Wallaby
       # @return [Wallaby::ModelDecorator]
       def model_decorator(model_class = self.model_class)
         return unless self < ResourceDecorator || model_class
+
         Map.model_decorator_map model_class, application_decorator
       end
 
@@ -134,6 +138,7 @@ module Wallaby
     # @return [Object] value of given field name
     def value_of(field_name)
       return unless field_name
+
       resource.try field_name
     end
 
@@ -172,6 +177,7 @@ module Wallaby
     # Delegate missing method to {#resource}
     def method_missing(method_id, *args, &block)
       return super unless resource.respond_to? method_id
+
       resource.try method_id, *args, &block
     end
 

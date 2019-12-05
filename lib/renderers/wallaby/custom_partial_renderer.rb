@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Custom partial renderer to provide support for cell rendering
   class CustomPartialRenderer < ::ActionView::PartialRenderer
@@ -10,7 +12,10 @@ module Wallaby
     # @param block [Proc]
     # @return [String] HTML output
     def render(context, options, block)
-      super
+      super.try do |rendered|
+        ModuleUtils.try_to(rendered, :body) || # Rails 6 and above
+          rendered # Rails 5.2 and below
+      end
     rescue CellHandling => e
       CellUtils.render context, e.message, options[:locals], &block
     end
@@ -20,7 +25,8 @@ module Wallaby
     # @raise [Wallaby:::CellHandling] when a cell is found
     def find_partial(*)
       super.tap do |partial|
-        raise CellHandling, partial.inspect if CellUtils.cell? partial.inspect
+        cell = CellUtils.find_cell(partial.identifier, partial.inspect)
+        raise CellHandling, cell if cell
       end
     end
   end

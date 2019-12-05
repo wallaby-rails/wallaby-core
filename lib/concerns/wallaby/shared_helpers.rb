@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Shared helpers
   module SharedHelpers
@@ -13,6 +15,7 @@ module Wallaby
     def controller_to_get(attribute_name, class_attribute_name = nil)
       class_attribute_name ||= attribute_name
       return ModuleUtils.try_to self.class, class_attribute_name if is_a? ::ActionController::Base # controller?
+
       ModuleUtils.try_to controller, attribute_name # view?
     end
   end

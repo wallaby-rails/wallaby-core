@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Wallaby application helper
   module ApplicationHelper
@@ -15,6 +17,7 @@ module Wallaby
     #   @see Wallaby::CustomRenderer
     def view_renderer
       return @view_renderer if @view_renderer.is_a? CustomRenderer
+
       @view_renderer = CustomRenderer.new @view_renderer.lookup_context
     end
 

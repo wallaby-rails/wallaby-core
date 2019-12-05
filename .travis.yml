@@ -1,7 +1,45 @@
----
-sudo: false
 language: ruby
 cache: bundler
 rvm:
-  - 2.6.3
-before_install: gem install bundler -v 2.0.2
+  - 2.4
+  - 2.5
+  - 2.6
+gemfile:
+  - gemfiles/Gemfile.rails-4.2
+  - gemfiles/Gemfile.rails-5.0
+  - gemfiles/Gemfile.rails-5.1
+  - gemfiles/Gemfile.rails-5.2
+  - gemfiles/Gemfile.rails-6.0
+matrix:
+  exclude:
+  - rvm: 2.6
+    gemfile: gemfiles/Gemfile.rails-4.2
+  - rvm: 2.4
+    gemfile: gemfiles/Gemfile.rails-6.0
+env:
+  global:
+    - DB=postgresql
+    - CC_TEST_REPORTER_ID=a726345933825a3e95f72dcfd646929ecb76eb02c7f7dcd5c28b8c7246167e26
+services:
+  - mysql
+  - postgresql
+addons:
+  postgresql: "9.6"
+before_install:
+  # Rails 4.2 has dependency on bundler < 2 >= 1.3.0
+  # @see https://docs.travis-ci.com/user/languages/ruby/#bundler-20
+  - gem uninstall -v '>= 2' -i $(rvm gemdir)@global -ax bundler || true
+  - gem install bundler -v '< 2'
+script:
+  - bundle exec rubocop
+  # - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
+  - RAILS_ENV=test bundle exec rake --trace spec
+before_script:
+  - mysql -e 'CREATE DATABASE dummy_test;' -uroot
+  - psql -c 'CREATE DATABASE dummy_test;' -U postgres
+  # setup code climate test coverage
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+after_script:
+  - if [ "$TRAVIS_PULL_REQUEST" == "false" ]; then ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT; fi

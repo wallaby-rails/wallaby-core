@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   module Sorting
     # Build link for sorting

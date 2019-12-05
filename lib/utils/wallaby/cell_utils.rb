@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Cell utils
   module CellUtils
@@ -18,8 +20,8 @@ module Wallaby
       # @param partial_path [String]
       # @return [true] if partial is a `rb` file
       # @return [false] otherwise
-      def cell?(partial_path)
-        partial_path.end_with? '.rb'
+      def find_cell(*partials)
+        partials.find { |partial| partial.end_with? '.rb' }
       end
 
       # @param action_name [String, Symbol]

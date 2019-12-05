@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Model Authorizer to provide authorization functions
   # @since 5.2.0
@@ -30,6 +32,7 @@ module Wallaby
       def model_class
         return unless self < ModelAuthorizer
         return if base_class? || self == Wallaby.configuration.mapping.model_authorizer
+
         @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Authorizer$)/, EMPTY_STRING))
       end
 

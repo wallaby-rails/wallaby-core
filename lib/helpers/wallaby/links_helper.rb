@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Links helper
   module LinksHelper
@@ -14,6 +16,7 @@ module Wallaby
     # @return [nil] if user's not authorized
     def index_link(model_class, options: {}, url_params: {}, html_options: {}, &block)
       return if unauthorized? :index, model_class
+
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         block: -> { to_model_label model_class }
@@ -37,6 +40,7 @@ module Wallaby
     # @return [nil] if user's not authorized
     def new_link(model_class, options: {}, url_params: {}, html_options: {}, &block)
       return if unauthorized? :new, model_class
+
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         class: 'resource__create',

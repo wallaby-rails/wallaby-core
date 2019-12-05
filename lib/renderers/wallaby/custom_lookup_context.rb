@@ -1,10 +1,32 @@
+# frozen_string_literal: true
+
 module Wallaby
   # A custom lookup context that uses {Wallaby::CellResolver} to find cell/partial
   class CustomLookupContext < ::ActionView::LookupContext
+    def self.normalize(lookup, details: nil, prefixes: nil)
+      return lookup if lookup.is_a? self
+
+      CustomLookupContext.new(
+        lookup.view_paths,
+        details || lookup.instance_variable_get('@details'),
+        prefixes || lookup.prefixes
+      )
+    end
+
+    # @note for Rails 6 and above
     # It overrides the origin method to convert paths to {Wallaby::CellResolver}
     # @param paths [Array]
+    # @return [ActionView::PathSet]
+    def build_view_paths(paths)
+      ActionView::PathSet.new Array(paths).map(&method(:convert))
+    end
+
+    # @note for Rails 5.2 and below
+    # It overrides the origin method to convert paths to {Wallaby::CellResolver}
+    # @param paths [Array]
+    # @return [ActionView::PathSet]
     def view_paths=(paths)
-      @view_paths = ActionView::PathSet.new Array(paths).map(&method(:convert))
+      @view_paths = build_view_paths paths
     end
 
     # It overrides the oirgin method to call the origin `find_template` and cache the result during a request.

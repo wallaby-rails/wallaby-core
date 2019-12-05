@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resource not found error
   class ResourceNotFound < NotFound

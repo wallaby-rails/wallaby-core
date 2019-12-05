@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Pundit base authorization provider
   class PunditAuthorizationProvider < ModelAuthorizationProvider

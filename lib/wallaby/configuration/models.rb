@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   class Configuration
     # @note In `development` environment, Rails recreates module/class constants on reload event.

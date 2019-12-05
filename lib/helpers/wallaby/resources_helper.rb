@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Resources helper
   module ResourcesHelper
@@ -30,6 +32,7 @@ module Wallaby
     # @return [String]
     def show_title(decorated)
       raise ::ArgumentError unless decorated.is_a? ResourceDecorator
+
       [
         to_model_label(decorated.model_class), decorated.to_label
       ].compact.join ': '

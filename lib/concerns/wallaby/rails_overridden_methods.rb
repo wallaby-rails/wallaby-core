@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # This is a collection of the helper methods that overrides the rails methods
   module RailsOverriddenMethods
@@ -34,7 +36,7 @@ module Wallaby
     # @return [Wallaby::CustomLookupContext]
     def lookup_context
       @_lookup_context ||= # rubocop:disable Naming/MemoizedInstanceVariableName
-        CustomLookupContext.new(self.class._view_paths, details_for_lookup, _prefixes)
+        CustomLookupContext.normalize(super, prefixes: _prefixes)
     end
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # Servicer related attributes
   module Servicable
