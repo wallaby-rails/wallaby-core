@@ -1,13 +1,23 @@
+# folders
 /.bundle/
-/.yardoc
+/.yardoc/
 /_yardoc/
 /coverage/
 /doc/
 /pkg/
 /spec/reports/
-/tmp/
+doc/
+tmp/
+log/
 
-# rspec failure tracking
+coverage/
+deep_cover/
+
+# files
+cc-test-reporter
 .rspec_status
+.byebug_history
 Gemfile.lock
 *.gem
+*.sqlite3
+*.sqlite3-journal
