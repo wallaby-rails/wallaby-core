@@ -22,7 +22,7 @@ module Wallaby
       # @return [ActionController::Parameters]
       #   updated parameters with new sort order for given field
       def next_params(field_name)
-        params = @params.dup
+        params = Utils.clone @params
         params[:sort] = complete_sorting_str_with field_name
         params
       end

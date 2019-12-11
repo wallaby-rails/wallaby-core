@@ -18,7 +18,7 @@ module ActionDispatch
       # @see https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resources
       #   ActionDispatch::Routing::Mapper::Resources#resources
       def wresources(*resource_names, &block)
-        options = resource_names.extract_options!.dup
+        options = Wallaby::Utils.clone resource_names.extract_options!
         resource_names.each do |resource_name|
           new_options = wallaby_resources_options_for resource_name, options
           resources resource_name, new_options, &block
@@ -39,7 +39,7 @@ module ActionDispatch
       # @see https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper/Resources.html#method-i-resource
       #   ActionDispatch::Routing::Mapper::Resources#resource
       def wresource(*resource_names, &block)
-        options = resource_names.extract_options!.dup
+        options = Wallaby::Utils.clone resource_names.extract_options!
         resource_names.each do |resource_name|
           new_options = wallaby_resource_options_for resource_name, options
           resource resource_name, new_options, &block

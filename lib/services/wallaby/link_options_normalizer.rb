@@ -9,6 +9,7 @@ module Wallaby
     # @param defaults [Hash]
     # @return [Array<Hash, Proc>] html_options and the block
     def self.normalize(html_options, block, defaults)
+      html_options = Utils.clone html_options
       block ||= defaults[:block]
       html_options[:title] ||= defaults[:block].call
       # allow empty class to be set
