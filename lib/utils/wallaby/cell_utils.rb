@@ -10,7 +10,7 @@ module Wallaby
       # @param locals [Hash]
       # @return [String] output
       def render(context, file_name, locals = {}, &block)
-        snake_class = file_name[%r{(?<=app/).+(?=\.rb)}].split(SLASH, 2).last
+        snake_class = file_name[%r{(?<=app/views).+(?=\.rb)}]
         cell_class = snake_class.camelize.constantize
         Rails.logger.info "  Rendered [cell] #{file_name}"
         cell_class.new(context, locals).render_complete(&block)
