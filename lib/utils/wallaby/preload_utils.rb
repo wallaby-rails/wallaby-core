@@ -22,7 +22,7 @@ module Wallaby
       #   at highest precedence
       def eager_load_paths
         Rails.configuration.eager_load_paths.sort_by do |path|
-          - path.index(%r{/models$}).to_i
+          - path.to_s.index(%r{/models$}).to_i
         end
       end
 
