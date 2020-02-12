@@ -19,7 +19,7 @@ matrix:
 env:
   global:
     - DB=postgresql
-    - CC_TEST_REPORTER_ID=a726345933825a3e95f72dcfd646929ecb76eb02c7f7dcd5c28b8c7246167e26
+    - CC_TEST_REPORTER_ID=0170b911947a17e2b978075a6f33ba73e107446a9a38e08cfeadc8d5dd1df941
 services:
   - mysql
   - postgresql
