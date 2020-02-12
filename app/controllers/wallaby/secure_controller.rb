@@ -12,13 +12,13 @@ module Wallaby
     # Unauthorized page.
     # @param exception [Exception] exception comes from `rescue_from`
     def unauthorized(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # Forbidden page.
     # @param exception [Exception] exception comes from `rescue_from`
     def forbidden(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # @note This is a template method that can be overridden by subclasses
