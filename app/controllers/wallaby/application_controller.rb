@@ -31,31 +31,31 @@ module Wallaby
     # Not found page
     # @param exception [Exception] comes from **rescue_from**
     def not_found(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # Bad request page
     # @param exception [Exception] comes from **rescue_from**
     def bad_request(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # Unprocessable entity page
     # @param exception [Exception] comes from **rescue_from**
     def unprocessable_entity(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # Internal server error page
     # @param exception [Exception] comes from **rescue_from**
     def internal_server_error(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # Not implemented
     # @param exception [Exception] comes from **rescue_from**
     def not_implemented(exception = nil)
-      error_rendering exception, __callee__
+      render_error exception, __callee__
     end
 
     # {https://api.rubyonrails.org/classes/ActionController/Helpers.html#method-i-helpers helpers}
@@ -72,7 +72,7 @@ module Wallaby
     # Capture exceptions and display the error using error template.
     # @param exception [Exception]
     # @param symbol [Symbol] http status symbol
-    def error_rendering(exception, symbol)
+    def render_error(exception, symbol)
       Rails.logger.error exception
 
       @exception = exception

@@ -58,11 +58,5 @@ module Wallaby
           klass.new current_model_class, current_authorizer, current_model_decorator
         end
     end
-
-    # @deprecated Use {#current_servicer} instead. It will be removed from 5.3.*
-    def current_model_service
-      Utils.deprecate 'deprecation.current_model_service', caller: caller
-      current_servicer
-    end
   end
 end

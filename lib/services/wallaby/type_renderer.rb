@@ -31,7 +31,7 @@ module Wallaby
       # @param locals [Hash]
       # @param action [String]
       def complete(locals, action)
-        action_name = CellUtils.to_action_prefix action
+        action_name = FORM_ACTIONS[action] || action
         locals[:metadata] = locals[:object].public_send :"#{action_name}_metadata_of", locals[:field_name]
         locals[:value] = locals[:object].public_send locals[:field_name]
       end

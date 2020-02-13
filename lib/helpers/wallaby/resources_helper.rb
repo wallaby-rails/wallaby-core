@@ -12,13 +12,6 @@ module Wallaby
     include Paginatable
     include Resourcable
     include Servicable
-    include Themeable
-
-    # @deprecated Use {#type_render} instead. It will be removed from 5.3.*
-    def type_partial_render(options = {}, locals = {}, &block)
-      Utils.deprecate 'deprecation.type_partial_render', caller: caller
-      type_render options, locals, &block
-    end
 
     # Render type cell/partial
     # @param partial_name [String]

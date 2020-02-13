@@ -80,12 +80,6 @@ module Wallaby
         @model_servicer ||= ModelServicer
       end
 
-      # @deprecated Use {#model_paginator=} instead. It will be removed from 5.3.*
-      def resource_paginator=(resource_paginator)
-        Utils.deprecate 'deprecation.resource_paginator=', caller: caller
-        self.model_paginator = resource_paginator
-      end
-
       # @!attribute [w] model_authorizer
       attr_writer :model_authorizer
 

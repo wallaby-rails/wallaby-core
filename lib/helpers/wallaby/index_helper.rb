@@ -3,18 +3,6 @@
 module Wallaby
   # Helper methods for index action
   module IndexHelper
-    # @deprecated This method is no longer in use. It will be removed from 5.3.*
-    def index_params(parameters = params)
-      Utils.deprecate 'deprecation.index_params', caller: caller
-      parameters
-    end
-
-    # @deprecated Use {Wallaby::Paginatable#current_paginator} instead. It will be removed from 5.3.*
-    def paginator_of(_model_class, _collection, _params)
-      Utils.deprecate 'deprecation.paginator_of', caller: caller
-      current_paginator
-    end
-
     # Just a label
     # @return [String]
     def all_label

@@ -83,12 +83,6 @@ module Wallaby
       !authorized? action, subject
     end
 
-    # @deprecated Use {#current_authorizer} instead. It will be removed from 5.3.*
-    def authorizer
-      Utils.deprecate 'deprecation.authorizer', caller: caller
-      current_authorizer
-    end
-
     protected
 
     # @param model_class [Class]
