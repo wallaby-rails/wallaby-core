@@ -12,15 +12,6 @@ module Wallaby
     #   @see Wallaby::ModuleUtils.try_to
     delegate :try_to, to: ModuleUtils
 
-    # Override the origin view_renderer to support {Wallaby::Cell} rendering
-    # @!attribute [r] view_renderer
-    #   @see Wallaby::CustomRenderer
-    def view_renderer
-      return @view_renderer if @view_renderer.is_a? CustomRenderer
-
-      @view_renderer = CustomRenderer.new @view_renderer.lookup_context
-    end
-
     # Override origin method to handle URL for Wallaby engine.
     #
     # As Wallaby's routes are declared in a

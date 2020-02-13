@@ -3,12 +3,6 @@
 module Wallaby
   # Form helper
   module FormHelper
-    # @deprecated Use {Wallaby::ResourcesHelper#type_render} instead. It will be removed from 5.3.*
-    def form_type_partial_render(options = {}, locals = {}, &block)
-      Utils.deprecate 'deprecation.form_type_partial_render', caller: caller
-      type_render options, locals, &block
-    end
-
     # To generate remote URL for auto select plugin.
     # @see https://github.com/reinteractive/wallaby/blob/master/app/assets/javascripts/wallaby/auto_select.js
     #   auto_select.js

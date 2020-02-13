@@ -11,15 +11,16 @@ module Wallaby
     extend Paginatable::ClassMethods
     extend Resourcable::ClassMethods
     extend Servicable::ClassMethods
-    extend Themeable::ClassMethods
+
+    include View
+    prepend Prefixable
+
     include Authorizable
     include Decoratable
     include Defaultable
     include Paginatable
-    include RailsOverriddenMethods
     include Resourcable
     include Servicable
-    include Themeable
 
     self.responder = ResourcesResponder
     respond_to :html
