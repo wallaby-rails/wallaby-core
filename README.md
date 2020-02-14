@@ -1,31 +1,37 @@
-# Wallaby::Core
+# [Wallaby::Core](https://github.com/wallaby-rails/wallaby-core)
 
-This gem contains the core interface that Wallaby is built upon.
+[![Gem Version](https://badge.fury.io/rb/wallaby-core.svg)](https://badge.fury.io/rb/wallaby-core)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Travis CI](https://travis-ci.com/wallaby-rails/wallaby-core.svg?branch=master)](https://travis-ci.com/wallaby-rails/wallaby-core)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f16f8d87553424c1aacc/maintainability)](https://codeclimate.com/github/wallaby-rails/wallaby-core/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/f16f8d87553424c1aacc/test_coverage)](https://codeclimate.com/github/wallaby-rails/wallaby-core/test_coverage)
+[![Inch CI](https://inch-ci.org/github/wallaby-rails/wallaby-core.svg?branch=master)](https://inch-ci.org/github/wallaby-rails/wallaby-core)
 
-## Installation
+Wallaby::Core contains all the core interfaces that [Wallaby](https://github.com/wallaby-rails/wallaby) gem is built upon.
 
-Add this line to your application's Gemfile:
+## Install
+
+Add `Wallaby::Core` to `Gemfile`.
 
 ```ruby
 gem 'wallaby-core'
 ```
 
-And then execute:
+And re-bundle.
 
 ```shell
-$ bundle
+bundle install
 ```
 
-Or install it yourself as:
+## Documentation
 
-```shell
-$ gem install wallaby-core
-```
+- [API Reference](https://www.rubydoc.info/gems/wallaby-core)
+- [Change Logs](https://github.com/wallaby-rails/wallaby-core/blob/master/CHANGELOG.md)
 
-## Contributing
+## Want to contribute?
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/wallaby-rails/wallaby-core.
+Raise an [issue](https://github.com/wallaby-rails/wallaby-core/issues/new), discuss and resolve!
 
 ## License
 
-This project is [MIT Licensed](LICENSE)
+This project uses [MIT License](https://github.com/wallaby-rails/wallaby-core/blob/master/LICENSE).

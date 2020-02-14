@@ -33,7 +33,7 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'parslet'
   spec.add_dependency 'responders'
-  spec.add_dependency 'wallaby-view', ['>= 0.1.1', '< 0.2.0']
+  spec.add_dependency 'wallaby-view', '~> 0.1.2'
 
   spec.add_development_dependency 'rspec-rails'
   spec.add_development_dependency 'wallaby-cop'
