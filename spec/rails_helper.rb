@@ -1,11 +1,22 @@
+if ENV['DEEP']
+  require 'deep-cover'
+else
+  # NOTE: simplecov has to stay at the top of everything else to work properly.
+  require 'simplecov'
+  SimpleCov.minimum_coverage 48
+  SimpleCov.start 'rails' do
+    add_filter 'wallaby/version'
+    add_filter 'wallaby/ui_engine'
+    add_filter 'lib/generator'
+  end
+end
+
 # This file is copied to spec/ when you run 'rails generate rspec:install'
-require 'spec_helper'
 ENV['RAILS_ENV'] ||= 'test'
-
-require File.expand_path('../config/environment', __dir__)
-
+require File.expand_path('../dummy/config/environment', __FILE__)
 # Prevent database truncation if the environment is production
 abort("The Rails environment is running in production mode!") if Rails.env.production?
+require 'spec_helper'
 require 'rspec/rails'
 # Add additional requires below this line. Rails is not loaded until this point!
 
