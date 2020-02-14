@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'active_model'
 require 'parslet'
 require 'responders'
 require 'wallaby/view'

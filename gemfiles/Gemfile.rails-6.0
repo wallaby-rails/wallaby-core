@@ -13,25 +13,17 @@ gemspec path: '../'
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 gem 'rails', '~> 6.0.0'
-gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: 'master'
-gem 'wallaby-her', git: 'https://github.com/wallaby-rails/wallaby-her.git', branch: 'master'
 
 gem 'cancancan'
 gem 'devise'
-gem 'her'
-gem 'kaminari'
-gem 'mysql2'
-gem 'pg'
 gem 'pundit'
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 gem 'sqlite3'
 
 group :test do
   gem 'database_cleaner'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rspec-rails', '~> 4.0.0.beta3'
   gem 'simplecov'
   gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'master'
   gem 'webmock'
-
 end

@@ -18,13 +18,7 @@ matrix:
     gemfile: gemfiles/Gemfile.rails-6.0
 env:
   global:
-    - DB=postgresql
     - CC_TEST_REPORTER_ID=0170b911947a17e2b978075a6f33ba73e107446a9a38e08cfeadc8d5dd1df941
-services:
-  - mysql
-  - postgresql
-addons:
-  postgresql: "9.6"
 before_install:
   # Rails 4.2 has dependency on bundler < 2 >= 1.3.0
   # @see https://docs.travis-ci.com/user/languages/ruby/#bundler-20
@@ -35,8 +29,6 @@ script:
   # - RAILS_ENV=test bundle exec rake --trace db:setup db:migrate spec
   - RAILS_ENV=test bundle exec rake --trace spec
 before_script:
-  - mysql -e 'CREATE DATABASE dummy_test;' -uroot
-  - psql -c 'CREATE DATABASE dummy_test;' -U postgres
   # setup code climate test coverage
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
