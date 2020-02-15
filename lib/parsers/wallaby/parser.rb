@@ -1,48 +1,69 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # a parser to handle colon query
+  # A parser to parse colon query string and return a hash for transformer
+  # to consume
   class Parser < Parslet::Parser
+    # @!method parse(str)
+    # Parse string into Abstract Syntax Tree for transformer to consume
+    # @param str [String]
+    # @return [Hash] Abstract Syntax Tree
+
     # Case insensitive string match
     # @param str [String]
     def stri(str)
-      str.chars.map! { |c| match "[#{c.upcase}#{c.downcase}]" }.reduce :>>
+      str.chars.map! { |c| match["#{c.upcase}#{c.downcase}"] }.reduce :>>
     end
 
     root(:statement)
     rule(:statement) { expression >> (spaces >> expression).repeat }
-    rule(:expression) { colon_query | general_keyword }
+    rule(:expression) { colon_query | quoted_string | string | any.repeat(0).as(:null) }
     rule(:colon_query) do
-      name.as(:left) >> operator.as(:op) >> keywords.as(:right)
+      name.as(:left) >> operator.as(:op) >> values.as(:right)
     end
-    rule(:name) { (spaces.absent? >> colon.absent? >> any).repeat(1) }
-    rule(:operator) { colon >> match('[^\s\'\"\:\,0-9a-zA-Z]').repeat(0, 3) }
-    rule(:keywords) { general_keyword >> (comma >> general_keyword).repeat }
-    rule(:general_keyword) { quoted_keyword | keyword }
+
+    # colon query
+    begin
+      # name starts with letter
+      rule(:name) { letter >> ((colon | spaces).absent? >> any).repeat }
+
+      # operator starts with colon
+      rule(:operator) do
+        colon >> (
+          (colon | spaces | quote | comma | digit | letter).absent? >> any
+        ).repeat(0, 3)
+      end
+
+      # values separated by comma
+      rule(:values) { value >> (comma >> value).repeat }
+      rule(:value) { quoted_string | data }
+      rule(:data) do
+        null.as(:null) | boolean.as(:boolean) |
+          (spaces.absent? >> comma.absent? >> any).repeat.as(:string)
+      end
+    end
 
     # basic elements
-    rule(:quoted_keyword) do
+    rule(:quoted_string) do
       open_quote >>
         (close_quote.absent? >> any).repeat.as(:string) >>
         close_quote
     end
-    rule(:keyword) do
-      null.as(:null) | boolean.as(:boolean) | number.as(:number) | \
-        ((spaces | comma).absent? >> any).repeat.as(:string)
-    end
-    rule(:number) { (digits >> dot).maybe >> digits }
+    rule(:string) { (spaces.absent? >> any).repeat(1).as(:string) }
 
     # atomic entities
     rule(:null) { stri('nil') | stri('null') }
     rule(:boolean) { stri('true') | stri('false') }
-    rule(:digits) { match('\d').repeat(1) }
+    rule(:letter) { match['a-zA-Z'] }
+    rule(:digit) { match['0-9'] }
     rule(:dot) { str('.') }
     rule(:comma) { str(',') }
-    rule(:spaces) { match('\s').repeat(1) }
+    rule(:spaces) { match['\s'].repeat(1) }
     rule(:colon) { str(':') }
+    rule(:quote) { match['\'\"'] }
 
     # open-close elements
-    rule(:open_quote) { match('[\'\"]').capture(:quote) }
-    rule(:close_quote) { dynamic { |_src, ctx| str(ctx.captures[:quote]) } }
+    rule(:open_quote) { quote.capture(:quoting) }
+    rule(:close_quote) { dynamic { |_src, ctx| str(ctx.captures[:quoting]) } }
   end
 end
