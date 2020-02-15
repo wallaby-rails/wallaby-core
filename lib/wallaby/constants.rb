@@ -1,14 +1,16 @@
 # frozen_string_literal: true
 
 module Wallaby
-  EMPTY_STRING = ''.html_safe
-  EMPTY_HASH = {}.freeze
-  EMPTY_ARRAY = [].freeze
-  SPACE = ' '
-  SLASH = '/'
-  COLONS = '::'
-  COMMA = ','
-  DOT = '.'
+  EMPTY_STRING = ''.html_safe.freeze # :nodoc:
+  EMPTY_HASH = {}.freeze # :nodoc:
+  EMPTY_ARRAY = [].freeze # :nodoc:
+  SPACE = ' ' # :nodoc:
+  SLASH = '/' # :nodoc:
+  COLONS = '::' # :nodoc:
+  COMMA = ',' # :nodoc:
+  DOT = '.' # :nodoc:
+  UNDERSCORE = '_' # :nodoc:
+  PCT = '%' # :nodoc:
 
   # Default page size for {Wallaby::Configuration::Pagination#page_size}
   DEFAULT_PAGE_SIZE = 20
