@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- chore: remove number rule from Wallaby::Parser ([#11](https://github.com/wallaby-rails/wallaby-core/pull/11))
 - feat: handle basic data type for colon query ([#9](https://github.com/wallaby-rails/wallaby-core/pull/9))
 - chore: use `wallaby-view` gem ([#8](https://github.com/wallaby-rails/wallaby-core/pull/8))
 - fix: Wallaby::PreloadUtils#eager_load_paths for Pathname objects ([#7](https://github.com/wallaby-rails/wallaby-core/pull/7))
