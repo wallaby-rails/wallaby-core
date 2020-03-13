@@ -34,6 +34,10 @@ require 'utils/wallaby/preload_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
+require 'concerns/wallaby/application_concern'
+require 'concerns/wallaby/authentication_concern'
+require 'concerns/wallaby/resources_concern'
+
 require 'concerns/wallaby/authorizable'
 require 'concerns/wallaby/baseable'
 require 'concerns/wallaby/decoratable'

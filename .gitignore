@@ -1,6 +1,7 @@
 # folders
 /.bundle/
 /.yardoc/
+/.sass-cache/
 /_yardoc/
 /coverage/
 /doc/

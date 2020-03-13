@@ -97,6 +97,8 @@ module Wallaby
         )
     end
 
+    alias collection! collection
+
     # @note This is a template method that can be overridden by subclasses.
     # This is a method to return resource for pages except `index`.
     #
@@ -145,5 +147,7 @@ module Wallaby
           &block
         )
     end
+
+    alias resource! resource
   end
 end
