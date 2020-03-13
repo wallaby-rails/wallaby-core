@@ -55,6 +55,7 @@ module Wallaby
       ModuleUtils.try_to(scope, :accessible_by, ability, action) || scope
     end
 
+    # @!method attributes_for(action, subject)
     # Restrict user to assign certain values.
     # @param action [Symbol, String]
     # @param subject [Object]

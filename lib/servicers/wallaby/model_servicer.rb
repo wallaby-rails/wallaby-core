@@ -100,6 +100,7 @@ module Wallaby
       provider.collection params, authorizer
     end
 
+    # @!method paginate(query, params)
     # @note This is a template method that can be overridden by subclasses.
     # Paginate given {#collection}.
     # @param query [Enumerable]
