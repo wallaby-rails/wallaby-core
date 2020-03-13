@@ -26,7 +26,7 @@ describe Wallaby::Map do
       end
 
       it 'is frozen' do
-        expect { described_class.mode_map[Array] = SuperMode }.to raise_error  /can't modify frozen Hash/
+        expect { described_class.mode_map[Array] = SuperMode }.to raise_error(/can't modify frozen Hash/)
       end
     end
 
