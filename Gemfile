@@ -15,37 +15,35 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'wallaby-cop', path: '/wallaby-cop'
-# gem 'wallaby-view', path: '/wallaby-view'
+gem 'rails', '~> 6.0.0'
 
 gem 'wallaby-active_record'
 # gem 'wallaby-active_record', path: '/wallaby-active_record'
+gem 'wallaby-cop', path: '/wallaby-cop'
 # gem 'wallaby-her', path: '/wallaby-her'
 
 # gem 'activestorage'
 gem 'cancancan'
-gem 'her'
+gem 'devise'
 gem 'kaminari'
+# gem 'pg', '~> 0.15'
+gem 'pg'
+gem 'mysql2'
 gem 'pundit'
-gem 'rails', '~> 6.0.0'
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+gem 'sqlite3'
+# gem 'sqlite3', '< 1.4.0'
+
+# gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
-gem 'will_paginate'
+# gem 'will_paginate'
 
 # gem 'font-awesome-sass', '< 5.0'
 
 group :development, :test do
   gem 'binding_of_caller'
   gem 'byebug'
-  gem 'devise'
   gem 'ffaker'
-  gem 'mysql2'
-  # gem 'pg', '~> 0.15'
-  gem 'pg'
   gem 'pry-rails'
-  gem 'rspec-rails', '4.0.0.beta3'
-  gem 'sqlite3'
-  # gem 'sqlite3', '< 1.4.0'
   gem 'yard'
 end
 
@@ -66,6 +64,7 @@ group :test do
   gem 'database_cleaner'
   gem 'deep-cover'
   gem 'rails-controller-testing'
+  gem 'rspec-rails', '4.0.0.beta3'
   gem 'simplecov', '~> 0.17.0'
   gem 'webmock'
 end
