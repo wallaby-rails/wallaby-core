@@ -1,0 +1,8 @@
+<%
+# decorate first on every page or partial
+decorated = decorate resource
+%>
+<h1><%= t 'labels.edit', id: decorated.id %></h1>
+<%= form_for decorated, url: url_for(action: :show), method: :put, html: { :multipart => true }, builder: Wallaby::FormBuilder do |form| %>
+  <%= render 'form', form: form, decorated: decorated %>
+<% end %>

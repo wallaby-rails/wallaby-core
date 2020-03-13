@@ -1,0 +1,29 @@
+<%
+# decorate first on every page or partial
+decorated_collection = decorate collection
+%>
+<% if decorated_collection.present? %>
+  <% field_names = current_model_decorator.index_field_names %>
+  <table>
+    <thead>
+      <tr>
+        <% field_names.each do |field_name| %>
+          <%= content_tag :th, class: sort_link_builder.current_sort[field_name] do %>
+            <%= sort_link_builder.build field_name %>
+          <% end %>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% decorated_collection.each do |decorated| %>
+        <tr>
+          <% field_names.each do |field_name| %>
+            <td>
+              <%= type_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>

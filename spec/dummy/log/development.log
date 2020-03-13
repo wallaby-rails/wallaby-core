@@ -1,0 +1,32 @@
+  [WALLABY] Reloading...
+  [WALLABY] Preload warning: Unable to autoload constant InvalidModel, expected /wallaby-core/spec/dummy/app/models/invalid_model.rb to define it from /wallaby-core/spec/dummy/app/models/invalid_model.rb
+["/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:551:in `load_missing_constant'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:214:in `const_missing'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `const_get'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `block in constantize'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:280:in `each'"]
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [WALLABY] Reloading...
+  [WALLABY] Preload warning: Unable to autoload constant InvalidModel, expected /wallaby-core/spec/dummy/app/models/invalid_model.rb to define it from /wallaby-core/spec/dummy/app/models/invalid_model.rb
+["/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:551:in `load_missing_constant'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:214:in `const_missing'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `const_get'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `block in constantize'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:280:in `each'"]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [WALLABY] Reloading...
+  [WALLABY] Preload warning: Unable to autoload constant InvalidModel, expected /wallaby-core/spec/dummy/app/models/invalid_model.rb to define it from /wallaby-core/spec/dummy/app/models/invalid_model.rb
+["/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:551:in `load_missing_constant'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:214:in `const_missing'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `const_get'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `block in constantize'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:280:in `each'"]
+  [1m[35m (1.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [WALLABY] Reloading...
+  [WALLABY] Preload warning: Unable to autoload constant InvalidModel, expected /wallaby-core/spec/dummy/app/models/invalid_model.rb to define it from /wallaby-core/spec/dummy/app/models/invalid_model.rb
+["/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:551:in `load_missing_constant'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:214:in `const_missing'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `const_get'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `block in constantize'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:280:in `each'"]
+  [1m[35m (0.9ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.6ms)[0m  [1m[35mDROP DATABASE IF EXISTS `dummy_development`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE DATABASE `dummy_development` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (0.1ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (108.3ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dummy_development"[0m
+  [1m[35m (0.7ms)[0m  [1m[35mCREATE DATABASE "dummy_development" ENCODING = 'utf8'[0m
+  [WALLABY] Reloading...
+  [WALLABY] Preload warning: Unable to autoload constant InvalidModel, expected /wallaby-core/spec/dummy/app/models/invalid_model.rb to define it from /wallaby-core/spec/dummy/app/models/invalid_model.rb
+["/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:551:in `load_missing_constant'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/dependencies.rb:214:in `const_missing'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `const_get'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:282:in `block in constantize'", "/home/vagrant/.rvm/gems/ruby-2.6.3/gems/activesupport-6.0.2.1/lib/active_support/inflector/methods.rb:280:in `each'"]
+  [1m[35m (1.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (0.7ms)[0m  [1m[35mDROP DATABASE IF EXISTS `dummy_development`[0m
+  [1m[35m (0.3ms)[0m  [1m[35mCREATE DATABASE `dummy_development` DEFAULT CHARACTER SET `utf8mb4`[0m
+  [1m[35m (0.2ms)[0m  [1m[35mSET  @@SESSION.sql_mode = CONCAT(CONCAT(@@sql_mode, ',STRICT_ALL_TABLES'), ',NO_AUTO_VALUE_ON_ZERO'),  @@SESSION.sql_auto_is_null = 0, @@SESSION.wait_timeout = 2147483[0m
+  [1m[35m (107.9ms)[0m  [1m[35mDROP DATABASE IF EXISTS "dummy_development"[0m
+  [1m[35m (0.6ms)[0m  [1m[35mCREATE DATABASE "dummy_development" ENCODING = 'utf8'[0m
