@@ -1,2 +1,3 @@
-class OrdersController < Wallaby::ResourcesController
+class OrdersController < ApplicationController
+  include Wallaby::ResourcesConcern
 end
