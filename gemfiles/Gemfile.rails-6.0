@@ -16,6 +16,10 @@ gem 'rails', '~> 6.0.0'
 
 gem 'cancancan'
 gem 'devise'
+gem 'her'
+gem 'kaminari'
+gem 'mysql2'
+gem 'pg'
 gem 'pundit'
 gem 'sqlite3'
 
