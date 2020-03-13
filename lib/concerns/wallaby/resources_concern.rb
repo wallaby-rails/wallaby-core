@@ -352,9 +352,7 @@ module Wallaby
       include Servicable
 
       # NOTE: to ensure Wallaby's layout is not inheriting from parent controller's.
-      if self == ResourcesController && _layout.present?
-        layout 'wallaby/resources'
-      end
+      layout 'wallaby/resources' if self == ResourcesController && _layout.present?
 
       self.responder = ResourcesResponder
       respond_to :html
