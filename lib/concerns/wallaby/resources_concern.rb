@@ -351,6 +351,14 @@ module Wallaby
       include Resourcable
       include Servicable
 
+      # NOTE: to ensure Wallaby's layout
+      # is not inheriting from/impacted by parent controller's layout.
+      public_send(
+        # inherit? or include?
+        self == ResourcesController ? :layout : :theme_name=,
+        ResourcesController.controller_path
+      )
+
       self.responder = ResourcesResponder
       respond_to :html
       respond_to :json
