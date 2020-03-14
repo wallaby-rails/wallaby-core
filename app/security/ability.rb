@@ -1,15 +1,13 @@
 # frozen_string_literal: true
 
-if defined?(::CanCan)
-  # @!visibility private
-  # Defualt ability for wallaby
-  # If main app has defined `ability.rb`, this file will not be loaded/used.
-  class Ability
-    include ::CanCan::Ability
+# @!visibility private
+# Defualt ability for wallaby
+# If main app has defined `ability.rb`, this file will not be loaded/used.
+class Ability
+  include ::CanCan::Ability if defined?(::CanCan)
 
-    # @param _user [Object]
-    def initialize(_user)
-      can :manage, :all
-    end
+  # @param _user [Object]
+  def initialize(_user)
+    can :manage, :all
   end
 end
