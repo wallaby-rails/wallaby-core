@@ -8,7 +8,7 @@ describe '._layout' do
 
   context 'when controller only includes ResourcesConcern' do
     it "returns application's layout" do
-      expect(OrdersController._layout).to eq 'other_application'
+      expect(OrdersController._layout).to eq 'wallaby/resources'
     end
   end
 
