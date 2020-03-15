@@ -162,7 +162,7 @@ module Wallaby
     # @return [String, Symbol] type
     # @raise [ArgumentError] when type is nil
     def validate_presence_of(field_name, type)
-      type || raise(::ArgumentError, I18n.t('errors.invalid.type_required', field_name: field_name))
+      type || raise(::ArgumentError, Wallaby.t('errors.invalid.type_required', field_name: field_name))
     end
   end
 end

@@ -75,7 +75,7 @@ module Wallaby
     # @raise [ArgumentError] if param model_class is blank
     def initialize(model_class, authorizer, model_decorator = nil)
       @model_class = model_class || self.class.model_class
-      raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
+      raise ArgumentError, Wallaby.t('errors.required', subject: 'model_class') unless @model_class
 
       @model_decorator = model_decorator || Map.model_decorator_map(model_class)
       @authorizer = authorizer

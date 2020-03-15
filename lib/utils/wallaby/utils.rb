@@ -8,7 +8,7 @@ module Wallaby
     # @param caller [String] the line where it's called
     # @param options [Hash]
     def self.deprecate(key, caller:, options: {})
-      warn I18n.t(key, options.merge(from: caller[0]))
+      warn Wallaby.t(key, options.merge(from: caller[0]))
     end
 
     # @see http://stackoverflow.com/a/8710663/1326499
