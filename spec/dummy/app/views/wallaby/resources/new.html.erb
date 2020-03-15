@@ -1,5 +1,5 @@
 <% decorated = decorate resource %>
-<h1><%= t 'labels.create', model: to_model_label(current_model_class) %></h1>
+<h1><%= wt 'labels.create', model: to_model_label(current_model_class) %></h1>
 <%= form_for(
   decorated, url: url_for(action: (params[:resource] ? :show : :index)),
   method: :post, html: { :multipart => true }, builder: Wallaby::FormBuilder

@@ -66,5 +66,11 @@ module Wallaby
       options = default_options.merge!(sources.extract_options!.stringify_keys)
       super(*sources, options)
     end
+
+    # @param key
+    # @param options [Hash]
+    def wt(key, **options)
+      Utils.t key, **{ translator: method(:t) }.merge(options)
+    end
   end
 end

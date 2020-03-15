@@ -54,12 +54,12 @@ module Wallaby
 
     # @return [String] grey null
     def null
-      muted t 'labels.empty'
+      muted wt 'labels.empty'
     end
 
     # @return [String] grey N/A
     def na
-      muted t 'labels.na'
+      muted wt 'labels.na'
     end
 
     # Grey text
@@ -74,7 +74,7 @@ module Wallaby
     def fa_map(name, major = nil)
       @map ||= begin
         major ||= Gem.loaded_specs['font-awesome-sass'].try(:version).try(:segments).try(:first)
-        t("fa.v#{major}").with_indifferent_access
+        wt("fa.v#{major}").with_indifferent_access
       end
       @map[name] || name
     end

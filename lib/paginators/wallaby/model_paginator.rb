@@ -59,7 +59,7 @@ module Wallaby
     # @param params [ActionController::Parameters]
     def initialize(model_class, collection, params)
       @model_class = self.class.model_class || model_class
-      raise ArgumentError, I18n.t('errors.required', subject: 'model_class') unless @model_class
+      raise ArgumentError, Utils.t('errors.required', subject: 'model_class') unless @model_class
 
       @collection = collection
       @params = params

@@ -32,7 +32,7 @@ module Wallaby
         return unless child && parent
         return if child < parent
 
-        raise ::ArgumentError, I18n.t('errors.invalid.inheritance', klass: child, parent: parent)
+        raise ::ArgumentError, Utils.t('errors.invalid.inheritance', klass: child, parent: parent)
       end
 
       # If block is given, run the block. Otherwise, return subject
