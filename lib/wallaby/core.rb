@@ -7,7 +7,6 @@ require 'wallaby/view'
 
 require 'wallaby/core/version'
 require 'wallaby/constants'
-require 'wallaby/translate'
 require 'wallaby/engine'
 
 require 'support/action_dispatch/routing/mapper'

@@ -53,7 +53,7 @@ module Wallaby
       return model_class unless MODEL_ACTIONS.include? params[:action].to_sym
       raise ModelNotFound, params[:resources] unless model_class
       unless Map.mode_map[model_class]
-        raise UnprocessableEntity, Wallaby.t('errors.unprocessable_entity.model', model: model_class)
+        raise UnprocessableEntity, Utils.t('errors.unprocessable_entity.model', model: model_class)
       end
 
       model_class

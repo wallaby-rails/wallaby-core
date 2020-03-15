@@ -61,7 +61,7 @@ module Wallaby
         class_name.constantize.tap do |klass|
           next if klass < parent_class
 
-          raise InvalidError, Wallaby.t('wallaby.mode.inherit_required', klass: klass, parent: parent_class)
+          raise InvalidError, Utils.t('wallaby.mode.inherit_required', klass: klass, parent: parent_class)
         end
       rescue NameError => e
         Rails.logger.error e

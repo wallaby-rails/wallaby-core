@@ -70,7 +70,7 @@ module Wallaby
     # @param key
     # @param options [Hash]
     def wt(key, **options)
-      Wallaby.t(key, **options.with_defaults(translater: method(:t)))
+      Utils.t key, **{ translator: method(:t) }.merge(options)
     end
   end
 end

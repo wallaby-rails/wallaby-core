@@ -5,7 +5,7 @@ module Wallaby
   class ResourceNotFound < NotFound
     # @return [String] resource not found error message
     def message
-      Wallaby.t 'errors.not_found.resource', resource: super
+      Utils.t 'errors.not_found.resource', resource: super
     end
   end
 end

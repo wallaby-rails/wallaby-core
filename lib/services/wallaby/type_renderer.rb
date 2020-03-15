@@ -23,8 +23,8 @@ module Wallaby
       # @raise [ArgumentError] if field_name is not provided
       # @raise [ArgumentError] if object is not decorated
       def check(locals)
-        raise ArgumentError, Wallaby.t('errors.required', subject: 'form') if locals.key?(:form) && locals[:form].blank?
-        raise ArgumentError, Wallaby.t('errors.required', subject: 'field_name') if locals[:field_name].blank?
+        raise ArgumentError, Utils.t('errors.required', subject: 'form') if locals.key?(:form) && locals[:form].blank?
+        raise ArgumentError, Utils.t('errors.required', subject: 'field_name') if locals[:field_name].blank?
         raise ArgumentError, 'Object is not decorated.' unless locals[:object].is_a? ResourceDecorator
       end
 
