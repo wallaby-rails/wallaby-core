@@ -44,7 +44,7 @@ module Wallaby
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         class: 'resource__create',
-        block: -> { t 'links.new', model: to_model_label(model_class) }
+        block: -> { wt 'links.new', model: to_model_label(model_class) }
       )
 
       url = options[:url] || new_path(model_class, url_params: url_params)
@@ -97,7 +97,7 @@ module Wallaby
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
         class: 'resource__update',
-        block: -> { "#{t 'links.edit'} #{decorate(resource).to_label}" }
+        block: -> { "#{wt 'links.edit'} #{decorate(resource).to_label}" }
       )
 
       default = options[:readonly] && block.call || nil
@@ -123,11 +123,11 @@ module Wallaby
       return if unauthorized? :destroy, extract(resource)
 
       html_options, block = LinkOptionsNormalizer.normalize(
-        html_options, block, class: 'resource__destroy', block: -> { t 'links.delete' }
+        html_options, block, class: 'resource__destroy', block: -> { wt 'links.delete' }
       )
 
       html_options[:method] ||= :delete
-      (html_options[:data] ||= {})[:confirm] ||= t 'links.confirm.delete'
+      (html_options[:data] ||= {})[:confirm] ||= wt 'links.confirm.delete'
 
       url = options[:url] || show_path(resource, is_resource: options[:is_resource], url_params: url_params)
       link_to url, html_options, &block
@@ -140,7 +140,7 @@ module Wallaby
     # @yield block to return the link label
     # @return [String] anchor link of cancel action
     def cancel_link(html_options: {}, &block)
-      block ||= -> { t 'links.cancel' }
+      block ||= -> { wt 'links.cancel' }
       link_to 'javascript:history.back()', html_options, &block
     end
 

@@ -6,7 +6,7 @@ module Wallaby
     # Just a label
     # @return [String]
     def all_label
-      t 'filters.all'
+      wt 'filters.all'
     end
 
     # If `:fields` parameter is given, only display fields that is in `index_field_names`
@@ -58,7 +58,7 @@ module Wallaby
     # @return [String] Export link for the given model_class.
     def export_link(model_class, url_params: {})
       index_link(model_class, url_params: { format: 'csv', page: nil, per: nil, with_query: true }.merge(url_params)) do
-        t 'links.export', ext: 'CSV'
+        wt 'links.export', ext: 'CSV'
       end
     end
 
