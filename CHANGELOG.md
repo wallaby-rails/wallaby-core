@@ -8,6 +8,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - change to all lables to be prefixed with controller/name
 
+## [0.2.1](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.1) - 2020-03-24
+
+### Added
+
+- feat: better logger to output more information including the caller ([#18](https://github.com/wallaby-rails/wallaby-core/pull/18))
+- chore: rename Utils.t to Locale.t ([#17](https://github.com/wallaby-rails/wallaby-core/pull/17))
+- feat: put all translation under wallaby namespace and use custom translator method ([#16](https://github.com/wallaby-rails/wallaby-core/pull/16))
+
+### Changed
+
+- chore: ensure layout is set and not impacted by ApplicationController's layout ([#15](https://github.com/wallaby-rails/wallaby-core/pull/15))
+- chore: only define Ability when CanCan exists ([#14](https://github.com/wallaby-rails/wallaby-core/pull/14))
+- chore: extract everything into a concern for ResourcesController ([#13](https://github.com/wallaby-rails/wallaby-core/pull/13))
+- chore: use simplecov 0.17 for codeclimate report ([#12](https://github.com/wallaby-rails/wallaby-core/pull/12))
+
 ## [0.2.0](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.0) - 2020-02-14
 
 ### Changed
