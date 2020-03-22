@@ -32,7 +32,7 @@ module Wallaby
     def authorize(action, subject)
       Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
-      Rails.logger.info Utils.t('errors.unauthorized', user: user, action: action, subject: subject)
+      Rails.logger.info Locale.t('errors.unauthorized', user: user, action: action, subject: subject)
       raise Forbidden
     end
 
@@ -57,7 +57,7 @@ module Wallaby
     def attributes_for(action, subject)
       policy = Pundit.policy! user, subject
       value = ModuleUtils.try_to(policy, "attributes_for_#{action}") || ModuleUtils.try_to(policy, 'attributes_for')
-      Rails.logger.warn Utils.t('error.pundit.not_found.attributes_for', subject: subject) unless value
+      Rails.logger.warn Locale.t('error.pundit.not_found.attributes_for', subject: subject) unless value
       value || {}
     end
 

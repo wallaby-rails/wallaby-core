@@ -69,8 +69,8 @@ module Wallaby
 
     # @param key
     # @param options [Hash]
-    def wt(key, **options)
-      Utils.t key, **{ translator: method(:t) }.merge(options)
+    def wt(key, options = {})
+      Locale.t key, { translator: method(:t) }.merge(options)
     end
   end
 end

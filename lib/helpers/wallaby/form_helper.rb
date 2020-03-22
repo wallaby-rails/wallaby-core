@@ -46,9 +46,8 @@ module Wallaby
       type = metadata[:type]
       hint = metadata[:hint]
       # @see http://guides.rubyonrails.org/i18n.html#using-safe-html-translations
-      hint ||= type && wt("hints.#{type}_html", default: '').presence
-      hint ||= type && wt("hints.#{type}", default: '').presence
-      return unless hint
+      hint ||= type && wt("hints.#{type}_html", default: [:"hints.#{type}", ''])
+      return if hint.blank?
 
       content_tag :p, hint, class: 'help-block'
     end
