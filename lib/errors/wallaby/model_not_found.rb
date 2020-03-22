@@ -5,7 +5,7 @@ module Wallaby
   class ModelNotFound < NotFound
     # @return [String] not found error message
     def message
-      Utils.t 'errors.not_found.model', model: super
+      Locale.t 'errors.not_found.model', model: super
     end
   end
 end

@@ -3,6 +3,20 @@
 module Wallaby
   # Helper methods to build custom elements
   module StylingHelper
+    # backforward compatible with FontAwesome 4
+    # @see this fa migration document https://fontawesome.com/how-to-use/on-the-web/setup/upgrading-from-version-4
+    FONT_AWESOME_MAPPING = {
+      4 => {
+        clock: 'clock-o',
+        bars: 'navicon',
+        calendar: 'calendar-o',
+        'check-square': 'check-square-o',
+        square: 'square-o',
+        link: 'chain',
+        user: 'user-o'
+      }
+    }.with_indifferent_access.freeze
+
     # Shortcut to build up the HTML options as keyword arguments
     # @param string_or_array [String, Array<String>]
     # @param options [Hash]
@@ -74,7 +88,7 @@ module Wallaby
     def fa_map(name, major = nil)
       @map ||= begin
         major ||= Gem.loaded_specs['font-awesome-sass'].try(:version).try(:segments).try(:first)
-        wt("fa.v#{major}").with_indifferent_access
+        FONT_AWESOME_MAPPING[major] || {}
       end
       @map[name] || name
     end

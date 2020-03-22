@@ -26,7 +26,7 @@ module Wallaby
         invalid_models = configured_models - @models
         return if invalid_models.blank?
 
-        message = Utils.t 'errors.invalid.models', models: invalid_models.to_sentence
+        message = Locale.t 'errors.invalid.models', models: invalid_models.to_sentence
         raise InvalidError, message
       end
 
