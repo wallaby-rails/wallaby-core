@@ -34,7 +34,7 @@ module Wallaby
         class_name = to_model_name resources_name
         class_name.constantize
       rescue NameError
-        Rails.logger.warn Locale.t('errors.not_found.model', model: class_name)
+        Logger.warn Locale.t('errors.not_found.model', model: class_name), sourcing: 2
         nil
       end
 

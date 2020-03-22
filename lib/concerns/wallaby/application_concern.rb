@@ -99,7 +99,7 @@ module Wallaby
 
       # (see #render_error)
       def render_error(exception, symbol)
-        Rails.logger.error exception
+        Logger.error exception, sourcing: false
 
         @exception = exception
         @symbol = symbol
