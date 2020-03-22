@@ -19,7 +19,7 @@ module Wallaby
       # @see http://rmosolgo.github.io/blog/2017/04/12/watching-files-during-rails-development/
       config.to_prepare do
         if Rails.env.development? || Rails.configuration.eager_load
-          Rails.logger.debug '  [WALLABY] Reloading...'
+          Logger.debug '  [WALLABY] Reloading...'
           ::Wallaby::Map.clear
           ::Wallaby::PreloadUtils.require_all
         end
@@ -28,14 +28,14 @@ module Wallaby
 
     config.before_eager_load do
       # NOTE: We need to ensure that the core models are loaded before anything else
-      Rails.logger.debug '  [WALLABY] Preload all model files.'
+      Logger.debug '  [WALLABY] Preload all model files.'
       ::Wallaby::PreloadUtils.require_one 'app/models'
     end
 
     # Preload the rest files
     config.after_initialize do
       unless Rails.env.development? || Rails.configuration.eager_load
-        Rails.logger.debug '  [WALLABY] Preload files after initialize.'
+        Logger.debug '  [WALLABY] Preload files after initialize.'
         ::Wallaby::PreloadUtils.require_all
       end
     end

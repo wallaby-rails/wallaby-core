@@ -64,7 +64,7 @@ module Wallaby
           raise InvalidError, Locale.t('mode.inherit_required', klass: klass, parent: parent_class)
         end
       rescue NameError => e
-        Rails.logger.error e
+        Logger.error e
         raise NotImplemented, class_name
       end
     end

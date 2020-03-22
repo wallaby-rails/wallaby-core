@@ -56,7 +56,7 @@ module Wallaby
     def current_authorizer
       @current_authorizer ||=
         authorizer_of(current_model_class, controller_to_get(:model_authorizer)).tap do |authorizer|
-          Rails.logger.info %(  - Current authorizer: #{authorizer.try(:class)})
+          Logger.debug %(Current authorizer: #{authorizer.try(:class)})
         end
     end
 
