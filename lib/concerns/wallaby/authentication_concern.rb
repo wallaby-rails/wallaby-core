@@ -53,6 +53,21 @@ module Wallaby
     #   end
     # @return [Object] a user object
 
+    # @!method pundit_user
+    # @note This is a template method that can be overridden by subclasses
+    # This overridden method of {#original_pundit_user} will try to call {#wallaby_user} instead of {#current_user}.
+    # @example It can be overridden in subclasses:
+    #   def pundit_user
+    #     @pundit_user ||= User.new params.slice(:email)
+    #   end
+    # @return [Object] a user object
+
+    # @!parse alias :override_pundit_user :pundit_user
+
+    # @!method original_pundit_user
+    # This method is the original version of {#pundit_user} which calls the {#current_user}.
+    # @return [Object] a user object
+
     # @!method authenticate_wallaby_user!
     # @note This is a template method that can be overridden by subclasses
     # This method will try to call {#authenticate_user!} from superclass.
@@ -75,13 +90,13 @@ module Wallaby
     # @param exception [Exception] comes from **rescue_from**
 
     included do # rubocop:disable Metrics/BlockLength
-      helper SecureHelper
       helper_method :current_user
 
       rescue_from NotAuthenticated, with: :unauthorized
       rescue_from Forbidden, with: :forbidden
 
       # (see #current_user)
+      # TODO: remove this from 6.2
       def current_user
         @current_user ||=
           if security.current_user? || !defined? super
@@ -93,6 +108,7 @@ module Wallaby
       end
 
       # (see #authenticate_user!)
+      # TODO: remove this from 6.2
       def authenticate_user!
         authenticated =
           if security.authenticate? || !defined? super
@@ -110,6 +126,18 @@ module Wallaby
       # (see #wallaby_user)
       def wallaby_user
         @wallaby_user ||= try :current_user
+      end
+
+      if defined?(::Pundit) && instance_methods.include?(:pundit_user)
+        # (see #override_pundit_user)
+        def override_pundit_user
+          wallaby_user
+        end
+
+        # (see #original_pundit_user)
+        alias_method :original_pundit_user, :pundit_user
+        # (see #pundit_user)
+        alias_method :pundit_user, :override_pundit_user
       end
 
       # (see #authenticate_wallaby_user!)

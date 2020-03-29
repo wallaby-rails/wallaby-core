@@ -3,6 +3,7 @@
 module Wallaby
   class Configuration
     # Security configuration
+    # TODO: remove this from 6.2
     class Security
       # Default block to return nil for current user
       DEFAULT_CURRENT_USER = -> { nil }
