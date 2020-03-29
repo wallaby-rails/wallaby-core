@@ -2,7 +2,7 @@
 
 module Wallaby
   # Preload utils
-  module Dependency
+  module Preloader
     class << self
       # Require all eager load paths
       def require_all
@@ -16,8 +16,7 @@ module Wallaby
 
       protected
 
-      # @return [Array<String, Pathname>] a list of sorted eager load paths which lists `app/models`
-      #   at highest precedence
+      # @return [Array<String, Pathname>] a list of sorted eager load paths by given order
       def sorted_eager_load_paths
         Rails.configuration.eager_load_paths.sort_by do |path|
           - path.to_s.index(model_paths).to_i
@@ -39,9 +38,8 @@ module Wallaby
       # @param file_path [String, Path]
       def load_each_dependency_of(file_path)
         require_dependency file_path
-      rescue NameError, LoadError => error
-        Logger.debug "Preload warning: #{error.message} from #{file_path}"
-        Logger.debug error
+      rescue NameError, LoadError => e
+        Logger.debug "Preload warning: #{e.message} for #{file_path}"
       end
     end
   end

@@ -8,7 +8,7 @@ require 'wallaby/view'
 require 'wallaby/core/version'
 require 'wallaby/constants'
 require 'wallaby/logger'
-require 'wallaby/dependency'
+require 'wallaby/preloader'
 
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'
