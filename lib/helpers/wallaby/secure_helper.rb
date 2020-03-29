@@ -9,7 +9,7 @@ module Wallaby
     # - otherwise, an user icon will be returned
     # @param user [Object]
     # @return [String] IMG or I element
-    def user_portrait(user = current_user)
+    def user_portrait(user = wallaby_user)
       email_method = security.email_method || :email
       email = try_to user, email_method
       if email.present?
@@ -27,7 +27,7 @@ module Wallaby
     # @param user [Object]
     # @param app [Object]
     # @return [String] URL to log out
-    def logout_path(user = current_user, app = main_app)
+    def logout_path(user = wallaby_user, app = main_app)
       path = security.logout_path
       path ||=
         if defined? ::Devise
@@ -41,7 +41,7 @@ module Wallaby
     # @see Wallaby::Configuration::Security#logout_method
     # @param user [Object]
     # @return [String, Symbol] http method to log out
-    def logout_method(user = current_user)
+    def logout_method(user = wallaby_user)
       http_method = security.logout_method
       http_method ||
         if defined? ::Devise

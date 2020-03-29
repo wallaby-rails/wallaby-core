@@ -364,7 +364,7 @@ module Wallaby
       respond_to :json
       respond_to :csv
       helper ResourcesHelper
-      before_action :authenticate_user!
+      before_action :authenticate_wallaby_user!
 
       def home
         # do nothing
