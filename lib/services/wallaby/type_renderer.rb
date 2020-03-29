@@ -35,16 +35,6 @@ module Wallaby
         locals[:metadata] = locals[:object].public_send :"#{action_name}_metadata_of", locals[:field_name]
         locals[:value] = locals[:object].public_send locals[:field_name]
       end
-
-      # @param options [String]
-      # @param view [ActionView]
-      # @return [String] partial path string
-      # @return [String] blank string
-      def find_partial(options, view)
-        formats = [view.request.format.to_sym]
-        lookup = view.lookup_context
-        lookup.find_template options, lookup.prefixes, true, [], formats: formats
-      end
     end
   end
 end
