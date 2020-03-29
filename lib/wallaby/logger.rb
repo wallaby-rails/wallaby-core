@@ -9,10 +9,10 @@ module Wallaby
           message = message.inspect unless message.is_a? String
           sourcing = replacements.delete :sourcing # sourcing can be set to false
 
-          from = "\nfrom #{caller[sourcing || 0]}" unless sourcing == false
+          from = "\nfrom #{Array(caller[sourcing || 0]).join("     \n")}" unless sourcing == false
           Rails.logger.public_send(
             method_id == :deprecated ? :warn : method_id,
-            "#{method_id.to_s.upcase}: #{format message, replacements}#{from}"
+            "WALLABY #{method_id.to_s.upcase}: #{format message, replacements}#{from}"
           )
           nil
         end

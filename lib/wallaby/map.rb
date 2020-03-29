@@ -157,7 +157,7 @@ module Wallaby
         return unless model_class
 
         unless mode_map[model_class]
-          Logger.warn Locale.t('map.missing_mode_for_model_class', model: model_class.name), sourcing: 2
+          Logger.warn Locale.t('map.missing_mode_for_model_class', model: model_class.name), sourcing: 2..5
           return
         end
         instance_variable_set(variable_name, instance_variable_get(variable_name) || {})

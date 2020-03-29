@@ -4,6 +4,11 @@
 module Wallaby
   # Global configuration
   class Configuration
+    attr_writer :model_paths
+    def model_paths
+      @model_paths ||= %r{app/models}
+    end
+
     # @!attribute [w] base_controller
     attr_writer :base_controller
 

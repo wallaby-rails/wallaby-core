@@ -7,9 +7,8 @@ require 'wallaby/view'
 
 require 'wallaby/core/version'
 require 'wallaby/constants'
-require 'wallaby/engine'
-
-require 'support/action_dispatch/routing/mapper'
+require 'wallaby/logger'
+require 'wallaby/dependency'
 
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'
@@ -19,6 +18,11 @@ require 'wallaby/configuration/models'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/security'
 require 'wallaby/configuration/sorting'
+
+require 'wallaby/engine'
+
+require 'support/action_dispatch/routing/mapper'
+
 require 'wallaby/map'
 
 require 'routes/wallaby/resources_router'
@@ -28,11 +32,9 @@ require 'parsers/wallaby/parser'
 require 'utils/wallaby/field_utils'
 require 'utils/wallaby/filter_utils'
 require 'utils/wallaby/locale'
-require 'utils/wallaby/logger'
 require 'utils/wallaby/model_utils'
 require 'utils/wallaby/module_utils'
 require 'utils/wallaby/params_utils'
-require 'utils/wallaby/preload_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
