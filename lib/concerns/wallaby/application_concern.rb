@@ -50,7 +50,6 @@ module Wallaby
       extend Engineable::ClassMethods
       include Engineable
       include SharedHelpers
-      helper ApplicationHelper
 
       rescue_from NotFound, with: :not_found
       rescue_from ::ActionController::ParameterMissing, with: :bad_request

@@ -3,6 +3,9 @@
 module Wallaby
   # Resources helper
   module ResourcesHelper
+    include ApplicationHelper
+    include SecureHelper
+
     include BaseHelper
     include FormHelper
     include IndexHelper

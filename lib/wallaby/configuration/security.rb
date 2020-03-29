@@ -3,6 +3,7 @@
 module Wallaby
   class Configuration
     # Security configuration
+    # TODO: remove this from 6.2
     class Security
       # Default block to return nil for current user
       DEFAULT_CURRENT_USER = -> { nil }
@@ -57,6 +58,7 @@ module Wallaby
       #   end
       # @yield A block to get user object. All application controller methods can be used in the block.
       def current_user(&block)
+        Logger.deprecated 'Wallaby will remove security.current_user? from 6.2.'
         if block_given?
           @current_user = block
         else
@@ -81,6 +83,7 @@ module Wallaby
       #   end
       # @yield A block to authenticate user. All application controller methods can be used in the block.
       def authenticate(&block)
+        Logger.deprecated 'Wallaby will remove security.authenticate from 6.2.'
         if block_given?
           @authenticate = block
         else
