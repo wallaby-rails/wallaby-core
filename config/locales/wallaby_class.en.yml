@@ -1,9 +1,9 @@
 en:
   wallaby:
     map:
-      missing_mode_for_model_class: "[WALLABY] Don't know how to handle this model %{model}."
+      missing_mode_for_model_class: "Don't know how to handle this model %{model}."
       model_class_mapper:
-        missing_model_class: "[WALLABY] Please define self.model_class for %{model} or set it as global.\n          @see Wallaby.configuration.mapping"
+        missing_model_class: "Please define self.model_class for %{model} or set it as global.\n          @see Wallaby.configuration.mapping"
 
     mode:
       inherit_required: '%{klass} must inherit from %{parent}.'

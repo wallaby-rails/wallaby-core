@@ -32,14 +32,16 @@ module Wallaby
       # require_dependency each file of given folder
       # @param folder [String, Path]
       def load_dependencies_for(folder)
-        Dir.glob("#{folder}/**/*.rb").sort.each do |file_path|
-          begin
-            require_dependency file_path
-          rescue NameError, LoadError => e
-            Logger.debug "Preload warning: #{e.message} from #{file_path}"
-            Logger.debug e.backtrace.slice(0, 5)
-          end
-        end
+        Dir.glob("#{folder}/**/*.rb").sort.each(&method(:load_each_dependency_of))
+      end
+
+      # require_dependency given file path
+      # @param file_path [String, Path]
+      def load_each_dependency_of(file_path)
+        require_dependency file_path
+      rescue NameError, LoadError => error
+        Logger.debug "Preload warning: #{error.message} from #{file_path}"
+        Logger.debug error
       end
     end
   end
