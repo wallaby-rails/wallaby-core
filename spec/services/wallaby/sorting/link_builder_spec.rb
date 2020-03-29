@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::Sorting::LinkBuilder, :current_user, type: :helper do
+describe Wallaby::Sorting::LinkBuilder, :wallaby_user, type: :helper do
   subject { described_class.new model_decorator, params, helper, strategy }
 
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }

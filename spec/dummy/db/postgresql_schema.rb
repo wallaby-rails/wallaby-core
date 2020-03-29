@@ -167,6 +167,16 @@ ActiveRecord::Schema.define(version: 0) do
     t.string "sti_type"
   end
 
+  create_table :versions do |t|
+    t.string :item_type
+    t.integer :item_id,   null: false
+    t.string :event,     null: false
+    t.string :whodunnit
+    t.text :object
+    t.datetime :created_at
+    t.index %i(item_type item_id)
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
