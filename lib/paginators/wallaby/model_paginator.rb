@@ -37,7 +37,7 @@ module Wallaby
 
       # @!attribute provider_class
       # @return [Class] pagination provider class
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_accessor :provider_class
     end
 
@@ -47,7 +47,7 @@ module Wallaby
 
     # @!attribute [r] provider
     # @return [Wallaby::ModelServiceProvider]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     attr_reader :provider
 
     # During initialization, Wallaby will assign a pagination provider for this paginator

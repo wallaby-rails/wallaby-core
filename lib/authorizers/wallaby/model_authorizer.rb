@@ -2,7 +2,7 @@
 
 module Wallaby
   # Model Authorizer to provide authorization functions
-  # @since 5.2.0
+  # @since wallaby-5.2.0
   class ModelAuthorizer
     extend Baseable::ClassMethods
 
@@ -74,7 +74,7 @@ module Wallaby
 
     # @!attribute [r] provider
     # @return [Wallaby::ModelAuthorizationProvider]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     attr_reader :provider
 
     # @param model_class [Class]

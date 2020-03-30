@@ -4,6 +4,31 @@
 module Wallaby
   # Global configuration
   class Configuration
+    # @!attribute [w] model_paths
+    def model_paths=(model_paths)
+      @model_paths =
+        if model_paths.nil?
+        elsif model_paths.is_a?(String)
+          [model_paths]
+        elsif model_paths.try(:all?, &String.method(:===))
+          model_paths
+        else
+          raise ArgumentError, 'Please provide a list of string paths, e.g. ["app/models", "app/core"]'
+        end
+    end
+
+    # @!attribute [r] model_paths
+    # To configure the model folders that {Wallaby::Preloader} needs to load before everything else.
+    # @example To set the model paths
+    #   Wallaby.config do |config|
+    #     config.model_paths = ["app/models", "app/core"]
+    #   end
+    # @return [Array<String>] model paths
+    # @since 0.2.2
+    def model_paths
+      @model_paths ||= %w(app/models)
+    end
+
     # @!attribute [w] base_controller
     attr_writer :base_controller
 

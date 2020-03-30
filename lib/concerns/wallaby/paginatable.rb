@@ -20,7 +20,7 @@ module Wallaby
       # @return [Class] model paginator
       # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_reader :model_paginator
 
       # @!attribute [w] application_paginator
@@ -38,7 +38,7 @@ module Wallaby
       # @return [Class] application decorator
       # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_paginator
         @application_paginator ||= ModuleUtils.try_to superclass, :application_paginator
       end
@@ -53,7 +53,7 @@ module Wallaby
       @current_paginator ||=
         (controller_to_get(:model_paginator) \
           || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))).try do |klass|
-          Logger.debug %(Current paginator: #{klass})
+          Logger.debug %(Current paginator: #{klass}), sourcing: false
           klass.new current_model_class, collection, params
         end
     end

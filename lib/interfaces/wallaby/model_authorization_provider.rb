@@ -2,7 +2,7 @@
 
 module Wallaby
   # Model Authorizer interface.
-  # @since 5.2.0
+  # @since wallaby-5.2.0
   class ModelAuthorizationProvider
     class << self
       # @!attribute [w] provider_name

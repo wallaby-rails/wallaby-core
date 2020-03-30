@@ -3,7 +3,7 @@
 module Wallaby
   class Configuration
     # Sorting global configuration
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     class Sorting
       # @!attribute [w] strategy
       attr_writer :strategy

@@ -1,3 +1,4 @@
+<%= model_tree model_classes, 'model_tree' %>
 <%
 # decorate first on every page or partial
 decorated_collection = decorate collection
@@ -19,7 +20,7 @@ decorated_collection = decorate collection
         <tr>
           <% field_names.each do |field_name| %>
             <td>
-              <%= type_render decorated.index_type_of(field_name), object: decorated, field_name: field_name %>
+              <%= decorated.public_send field_name %>
             </td>
           <% end %>
         </tr>

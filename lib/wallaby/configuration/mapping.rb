@@ -3,7 +3,7 @@
 module Wallaby
   class Configuration
     # Configuration used in {Wallaby::Map}
-    # @since 5.1.6
+    # @since wallaby-5.1.6
     class Mapping
       # @!attribute [w] resources_controller
       attr_writer :resources_controller
@@ -21,7 +21,7 @@ module Wallaby
       #     config.mapping.resources_controller = ::GlobalResourcesController
       #   end
       # @return [Class] resources controller class
-      # @since 5.1.6
+      # @since wallaby-5.1.6
       def resources_controller
         @resources_controller ||=
           defined?(::Admin::ApplicationController) \
@@ -46,7 +46,7 @@ module Wallaby
       #     config.mapping.resource_decorator = ::GlobalResourceDecorator
       #   end
       # @return [Class] resource decorator class
-      # @since 5.1.6
+      # @since wallaby-5.1.6
       def resource_decorator
         @resource_decorator ||=
           defined?(::Admin::ApplicationDecorator) \
@@ -71,7 +71,7 @@ module Wallaby
       #     config.mapping.model_servicer = ::GlobalModelServicer
       #   end
       # @return [Class] model servicer class
-      # @since 5.1.6
+      # @since wallaby-5.1.6
       def model_servicer
         @model_servicer ||=
           defined?(::Admin::ApplicationServicer) \
@@ -96,7 +96,7 @@ module Wallaby
       #     config.mapping.model_authorizer = ::GlobalModelAuthorizer
       #   end
       # @return [Class] model authorizer class
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def model_authorizer
         @model_authorizer ||=
           defined?(::Admin::ApplicationAuthorizer) \
@@ -121,7 +121,7 @@ module Wallaby
       #     config.mapping.model_paginator = ::GlobalModelPaginator
       #   end
       # @return [Class] resource paginator class
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def model_paginator
         @model_paginator ||=
           defined?(::Admin::ApplicationPaginator) \

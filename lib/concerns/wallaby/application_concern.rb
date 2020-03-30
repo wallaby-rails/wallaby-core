@@ -98,7 +98,7 @@ module Wallaby
 
       # (see #render_error)
       def render_error(exception, symbol)
-        Logger.error exception, sourcing: false
+        Logger.error exception
 
         @exception = exception
         @symbol = symbol

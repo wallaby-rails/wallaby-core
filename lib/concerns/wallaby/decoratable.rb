@@ -22,7 +22,7 @@ module Wallaby
       # @return [Class] resource decorator
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @see Wallaby::ResourceDecorator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_reader :resource_decorator
 
       # @!attribute [w] application_decorator
@@ -40,7 +40,7 @@ module Wallaby
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @return [Class] application decorator
       # @see Wallaby::ResourceDecorator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_decorator
         @application_decorator ||= ModuleUtils.try_to superclass, :application_decorator
       end
@@ -68,7 +68,7 @@ module Wallaby
       @current_decorator ||=
         (controller_to_get(:resource_decorator) || \
         Map.resource_decorator_map(current_model_class, controller_to_get(:application_decorator))).tap do |decorator|
-          Logger.debug %(Current decorator: #{decorator})
+          Logger.debug %(Current decorator: #{decorator}), sourcing: false
         end
     end
 
