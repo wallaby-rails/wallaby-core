@@ -76,7 +76,7 @@ module Wallaby
       # @return [Class] assoicated base class.
       # @return [nil] if assoicated base class is not found from its ancestors chain
       # @raise [ArgumentError] when current class doesn't inherit from given value
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_decorator
         @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
       end

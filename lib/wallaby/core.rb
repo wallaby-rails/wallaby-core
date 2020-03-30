@@ -7,8 +7,6 @@ require 'wallaby/view'
 
 require 'wallaby/core/version'
 require 'wallaby/constants'
-require 'wallaby/logger'
-require 'wallaby/preloader'
 
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'
@@ -19,6 +17,8 @@ require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/security'
 require 'wallaby/configuration/sorting'
 
+require 'wallaby/logger'
+require 'wallaby/preloader'
 require 'wallaby/engine'
 
 require 'support/action_dispatch/routing/mapper'
@@ -53,7 +53,6 @@ require 'concerns/wallaby/prefixable'
 require 'concerns/wallaby/resourcable'
 require 'concerns/wallaby/servicable'
 require 'concerns/wallaby/shared_helpers'
-# require 'concerns/wallaby/themeable'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'

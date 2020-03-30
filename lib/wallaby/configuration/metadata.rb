@@ -14,7 +14,7 @@ module Wallaby
       #     config.metadata.max = 50
       #   end
       # @return [Integer] max number of characters to truncate, default to 20
-      # @since 5.1.6
+      # @since wallaby-5.1.6
       def max
         @max ||= DEFAULT_MAX
       end

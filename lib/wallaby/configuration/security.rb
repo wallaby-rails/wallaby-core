@@ -21,7 +21,7 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.logout_path = 'logout_path'
       #   end
-      # @since 5.1.4
+      # @since wallaby-5.1.4
       attr_accessor :logout_path
 
       # @!attribute logout_method
@@ -35,7 +35,7 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.logout_method = 'post'
       #   end
-      # @since 5.1.4
+      # @since wallaby-5.1.4
       attr_accessor :logout_method
 
       # @!attribute email_method
@@ -46,7 +46,7 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.security.email_method = 'email_address'
       #   end
-      # @since 5.1.4
+      # @since wallaby-5.1.4
       attr_accessor :email_method
 
       # To globally configure how to get user object.

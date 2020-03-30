@@ -22,7 +22,7 @@ module Wallaby
       # @return [Class] resource decorator
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @see Wallaby::ResourceDecorator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_reader :resource_decorator
 
       # @!attribute [w] application_decorator
@@ -40,7 +40,7 @@ module Wallaby
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @return [Class] application decorator
       # @see Wallaby::ResourceDecorator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_decorator
         @application_decorator ||= ModuleUtils.try_to superclass, :application_decorator
       end

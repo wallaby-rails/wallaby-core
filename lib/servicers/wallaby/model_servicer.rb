@@ -37,7 +37,7 @@ module Wallaby
 
       # @!attribute provider_class
       # @return [Class] service provider class
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_accessor :provider_class
     end
 
@@ -47,22 +47,22 @@ module Wallaby
 
     # @!attribute [r] model_decorator
     # @return [Wallaby::ModelDecorator]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     attr_reader :model_decorator
 
     # @!attribute [r] authorizer
     # @return [Wallaby::ModelAuthorizer]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     attr_reader :authorizer
 
     # @!attribute [r] provider
     # @return [Wallaby::ModelServiceProvider]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     attr_reader :provider
 
     # @!method user
     # @return [Object]
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     delegate :user, to: :authorizer
 
     # During initialization, Wallaby will assign a service provider for this servicer

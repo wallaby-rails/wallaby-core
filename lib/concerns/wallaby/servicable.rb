@@ -20,7 +20,7 @@ module Wallaby
       # @return [Class] model servicer
       # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       # @see Wallaby::ModelServicer
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_reader :model_servicer
 
       # @!attribute [w] application_servicer
@@ -38,7 +38,7 @@ module Wallaby
       # @return [Class] application decorator
       # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       # @see Wallaby::ModelServicer
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_servicer
         @application_servicer ||= ModuleUtils.try_to superclass, :application_servicer
       end
@@ -49,7 +49,7 @@ module Wallaby
     # - controller configuration {Wallaby::Servicable::ClassMethods#model_servicer .model_servicer}
     # - a generic servicer based on {Wallaby::Servicable::ClassMethods#application_servicer .application_servicer}
     # @return [Wallaby::ModelServicer] model servicer
-    # @since 5.2.0
+    # @since wallaby-5.2.0
     def current_servicer
       @current_servicer ||=
         (controller_to_get(:model_servicer) \

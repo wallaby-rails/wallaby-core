@@ -20,7 +20,7 @@ module Wallaby
       # @return [Class] model paginator
       # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       attr_reader :model_paginator
 
       # @!attribute [w] application_paginator
@@ -38,7 +38,7 @@ module Wallaby
       # @return [Class] application decorator
       # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
-      # @since 5.2.0
+      # @since wallaby-5.2.0
       def application_paginator
         @application_paginator ||= ModuleUtils.try_to superclass, :application_paginator
       end
