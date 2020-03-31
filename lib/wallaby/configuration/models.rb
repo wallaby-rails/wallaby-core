@@ -2,13 +2,10 @@
 
 module Wallaby
   class Configuration
-    # @note In `development` environment, Rails recreates module/class constants on reload event.
-    #   If constants are cached/stored, they will become stale and Rails will raise conflicts.
-    #
-    #   Hence, class name strings should be stored instead.
-    #   When classes are requested, strings will be constantized into classes.
+    # @deprecate will move this configuration to {Wallaby::ResourcesController} from 6.2
     # Models configuration to specify the model classes that Wallaby should handle.
     class Models
+      include Classifier
       # @note If models are whitelisted, models exclusion will NOT be applied.
       # To globally configure what model classes that Wallaby should handle.
       # @example To whitelist the model classes in `config/initializers/wallaby.rb`
@@ -17,12 +14,12 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def set(*models)
-        @models = Array(models).flatten.map(&:to_s)
+        @models = Array(models).flatten.map(&as_class_name).compact
       end
 
       # @return [Array<Class>] the models configured
       def presence
-        (@models ||= []).map(&:constantize)
+        (@models ||= []).map(&as_class)
       end
 
       # @note If models are whitelisted using {#set}, models exclusion will NOT be applied.
@@ -33,13 +30,13 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def exclude(*models)
-        @excludes = Array(models).flatten.map(&:to_s)
+        @excludes = Array(models).flatten.map(&as_class_name).compact
       end
 
       # @return [Array<Class>] the list of models to exclude.
       #   By default, `ActiveRecord::SchemaMigration` is excluded.
       def excludes
-        (@excludes ||= ['ActiveRecord::SchemaMigration']).map(&:constantize)
+        (@excludes ||= ['ActiveRecord::SchemaMigration']).map(&as_class)
       end
     end
   end
