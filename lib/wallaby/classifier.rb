@@ -8,6 +8,8 @@ module Wallaby
     end
 
     def to_class(name)
+      return name if name.is_a? Class
+
       name.try(:constantize)
     end
 

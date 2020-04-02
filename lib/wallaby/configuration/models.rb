@@ -2,7 +2,7 @@
 
 module Wallaby
   class Configuration
-    # @deprecate will move this configuration to {Wallaby::ResourcesController} from 6.2
+    # @deprecated will move this configuration to {Wallaby::ResourcesController} from 6.2
     # Models configuration to specify the model classes that Wallaby should handle.
     class Models
       include Classifier

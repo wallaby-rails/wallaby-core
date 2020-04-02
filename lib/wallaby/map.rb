@@ -1,20 +1,23 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Global storage to hold all the information that Wallaby needs to look up.
+  # All the lookups that Wallaby needs.
   class Map
     class << self
-      # To store modes
+      include Classifier
+
+      # @!attribute [w] modes
       attr_writer :modes
 
-      # @return [Array<Class>] descendants of Mode
+      # @!attribute [r] modes
+      # @return [Array<String>] all {Wallaby::Mode}s
       def modes
-        @modes ||= Mode.descendants
+        @modes ||= ClassArray.new Mode.descendants
       end
 
-      # @return [Hash] { model => mode }
+      # @return [Wallaby::ClassHash] { Model Class => {Wallaby::Mode} }
       def mode_map
-        @mode_map ||= ModeMapper.new(modes).map.freeze
+        @mode_map ||= ModeMapper.execute(modes).freeze
       end
 
       # TODO: remove this method

@@ -2,23 +2,23 @@
 
 module Wallaby
   class Map
-    # To generate a hash map (`model` => `mode`).
-    # This will be used to tell if a model can be handled by Wallaby
+    # Go through each {Wallaby::Mode} (e.g. **ActiveRecord**/**Her**)
+    # and find out all the model classes respectively.
+    # Then a hash (Model => {Wallaby::Mode}) is constructed
+    # to tell {Wallaby} which {Wallaby::Mode} to use for a given model.
     class ModeMapper
-      # @param mode_classes [Array<Class>] model classes
-      def initialize(mode_classes)
-        @mode_classes = mode_classes
-      end
+      extend Classifier
 
-      # This will walk through each mode (e.g. **ActiveRecord**/**Her**) then pull out all the models,
-      # and then form a hash of (`model` => `mode`).
-      # @return [Hash] { model_class => mode }
-      def map
-        return {} if @mode_classes.blank?
+      # @param class_names [Wallaby::ClassArray] mode class names
+      # @return [WallabyClassHash]
+      def self.execute(class_names)
+        ClassHash.new.tap do |hash|
+          next if class_names.blank?
 
-        @mode_classes.each_with_object({}) do |mode_class, map|
-          mode_class.model_finder.new.all.each do |model_class|
-            map[model_class] = mode_class
+          class_names.each_with_object(hash) do |mode_name, map|
+            mode_name.model_finder.new.all.each do |model_class|
+              map[model_class] = mode_name
+            end
           end
         end
       end
