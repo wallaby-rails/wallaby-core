@@ -4,16 +4,13 @@ module Wallaby
   # This is a type of hash that handles Class keys and values differently.
   # It stores Class key/value as String and returns String value as Class.
   class ClassHash
-    include Classifier
-
     attr_reader :internal
-    delegate :==, to: :internal
 
     def initialize(hash = {})
-      @internal = hash || {}
-      return if @internal.blank?
-
-      @internal.transform_keys!(&as_class_name).transform_values!(&as_class_name)
+      @internal =
+        (hash || {})
+        .transform_keys(&method(:to_class_name))
+        .transform_values(&method(:to_class_name))
     end
 
     # @param klass_key [Class, String]
@@ -31,12 +28,36 @@ module Wallaby
     # @param other [Hash]
     # @return [Wallaby::ClassHash] new Class hash
     def merge(other)
-      self.class.new @internal.merge(other)
+      self.class.new @internal.merge(other.try(:internal) || other)
     end
 
+    # Compare with other
+    def ==(other)
+      origin == (other.try(:origin) || other)
+    end
+
+    # @return [Wallaby::ClassHash]
     def freeze
       @internal.freeze
       super
+    end
+
+    # @return [Hash] original hash
+    def origin
+      @internal.transform_keys(&method(:to_class)).transform_values(&method(:to_class))
+    end
+
+    protected
+
+    # Convert to Class name
+    def to_class_name(klass)
+      klass.is_a?(Class) ? [klass.name, true] : [klass, false]
+    end
+
+    # Convert to Class
+    def to_class(pair)
+      val, is_class = pair
+      is_class ? val.constantize : val
     end
   end
 end

@@ -2,26 +2,38 @@ require 'rails_helper'
 
 describe Wallaby::ClassHash do
   it 'stores Class key/value as String' do
-    subject[Class] = Module
-    expect(subject).to eq 'Class' => 'Module'
-
-    subject['Class'] = Object
-    expect(subject).to eq 'Class' => 'Object'
-
-    subject['Class'] = 'Array'
-    expect(subject).to eq 'Class' => 'Array'
+    subject = described_class.new Class => Module
+    expect(subject.internal).to eq ['Class', true] => ['Module', true]
+    expect(subject).to eq Class => Module
   end
 
-  it 'returns String value as Class' do
-    subject[Class] = Module
-    expect(subject[Class]).to eq Module
-    expect(subject['Class']).to eq Module
+  describe '#[]= & #[]' do
+    it 'assigns and return' do
+      subject[Class] = Module
+      expect(subject[Class]).to eq Module
+      expect(subject['Class']).to eq nil
+      expect(subject.internal).to eq ['Class', true] => ['Module', true]
+      expect(subject).to eq Class => Module
+
+      subject[Class] = 'Module'
+      expect(subject[Class]).to eq 'Module'
+      expect(subject['Class']).to eq nil
+      expect(subject).to eq Class => 'Module'
+
+      subject['Class'] = 'Module'
+      expect(subject[Class]).to eq 'Module'
+      expect(subject['Class']).to eq 'Module'
+      expect(subject.internal).to eq ['Class', true] => ['Module', false], ['Class', false] => ['Module', false]
+      expect(subject).to eq Class => 'Module', 'Class' => 'Module'
+    end
   end
 
-  it 'merges and returns new ClassHash' do
-    new_hash = subject.merge(Class => Module)
-    expect(new_hash).to be_kind_of described_class
-    expect(new_hash).to eq 'Class' => 'Module'
-    expect(new_hash[Class]).to eq Module
+  describe '#merge' do
+    it 'merges and returns new ClassHash' do
+      new_hash = subject.merge(Class => Module)
+      expect(new_hash).to be_kind_of described_class
+      expect(new_hash.internal).to eq ['Class', true] => ['Module', true]
+      expect(new_hash).to eq Class => Module
+    end
   end
 end
