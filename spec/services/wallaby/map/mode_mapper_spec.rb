@@ -1,27 +1,25 @@
 require 'rails_helper'
 
 describe Wallaby::Map::ModeMapper do
-  describe '#map' do
-    it 'returns empty hash' do
-      expect(described_class.new(nil).map).to eq({})
-      expect(described_class.new([]).map).to eq({})
+  describe '.execute' do
+    context 'when class_names are blank' do
+      it 'returns empty hash' do
+        expect(described_class.execute(nil)).to be_a Wallaby::ClassHash
+        expect(described_class.execute(nil)).to eq({})
+
+        expect(described_class.execute([])).to be_a Wallaby::ClassHash
+        expect(described_class.execute([])).to eq({})
+      end
     end
 
-    context 'when mode classes are not empty' do
-      before do
-        class PretendToBeAMode
-          class Finder
-            def all; %i(ModelClass1 Modelclass2); end
-          end
-
-          def self.model_finder; Finder; end
-        end
-      end
+    context 'when class_names are not blank' do
+      before { Wallaby.configuration.custom_models = [Array, Hash] }
 
       it 'returns a mode map' do
-        expect(described_class.new([PretendToBeAMode]).map).to eq \
-          ModelClass1: PretendToBeAMode,
-          Modelclass2: PretendToBeAMode
+        expect(described_class.execute([Wallaby::Custom])).to be_a Wallaby::ClassHash
+        expect(described_class.execute([Wallaby::Custom])).to eq \
+          Array => Wallaby::Custom,
+          Hash => Wallaby::Custom
       end
     end
   end

@@ -5,8 +5,12 @@ module Wallaby
     # Configuration used in {Wallaby::Map}
     # @since wallaby-5.1.6
     class Mapping
+      include Classifier
+
       # @!attribute [w] resources_controller
-      attr_writer :resources_controller
+      def resources_controller=(resources_controller)
+        @resources_controller = to_class_name resources_controller
+      end
 
       # @!attribute [r] resources_controller
       # To globally configure the resources controller.
@@ -26,12 +30,14 @@ module Wallaby
         @resources_controller ||=
           defined?(::Admin::ApplicationController) \
             && ::Admin::ApplicationController < ::Wallaby::ResourcesController \
-            && ::Admin::ApplicationController
-        @resources_controller ||= ResourcesController
+            && 'Admin::ApplicationController'
+        to_class @resources_controller ||= 'Wallaby::ResourcesController'
       end
 
       # @!attribute [w] resource_decorator
-      attr_writer :resource_decorator
+      def resource_decorator=(resource_decorator)
+        @resource_decorator = to_class_name resource_decorator
+      end
 
       # @!attribute [r] resource_decorator
       # To globally configure the resource decorator.
@@ -51,12 +57,14 @@ module Wallaby
         @resource_decorator ||=
           defined?(::Admin::ApplicationDecorator) \
             && ::Admin::ApplicationDecorator < ::Wallaby::ResourceDecorator \
-            && ::Admin::ApplicationDecorator
-        @resource_decorator ||= ResourceDecorator
+            && 'Admin::ApplicationDecorator'
+        to_class @resource_decorator ||= 'Wallaby::ResourceDecorator'
       end
 
       # @!attribute [w] model_servicer
-      attr_writer :model_servicer
+      def model_servicer=(model_servicer)
+        @model_servicer = to_class_name model_servicer
+      end
 
       # @!attribute [r] model_servicer
       # To globally configure the model servicer.
@@ -76,12 +84,14 @@ module Wallaby
         @model_servicer ||=
           defined?(::Admin::ApplicationServicer) \
             && ::Admin::ApplicationServicer < ::Wallaby::ModelServicer \
-            && ::Admin::ApplicationServicer
-        @model_servicer ||= ModelServicer
+            && 'Admin::ApplicationServicer'
+        to_class @model_servicer ||= 'Wallaby::ModelServicer'
       end
 
       # @!attribute [w] model_authorizer
-      attr_writer :model_authorizer
+      def model_authorizer=(model_authorizer)
+        @model_authorizer = to_class_name model_authorizer
+      end
 
       # @!attribute [r] model_authorizer
       # To globally configure the model authorizer.
@@ -101,12 +111,14 @@ module Wallaby
         @model_authorizer ||=
           defined?(::Admin::ApplicationAuthorizer) \
             && ::Admin::ApplicationAuthorizer < ::Wallaby::ModelAuthorizer \
-            && ::Admin::ApplicationAuthorizer
-        @model_authorizer ||= ModelAuthorizer
+            && 'Admin::ApplicationAuthorizer'
+        to_class @model_authorizer ||= 'Wallaby::ModelAuthorizer'
       end
 
       # @!attribute [w] model_paginator
-      attr_writer :model_paginator
+      def model_paginator=(model_paginator)
+        @model_paginator = to_class_name model_paginator
+      end
 
       # @!attribute [r] model_paginator
       # To globally configure the resource paginator.
@@ -126,8 +138,8 @@ module Wallaby
         @model_paginator ||=
           defined?(::Admin::ApplicationPaginator) \
             && ::Admin::ApplicationPaginator < ::Wallaby::ModelPaginator \
-            && ::Admin::ApplicationPaginator
-        @model_paginator ||= ModelPaginator
+            && 'Admin::ApplicationPaginator'
+        to_class @model_paginator ||= 'Wallaby::ModelPaginator'
       end
     end
   end

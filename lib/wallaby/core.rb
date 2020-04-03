@@ -7,6 +7,9 @@ require 'wallaby/view'
 
 require 'wallaby/core/version'
 require 'wallaby/constants'
+require 'wallaby/classifier'
+require 'wallaby/class_array'
+require 'wallaby/class_hash'
 
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'

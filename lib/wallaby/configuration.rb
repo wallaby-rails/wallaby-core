@@ -4,16 +4,18 @@
 module Wallaby
   # Global configuration
   class Configuration
+    include Classifier
+
     # @!attribute [w] model_paths
-    def model_paths=(model_paths)
+    def model_paths=(*model_paths)
       @model_paths =
-        if model_paths.nil?
-        elsif model_paths.is_a?(String)
-          [model_paths]
-        elsif model_paths.try(:all?, &String.method(:===))
-          model_paths
-        else
-          raise ArgumentError, 'Please provide a list of string paths, e.g. ["app/models", "app/core"]'
+        model_paths.flatten.compact.presence.try do |paths|
+          next paths if paths.all? { |p| p.is_a?(String) }
+
+          raise(
+            ArgumentError,
+            'Please provide a list of string paths, e.g. `["app/models", "app/core"]`'
+          )
         end
     end
 
@@ -30,7 +32,9 @@ module Wallaby
     end
 
     # @!attribute [w] base_controller
-    attr_writer :base_controller
+    def base_controller=(base_controller)
+      @base_controller = to_class_name base_controller
+    end
 
     # @!attribute [r] base_controller
     # To globally configure the base controller class that {Wallaby::ApplicationController} should inherit from.
@@ -43,7 +47,7 @@ module Wallaby
     #   end
     # @return [Class] base controller class
     def base_controller
-      @base_controller ||= ::ApplicationController
+      to_class @base_controller ||= '::ApplicationController'
     end
 
     # @return [Wallaby::Configuration::Models] models configuration for custom mode
