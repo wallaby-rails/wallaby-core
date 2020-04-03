@@ -23,7 +23,7 @@ module Wallaby
       # TODO: remove this method
       # @return [Array] [ model classes ]
       def model_classes
-        @model_classes ||= ModelClassCollector.new(configuration, mode_map.keys).collect.freeze
+        ModelClassCollector.new(configuration, mode_map.keys).collect
       end
 
       # { model => resources name }
@@ -33,7 +33,7 @@ module Wallaby
       # @param value [String, nil] resources name
       # @return [String] resources name
       def resources_name_map(model_class, value = nil)
-        @resources_name_map ||= {}
+        @resources_name_map ||= ClassHash.new
         @resources_name_map[model_class] ||= value || ModelUtils.to_resources_name(model_class)
       end
 
@@ -43,7 +43,7 @@ module Wallaby
       # @param resources_name [String]
       # @return [Class]
       def model_class_map(resources_name, value = nil)
-        @model_class_map ||= {}
+        @model_class_map ||= ClassHash.new
         @model_class_map[resources_name] ||= value || ModelUtils.to_model_class(resources_name)
       end
     end
@@ -73,8 +73,8 @@ module Wallaby
       # @return [Wallaby::ModelDecorator] model decorator instance
       def model_decorator_map(model_class, application_decorator = nil)
         application_decorator ||= mapping.resource_decorator
-        @model_decorator_map ||= {}
-        @model_decorator_map[application_decorator] ||= {}
+        @model_decorator_map ||= ClassHash.new
+        @model_decorator_map[application_decorator] ||= ClassHash.new
         @model_decorator_map[application_decorator][model_class] ||=
           mode_map[model_class].try(:model_decorator).try :new, model_class
       end
@@ -112,7 +112,7 @@ module Wallaby
       # @param model_class [Class]
       # @return [Class] model service provider instance
       def service_provider_map(model_class)
-        @service_provider_map ||= {}
+        @service_provider_map ||= ClassHash.new
         @service_provider_map[model_class] ||= mode_map[model_class].try :model_service_provider
       end
 
@@ -120,7 +120,7 @@ module Wallaby
       # @param model_class [Class]
       # @return [Class] model pagination provider class
       def pagination_provider_map(model_class)
-        @pagination_provider_map ||= {}
+        @pagination_provider_map ||= ClassHash.new
         @pagination_provider_map[model_class] ||= mode_map[model_class].try :model_pagination_provider
       end
 
@@ -128,7 +128,7 @@ module Wallaby
       # @param model_class [Class]
       # @return [Class] model authorizer provider class
       def authorizer_provider_map(model_class)
-        @authorizer_provider_map ||= {}
+        @authorizer_provider_map ||= ClassHash.new
         @authorizer_provider_map[model_class] ||= mode_map[model_class].try :model_authorization_providers
       end
     end
@@ -163,7 +163,7 @@ module Wallaby
           Logger.warn Locale.t('map.missing_mode_for_model_class', model: model_class.name), sourcing: 2..5
           return
         end
-        instance_variable_set(variable_name, instance_variable_get(variable_name) || {})
+        instance_variable_set(variable_name, instance_variable_get(variable_name) || ClassHash.new)
         map = instance_variable_get variable_name
         map[application_class] ||= ModelClassMapper.map application_class.descendants
         map[application_class][model_class] ||= application_class
