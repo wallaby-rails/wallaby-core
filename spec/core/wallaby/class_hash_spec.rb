@@ -36,4 +36,11 @@ describe Wallaby::ClassHash do
       expect(new_hash).to eq Class => Module
     end
   end
+
+  describe '#freeze' do
+    it 'is frozen' do
+      subject.freeze
+      expect { subject[Array] = Wallaby::Custom }.to raise_error(/can't modify frozen Hash/)
+    end
+  end
 end

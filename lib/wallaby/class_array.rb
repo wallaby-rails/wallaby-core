@@ -10,7 +10,7 @@ module Wallaby
       @internal = array || []
       return if @internal.blank?
 
-      @internal.map!(&method(:to_class_name))
+      @internal.map!(&method(:to_class_name)).compact!
     end
 
     # @!attribute [r] internal
@@ -24,14 +24,52 @@ module Wallaby
       @internal.map(&method(:to_class))
     end
 
-    # @!method each_with_object(object)
-    delegate :each_with_object, to: :origin
+    # Save the value to the {#internal} array at the given index, and convert the Class value to String
+    def []=(index, value)
+      @internal[index] = to_class_name value
+    end
+
+    # Return the value for the given index
+    def [](index)
+      to_class @internal[index]
+    end
+
+    # @param other [Array]
+    # @return [Wallaby::ClassArray] new Class array
+    def concat(other)
+      self.class.new origin.concat(other.try(:origin) || other)
+    end
+
+    # @param other [Array]
+    # @return [Wallaby::ClassArray] new Class array
+    def -(other)
+      self.class.new origin - (other.try(:origin) || other)
+    end
+
+    # @return [Wallaby::ClassArray] self
+    def each(&block)
+      origin.each(&block)
+      self
+    end
 
     # @!method ==(other)
     # Compare #{origin} with other.
     delegate :==, to: :origin
 
     # @!method blank?
-    delegate :blank?, to: :origin
+    delegate :blank?, to: :internal
+
+    # @!method each_with_object(object)
+    delegate :each_with_object, to: :origin
+
+    # @!method to_sentence
+    delegate :to_sentence, to: :origin
+
+    # Ensure to freeze the {#internal}
+    # @return [Wallaby::ClassArray] self
+    def freeze
+      @internal.freeze
+      super
+    end
   end
 end

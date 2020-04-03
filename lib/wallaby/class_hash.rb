@@ -45,12 +45,12 @@ module Wallaby
     # Compare #{origin} with other.
     delegate :==, to: :origin
 
-    # Save key/value to the {#internal} hash, and convert the Class key/value to String
+    # Save the key/value to the {#internal} hash, and convert the Class key/value to String
     def []=(key, value)
       @internal[to_class_name(key)] = to_class_name(value)
     end
 
-    # Return value for the given key, and convert the value back to Class if it was a Class
+    # Return the value for the given key, and convert the value back to Class if it was a Class
     def [](key)
       to_class @internal[to_class_name(key)]
     end
@@ -67,7 +67,7 @@ module Wallaby
     end
 
     # Ensure to freeze the {#internal}
-    # @return [Wallaby::ClassHash]
+    # @return [Wallaby::ClassHash] self
     def freeze
       @internal.freeze
       super

@@ -8,7 +8,7 @@ module Wallaby
       # @param models [Array<Class>]
       def initialize(configuration, models = nil)
         @configuration = configuration
-        @models = models || []
+        @models = ClassArray.new(models || [])
       end
 
       # @return [Array<Class>] model class

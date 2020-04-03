@@ -8,11 +8,26 @@ describe Wallaby::Map do
     end
 
     it 'returns a map of model -> mode' do
+      expect(described_class.mode_map).to be_a Wallaby::ClassHash
       expect(described_class.mode_map).to eq AllMysqlType => Wallaby::Custom, AllPostgresType => Wallaby::Custom, AllSqliteType => Wallaby::Custom
     end
 
     it 'is frozen' do
       expect { described_class.mode_map[Array] = Wallaby::Custom }.to raise_error(/can't modify frozen Hash/)
+    end
+  end
+
+  describe '.model_class_map' do
+    it 'returns a model class that convert from a resources name' do
+      expect(described_class.model_class_map('products')).to eq Product
+      expect(described_class.instance_variable_get(:@model_class_map)).to be_a Wallaby::ClassHash
+    end
+  end
+
+  describe '.resources_name_map' do
+    it 'returns a resources name that convert from a model class' do
+      expect(described_class.resources_name_map(Product)).to eq 'products'
+      expect(described_class.instance_variable_get(:@resources_name_map)).to be_a Wallaby::ClassHash
     end
   end
 
@@ -32,6 +47,7 @@ describe Wallaby::Map do
         expect(described_class.controller_map(AllPostgresType, user_controller)).to eq user_controller
         expect(described_class.controller_map(AllMysqlType, user_controller)).to eq mysql_types_controller
         expect(described_class.controller_map(AllSqliteType, user_controller)).to eq user_controller
+        expect(described_class.instance_variable_get(:@controller_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -50,6 +66,7 @@ describe Wallaby::Map do
         expect(described_class.resource_decorator_map(AllPostgresType, user_decorator)).to eq user_decorator
         expect(described_class.resource_decorator_map(AllMysqlType, user_decorator)).to eq mysql_type_decorator
         expect(described_class.resource_decorator_map(AllSqliteType, user_decorator)).to eq user_decorator
+        expect(described_class.instance_variable_get(:@resource_decorator_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -68,6 +85,7 @@ describe Wallaby::Map do
         expect(described_class.servicer_map(AllPostgresType, user_servicer)).to eq user_servicer
         expect(described_class.servicer_map(AllMysqlType, user_servicer)).to eq mysql_type_servicer
         expect(described_class.servicer_map(AllSqliteType, user_servicer)).to eq user_servicer
+        expect(described_class.instance_variable_get(:@servicer_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -86,6 +104,7 @@ describe Wallaby::Map do
         expect(described_class.paginator_map(AllPostgresType, user_paginator)).to eq user_paginator
         expect(described_class.paginator_map(AllMysqlType, user_paginator)).to eq mysql_type_paginator
         expect(described_class.paginator_map(AllSqliteType, user_paginator)).to eq user_paginator
+        expect(described_class.instance_variable_get(:@paginator_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -104,19 +123,8 @@ describe Wallaby::Map do
         expect(described_class.authorizer_map(AllPostgresType, user_authorizer)).to eq user_authorizer
         expect(described_class.authorizer_map(AllMysqlType, user_authorizer)).to eq mysql_type_authorizer
         expect(described_class.authorizer_map(AllSqliteType, user_authorizer)).to eq user_authorizer
+        expect(described_class.instance_variable_get(:@authorizer_map)).to be_a Wallaby::ClassHash
       end
-    end
-  end
-
-  describe '.model_class_map' do
-    it 'returns a model class that convert from a resources name' do
-      expect(described_class.model_class_map('products')).to eq Product
-    end
-  end
-
-  describe '.resources_name_map' do
-    it 'returns a resources name that convert from a model class' do
-      expect(described_class.resources_name_map(Product)).to eq 'products'
     end
   end
 
@@ -125,6 +133,7 @@ describe Wallaby::Map do
       it 'returns a model decorator' do
         expect(described_class.model_decorator_map(Array)).to be_nil
         expect(described_class.model_decorator_map(AllPostgresType)).to be_a Wallaby::ActiveRecord::ModelDecorator
+        expect(described_class.instance_variable_get(:@model_decorator_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -132,6 +141,7 @@ describe Wallaby::Map do
       it 'returns a model service provider' do
         expect(described_class.service_provider_map(Array)).to be_nil
         expect(described_class.service_provider_map(AllPostgresType)).to eq Wallaby::ActiveRecord::ModelServiceProvider
+        expect(described_class.instance_variable_get(:@service_provider_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -139,6 +149,7 @@ describe Wallaby::Map do
       it 'returns a model pagination provider' do
         expect(described_class.pagination_provider_map(Array)).to be_nil
         expect(described_class.pagination_provider_map(AllPostgresType)).to eq Wallaby::ActiveRecord::ModelPaginationProvider
+        expect(described_class.instance_variable_get(:@pagination_provider_map)).to be_a Wallaby::ClassHash
       end
     end
 
@@ -146,6 +157,7 @@ describe Wallaby::Map do
       it 'returns a list of model authorization provider' do
         expect(described_class.authorizer_provider_map(Array)).to be_nil
         expect(described_class.authorizer_provider_map(AllPostgresType)).to eq('cancancan' => Wallaby::ActiveRecord::CancancanProvider, 'default' => Wallaby::ActiveRecord::DefaultProvider, 'pundit' => Wallaby::ActiveRecord::PunditProvider)
+        expect(described_class.instance_variable_get(:@authorizer_provider_map)).to be_a Wallaby::ClassHash
       end
     end
   end
