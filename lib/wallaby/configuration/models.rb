@@ -14,12 +14,12 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def set(*models)
-        @models = Array(models).flatten.map(&as_class_name).compact
+        @models = Array(models).flatten.map(&method(:to_class_name)).compact
       end
 
       # @return [Array<Class>] the models configured
       def presence
-        (@models ||= []).map(&as_class)
+        (@models ||= []).map(&method(:to_class))
       end
 
       # @note If models are whitelisted using {#set}, models exclusion will NOT be applied.
@@ -30,13 +30,13 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def exclude(*models)
-        @excludes = Array(models).flatten.map(&as_class_name).compact
+        @excludes = Array(models).flatten.map(&method(:to_class_name)).compact
       end
 
       # @return [Array<Class>] the list of models to exclude.
       #   By default, `ActiveRecord::SchemaMigration` is excluded.
       def excludes
-        (@excludes ||= ['ActiveRecord::SchemaMigration']).map(&as_class)
+        (@excludes ||= ['ActiveRecord::SchemaMigration']).map(&method(:to_class))
       end
     end
   end

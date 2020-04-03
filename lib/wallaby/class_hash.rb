@@ -12,12 +12,11 @@ module Wallaby
   # A copy of SupportAdmin::ApplicationAuthorizer has been removed from the module tree but is still active!
   # ```
   #
-  # As there won't be any Class constants being stored, they will converted to String in this hash.
+  # As there won't be any Class constants being stored, they will converted to String in {#internal} Hash.
   class ClassHash
     # @!attribute [r] internal
+    # @return [Hash] The hash to store Class keys/values as String.
     attr_reader :internal
-
-    delegate :keys, :values, to: :origin
 
     # @param [Hash] hash
     def initialize(hash = {})
@@ -26,6 +25,25 @@ module Wallaby
         .transform_keys(&method(:to_class_name))
         .transform_values(&method(:to_class_name))
     end
+
+    # @!attribute [r] origin
+    # @return [Hash] The original hash.
+    def origin
+      # NOTE: DO NOT cache it by using instance variable!
+      @internal.transform_keys(&method(:to_class)).transform_values(&method(:to_class))
+    end
+
+    # @!method keys
+    # Return the keys of {#origin}.
+    delegate :keys, to: :origin
+
+    # @!method values
+    # Return the values of {#origin}.
+    delegate :values, to: :origin
+
+    # @!method ==(other)
+    # Compare #{origin} with other.
+    delegate :==, to: :origin
 
     # Save key/value to the {#internal} hash, and convert the Class key/value to String
     def []=(key, value)
@@ -48,22 +66,11 @@ module Wallaby
       self.class.new origin.select(&block)
     end
 
-    # Compare #{origin} with other
-    def ==(other)
-      origin == (other.try(:origin) || other)
-    end
-
     # Ensure to freeze the {#internal}
     # @return [Wallaby::ClassHash]
     def freeze
       @internal.freeze
       super
-    end
-
-    # @return [Hash] original hash
-    def origin
-      # NOTE: DO NOT cache it by using instance variable!
-      @internal.transform_keys(&method(:to_class)).transform_values(&method(:to_class))
     end
 
     protected
@@ -78,8 +85,8 @@ module Wallaby
       val, is_class = pair
       is_class ? val.constantize : val
     rescue NameError => e
-      Logger.warn "`#{val}` is not a valid Class name."
-      Logger.warn e
+      Logger.error "`#{val}` is not a valid Class name."
+      Logger.error e
     end
   end
 end

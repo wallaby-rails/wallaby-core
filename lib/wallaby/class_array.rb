@@ -1,45 +1,37 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # This is a type of array that handles Class keys and values differently.
-  # It stores Class key/value as String and returns String value as Class.
+  # This is a constant-safe array that stores Class value as String.
   class ClassArray
     include Classifier
 
-    attr_reader :internal
-    delegate :==, :blank?, to: :internal
-
+    # @param [Array] array
     def initialize(array = [])
       @internal = array || []
       return if @internal.blank?
 
-      @internal.map!(&as_class_name)
+      @internal.map!(&method(:to_class_name))
     end
 
-    # # @param index [Integer]
-    # # @param klass_value [Class, String]
-    # def []=(index, klass_value)
-    #   @internal[index] = to_class_name(klass_value)
-    # end
+    # @!attribute [r] internal
+    # @return [Array] The array to store Class values as String.
+    attr_reader :internal
 
-    # # @param index [Integer]
-    # # @return [Class] Class value
-    # def [](index)
-    #   to_class @internal[index]
-    # end
-
-    # @param object [Object]
-    # @return [Object]
-    def each_with_object(object)
-      @internal.each_with_object(object) do |item, memo|
-        yield to_class(item), memo
-      end
+    # @!attribute [r] origin
+    # @return [Array] The original array.
+    def origin
+      # NOTE: DO NOT cache it by using instance variable!
+      @internal.map(&method(:to_class))
     end
 
-    # # @param other [Array]
-    # # @return [Wallaby::ClassArray] new Class array
-    # def concat(other)
-    #   self.class.new @internal.concat(other)
-    # end
+    # @!method each_with_object(object)
+    delegate :each_with_object, to: :origin
+
+    # @!method ==(other)
+    # Compare #{origin} with other.
+    delegate :==, to: :origin
+
+    # @!method blank?
+    delegate :blank?, to: :origin
   end
 end

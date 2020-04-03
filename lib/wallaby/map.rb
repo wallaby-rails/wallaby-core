@@ -64,7 +64,7 @@ module Wallaby
       # @return [Class] resource decorator class, default to `mapping.resource_decorator`
       def resource_decorator_map(model_class, application_decorator = nil)
         application_decorator ||= mapping.resource_decorator
-        map_of :@decorator_map, model_class, application_decorator
+        map_of :@resource_decorator_map, model_class, application_decorator
       end
 
       # { model => model decorator }
