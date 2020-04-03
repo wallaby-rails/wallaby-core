@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wallaby::ClassArray do
   it 'stores Class key/value as String' do
     subject = described_class.new [Class, Module]
-    expect(subject.internal).to eq ['Class', 'Module']
+    expect(subject.internal).to eq %w(Class Module)
     expect(subject).to eq [Class, Module]
   end
 

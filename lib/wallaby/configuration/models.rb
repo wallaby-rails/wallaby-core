@@ -18,7 +18,7 @@ module Wallaby
 
       # @return [Array<Class>] the models configured
       def presence
-        @models ||= ClassArray.new
+        @models ||= ClassArray.new # rubocop:disable Naming/MemoizedInstanceVariableName
       end
 
       # @note If models are whitelisted using {#set}, models exclusion will NOT be applied.
