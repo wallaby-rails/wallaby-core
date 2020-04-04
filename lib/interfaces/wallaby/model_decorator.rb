@@ -157,12 +157,27 @@ module Wallaby
       field_names.unshift(primary_key.to_s).uniq
     end
 
-    # Validate presence of a type for given field name
+    # Ensure the type is present for given field name
     # @param type [String, Symbol, nil]
     # @return [String, Symbol] type
     # @raise [ArgumentError] when type is nil
-    def validate_presence_of(field_name, type)
-      type || raise(::ArgumentError, Locale.t('errors.invalid.type_required', field_name: field_name))
+    def ensure_type_is_present(field_name, type, metadata_prefix = '')
+      type || raise(
+        ::ArgumentError,
+        <<~INSTRUCTION
+          The type for field `#{field_name}` is missing in metadata `#{metadata_prefix}_fields`.
+          The possible causes are:
+
+          1. Check type's value from metadata `#{metadata_prefix}_fields[:#{field_name}][:type]`.
+            If it is missing, specify the type as below:
+
+            #{metadata_prefix}field_name[:#{field_name}][:type] = 'string'
+
+          2. If metadata `#{metadata_prefix}_fields` is blank, it's better to check
+            and see if the decorator's class declaration has error or not by putting a `byebug` flag
+            at the first line in the declaration file.
+        INSTRUCTION
+      )
     end
   end
 end
