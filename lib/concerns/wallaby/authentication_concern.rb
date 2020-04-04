@@ -90,7 +90,7 @@ module Wallaby
     # @param exception [Exception] comes from **rescue_from**
 
     included do # rubocop:disable Metrics/BlockLength
-      helper_method :current_user
+      helper_method :wallaby_user
 
       rescue_from NotAuthenticated, with: :unauthorized
       rescue_from Forbidden, with: :forbidden
