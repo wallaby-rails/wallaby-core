@@ -32,7 +32,7 @@ module Wallaby
         return unless self < ModelServicer
         return if base_class? || self == Wallaby.configuration.mapping.model_servicer
 
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Servicer$)/, EMPTY_STRING))
+        @model_class ||= ModelUtils.guess_model_class name, /(^#{namespace}::)|(Servicer$)/
       end
 
       # @!attribute provider_class

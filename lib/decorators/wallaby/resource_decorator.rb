@@ -1,10 +1,45 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Resource Decorator base class, designed for decorator pattern.
-  # @see Wallaby::ModelDecorator
+  # Decorator base class. It's designed to be used as the decorator (AKA presenter/view object)
+  # for the associated model instance.
+  #
+  # And it holds the following metadata information for associated model class:
+  #
+  # - {#fields}
+  # - {#field_names}
+  # - {#index_fields}
+  # - {#index_field_names}
+  # - {#show_fields}
+  # - {#show_field_names}
+  # - {#form_fields}
+  # - {#form_field_names}
   class ResourceDecorator
     extend Baseable::ClassMethods
+
+    # @!attribute fields
+    # @return [Hash]
+
+    # @!attribute field_names
+    # @return [Array]
+
+    # @!attribute index_fields
+    # @return [Hash]
+
+    # @!attribute index_field_names
+    # @return [Array]
+
+    # @!attribute show_fields
+    # @return [Hash]
+
+    # @!attribute show_field_names
+    # @return [Array]
+
+    # @!attribute form_fields
+    # @return [Hash]
+
+    # @!attribute form_field_names
+    # @return [Array]
 
     DELEGATE_METHODS =
       ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i(model_class)
@@ -38,7 +73,7 @@ module Wallaby
         return unless self < ResourceDecorator
         return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
 
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Decorator$)/, EMPTY_STRING))
+        @model_class ||= ModelUtils.guess_model_class name, /(^#{namespace}::)|(Decorator$)/
       end
 
       # @!attribute [w] application_decorator
