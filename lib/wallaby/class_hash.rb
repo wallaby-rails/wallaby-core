@@ -86,7 +86,6 @@ module Wallaby
       is_class ? val.constantize : val
     rescue NameError => e
       Logger.error "`#{val}` is not a valid Class name."
-      Logger.error e
     end
   end
 end
