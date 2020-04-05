@@ -21,7 +21,7 @@ module Wallaby
     # @return [Array] The original array.
     def origin
       # NOTE: DO NOT cache it by using instance variable!
-      @internal.map(&method(:to_class))
+      @internal.map(&method(:to_class)).compact
     end
 
     # Save the value to the {#internal} array at the given index, and convert the Class value to String
