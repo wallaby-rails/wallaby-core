@@ -30,7 +30,10 @@ module Wallaby
     # @return [Hash] The original hash.
     def origin
       # NOTE: DO NOT cache it by using instance variable!
-      @internal.transform_keys(&method(:to_class)).transform_values(&method(:to_class))
+      @internal
+        .transform_keys(&method(:to_class))
+        .transform_values(&method(:to_class))
+        .reject { |k, v| k.nil? || v.nil? }
     end
 
     # @!method keys
@@ -84,9 +87,8 @@ module Wallaby
     def to_class(pair)
       val, is_class = pair
       is_class ? val.constantize : val
-    rescue NameError => e
+    rescue NameError
       Logger.error "`#{val}` is not a valid Class name."
-      Logger.error e
     end
   end
 end

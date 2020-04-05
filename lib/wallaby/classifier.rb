@@ -19,9 +19,8 @@ module Wallaby
       return name unless name.is_a? String
 
       name.constantize
-    rescue NameError => e
+    rescue NameError
       Logger.error "`#{val}` is not a valid Class name."
-      Logger.error e
     end
   end
 end

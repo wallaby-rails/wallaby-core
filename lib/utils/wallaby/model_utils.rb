@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Utils for model
+  # Model related utils
   module ModelUtils
     class << self
       # Convert model class (e.g. `Namespace::Product`) into resources name (e.g. `namespace::products`)
@@ -35,7 +35,6 @@ module Wallaby
         class_name.constantize
       rescue NameError
         Logger.warn Locale.t('errors.not_found.model', model: class_name), sourcing: 2..10
-        nil
       end
 
       # Convert resources name (e.g. `namespace::products`) into model name (e.g. `Namespace::Product`)

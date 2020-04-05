@@ -18,7 +18,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String, Symbol] type for a given field
     def type_of(field_name)
-      validate_presence_of field_name, metadata_of(field_name)[:type]
+      ensure_type_is_present field_name, metadata_of(field_name)[:type]
     end
 
     # @param field_name [String, Symbol] field name
@@ -36,7 +36,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String, Symbol] index type for a given field
     def index_type_of(field_name)
-      validate_presence_of field_name, index_metadata_of(field_name)[:type]
+      ensure_type_is_present field_name, index_metadata_of(field_name)[:type], 'index_'
     end
 
     # @param field_name [String, Symbol] field name
@@ -54,7 +54,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String, Symbol] show type for a given field
     def show_type_of(field_name)
-      validate_presence_of field_name, show_metadata_of(field_name)[:type]
+      ensure_type_is_present field_name, show_metadata_of(field_name)[:type], 'show_'
     end
 
     # @param field_name [String, Symbol] field name
@@ -72,7 +72,7 @@ module Wallaby
     # @param field_name [String, Symbol] field name
     # @return [String, Symbol] form type for a given field
     def form_type_of(field_name)
-      validate_presence_of field_name, form_metadata_of(field_name)[:type]
+      ensure_type_is_present field_name, form_metadata_of(field_name)[:type], 'form_'
     end
   end
 end
