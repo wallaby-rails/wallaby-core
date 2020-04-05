@@ -51,12 +51,11 @@ module Wallaby
     def find_model_class_by(params)
       model_class = Map.model_class_map params[:resources]
       return model_class unless MODEL_ACTIONS.include? params[:action].to_sym
-      raise ModelNotFound, params[:resources] unless model_class
-      unless Map.mode_map[model_class]
-        raise UnprocessableEntity, Locale.t('errors.unprocessable_entity.model', model: model_class)
-      end
+      raise UnprocessableEntity, instruction_for(model_class) unless Map.mode_map[model_class]
 
       model_class
+    rescue NameError
+      raise ModelNotFound, ModelUtils.to_model_name(params[:resources])
     end
 
     # Set flash error message
@@ -67,6 +66,16 @@ module Wallaby
       env[ActionDispatch::Flash::KEY] ||= ActionDispatch::Flash::FlashHash.from_session_value session['flash']
       flash = env[ActionDispatch::Flash::KEY]
       flash[:alert] = exception.message
+    end
+
+    # Just an instruction to add known model class to {Wallaby::Custom} mode list
+    # if Wallaby doesn't know which mode to use.
+    def instruction_for(model_class)
+      <<~INSTRUCTION
+        Wallaby cannot find an appropriate mode to handle this model `#{model_class}`.
+        It can be added to the model list of `Wallaby::Custom` mode and handled differently:
+        For details, see https://github.com/wallaby-rails/wallaby/blob/master/docs/custom.md
+      INSTRUCTION
     end
   end
 end

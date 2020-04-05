@@ -162,21 +162,18 @@ module Wallaby
     # @return [String, Symbol] type
     # @raise [ArgumentError] when type is nil
     def ensure_type_is_present(field_name, type, metadata_prefix = '')
-      type || raise(
-        ::ArgumentError,
-        <<~INSTRUCTION
-          The type for field `#{field_name}` is missing in metadata `#{metadata_prefix}_fields`.
-          The possible causes are:
+      type || raise(::ArgumentError, <<~INSTRUCTION
+        The type for field `#{field_name}` is missing in metadata `#{metadata_prefix}_fields`.
+        The possible causes are:
 
-          1. Check type's value from metadata `#{metadata_prefix}_fields[:#{field_name}][:type]`.
-            If it is missing, specify the type as below:
+        1. Check type's value from metadata `#{metadata_prefix}_fields[:#{field_name}][:type]`.
+          If it is missing, specify the type as below:
 
-            #{metadata_prefix}field_name[:#{field_name}][:type] = 'string'
+          #{metadata_prefix}field_name[:#{field_name}][:type] = 'string'
 
-          2. If metadata `#{metadata_prefix}_fields` is blank, it's better to check
-            and see if the decorator's class declaration has error or not by putting a `byebug` flag
-            at the first line in the declaration file.
-        INSTRUCTION
+        2. If metadata `#{metadata_prefix}_fields` is blank, maybe table hasn't be created yet
+          or there is some error in the decorator class declaration.
+      INSTRUCTION
       )
     end
   end
