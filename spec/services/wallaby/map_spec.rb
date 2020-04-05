@@ -110,8 +110,8 @@ describe Wallaby::Map do
 
     describe '.authorizer_map' do
       let!(:base_authorizer) { Wallaby::ModelAuthorizer }
-      let!(:admin_authorizer) { stub_const 'Admin::ApplicationAuthorizer', Class.new(base_authorizer) }
-      let!(:user_authorizer) { stub_const 'UserAuthorizer', Class.new(base_authorizer) }
+      let!(:admin_authorizer) { stub_const 'Admin::ApplicationAuthorizer', (Class.new(base_authorizer) { base_class! }) }
+      let!(:user_authorizer) { stub_const 'UserAuthorizer', (Class.new(base_authorizer) { base_class! }) }
       let!(:all_postgres_type_authorizer) { stub_const 'AllPostgresTypeAuthorizer', Class.new(admin_authorizer) }
       let!(:mysql_type_authorizer) { stub_const 'MysqlTypeAuthorizer', (Class.new(user_authorizer) { self.model_class = AllMysqlType }) }
 

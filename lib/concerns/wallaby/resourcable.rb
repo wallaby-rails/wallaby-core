@@ -34,7 +34,7 @@ module Wallaby
         return unless self < ResourcesController
         return if base_class? || self == Wallaby.configuration.mapping.resources_controller
 
-        @model_class ||= ModelUtils.guess_model_class name, /(^#{namespace}::)|(Controller$)/
+        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Controller$)/, EMPTY_STRING))
       end
     end
 

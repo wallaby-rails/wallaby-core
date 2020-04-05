@@ -33,7 +33,7 @@ module Wallaby
         return unless self < ModelAuthorizer
         return if base_class? || self == Wallaby.configuration.mapping.model_authorizer
 
-        @model_class ||= ModelUtils.guess_model_class name, /(^#{namespace}::)|(Authorizer$)/
+        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Authorizer$)/, EMPTY_STRING))
       end
 
       # @!attribute [w] provider_name
