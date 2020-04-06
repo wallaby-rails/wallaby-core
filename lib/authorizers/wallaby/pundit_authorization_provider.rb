@@ -11,18 +11,6 @@ module Wallaby
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
-    # This will pull out the args required for contruction from context
-    # @param context [ActionController::Base]
-    # @return [Hash] args for initialize
-    def self.args_from(context)
-      { user: context.pundit_user }
-    end
-
-    # @param user [Object]
-    def initialize(user:)
-      @user = user
-    end
-
     # Check user's permission for an action on given subject.
     #
     # This method will be used in controller.

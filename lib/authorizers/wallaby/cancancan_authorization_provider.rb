@@ -11,20 +11,8 @@ module Wallaby
       defined?(CanCanCan) && defined?(Ability) && context.respond_to?(:current_ability)
     end
 
-    # This will pull out the args required for contruction from context
-    # @param context [ActionController::Base]
-    # @return [Hash] args for initialize
-    def self.args_from(context)
-      { ability: context.current_ability, user: ModuleUtils.try_to(context, :wallaby_user) }
-    end
-
-    # @!attribute [r] ability
-    # @return [Ability]
-    attr_reader :ability
-
-    def initialize(ability:, user: nil)
-      @ability = ability
-      @user = user
+    def ability
+      @ability ||= Ability.new user
     end
 
     # Check user's permission for an action on given subject.

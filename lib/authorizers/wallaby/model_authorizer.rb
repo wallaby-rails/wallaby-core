@@ -44,26 +44,6 @@ module Wallaby
       def provider_name
         @provider_name ||= ModuleUtils.try_to superclass, :provider_name
       end
-
-      # Factory method to create the model authorizer
-      # @param context [ActionController::Base]
-      # @param model_class [Class]
-      # @return [Wallaby::ModelAuthorizer]
-      def create(context, model_class)
-        model_class ||= self.model_class
-        provider_class = guess_provider_class context, model_class
-        new model_class, provider_class, provider_class.args_from(context)
-      end
-
-      private
-
-      # @param context [ActionController::Base]
-      # @param model_class [Class]
-      # @return [Class] provider class
-      def guess_provider_class(context, model_class)
-        providers = Map.authorizer_provider_map model_class
-        providers[provider_name] || providers.values.find { |klass| klass.available? context }
-      end
     end
 
     delegate(*ModelAuthorizationProvider.instance_methods(false), to: :@provider)
@@ -77,24 +57,27 @@ module Wallaby
     # @since wallaby-5.2.0
     attr_reader :provider
 
+    # @!attribute [r] provider
+    # @return [Wallaby::ModelAuthorizationProvider]
+    # @since 0.2.2
+    attr_reader :context
+
     # @param model_class [Class]
-    # @param provider_name_or_class [String, Symbol, Class]
-    # @param options [Hash]
-    def initialize(model_class, provider_name_or_class, options = {})
+    # @param context [ActionController::Base]
+    def initialize(model_class, context, provider_class: nil)
       @model_class = model_class || self.class.model_class
-      @provider = init_provider provider_name_or_class, options
+      @context = context
+      @provider = provider_class || guess_provider_from(context)
     end
 
     protected
 
-    # Go through provider list and detect which provider is used.
-    # @param provider_name_or_class [String, Symbol, Class]
-    # @param options [Hash]
-    # @return [Wallaby::Authorizer]
-    def init_provider(provider_name_or_class, options)
-      providers = Map.authorizer_provider_map model_class
-      provider_class = provider_name_or_class.is_a?(Class) ? provider_name_or_class : providers[provider_name_or_class]
-      provider_class.new(**options)
+    def guess_provider_from(context)
+      provider_class = begin
+        providers = Map.authorizer_provider_map model_class
+        providers[self.class.provider_name] || providers.values.find { |klass| klass.available? context }
+      end
+      provider_class.new context
     end
   end
 end
