@@ -1,48 +1,27 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Model Authorizer to provide authorization functions
+  # This is the base model authorizer class to provider authorization.
+  #
+  # For better practice, please create an application authorizer class
+  # for the app to use (see example)
+  # @example Create an application class for Admin Interface usage
+  #   class Admin::ApplicationAuthorizer < Wallaby::ModelAuthorizer
+  #     base_class!
+  #   end
   # @since wallaby-5.2.0
   class ModelAuthorizer
     extend Baseable::ClassMethods
+    base_class!
 
     class << self
-      # @!attribute [w] model_class
-      attr_writer :model_class
-
-      # @!attribute [r] model_class
-      # Return associated model class, e.g. return **Product** for **ProductAuthorizer**.
-      #
-      # If Wallaby can't recognise the model class for Authorizer, it's required to be configured as below example:
-      # @example To configure model class
-      #   class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
-      #     self.model_class = Product
-      #   end
-      # @example To configure model class for version below 5.2.0
-      #   class Admin::ProductAuthorizer < Admin::ApplicationAuthorizer
-      #     def self.model_class
-      #       Product
-      #     end
-      #   end
-      # @return [Class] assoicated model class
-      # @return [nil] if current class is marked as base class
-      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#model_authorizer}
-      # @return [nil] if current class is {Wallaby::ModelAuthorizer}
-      # @return [nil] if assoicated model class is not found
-      def model_class
-        return unless self < ModelAuthorizer
-        return if base_class? || self == Wallaby.configuration.mapping.model_authorizer
-
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Authorizer$)/, EMPTY_STRING))
-      end
-
       # @!attribute [w] provider_name
       attr_writer :provider_name
 
       # @!attribute [r] provider_name
       # @return [String, Symbol] provider name of the authorization framework used
       def provider_name
-        @provider_name ||= ModuleUtils.try_to superclass, :provider_name
+        @provider_name ||= superclass.try :provider_name
       end
     end
 
@@ -64,19 +43,20 @@ module Wallaby
 
     # @param model_class [Class]
     # @param context [ActionController::Base]
-    def initialize(model_class, context, provider_class: nil)
+    def initialize(model_class, context)
       @model_class = model_class || self.class.model_class
       @context = context
-      @provider = provider_class || guess_provider_from(context)
+      @provider = guess_provider_from(context)
     end
 
     protected
 
     def guess_provider_from(context)
-      provider_class = begin
-        providers = Map.authorizer_provider_map model_class
-        providers[self.class.provider_name] || providers.values.find { |klass| klass.available? context }
-      end
+      provider_class =
+        Map.authorizer_provider_map(model_class).try do |providers|
+          providers[self.class.provider_name] \
+            || providers.values.find { |klass| klass.available? context }
+        end
       provider_class.new context
     end
   end
