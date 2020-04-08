@@ -1,29 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ModelServicer do
-  describe 'class methods' do
-    describe '.model_class' do
-      it 'returns nil' do
-        expect(described_class.model_class).to be_nil
-      end
-
-      describe 'descendants' do
-        it 'returns a default model class' do
-          stub_const 'JacketServicer', Class.new(described_class)
-          stub_const 'Jacket', Class.new
-          expect(JacketServicer.model_class).to eq Jacket
-        end
-
-        context 'when model class is not found' do
-          it 'raises not found' do
-            stub_const 'NotFoundServicer', Class.new(described_class)
-            expect(NotFoundServicer.model_class).to be_nil
-          end
-        end
-      end
-    end
-  end
-
   describe 'instance methods' do
     subject { described_class.new model_class, authorizer, model_decorator }
 

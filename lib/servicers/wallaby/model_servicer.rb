@@ -4,42 +4,7 @@ module Wallaby
   # Model servicer contains resourceful operations for Rails resourceful actions.
   class ModelServicer
     extend Baseable::ClassMethods
-
-    class << self
-      # @!attribute [w] model_class
-      attr_writer :model_class
-
-      # @!attribute [r] model_class
-      # Return associated model class, e.g. return **Product** for **ProductServicer**.
-      #
-      # If Wallaby can't recognise the model class for Servicer, it's required to be configured as below example:
-      # @example To configure model class
-      #   class Admin::ProductServicer < Admin::ApplicationServicer
-      #     self.model_class = Product
-      #   end
-      # @example To configure model class for version below 5.2.0
-      #   class Admin::ProductServicer < Admin::ApplicationServicer
-      #     def self.model_class
-      #       Product
-      #     end
-      #   end
-      # @return [Class] assoicated model class
-      # @return [nil] if current class is marked as base class
-      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#model_servicer}
-      # @return [nil] if current class is {Wallaby::ModelServicer}
-      # @return [nil] if assoicated model class is not found
-      def model_class
-        return unless self < ModelServicer
-        return if base_class? || self == Wallaby.configuration.mapping.model_servicer
-
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Servicer$)/, EMPTY_STRING))
-      end
-
-      # @!attribute provider_class
-      # @return [Class] service provider class
-      # @since wallaby-5.2.0
-      attr_accessor :provider_class
-    end
+    base_class!
 
     # @!attribute [r] model_class
     # @return [Class]
@@ -79,7 +44,7 @@ module Wallaby
 
       @model_decorator = model_decorator || Map.model_decorator_map(model_class)
       @authorizer = authorizer
-      provider_class = self.class.provider_class || Map.service_provider_map(@model_class)
+      provider_class = Map.service_provider_map(@model_class)
       @provider = provider_class.new(@model_class, @model_decorator)
     end
 

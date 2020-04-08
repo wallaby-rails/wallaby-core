@@ -11,7 +11,6 @@ describe Wallaby::ResourcesController, type: :controller do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
       let!(:application_authorizer) { stub_const 'ApplicationAuthorizer', (Class.new(Wallaby::ModelAuthorizer) { base_class! }) }
-      let!(:another_authorizer) { stub_const 'AnotherAuthorizer', Class.new(Wallaby::ModelAuthorizer) }
       let!(:apple_authorizer) { stub_const 'AppleAuthorizer', Class.new(application_authorizer) }
       let!(:thing_authorizer) { stub_const 'ThingAuthorizer', Class.new(apple_authorizer) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
@@ -32,8 +31,6 @@ describe Wallaby::ResourcesController, type: :controller do
         subclass1.application_authorizer = application_authorizer
         expect(subclass1.application_authorizer).to eq application_authorizer
         expect(subclass2.application_authorizer).to eq application_authorizer
-
-        expect { subclass1.application_authorizer = another_authorizer }.to raise_error ArgumentError, 'AppleAuthorizer does not inherit from AnotherAuthorizer.'
       end
     end
   end

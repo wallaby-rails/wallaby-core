@@ -2,7 +2,7 @@
 
 module Wallaby
   # Decorator base class. It's designed to be used as the decorator (AKA presenter/view object)
-  # for the associated model instance.
+  # for the associated model instance (which means it should be used in the views only).
   #
   # And it holds the following metadata information for associated model class:
   #
@@ -14,32 +14,40 @@ module Wallaby
   # - {#show_field_names}
   # - {#form_fields}
   # - {#form_field_names}
+  #
+  # For better practice, please create an application decorator class
+  # for the app to use (see example)
+  # @example Create an application class for Admin Interface usage
+  #   class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
+  #     base_class!
+  #   end
   class ResourceDecorator
     extend Baseable::ClassMethods
+    base_class!
 
     # @!attribute fields
-    # @return [Hash]
+    #   (see Wallaby::ModelDecorator#fields)
 
     # @!attribute field_names
-    # @return [Array]
+    #   (see Wallaby::ModelDecorator#field_names)
 
     # @!attribute index_fields
-    # @return [Hash]
+    #   (see Wallaby::ModelDecorator#index_fields)
 
     # @!attribute index_field_names
-    # @return [Array]
+    #   (see Wallaby::ModelDecorator#index_field_names)
 
     # @!attribute show_fields
-    # @return [Hash]
+    #   (see Wallaby::ModelDecorator#show_fields)
 
     # @!attribute show_field_names
-    # @return [Array]
+    #   (see Wallaby::ModelDecorator#show_field_names)
 
     # @!attribute form_fields
-    # @return [Hash]
+    #   (see Wallaby::ModelDecorator#form_fields)
 
     # @!attribute form_field_names
-    # @return [Array]
+    #   (see Wallaby::ModelDecorator#form_field_names)
 
     DELEGATE_METHODS =
       ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i(model_class)
@@ -47,85 +55,15 @@ module Wallaby
     class << self
       delegate(*DELEGATE_METHODS, to: :model_decorator, allow_nil: true)
 
-      # @!attribute [w] model_class
-      attr_writer :model_class
-
-      # @!attribute [r] model_class
-      # Return associated model class, e.g. return **Product** for **ProductDecorator**.
-      #
-      # If Wallaby can't recognise the model class for Decorator, it's required to be configured as below example:
-      # @example To configure model class
-      #   class Admin::ProductDecorator < Admin::ApplicationDecorator
-      #     self.model_class = Product
-      #   end
-      # @example To configure model class for version below 5.2.0
-      #   class Admin::ProductDecorator < Admin::ApplicationDecorator
-      #     def self.model_class
-      #       Product
-      #     end
-      #   end
-      # @return [Class] assoicated model class
-      # @return [nil] if current class is marked as base class
-      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#resource_decorator}
-      # @return [nil] if current class is {Wallaby::ResourceDecorator}
-      # @return [nil] if assoicated model class is not found
-      def model_class
-        return unless self < ResourceDecorator
-        return if base_class? || self == Wallaby.configuration.mapping.resource_decorator
-
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Decorator$)/, EMPTY_STRING))
-      end
-
-      # @!attribute [w] application_decorator
-      def application_decorator=(application_decorator)
-        ModuleUtils.inheritance_check self, application_decorator
-        @application_decorator = application_decorator
-      end
-
-      # @note This attribute have to be the same as the one defined in the controller in order to make things working.
-      #   see {Wallaby::Decoratable::ClassMethods#application_decorator}
-      # @!attribute [r] application_decorator
-      # Assoicated base class.
-      #
-      # Wallaby will try to get the application decorator class from current class's ancestors chain.
-      # For instance, if current class is **ProductDecorator**, and it inherits from **CoreDecorator**,
-      # then Wallaby will return application decorator class **CoreDecorator**.
-      #
-      # However, there is a chance that Wallaby doesn't get it right.
-      # For instance, if **CoreDecorator** in the above example inherits from **Admin::ApplicationDecorator**, and
-      # the controller that needs **ProductDecorator** has set its **application_decorator** to
-      # **Admin::ApplicationDecorator**, then it's needed to configure **application_decorator** as the example
-      # describes
-      # @example To set application decorator class
-      #   class ProductController < Admin::ApplicationController
-      #     self.application_decorator = Admin::ApplicationDecorator
-      #   end
-      #
-      #   class CoreDecorator < Admin::ApplicationDecorator
-      #     base_class!
-      #   end
-      #
-      #   class ProductDecorator < CoreDecorator
-      #     self.application_decorator = Admin::ApplicationDecorator
-      #   end
-      # @return [Class] assoicated base class.
-      # @return [nil] if assoicated base class is not found from its ancestors chain
-      # @raise [ArgumentError] when current class doesn't inherit from given value
-      # @since wallaby-5.2.0
-      def application_decorator
-        @application_decorator ||= ancestors.find { |parent| parent < ResourceDecorator && !parent.model_class }
-      end
-
-      # Return associated model decorator.
-      #
-      # Fetch model decorator instance from cached map using keys {.model_class} and {.application_decorator}
-      # so that model decorator can be used in its sub classes declaration/scope.
+      # Return associated model decorator. It is the instance that pull out all the metadata
+      # information for the associated model.
       # @param model_class [Class]
       # @return [Wallaby::ModelDecorator]
+      # @return [nil] if itself is a base class or the given model_class is blank
       def model_decorator(model_class = self.model_class)
-        return unless self < ResourceDecorator || model_class
+        return if model_class.blank?
 
-        Map.model_decorator_map model_class, application_decorator
+        Map.model_decorator_map model_class, base_class
       end
 
       # @!attribute [w] h

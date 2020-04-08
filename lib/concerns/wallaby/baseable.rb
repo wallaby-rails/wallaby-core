@@ -18,6 +18,7 @@ module Wallaby
         .find(&method(:const_defined?))
       return const_get(name_found) if name_found
 
+      # NOTE: force developer to correct the model class before continuing
       raise ModelNotFound, <<~INSTRUCTION
         The model class isn't provided for Class `#{class_name}` and Wallaby cannot guess it right.
         Please specify the `model_class` in Class `#{class_name}`'s declaration as below example:
@@ -72,10 +73,20 @@ module Wallaby
       # @return [Class] assigned model class or Wallaby will guess it (see {Wallaby::Baseable.guess_model_class_from})
       # @return [nil] if current class is marked as base class
       # @raise [Wallaby::ModelNotFound] if model class isn't found
+      # @raise [ArgumentError] if base class is empty
       def model_class
-        return unless self < base_class
+        return if base_class?
 
         @model_class ||= Baseable.guess_model_class_from(name)
+      rescue TypeError
+        raise ArgumentError, <<~INSTRUCTION
+          Please specify the base class for class `#{name}`
+          by marking one of its parents `base_class!`, for example:
+
+            class ParentClass
+              base_class!
+            end
+        INSTRUCTION
       end
 
       # @!attribute [w] namespace

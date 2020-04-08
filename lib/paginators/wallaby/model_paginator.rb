@@ -4,42 +4,7 @@ module Wallaby
   # Model paginator to provide support for pagination on index page
   class ModelPaginator
     extend Baseable::ClassMethods
-
-    class << self
-      # @!attribute [w] model_class
-      attr_writer :model_class
-
-      # @!attribute [r] model_class
-      # Return associated model class, e.g. return **Product** for **ProductPaginator**.
-      #
-      # If Wallaby can't recognise the model class for Paginator, it's required to be configured as below example:
-      # @example To configure model class
-      #   class Admin::ProductPaginator < Admin::ApplicationPaginator
-      #     self.model_class = Product
-      #   end
-      # @example To configure model class for version below 5.2.0
-      #   class Admin::ProductPaginator < Admin::ApplicationPaginator
-      #     def self.model_class
-      #       Product
-      #     end
-      #   end
-      # @return [Class] assoicated model class
-      # @return [nil] if current class is marked as base class
-      # @return [nil] if current class is the same as the value of {Wallaby::Configuration::Mapping#model_paginator}
-      # @return [nil] if current class is {Wallaby::ModelPaginator}
-      # @return [nil] if assoicated model class is not found
-      def model_class
-        return unless self < ModelPaginator
-        return if base_class? || self == Wallaby.configuration.mapping.model_paginator
-
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Paginator$)/, EMPTY_STRING))
-      end
-
-      # @!attribute provider_class
-      # @return [Class] pagination provider class
-      # @since wallaby-5.2.0
-      attr_accessor :provider_class
-    end
+    base_class!
 
     # @!attribute [r] model_class
     # @return [Class]

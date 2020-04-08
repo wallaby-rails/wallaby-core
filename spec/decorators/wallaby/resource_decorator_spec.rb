@@ -2,21 +2,9 @@ require 'rails_helper'
 
 describe Wallaby::ResourceDecorator do
   describe 'class methods' do
-    describe '.model_class' do
-      it 'returns nil' do
-        expect(described_class.model_class).to be_nil
-      end
-    end
-
     describe '.model_decorator' do
       it 'returns nil' do
         expect(described_class.model_decorator).to be_nil
-      end
-    end
-
-    describe '.application_decorator' do
-      it 'returns nil' do
-        expect(described_class.application_decorator).to be_nil
       end
     end
 
@@ -209,33 +197,11 @@ describe Wallaby::ResourceDecorator do
     end
 
     describe 'class methods' do
-      describe '.model_class' do
-        it 'returns model class' do
-          expect(klass.model_class).to eq model_class
-        end
-      end
-
       describe '.model_decorator' do
         it 'returns model class' do
           expect(klass.model_decorator).not_to be_nil
           decorator = klass.model_decorator
           expect(klass.model_decorator).to eq decorator
-        end
-      end
-
-      describe '.application_decorator' do
-        it 'returns application decorator class' do
-          expect(klass.application_decorator).to eq application_decorator
-        end
-      end
-
-      describe '.application_decorator=' do
-        let(:another_decorator) { stub_const 'AnotherDecorator', Class.new(described_class) }
-
-        it 'returns application decorator class' do
-          klass.application_decorator = described_class
-          expect(klass.application_decorator).to eq described_class
-          expect { klass.application_decorator = another_decorator }.to raise_error ArgumentError
         end
       end
 

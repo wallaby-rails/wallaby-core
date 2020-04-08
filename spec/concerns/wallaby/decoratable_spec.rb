@@ -10,8 +10,7 @@ describe Wallaby::ResourcesController, type: :controller do
     context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
-      let!(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(Wallaby::ResourceDecorator) }
-      let!(:another_decorator) { stub_const 'AnotherDecorator', Class.new(Wallaby::ResourceDecorator) }
+      let!(:application_decorator) { stub_const 'ApplicationDecorator', (Class.new(Wallaby::ResourceDecorator) { base_class! }) }
       let!(:apple_decorator) { stub_const 'AppleDecorator', Class.new(application_decorator) }
       let!(:thing_decorator) { stub_const 'ThingDecorator', Class.new(apple_decorator) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
@@ -32,8 +31,6 @@ describe Wallaby::ResourcesController, type: :controller do
         subclass1.application_decorator = application_decorator
         expect(subclass1.application_decorator).to eq application_decorator
         expect(subclass2.application_decorator).to eq application_decorator
-
-        expect { subclass1.application_decorator = another_decorator }.to raise_error ArgumentError, 'AppleDecorator does not inherit from AnotherDecorator.'
       end
     end
   end

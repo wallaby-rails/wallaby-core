@@ -1,12 +1,12 @@
 require 'rails_helper'
 
-describe Wallaby::Custom::ModelServiceProvider do
+describe Wallaby::Custom::ModelServiceProvider, type: :helper do
   describe 'actions' do
     subject { described_class.new model_class, model_decorator }
 
     let(:model_class) { Zipcode }
     let(:model_decorator) { Wallaby::Custom::ModelDecorator.new model_class }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, :default, {} }
+    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, helper }
     let(:resource) { model_class.new }
 
     before do
