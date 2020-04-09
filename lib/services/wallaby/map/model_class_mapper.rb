@@ -2,36 +2,17 @@
 
 module Wallaby
   class Map
-    # Generate a map.
+    # Go through the class list and generate a {.map .map} that uses the class's model_class as the key.
     class ModelClassMapper
-      # Iterate all classes and generate a hash using their model classes as the key
-      # @see #map
       # @param class_array [Array<Class>]
-      # @return [Hash] model class => descendant class
-      def self.map(class_array, &block)
-        new.send :map, class_array, &block
-      end
+      # @return [Wallaby::ClassHash] model class => descendant class
+      def self.map(class_array)
+        (class_array || EMPTY_ARRAY).each_with_object(ClassHash.new) do |klass, hash|
+          next if ModuleUtils.anonymous_class?(klass)
+          next if klass.try(:base_class?) || klass.model_class.blank?
 
-      protected
-
-      # @return [Hash] model class => descendant class
-      def map(class_array)
-        (class_array || EMPTY_ARRAY).each_with_object({}) do |klass, map|
-          next if anonymous?(klass) || base_class?(klass) || !klass.model_class
-
-          map[klass.model_class] = block_given? ? yield(klass) : klass
+          hash[klass.model_class] = block_given? ? yield(klass) : klass
         end
-      end
-
-      # @see Wallaby::ModuleUtils.anonymous_class?
-      def anonymous?(klass)
-        ModuleUtils.anonymous_class? klass
-      end
-
-      # @param klass [Class]
-      # @return [Boolean] whether the class is base or not
-      def base_class?(klass)
-        ModuleUtils.try_to klass, :base_class?
       end
     end
   end

@@ -1,71 +1,74 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Pundit base authorization provider
+  # @note This authorization provider DOES NOT use the
+  #   {https://github.com/varvet/pundit#customize-pundit-user pundit_user} helper.
+  #   It uses the one from {Wallaby::AuthenticationConcern#wallaby_user #wallaby_user} instead.
+  # {https://github.com/varvet/pundit Pundit} base authorization provider.
   class PunditAuthorizationProvider < ModelAuthorizationProvider
     # Detect and see if Pundit is in use.
     # @param context [ActionController::Base]
-    # @return [true] if Pundit is in use.
-    # @return [false] if Pundit is not in use.
+    # @return [true] if Pundit is in use
+    # @return [false] otherwise
     def self.available?(context)
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
     # Check user's permission for an action on given subject.
     #
-    # This method will be used in controller.
+    # This method will be mostly used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
     # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
       Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
-      Logger.info Locale.t('errors.unauthorized', user: user, action: action, subject: subject)
+      Logger.error <<~MESSAGE
+        #{user.class}##{user.id} tried to perform #{action} on #{subject.class}##{subject.id}
+      MESSAGE
       raise Forbidden
     end
 
     # Check and see if user is allowed to perform an action on given subject
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @return [Boolean]
+    # @return [true] if user is allowed to perform the action
+    # @return [false] otherwise
     def authorized?(action, subject)
       policy = Pundit.policy! user, subject
-      ModuleUtils.try_to policy, normalize(action)
+      policy.try normalize(action)
     end
 
     # Restrict user to assign certain values.
     #
     # It will do a lookup in policy's methods and pick the first available method:
     #
-    # - attributes\_for\_#\{ action \}
-    # - attributes\_for
+    # - `attributes_for_#{action}`
+    # - `attributes_for`
     # @param action [Symbol, String]
     # @param subject [Object]
     # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
       policy = Pundit.policy! user, subject
-      value = ModuleUtils.try_to(policy, "attributes_for_#{action}") || ModuleUtils.try_to(policy, 'attributes_for')
-      Logger.warn Locale.t('error.pundit.not_found.attributes_for', subject: subject) unless value
-      value || {}
+      policy.try("attributes_for_#{action}") || policy.try('attributes_for') || {}
     end
 
     # Restrict user for mass assignment.
     #
     # It will do a lookup in policy's methods and pick the first available method:
     #
-    # - permitted\_attributes\_for\_#\{ action \}
-    # - permitted\_attributes
+    # - `permitted_attributes_for_#{ action }`
+    # - `permitted_attributes`
     # @param action [Symbol, String]
     # @param subject [Object]
     # @return [Array] field list that user's allowed to change.
     def permit_params(action, subject)
       policy = Pundit.policy! user, subject
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
-      ModuleUtils.try_to(policy, "permitted_attributes_for_#{action}") \
-        || ModuleUtils.try_to(policy, 'permitted_attributes')
+      policy.try("permitted_attributes_for_#{action}") || policy.try('permitted_attributes')
     end
 
-    private
+    protected
 
     # Convert action to pundit method name
     # @param action [Symbol, String]

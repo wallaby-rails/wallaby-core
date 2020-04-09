@@ -2,8 +2,8 @@ require 'rails_helper'
 
 describe Wallaby::DefaultAuthorizationProvider do
   describe '.available?' do
-    it 'returns true' do
-      expect(described_class).to be_available(nil)
+    it 'returns false' do
+      expect(described_class).not_to be_available(nil)
     end
   end
 

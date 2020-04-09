@@ -61,10 +61,12 @@ module Wallaby
       end
 
       # @param resource [Object]
-      # @return [String]
+      # @return [String, nil]
       def guess_title(resource)
         field_name = FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
-        ModuleUtils.try_to resource, field_name
+        return unless field_name
+
+        resource.try field_name
       end
     end
   end

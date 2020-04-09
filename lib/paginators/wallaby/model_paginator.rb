@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Model paginator to provide support for pagination on index page
+  # This is the base paginator class to provider pagination for given collection.
+  #
+  # For best practice, please create an application paginator class (see example)
+  # to better control the functions shared between different model paginators.
+  # @example Create an application class for Admin Interface usage
+  #   class Admin::ApplicationPaginator < Wallaby::ModelPaginator
+  #     base_class!
+  #   end
   class ModelPaginator
     extend Baseable::ClassMethods
     base_class!
@@ -11,27 +18,22 @@ module Wallaby
     attr_reader :model_class
 
     # @!attribute [r] provider
-    # @return [Wallaby::ModelServiceProvider]
+    # @return [Wallaby::ModelPaginationProvider] the instance that does the job
     # @since wallaby-5.2.0
     attr_reader :provider
 
-    # During initialization, Wallaby will assign a pagination provider for this paginator
-    # to carry out the actual execution.
-    #
-    # Therefore, all its actions can be completely replaced by user's own implemnetation.
     # @param model_class [Class]
     # @param collection [#to_a] a collection of the resources
     # @param params [ActionController::Parameters]
     def initialize(model_class, collection, params)
       @model_class = self.class.model_class || model_class
-      raise ArgumentError, Locale.t('errors.required', subject: 'model_class') unless @model_class
+      raise ArgumentError, 'Please provide a `model_class`.' unless @model_class
 
       @collection = collection
       @params = params
       @provider = Map.pagination_provider_map(@model_class).new(@collection, @params)
     end
 
-    delegate(*ModelPaginationProvider.instance_methods(false), to: :provider)
     # @!method paginatable?
     #   (see Wallaby::ModelPaginationProvider#paginatable?)
 
@@ -76,5 +78,7 @@ module Wallaby
 
     # @!method number_of_pages
     #   (see Wallaby::ModelPaginationProvider#number_of_pages)
+
+    delegate(*ModelPaginationProvider.instance_methods(false), to: :provider)
   end
 end

@@ -15,8 +15,8 @@ module Wallaby
   # - {#form_fields}
   # - {#form_field_names}
   #
-  # For better practice, please create an application decorator class
-  # for the app to use (see example)
+  # For better practice, please create an application decorator class (see example)
+  # to better control the functions shared between different resource decorators.
   # @example Create an application class for Admin Interface usage
   #   class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
   #     base_class!
@@ -137,13 +137,13 @@ module Wallaby
 
     # @return [ActiveModel::Name]
     def model_name
-      ModuleUtils.try_to(resource, :model_name) || ActiveModel::Name.new(model_class)
+      resource.try(:model_name) || ActiveModel::Name.new(model_class)
     end
 
     # @return [nil] if no primary key
     # @return [Array<String>] primary key
     def to_key
-      key = ModuleUtils.try_to(resource, primary_key)
+      key = resource.try primary_key
       key ? [key] : nil
     end
 
@@ -154,7 +154,7 @@ module Wallaby
       resource.try method_id, *args, &block
     end
 
-    # Delegate missing method check to context
+    # Delegate missing method check to {#resource}
     def respond_to_missing?(method_id, _include_private)
       resource.respond_to?(method_id) || super
     end
