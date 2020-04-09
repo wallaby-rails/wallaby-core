@@ -37,7 +37,9 @@ module Wallaby
     def authorize(action, subject)
       ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
-      Logger.info Locale.t('errors.unauthorized', user: user, action: action, subject: subject)
+      Logger.error <<~MESSAGE
+        #{Utils.inspect user} is forbidden to perform #{action} on #{Utils.inspect subject}
+      MESSAGE
       raise Forbidden
     end
 

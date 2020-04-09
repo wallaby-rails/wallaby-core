@@ -13,7 +13,7 @@ module Wallaby
       # @see Wallaby::ModelAuthorizer.provider_name
       # @return [String/Symbol] provider name
       def provider_name
-        @provider_name || name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
+        @provider_name ||= name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
       end
 
       # @note Template method to check and see if current provider is in used.

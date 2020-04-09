@@ -24,7 +24,7 @@ module Wallaby
       Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
       Logger.error <<~MESSAGE
-        #{Utils.inspect user} tried to perform #{action} on #{Utils.inspect subject}
+        #{Utils.inspect user} is forbidden to perform #{action} on #{Utils.inspect subject}
       MESSAGE
       raise Forbidden
     end
