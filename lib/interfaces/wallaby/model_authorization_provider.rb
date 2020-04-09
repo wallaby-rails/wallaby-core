@@ -36,8 +36,8 @@ module Wallaby
     # @return [Hash]
     attr_reader :options
 
-    # Empty initialize that accepts all sorts of args
-    # @param context []
+    # @param context [ActionController::Base, ActionView::Base]
+    # @param options [Hash]
     def initialize(context, **options)
       @context = context
       @options = options
