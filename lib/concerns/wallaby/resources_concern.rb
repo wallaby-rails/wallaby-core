@@ -338,7 +338,6 @@ module Wallaby
       extend Baseable::ClassMethods
       extend Decoratable::ClassMethods
       extend Paginatable::ClassMethods
-      extend Resourcable::ClassMethods
       extend Servicable::ClassMethods
 
       include View
@@ -350,6 +349,8 @@ module Wallaby
       include Paginatable
       include Resourcable
       include Servicable
+
+      base_class!
 
       # NOTE: to ensure Wallaby's layout
       # is not inheriting from/impacted by parent controller's layout.

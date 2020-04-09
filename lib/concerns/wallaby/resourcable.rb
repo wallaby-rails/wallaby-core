@@ -3,41 +3,6 @@
 module Wallaby
   # Resources related attributes
   module Resourcable
-    # Configurable attribute
-    module ClassMethods
-      # @!attribute [w] model_class
-      attr_writer :model_class
-
-      # @!attribute [r] model_class
-      # This attribute will be used by the dynamic router to find out which
-      # controller to dispatch to. For example:
-      #
-      # `/admin/products` will be dispatched to the controller that has the
-      # model class `Product`.
-      # @return [Class] the model class for controller.
-      # @example It can be customized as below:
-      #   ```
-      #   self.model_class = Product
-      #   ```
-      #   Or
-      #   ```
-      #   def self.model_class; Product; end
-      #   ```
-      # @example To set model paginator
-      #   class Admin::ProductionsController < Admin::ApplicationController
-      #     self.model_class = ProductResources
-      #   end
-      # @return [Class] model paginator
-      # @raise [ArgumentError] when **model_class** doesn't inherit from **application_paginator**
-      # @see Wallaby::ModelResources
-      def model_class
-        return unless self < ResourcesController
-        return if base_class? || self == Wallaby.configuration.mapping.resources_controller
-
-        @model_class ||= Map.model_class_map(name.gsub(/(^#{namespace}::)|(Controller$)/, EMPTY_STRING))
-      end
-    end
-
     # @return [String] resources name for current request
     def current_resources_name
       @current_resources_name ||= params[:resources]

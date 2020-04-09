@@ -1,20 +1,13 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Default authorization provider
+  # Default authorization provider that whitelists everything.
   class DefaultAuthorizationProvider < ModelAuthorizationProvider
-    # Always available.
+    # It returns false so that it can be used as the last resort.
     # @param _context [ActionController::Base]
-    # @return [true]
+    # @return [false]
     def self.available?(_context)
-      true
-    end
-
-    # This will pull out the args required for contruction from context
-    # @param _context [ActionController::Base]
-    # @return [Hash] args for initialize
-    def self.args_from(_context)
-      {}
+      false
     end
 
     # Do nothing
@@ -47,7 +40,7 @@ module Wallaby
       {}
     end
 
-    # @note Please make sure to return nil when the authorization doesn't support this feature.
+    # @note Please make sure to return nil when the authorization provider doesn't support this feature.
     # @param _action [Symbol, String]
     # @param _subject [Object]
     # @return [nil]
