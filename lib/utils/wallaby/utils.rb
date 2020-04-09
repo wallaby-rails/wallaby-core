@@ -9,5 +9,14 @@ module Wallaby
     def self.clone(object)
       ::Marshal.load(::Marshal.dump(object))
     end
+
+    # @param object [Object, nil]
+    # @return [String] inspection string for the given object
+    def self.inspect(object)
+      return 'nil' unless object
+      return object.name if object.is_a? Class
+
+      "#{object.class}##{object.id}"
+    end
   end
 end

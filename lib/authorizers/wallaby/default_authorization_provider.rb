@@ -4,7 +4,7 @@ module Wallaby
   # Default authorization provider that whitelists everything.
   class DefaultAuthorizationProvider < ModelAuthorizationProvider
     # It returns false so that it can be used as the last resort.
-    # @param _context [ActionController::Base]
+    # @param _context [ActionController::Base, ActionView::Base]
     # @return [false]
     def self.available?(_context)
       false

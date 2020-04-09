@@ -7,7 +7,7 @@ module Wallaby
   # {https://github.com/varvet/pundit Pundit} base authorization provider.
   class PunditAuthorizationProvider < ModelAuthorizationProvider
     # Detect and see if Pundit is in use.
-    # @param context [ActionController::Base]
+    # @param context [ActionController::Base, ActionView::Base]
     # @return [true] if Pundit is in use
     # @return [false] otherwise
     def self.available?(context)
@@ -24,7 +24,7 @@ module Wallaby
       Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError
       Logger.error <<~MESSAGE
-        #{user.class}##{user.id} tried to perform #{action} on #{subject.class}##{subject.id}
+        #{Utils.inspect user} is forbidden to perform #{action} on #{Utils.inspect subject}
       MESSAGE
       raise Forbidden
     end

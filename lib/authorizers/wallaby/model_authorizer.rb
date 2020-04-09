@@ -19,7 +19,9 @@ module Wallaby
       attr_writer :provider_name
 
       # @!attribute [r] provider_name
-      # @return [String, Symbol] provider name of the authorization framework used
+      # Provider name of the authorization framework used.
+      # It will be inherited from its parent classes if there isn't one for current class.
+      # @return [String, Symbol]
       def provider_name
         @provider_name ||= superclass.try :provider_name
       end
@@ -41,11 +43,18 @@ module Wallaby
     # @since 0.2.2
     attr_reader :context
 
+    # @!attribute [r] options
+    # @return [Hash]
+    # @since 0.2.2
+    attr_reader :options
+
     # @param model_class [Class]
     # @param context [ActionController::Base, ActionView::Base]
-    def initialize(model_class, context)
+    # @param options [Symbol, String, nil]
+    def initialize(model_class, context, **options)
       @model_class = model_class || self.class.model_class
       @context = context
+      @options = options
       @provider = guess_provider_from(context)
     end
 
@@ -57,11 +66,11 @@ module Wallaby
     def guess_provider_from(context)
       provider_class =
         Map.authorizer_provider_map(model_class).try do |providers|
-          providers[self.class.provider_name] \
+          providers[options[:provider_name] || self.class.provider_name] \
             || providers.values.find { |klass| klass.available? context } \
             || providers[:default] # fallback to default
         end
-      provider_class.new context
+      provider_class.new context, options
     end
   end
 end

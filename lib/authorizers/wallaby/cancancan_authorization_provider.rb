@@ -7,7 +7,7 @@ module Wallaby
   # {https://github.com/CanCanCommunity/cancancan CanCanCan} base authorization provider.
   class CancancanAuthorizationProvider < ModelAuthorizationProvider
     # Detect and see if CanCanCan is in use.
-    # @param context [ActionController::Base]
+    # @param context [ActionController::Base, ActionView::Base]
     # @return [true] if CanCanCan is in use
     # @return [false] otherwise.
     def self.available?(context)
@@ -23,7 +23,7 @@ module Wallaby
     def ability
       # NOTE: use current_ability's class to create the ability instance.
       # just in case that developer uses a different Ability class (e.g. UserAbility)
-      @ability ||= Ability.new user
+      @ability ||= options[:ability] || Ability.new(user)
     rescue ArgumentError, NameError
       context.current_ability
     end
@@ -37,7 +37,9 @@ module Wallaby
     def authorize(action, subject)
       ability.authorize! action, subject
     rescue ::CanCan::AccessDenied
-      Logger.info Locale.t('errors.unauthorized', user: user, action: action, subject: subject)
+      Logger.error <<~MESSAGE
+        #{Utils.inspect user} is forbidden to perform #{action} on #{Utils.inspect subject}
+      MESSAGE
       raise Forbidden
     end
 

@@ -13,11 +13,11 @@ module Wallaby
       # @see Wallaby::ModelAuthorizer.provider_name
       # @return [String/Symbol] provider name
       def provider_name
-        @provider_name || name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
+        @provider_name ||= name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
       end
 
       # @note Template method to check and see if current provider is in used.
-      # @param _context [ActionController::Base]
+      # @param _context [ActionController::Base, ActionView::Base]
       # @raise [Wallaby::NotImplemented]
       def available?(_context)
         raise NotImplemented
@@ -25,16 +25,22 @@ module Wallaby
     end
 
     # @!attribute [r] context
-    # @return [ActionController::Base]
+    # @return [ActionController::Base, ActionView::Base]
     attr_reader :context
 
     # @!attribute [r] user
     # @return [Object]
     attr_reader :user
 
-    # Empty initialize that accepts all sorts of args
-    def initialize(context)
+    # @!attribute [r] options
+    # @return [Hash]
+    attr_reader :options
+
+    # @param context [ActionController::Base, ActionView::Base]
+    # @param options [Hash]
+    def initialize(context, **options)
       @context = context
+      @options = options
       @user = context.try :wallaby_user
     end
 
