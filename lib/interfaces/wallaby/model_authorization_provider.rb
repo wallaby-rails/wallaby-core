@@ -17,7 +17,7 @@ module Wallaby
       end
 
       # @note Template method to check and see if current provider is in used.
-      # @param _context [ActionController::Base]
+      # @param _context [ActionController::Base, ActionView::Base]
       # @raise [Wallaby::NotImplemented]
       def available?(_context)
         raise NotImplemented
@@ -25,16 +25,22 @@ module Wallaby
     end
 
     # @!attribute [r] context
-    # @return [ActionController::Base]
+    # @return [ActionController::Base, ActionView::Base]
     attr_reader :context
 
     # @!attribute [r] user
     # @return [Object]
     attr_reader :user
 
+    # @!attribute [r] options
+    # @return [Hash]
+    attr_reader :options
+
     # Empty initialize that accepts all sorts of args
-    def initialize(context)
+    # @param context []
+    def initialize(context, **options)
       @context = context
+      @options = options
       @user = context.try :wallaby_user
     end
 
