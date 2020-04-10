@@ -13,14 +13,17 @@ module Wallaby
 
     # Convert String to Class. If not String, unchanged.
     # @param name [Object]
-    # @return [Class] if name is a String
+    # @return [Class] if name is a Class
     # @return [Object] if name is not a String
+    # @return [nil] if class cannot be found
     def to_class(name)
       return name unless name.is_a? String
 
+      # NOTE: DO NOT try to use const_defined? and const_get EVER.
+      # This is Rails, use constantize
       name.constantize
     rescue NameError
-      Logger.error "`#{val}` is not a valid Class name."
+      Logger.error "`#{name}` is not a valid Class name."
     end
   end
 end

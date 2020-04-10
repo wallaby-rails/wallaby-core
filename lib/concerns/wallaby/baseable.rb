@@ -9,25 +9,34 @@ module Wallaby
     # @param class_name [String]
     # @param attr_name [String]
     # @param suffix [String]
+    # @param plural [String]
     # @return [Class] found associated class
     # @raise [Wallaby::ClassNotFound] if associated class isn't found
-    def self.guess_associated_class_of(class_name, attr_name: ATTR_NAME, suffix: EMPTY_STRING)
-      base_name = class_name.gsub(SUFFIX, EMPTY_STRING).singularize << suffix
+    def self.guess_associated_class_of(class_name, attr_name: ATTR_NAME, suffix: EMPTY_STRING, plural: false)
+      base_name = class_name.gsub(SUFFIX, EMPTY_STRING).try(plural ? :pluralize : :singularize) << suffix
       parts = base_name.split(COLONS)
       parts.each_with_index do |_, index|
-        name = parts[index..-1].join(COLONS)
-        return Object.const_get name, false if Object.const_defined? name, false
+        begin
+          # NOTE: DO NOT try to use const_defined? and const_get EVER.
+          # This is Rails, use constantize
+          return parts[index..-1].join(COLONS).constantize
+        rescue NameError # rubocop:disable Lint/SuppressedException
+        end
       end
 
-      raise ClassNotFound, <<~INSTRUCTION # help developer to correct the model class before continuing
+      raise ClassNotFound, <<~INSTRUCTION
         The `#{attr_name}` hasn't been provided for Class `#{class_name}` and Wallaby cannot guess it right.
         If `#{class_name}` is supposed to be a base class, add the following line to its class declaration:
 
-          base_class!
+          class #{class_name}
+            base_class!
+          end
 
         Otherwise, please specify the `#{attr_name}` in `#{class_name}`'s declaration as follows:
 
-          self.#{attr_name} = CorrectClass
+          class #{class_name}
+            self.#{attr_name} = CorrectClass
+          end
       INSTRUCTION
     end
 

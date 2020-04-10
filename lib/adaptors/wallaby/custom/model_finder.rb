@@ -2,9 +2,10 @@
 
 module Wallaby
   class Custom
-    # Model finder
+    # Model finder for {Wallaby::Custom} mode that returns the list of model set by
+    # {Wallaby::Configuration#custom_models}
     class ModelFinder < ::Wallaby::ModelFinder
-      # @return [Array<Class>] a list of classes
+      # @return [Wallaby::ClashArray] a list of classes
       def all
         Wallaby.configuration.custom_models.presence
       end

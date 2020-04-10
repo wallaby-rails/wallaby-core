@@ -2,7 +2,7 @@
 
 module Wallaby
   class Custom
-    # Default provider for custom mode
+    # Default authorization provider for {Wallaby::Custom} mode that whitelists everything.
     class DefaultProvider < DefaultAuthorizationProvider
     end
   end
