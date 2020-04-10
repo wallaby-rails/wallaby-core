@@ -10,7 +10,7 @@ describe Wallaby::ResourcesController, type: :controller do
     context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
-      let!(:application_decorator) { stub_const 'ApplicationDecorator', (Class.new(Wallaby::ResourceDecorator) { base_class! }) }
+      let!(:application_decorator) { stub_const 'ApplicationDecorator', base_class_from(Wallaby::ResourceDecorator) }
       let!(:apple_decorator) { stub_const 'AppleDecorator', Class.new(application_decorator) }
       let!(:thing_decorator) { stub_const 'ThingDecorator', Class.new(apple_decorator) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }

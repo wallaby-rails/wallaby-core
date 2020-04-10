@@ -2,6 +2,12 @@ require 'rails_helper'
 
 describe Wallaby::ResourceDecorator do
   describe 'class methods' do
+    describe '.model_class' do
+      it 'returns nil' do
+        expect(described_class.model_class).to be_nil
+      end
+    end
+
     describe '.model_decorator' do
       it 'returns nil' do
         expect(described_class.model_decorator).to be_nil
@@ -178,7 +184,7 @@ describe Wallaby::ResourceDecorator do
 
   context 'with descendants' do
     let(:model_class) { Product }
-    let(:application_decorator) { stub_const 'ApplicationDecorator', Class.new(described_class) }
+    let(:application_decorator) { stub_const 'ApplicationDecorator', base_class_from(described_class) }
     let(:klass) { stub_const 'ProductDecorator', Class.new(application_decorator) }
     let(:model_fields) do
       {
