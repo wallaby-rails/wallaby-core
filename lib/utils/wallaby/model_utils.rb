@@ -32,6 +32,8 @@ module Wallaby
         return if resources_name.blank?
 
         class_name = to_model_name resources_name
+        # NOTE: DO NOT try to use const_defined? and const_get EVER.
+        # This is Rails, use constantize
         class_name.constantize
       rescue NameError
         Logger.warn Locale.t('errors.not_found.model', model: class_name), sourcing: 2..10

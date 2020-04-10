@@ -3,17 +3,6 @@
 module Wallaby
   # Concern to handle the conversion between Class and String
   module Classifier
-    # Convert String to Constant (Class/Module).
-    # @param name [String]
-    # @return [Class] if name is a Class
-    # @raise [ArgumentError] if name is not a String
-    def self.to_const(name, log: true)
-      raise ArgumentError, 'Please provide a constant name in String.' unless name.is_a? String
-      return Object.const_get name, false if Object.const_defined?(name, false)
-
-      Logger.error "`#{name}` is not a valid Class name." if log
-    end
-
     # Convert Class to String. If not Class, unchanged.
     # @param klass [Object]
     # @return [String] if klass is a Class
@@ -30,7 +19,11 @@ module Wallaby
     def to_class(name)
       return name unless name.is_a? String
 
-      Classifier.to_const name
+      # NOTE: DO NOT try to use const_defined? and const_get EVER.
+      # This is Rails, use constantize
+      name.constantize
+    rescue NameError
+      Logger.error "`#{name}` is not a valid Class name."
     end
   end
 end
