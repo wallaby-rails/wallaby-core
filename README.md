@@ -7,7 +7,7 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/f16f8d87553424c1aacc/test_coverage)](https://codeclimate.com/github/wallaby-rails/wallaby-core/test_coverage)
 [![Inch CI](https://inch-ci.org/github/wallaby-rails/wallaby-core.svg?branch=master)](https://inch-ci.org/github/wallaby-rails/wallaby-core)
 
-Wallaby::Core contains all the core interfaces that [Wallaby](https://github.com/wallaby-rails/wallaby) gem is built upon.
+Wallaby::Core holds all the core interfaces that [Wallaby](https://github.com/wallaby-rails/wallaby) gem is built upon.
 
 ## Install
 

@@ -7,10 +7,15 @@ require 'wallaby/view'
 
 require 'wallaby/core/version'
 require 'wallaby/constants'
+require 'wallaby/logger'
+require 'wallaby/preloader'
+require 'wallaby/engine'
+
+# Global class attributes that holds the most important configuration/information
+# NOTE: DO NOT store any Class in both configuration and map
 require 'wallaby/classifier'
 require 'wallaby/class_array'
 require 'wallaby/class_hash'
-
 require 'wallaby/configuration'
 require 'wallaby/configuration/features'
 require 'wallaby/configuration/mapping'
@@ -19,14 +24,9 @@ require 'wallaby/configuration/models'
 require 'wallaby/configuration/pagination'
 require 'wallaby/configuration/security'
 require 'wallaby/configuration/sorting'
-
-require 'wallaby/logger'
-require 'wallaby/preloader'
-require 'wallaby/engine'
+require 'wallaby/map'
 
 require 'support/action_dispatch/routing/mapper'
-
-require 'wallaby/map'
 
 require 'routes/wallaby/resources_router'
 require 'tree/wallaby/node'
@@ -65,6 +65,8 @@ require 'interfaces/wallaby/model_pagination_provider'
 require 'interfaces/wallaby/model_authorization_provider'
 
 require 'errors/wallaby/general_error'
+
+require 'errors/wallaby/class_not_found'
 require 'errors/wallaby/invalid_error'
 require 'errors/wallaby/not_implemented'
 require 'errors/wallaby/not_found'
