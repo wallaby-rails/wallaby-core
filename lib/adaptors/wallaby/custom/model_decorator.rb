@@ -2,7 +2,7 @@
 
 module Wallaby
   class Custom
-    # Custom modal decorator
+    # {Wallaby::Custom} mode decorator that only pulls out all the attributes from setter/getter methods.
     class ModelDecorator < ::Wallaby::ModelDecorator
       # Assume that attributes come from the setter/getter, e.g. `name=`/`name`
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
@@ -11,8 +11,7 @@ module Wallaby
           ::ActiveSupport::HashWithIndifferentAccess.new.tap do |hash|
             methods = model_class.public_instance_methods(false).map(&:to_s)
             methods
-              .grep(/[^=]$/)
-              .select { |method_id| methods.include? "#{method_id}=" }
+              .grep(/[^=]$/).select { |method_id| methods.include? "#{method_id}=" }
               .each { |attribute| hash[attribute] = { label: attribute.humanize, type: 'string' } }
           end.freeze
       end
@@ -50,12 +49,13 @@ module Wallaby
         @form_field_names ||= form_fields.keys - [primary_key.to_s]
       end
 
+      # @param resource [Object]
       # @return [ActiveModel::Errors]
       def form_active_errors(resource)
         @form_active_errors ||= ActiveModel::Errors.new resource
       end
 
-      # @return [String, Symbole] primary key name
+      # @return [String, Symbole] default to `:id`
       def primary_key
         @primary_key ||= :id
       end
@@ -63,10 +63,9 @@ module Wallaby
       # @param resource [Object]
       # @return [String, nil]
       def guess_title(resource)
-        field_name = FieldUtils.first_field_by({ name: /name|title|subject/ }, fields)
-        return unless field_name
-
-        resource.try field_name
+        FieldUtils
+          .first_field_by({ name: /name|title|subject/ }, fields)
+          .try { |field_name| resource.try field_name }
       end
     end
   end
