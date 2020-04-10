@@ -4,30 +4,30 @@ module Wallaby
   # Abstract related class methods
   module Baseable
     SUFFIX = /(Controller|Decorator|Servicer|Authorizer|Paginator)$/.freeze
+    ATTR_NAME = 'model_class'
 
     # @param class_name [String]
-    # @return [Class] found associated model class
-    # @raise [Wallaby::ModelNotFound] if model class isn't found
-    def self.guess_model_class_from(class_name)
-      base_name = class_name.gsub(SUFFIX, EMPTY_STRING).singularize
-      parts = base_name.split COLONS
-      name_found =
-        parts
-        .each_with_index
-        .each_with_object([]) { |(_, index), classes| classes << parts[index..-1].join(COLONS) }
-        .find(&method(:const_defined?))
-      return const_get(name_found) if name_found
+    # @param attr_name [String]
+    # @param suffix [String]
+    # @return [Class] found associated class
+    # @raise [Wallaby::ClassNotFound] if associated class isn't found
+    def self.guess_associated_class_of(class_name, attr_name: ATTR_NAME, suffix: EMPTY_STRING)
+      base_name = class_name.gsub(SUFFIX, EMPTY_STRING).singularize << suffix
+      parts = base_name.split(COLONS)
+      parts.each_with_index do |_, index|
+        name = parts[index..-1].join(COLONS)
+        return Object.const_get name, false if Object.const_defined? name, false
+      end
 
-      # NOTE: force developer to correct the model class before continuing
-      raise ModelNotFound, <<~INSTRUCTION
-        The model class isn't provided for Class `#{class_name}` and Wallaby cannot guess it right.
-        Please specify the `model_class` in Class `#{class_name}`'s declaration as below example:
-
-          self.model_class = CorrectModelClass
-
-        Or mark Class `#{class_name}` as the base class in its class declaration:
+      raise ClassNotFound, <<~INSTRUCTION # help developer to correct the model class before continuing
+        The `#{attr_name}` hasn't been provided for Class `#{class_name}` and Wallaby cannot guess it right.
+        If `#{class_name}` is supposed to be a base class, add the following line to its class declaration:
 
           base_class!
+
+        Otherwise, please specify the `#{attr_name}` in `#{class_name}`'s declaration as follows:
+
+          self.#{attr_name} = CorrectClass
       INSTRUCTION
     end
 
@@ -70,14 +70,15 @@ module Wallaby
       #       Product
       #     end
       #   end
-      # @return [Class] assigned model class or Wallaby will guess it (see {Wallaby::Baseable.guess_model_class_from})
+      # @return [Class] assigned model class or Wallaby will guess it
+      #   (see {Wallaby::Baseable.guess_associated_class_of .guess_associated_class_of})
       # @return [nil] if current class is marked as base class
       # @raise [Wallaby::ModelNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty
       def model_class
         return if base_class?
 
-        @model_class ||= Baseable.guess_model_class_from(name)
+        @model_class ||= Baseable.guess_associated_class_of name
       rescue TypeError
         raise ArgumentError, <<~INSTRUCTION
           Please specify the base class for class `#{name}`
