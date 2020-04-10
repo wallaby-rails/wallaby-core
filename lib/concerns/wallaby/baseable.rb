@@ -16,10 +16,12 @@ module Wallaby
       base_name = class_name.gsub(SUFFIX, EMPTY_STRING).try(plural ? :pluralize : :singularize) << suffix
       parts = base_name.split(COLONS)
       parts.each_with_index do |_, index|
-        # NOTE: DO NOT try to use const_defined? and const_get EVER.
-        # This is Rails, use constantize
-        return parts[index..-1].join(COLONS).constantize
-      rescue NameError # rubocop:disable Lint/SuppressedException
+        begin
+          # NOTE: DO NOT try to use const_defined? and const_get EVER.
+          # This is Rails, use constantize
+          return parts[index..-1].join(COLONS).constantize
+        rescue NameError # rubocop:disable Lint/SuppressedException
+        end
       end
 
       raise ClassNotFound, <<~INSTRUCTION
