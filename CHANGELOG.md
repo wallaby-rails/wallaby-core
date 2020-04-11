@@ -8,6 +8,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - change to all lables to be prefixed with controller/name
 
+## [0.2.2](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.2) - 2020-04-11
+
+### Added
+
+- feat: add options to authorizer and its providers ([#25](https://github.com/wallaby-rails/wallaby-core/pull/25))
+
+### Changed
+
+- chore: move related spec from wallaby to here ([#27](https://github.com/wallaby-rails/wallaby-core/pull/27))
+- chore: refactor guess_associated_class_of to allow suffix and attr_name ([#26](https://github.com/wallaby-rails/wallaby-core/pull/26))
+- chore: refactor model authorizer ([#24](https://github.com/wallaby-rails/wallaby-core/pull/24))
+- chore: helper_method wallaby_user and update ensure_type_is_present ([#23](https://github.com/wallaby-rails/wallaby-core/pull/23))
+- chore: use ClassHash to prevent Class constants from being cached in global method e.g. Wallaby::Map.mode_map ([#22](https://github.com/wallaby-rails/wallaby-core/pull/22))
+- chore: use require_dependency instead of constantize ([#21](https://github.com/wallaby-rails/wallaby-core/pull/21))
+- feat: user wallaby_user and authenticate_wallaby_user to avoid conflicts with current_user ([#20](https://github.com/wallaby-rails/wallaby-core/pull/20))
+
 ## [0.2.1](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.1) - 2020-03-24
 
 ### Added
