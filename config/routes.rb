@@ -1,6 +1,12 @@
 # frozen_string_literal: true
 
-Wallaby::Engine.routes.draw do
+# NOTE: this file will be loaded after main app's routes.
+# And these routes should be appended to the end of engine's routes
+# to allow adding custom routes to the engine itself.
+Wallaby::Engine.routes.append do
+  # NOTE: Check to prevent this from being loaded for more than once while Rails reloads
+  next if @set.routes.find { |r| r.name == 'resources' }
+
   # NOTE: For health check if needed
   # @see Wallaby::ApplicationController#healthy
   get 'status', to: 'wallaby/resources#healthy'

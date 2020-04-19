@@ -20,8 +20,8 @@ module Wallaby
       # @param controller_path [String]
       def draw(routes, controller_path)
         routes.draw do
-          get ':resources', to: "#{controller_path}#index", as: :resources
-          get ':resources/:id', to: "#{controller_path}#show", as: :resource
+          get ':resources', to: "#{controller_path}#index"
+          get ':resources/:id', to: "#{controller_path}#show"
           get ':resources/new', to: "#{controller_path}#new"
           get ':resources/:id/edit', to: "#{controller_path}#edit"
           post ':resources', to: "#{controller_path}#create"

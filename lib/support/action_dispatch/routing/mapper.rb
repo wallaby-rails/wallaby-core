@@ -4,6 +4,21 @@ module ActionDispatch
   module Routing
     # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for Wallaby.
     class Mapper
+      # Mount {Wallaby::Engine} to given mount path.
+      # And prepend custom routes to {Wallaby::Engine} if block is given.
+      # @example Mount {Wallaby::Engine} to a path
+      #   wallaby_mount at: '/admin'
+      # @example Mount and prepend custom routes to {Wallaby::Engine}
+      #   wallaby_mount at: '/super_admin' do
+      #     resource :account
+      #   end
+      # @param at [String]
+      # @param options [Hash]
+      def wallaby_mount(at:, **options, &block)
+        Wallaby::Engine.routes.draw(&block) if block_given?
+        mount Wallaby::Engine, **options.with_defaults(at: at)
+      end
+
       # Generate **resourceful** routes that works for Wallaby.
       # @example To generate resourceful routes that works for Wallaby:
       #   wresources :postcodes

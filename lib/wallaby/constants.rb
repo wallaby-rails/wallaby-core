@@ -40,7 +40,6 @@ module Wallaby
   PERS = [10, 20, 50, 100].freeze
   CSV = 'csv'
   WILDCARD = 'QUERY'
-  TITLE_NAMES = %w(name title string text).freeze
 
   # A constant of error path for error handling
   ERROR_PATH = 'error'
