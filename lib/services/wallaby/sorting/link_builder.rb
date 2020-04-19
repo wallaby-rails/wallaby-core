@@ -46,8 +46,9 @@ module Wallaby
 
         sort_field_name = metadata[:sort_field_name] || field_name
         url_params = next_builder.next_params sort_field_name
-        url = url_for url_params.merge(with_query: true)
-        index_link(model_class, options: { url: url }) { label }
+        index_link(
+          model_class, url_params: url_params.merge(with_query: true)
+        ) { label }
       end
 
       private

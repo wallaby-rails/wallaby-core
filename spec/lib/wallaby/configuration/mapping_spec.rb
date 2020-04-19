@@ -3,7 +3,9 @@ require 'rails_helper'
 describe Wallaby::Configuration::Mapping do
   it_behaves_like \
     'has attribute with default value',
-    :resources_controller, Wallaby::ResourcesController
+    :resources_controller, Wallaby::ResourcesController do
+    before { hide_const('Admin::ApplicationController') }
+  end
 
   context 'when admin application controller exists' do
     context 'when it doesnt inherit form resources controller' do

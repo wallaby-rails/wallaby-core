@@ -16,7 +16,7 @@ describe Wallaby::ResourcesRouter do
     let(:params) { Hash resources: resources_name, action: action_name }
     let(:mocked_action) { ->(_env) { response } }
     let(:response) { [200, {}, [action_name]] }
-    let(:default_controller) { Wallaby::ResourcesController }
+    let(:default_controller) { Admin::ApplicationController }
 
     context 'when model class exists' do
       context 'when controller not exists' do
