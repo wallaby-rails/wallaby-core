@@ -16,7 +16,7 @@ module ActionDispatch
       # @param options [Hash]
       def wallaby_mount(at:, **options, &block)
         Wallaby::Engine.routes.draw(&block) if block_given?
-        mount Wallaby::Engine, **options.with_defaults(at: at)
+        mount Wallaby::Engine, **{at: at}.merge(options)
       end
 
       # Generate **resourceful** routes that works for Wallaby.
