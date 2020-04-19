@@ -213,13 +213,13 @@ describe Wallaby::ResourcesController do
 
       it 'returns prefixes' do
         controller.params[:resources] = 'wallaby/resources'
-        expect(controller.send(:_prefixes)).to eq ['wallaby/resources/index', 'wallaby/resources']
+        expect(controller.send(:_prefixes)).to eq ['wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
       end
 
       context 'when current_resources_name is different' do
         it 'returns prefixes' do
           controller.params[:resources] = 'products'
-          expect(controller.send(:_prefixes)).to eq ['admin/products/index', 'admin/products', 'wallaby/resources/index', 'wallaby/resources']
+          expect(controller.send(:_prefixes)).to eq ['admin/products/index', 'admin/products/form', 'admin/products', 'wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
         end
       end
 
@@ -227,13 +227,13 @@ describe Wallaby::ResourcesController do
         describe Space::PlanetsController do
           it 'returns prefixes' do
             controller.params[:resources] = 'space/planets'
-            expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets', 'wallaby/resources/index', 'wallaby/resources']
+            expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets/form', 'space/planets', 'wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
           end
 
           context 'when current_resources_name is different' do
             it 'returns prefixes' do
               controller.params[:resources] = 'mars'
-              expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars', 'space/planets/index', 'space/planets', 'wallaby/resources/index', 'wallaby/resources']
+              expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars/form', 'admin/mars', 'space/planets/index', 'space/planets/form', 'space/planets', 'wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
             end
           end
 
@@ -244,13 +244,13 @@ describe Wallaby::ResourcesController do
 
             it 'returns prefixes' do
               controller.params[:resources] = 'space/planets'
-              expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
+              expect(controller.send(:_prefixes)).to eq ['space/planets/index', 'space/planets/form', 'space/planets', 'theme1/index', 'theme1/form', 'theme1', 'wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
             end
 
             context 'when current_resources_name is different' do
               it 'returns prefixes' do
                 controller.params[:resources] = 'mars'
-                expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars', 'space/planets/index', 'space/planets', 'theme1/index', 'theme1', 'wallaby/resources/index', 'wallaby/resources']
+                expect(controller.send(:_prefixes)).to eq ['admin/mars/index', 'admin/mars/form', 'admin/mars', 'space/planets/index', 'space/planets/form', 'space/planets', 'theme1/index', 'theme1/form', 'theme1', 'wallaby/resources/index', 'wallaby/resources/form', 'wallaby/resources']
               end
             end
           end

@@ -6,7 +6,7 @@ module Wallaby
     # @return [Array<String>] prefixes
     def _prefixes
       override_prefixes(
-        options: { mapping_actions: FORM_ACTIONS }
+        options: { mapping_actions: Hash.new('form') }
       ) do |prefixes|
         PrefixesBuilder.new(
           prefixes: prefixes,
