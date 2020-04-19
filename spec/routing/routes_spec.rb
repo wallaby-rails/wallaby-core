@@ -230,7 +230,7 @@ describe 'routing' do
         stub_const 'Alien', (Class.new(ActiveRecord::Base) do
           self.table_name = 'products'
         end)
-        stub_const 'AliensController', Class.new(Wallaby::ResourcesController)
+        stub_const 'AliensController', Class.new(Admin::ApplicationController)
 
         controller = AliensController
         resources = 'aliens'
