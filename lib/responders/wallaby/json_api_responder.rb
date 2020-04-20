@@ -75,7 +75,13 @@ module Wallaby
       decorated = controller.decorate resource
       field_names = index? ? decorated.index_field_names : decorated.show_field_names
       field_names.each_with_object({}) do |name, attributes|
-        attributes[name] = decorated.public_send name
+        attributes[name] = decorated.try(name).try do |value|
+          next value unless value.is_a? ActiveStorage::Attached
+
+          # NOTE: 19/04/20 `as_json` for ActiveStorage will cause a dead loop.
+          # Therefore, it's better to render the filename instead
+          value.attachment.try(:blob).try(:filename)
+        end
       end
     end
 

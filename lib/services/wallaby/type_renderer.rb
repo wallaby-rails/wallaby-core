@@ -4,7 +4,8 @@ module Wallaby
   # Type renderer
   class TypeRenderer
     class << self
-      # Render partial
+      # Check the locals and add metadata and value to the locals variable,
+      # then render the type partial.
       # @param view [ActionView]
       # @param options [Hash]
       # @param locals [Hash]
@@ -16,7 +17,7 @@ module Wallaby
         view.render options, locals, &block
       end
 
-      private
+      protected
 
       # @param locals [Hash]
       # @raise [ArgumentError] if form is set but blank
@@ -28,12 +29,14 @@ module Wallaby
         raise ArgumentError, 'Object is not decorated.' unless locals[:object].is_a? ResourceDecorator
       end
 
+      # Fill in the metadata and value
       # @param locals [Hash]
       # @param action [String]
       def complete(locals, action)
-        action_name = FORM_ACTIONS[action] || action
-        locals[:metadata] = locals[:object].public_send :"#{action_name}_metadata_of", locals[:field_name]
-        locals[:value] = locals[:object].public_send locals[:field_name]
+        locals[:metadata] =
+          locals[:object].try(:"#{action}_metadata_of", locals[:field_name]) ||
+          locals[:object].try(:form_metadata_of, locals[:field_name])
+        locals[:value] = locals[:object].try locals[:field_name]
       end
     end
   end
