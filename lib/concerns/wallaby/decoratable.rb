@@ -42,7 +42,7 @@ module Wallaby
       # @see Wallaby::ResourceDecorator
       # @since wallaby-5.2.0
       def application_decorator
-        @application_decorator ||= ModuleUtils.try_to superclass, :application_decorator
+        @application_decorator ||= superclass.try :application_decorator
       end
     end
 
@@ -76,7 +76,7 @@ module Wallaby
     # @return [Hash] current fields metadata
     def current_fields
       @current_fields ||=
-        ModuleUtils.try_to current_model_decorator, :"#{FORM_ACTIONS[action_name] || action_name}_fields"
+        current_model_decorator.try(:"#{action_name}_fields")
     end
 
     # Wrap resource(s) with decorator(s).

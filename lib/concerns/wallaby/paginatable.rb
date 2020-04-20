@@ -40,7 +40,7 @@ module Wallaby
       # @see Wallaby::ModelPaginator
       # @since wallaby-5.2.0
       def application_paginator
-        @application_paginator ||= ModuleUtils.try_to superclass, :application_paginator
+        @application_paginator ||= superclass.try :application_paginator
       end
     end
 

@@ -7,11 +7,6 @@ module Wallaby
     include Engineable
     include SharedHelpers
 
-    # @!method try_to(subject, method_id, *args, &block)
-    #   (see Wallaby::ModuleUtils.try_to)
-    #   @see Wallaby::ModuleUtils.try_to
-    delegate :try_to, to: ModuleUtils
-
     # Override origin method to handle URL for Wallaby engine.
     #
     # As Wallaby's routes are declared in a
@@ -37,7 +32,7 @@ module Wallaby
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
-      if options.is_a?(Hash) || try_to(options, :permitted?)
+      if options.is_a?(Hash) || options.try(:permitted?)
         # merge with all current query parameters
         options = request.query_parameters.merge(options) if options.delete(:with_query)
         options = ParamsUtils.presence url_options, options # remove blank values

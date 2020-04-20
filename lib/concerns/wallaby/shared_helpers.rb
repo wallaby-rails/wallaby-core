@@ -14,9 +14,9 @@ module Wallaby
     # @return [Object] the value
     def controller_to_get(attribute_name, class_attribute_name = nil)
       class_attribute_name ||= attribute_name
-      return ModuleUtils.try_to self.class, class_attribute_name if is_a? ::ActionController::Base # controller?
+      return self.class.try class_attribute_name if is_a? ::ActionController::Base # controller?
 
-      ModuleUtils.try_to controller, attribute_name # view?
+      controller.try attribute_name # view?
     end
   end
 end

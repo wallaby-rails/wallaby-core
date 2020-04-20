@@ -19,7 +19,7 @@ module Wallaby
       # @return [String, Symbol, nil] engine name
       # @since wallaby-5.2.0
       def engine_name
-        @engine_name ||= ModuleUtils.try_to superclass, :engine_name
+        @engine_name ||= superclass.try :engine_name
       end
     end
 
@@ -40,7 +40,7 @@ module Wallaby
     # ```
     # @return [ActionDispatch::Routing::RoutesProxy] engine for current request
     def current_engine
-      @current_engine ||= ModuleUtils.try_to self, current_engine_name
+      @current_engine ||= try current_engine_name
     end
 
     # Find out the engine name under current script name.

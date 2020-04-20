@@ -18,7 +18,7 @@ module Wallaby
       timestamp = Time.zone.now.to_s(:number)
       filename =
         (request.params[:resources] || controller.controller_path)
-          .gsub(/#{SLASH}|#{COLONS}/, HYPHEN)
+        .gsub(/#{SLASH}|#{COLONS}/, HYPHEN)
       "#{filename}-exported-#{timestamp}.#{format}"
     end
 

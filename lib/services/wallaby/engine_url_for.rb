@@ -28,9 +28,7 @@ module Wallaby
 
         params = { script_name: route.path.spec.to_s }.merge(parameters).symbolize_keys
 
-        ModuleUtils.try_to(
-          Engine.routes.url_helpers, action_path_from(params), params
-        )
+        Engine.routes.url_helpers.try action_path_from(params), params
       end
 
       protected
