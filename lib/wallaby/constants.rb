@@ -9,6 +9,7 @@ module Wallaby
   COLONS = '::' # :nodoc:
   COMMA = ',' # :nodoc:
   DOT = '.' # :nodoc:
+  HYPHEN = '-' # :nodoc:
   UNDERSCORE = '_' # :nodoc:
   PCT = '%' # :nodoc:
 

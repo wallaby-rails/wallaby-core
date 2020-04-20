@@ -38,7 +38,7 @@ module Wallaby
 
     # @param context [ActionController::Base, ActionView::Base]
     # @param options [Hash]
-    def initialize(context, **options)
+    def initialize(context, options = {})
       @context = context
       @options = options
       @user = context.try :wallaby_user

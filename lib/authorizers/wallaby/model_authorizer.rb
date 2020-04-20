@@ -51,7 +51,7 @@ module Wallaby
     # @param model_class [Class]
     # @param context [ActionController::Base, ActionView::Base]
     # @param options [Symbol, String, nil]
-    def initialize(model_class, context, **options)
+    def initialize(model_class, context, options = {})
       @model_class = model_class || self.class.model_class
       @context = context
       @options = options

@@ -354,7 +354,7 @@ module Wallaby
 
       # NOTE: to ensure Wallaby's layout
       # is not inheriting from/impacted by parent controller's layout.
-      public_send(
+      try(
         # inherit? or include?
         self == ResourcesController ? :layout : :theme_name=,
         ResourcesController.controller_path
