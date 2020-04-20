@@ -16,7 +16,10 @@ module Wallaby
     # @return [String] file name with export timestamp
     def file_name_to_export
       timestamp = Time.zone.now.to_s(:number)
-      "#{request.params[:resources]}-exported-#{timestamp}.#{format}"
+      filename =
+        (request.params[:resources] || controller.controller_path)
+          .gsub(/#{SLASH}|#{COLONS}/, HYPHEN)
+      "#{filename}-exported-#{timestamp}.#{format}"
     end
 
     # @return [Boolean] true if there is exception or resource has errors
