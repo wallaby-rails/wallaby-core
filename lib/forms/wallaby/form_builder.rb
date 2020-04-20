@@ -49,7 +49,7 @@ module Wallaby
       # Delegate the method so that we don't come in here the next time
       # when same method is called
       self.class.delegate method, to: :@template
-      @template.public_send method, *args, &block
+      @template.try method, *args, &block
     end
 
     # Delegate missing method check to `@template`
