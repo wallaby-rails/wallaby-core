@@ -57,7 +57,7 @@ module Wallaby
       #     end
       #   end
       # @yield A block to get user object. All application controller methods can be used in the block.
-      def current_user(&block)
+      def current_user(&block) # rubocop:disable Metrics/MethodLength
         Deprecator.alert 'config.security.current_user', from: '0.3', alternative: <<~INSTRUCTION
           Please change #wallaby_user from the admin application controller instead, for example:
 
@@ -91,7 +91,7 @@ module Wallaby
       #     end
       #   end
       # @yield A block to authenticate user. All application controller methods can be used in the block.
-      def authenticate(&block)
+      def authenticate(&block) # rubocop:disable Metrics/MethodLength
         Deprecator.alert 'config.security.authenticate', from: '0.3', alternative: <<~INSTRUCTION
           Please change #authenticate_wallaby_user! from the admin application controller instead, for example:
 
