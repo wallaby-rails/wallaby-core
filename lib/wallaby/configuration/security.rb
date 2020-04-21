@@ -57,8 +57,17 @@ module Wallaby
       #     end
       #   end
       # @yield A block to get user object. All application controller methods can be used in the block.
-      def current_user(&block)
-        Logger.deprecated 'Wallaby will remove security.current_user? from 6.2.'
+      def current_user(&block) # rubocop:disable Metrics/MethodLength
+        Deprecator.alert 'config.security.current_user', from: '0.3', alternative: <<~INSTRUCTION
+          Please change #wallaby_user from the admin application controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              def wallaby_user
+                User.find_by_email session[:user_email]
+              end
+            end
+        INSTRUCTION
+
         if block_given?
           @current_user = block
         else
@@ -82,8 +91,19 @@ module Wallaby
       #     end
       #   end
       # @yield A block to authenticate user. All application controller methods can be used in the block.
-      def authenticate(&block)
-        Logger.deprecated 'Wallaby will remove security.authenticate from 6.2.'
+      def authenticate(&block) # rubocop:disable Metrics/MethodLength
+        Deprecator.alert 'config.security.authenticate', from: '0.3', alternative: <<~INSTRUCTION
+          Please change #authenticate_wallaby_user! from the admin application controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              def authenticate_wallaby_user!
+                authenticate_or_request_with_http_basic do |username, password|
+                  username == 'too_simple' && password == 'too_naive'
+                end
+              end
+            end
+        INSTRUCTION
+
         if block_given?
           @authenticate = block
         else

@@ -102,7 +102,7 @@ module Wallaby
           if security.current_user? || !defined? super
             instance_exec(&security.current_user)
           else
-            Logger.deprecated 'Wallaby will use `wallaby_user` instead of `current_user` from 6.2.'
+            Deprecator.alert method(:current_user), from: '0.3', alternative: method(:wallaby_user)
             super
           end
       end
@@ -114,8 +114,7 @@ module Wallaby
           if security.authenticate? || !defined? super
             instance_exec(&security.authenticate)
           else
-            Logger.deprecated 'Wallaby will use `authenticate_wallaby_user!`' \
-              'instead of `authenticate_user!` from 6.2.'
+            Deprecator.alert method(:authenticate_user!), from: '0.3', alternative: method(:authenticate_wallaby_user!)
             super
           end
         raise NotAuthenticated if authenticated == false
