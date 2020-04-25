@@ -40,7 +40,7 @@ describe Wallaby::SecureHelper do
   describe '#logout_path' do
     it 'returns nothing' do
       hide_const 'Devise'
-      expect(helper.logout_path(user: nil, method_name: nil)).to be_nil
+      expect(helper.logout_path(user: nil, app: nil)).to be_nil
     end
 
     context 'when logout_path is configured' do
