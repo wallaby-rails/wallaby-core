@@ -10,7 +10,7 @@ module Wallaby
       # Default block to return nil
       DEFAULT_AUTHENTICATE = -> { true }
 
-      # @!attribute logout_path
+      # @!attribute [r] logout_path
       # To globally configure the logout path.
       #
       # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout path will be required
@@ -22,9 +22,17 @@ module Wallaby
       #     config.security.logout_path = 'logout_path'
       #   end
       # @since wallaby-5.1.4
-      attr_accessor :logout_path
+      attr_reader :logout_path
 
-      # @!attribute logout_method
+      # @!attribute [w] logout_path
+      def logout_path=(logout_path)
+        Deprecator.alert(
+          method(:logout_path), from: '0.3', alternative: Wallaby::ResourcesController.method(:logout_path)
+        )
+        @logout_path = logout_path
+      end
+
+      # @!attribute [r] logout_method
       # To globally configure the logout HTTP method.
       #
       # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout method will be required
@@ -36,9 +44,17 @@ module Wallaby
       #     config.security.logout_method = 'post'
       #   end
       # @since wallaby-5.1.4
-      attr_accessor :logout_method
+      attr_reader :logout_method
 
-      # @!attribute email_method
+      # @!attribute [w] logout_method
+      def logout_method=(logout_method)
+        Deprecator.alert(
+          method(:logout_method), from: '0.3', alternative: Wallaby::ResourcesController.method(:logout_method)
+        )
+        @logout_method = logout_method
+      end
+
+      # @!attribute [r] email_method
       # To globally configure the method on {#current_user} to retrieve email address.
       #
       # If no configuration is given, it will attempt to call `email` on {#current_user}.
@@ -47,7 +63,15 @@ module Wallaby
       #     config.security.email_method = 'email_address'
       #   end
       # @since wallaby-5.1.4
-      attr_accessor :email_method
+      attr_reader :email_method
+
+      # @!attribute [w] email_method
+      def email_method=(email_method)
+        Deprecator.alert(
+          method(:email_method), from: '0.3', alternative: Wallaby::ResourcesController.method(:email_method)
+        )
+        @email_method = email_method
+      end
 
       # To globally configure how to get user object.
       # @example To update how to get the current user object in `config/initializers/wallaby.rb`

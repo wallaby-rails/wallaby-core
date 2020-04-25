@@ -35,7 +35,6 @@ module Wallaby
     #   alias collection! collection
     #   alias resource! resource
 
-    # @!method home
     # @note This is a template method that can be overridden by subclasses.
     # This is an action for landing page display. It does nothing more than rendering `home` template.
     #
@@ -46,8 +45,10 @@ module Wallaby
     #   generate_dashboard_report
     # end
     # ```
+    def home
+      # do nothing
+    end
 
-    # @!method index(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to list records that user can access.
     #
@@ -87,8 +88,12 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def index(options = {}, &block)
+      current_authorizer.authorize :index, current_model_class
+      respond_with collection, options, &block
+    end
+    alias index! index
 
-    # @!method new(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to show the form to create record that user is allowed to.
     #
@@ -121,8 +126,12 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def new(options = {}, &block)
+      current_authorizer.authorize :new, resource
+      respond_with resource, options, &block
+    end
+    alias new! new
 
-    # @!method create(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to create a record that user is allowed to.
     #
@@ -165,8 +174,14 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def create(options = {}, &block)
+      set_defaults_for :create, options
+      current_authorizer.authorize :create, resource
+      current_servicer.create resource, options.delete(:params)
+      respond_with resource, options, &block
+    end
+    alias create! create
 
-    # @!method show(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to display the record details that user is allowed to.
     #
@@ -199,8 +214,12 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def show(options = {}, &block)
+      current_authorizer.authorize :show, resource
+      respond_with resource, options, &block
+    end
+    alias show! show
 
-    # @!method edit(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to show the form to edit record that user is allowed to.
     #
@@ -233,8 +252,12 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def edit(options = {}, &block)
+      current_authorizer.authorize :edit, resource
+      respond_with resource, options, &block
+    end
+    alias edit! edit
 
-    # @!method update(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to update the record that user is allowed to.
     #
@@ -278,8 +301,14 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def update(options = {}, &block)
+      set_defaults_for :update, options
+      current_authorizer.authorize :update, resource
+      current_servicer.update resource, options.delete(:params)
+      respond_with resource, options, &block
+    end
+    alias update! update
 
-    # @!method destroy(options = {}, &block)
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to delete the record that user is allowed to.
     #
@@ -316,8 +345,14 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Wallaby::Forbidden] if user has no access
+    def destroy(options = {}, &block)
+      set_defaults_for :destroy, options
+      current_authorizer.authorize :destroy, resource
+      current_servicer.destroy resource, options.delete(:params)
+      respond_with resource, options, &block
+    end
+    alias destroy! destroy
 
-    # @!method resource_params
     # @note This is a template method that can be overridden by subclasses.
     # To whitelist the params for {#create} and {#update} actions.
     #
@@ -329,6 +364,9 @@ module Wallaby
     # end
     # ```
     # @return [ActionController::Parameters] whitelisted params
+    def resource_params
+      @resource_params ||= current_servicer.permit params, action_name
+    end
 
     included do # rubocop:disable Metrics/BlockLength
       include ApplicationConcern
@@ -336,6 +374,7 @@ module Wallaby
 
       extend Authorizable::ClassMethods
       extend Baseable::ClassMethods
+      extend Configurable::ClassMethods
       extend Decoratable::ClassMethods
       extend Paginatable::ClassMethods
       extend Servicable::ClassMethods
@@ -366,69 +405,6 @@ module Wallaby
       respond_to :csv
       helper ResourcesHelper
       before_action :authenticate_wallaby_user!
-
-      def home
-        # do nothing
-      end
-
-      def index(options = {}, &block)
-        current_authorizer.authorize :index, current_model_class
-        respond_with collection, options, &block
-      end
-
-      alias_method :index!, :index
-
-      def new(options = {}, &block)
-        current_authorizer.authorize :new, resource
-        respond_with resource, options, &block
-      end
-
-      alias_method :new!, :new
-
-      def create(options = {}, &block)
-        set_defaults_for :create, options
-        current_authorizer.authorize :create, resource
-        current_servicer.create resource, options.delete(:params)
-        respond_with resource, options, &block
-      end
-
-      alias_method :create!, :create
-
-      def show(options = {}, &block)
-        current_authorizer.authorize :show, resource
-        respond_with resource, options, &block
-      end
-
-      alias_method :show!, :show
-
-      def edit(options = {}, &block)
-        current_authorizer.authorize :edit, resource
-        respond_with resource, options, &block
-      end
-
-      alias_method :edit!, :edit
-
-      def update(options = {}, &block)
-        set_defaults_for :update, options
-        current_authorizer.authorize :update, resource
-        current_servicer.update resource, options.delete(:params)
-        respond_with resource, options, &block
-      end
-
-      alias_method :update!, :update
-
-      def destroy(options = {}, &block)
-        set_defaults_for :destroy, options
-        current_authorizer.authorize :destroy, resource
-        current_servicer.destroy resource, options.delete(:params)
-        respond_with resource, options, &block
-      end
-
-      alias_method :destroy!, :destroy
-
-      def resource_params
-        @resource_params ||= current_servicer.permit params, action_name
-      end
     end
   end
 end
