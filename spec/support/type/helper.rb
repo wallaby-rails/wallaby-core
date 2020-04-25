@@ -10,9 +10,6 @@ RSpec.configure do |config|
   end
 
   config.before :each, type: :helper do |example|
-    view.extend Wallaby::ApplicationHelper
-    view.extend Wallaby::SecureHelper
-    view.extend Wallaby::BaseHelper
     view.extend Wallaby::ResourcesHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
