@@ -26,9 +26,14 @@ module Wallaby
 
       # @!attribute [w] logout_path
       def logout_path=(logout_path)
-        Deprecator.alert(
-          method(:logout_path), from: '0.3', alternative: Wallaby::ResourcesController.method(:logout_path)
-        )
+        Deprecator.alert 'config.security.logout_path=', from: '0.3', alternative: <<~INSTRUCTION
+          Please use #logout_path= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.logout_path = 'destroy_admin_user_session_path'
+            end
+        INSTRUCTION
+
         @logout_path = logout_path
       end
 
@@ -48,9 +53,14 @@ module Wallaby
 
       # @!attribute [w] logout_method
       def logout_method=(logout_method)
-        Deprecator.alert(
-          method(:logout_method), from: '0.3', alternative: Wallaby::ResourcesController.method(:logout_method)
-        )
+        Deprecator.alert 'config.security.logout_method=', from: '0.3', alternative: <<~INSTRUCTION
+          Please use #logout_method= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.logout_method = 'put'
+            end
+        INSTRUCTION
+
         @logout_method = logout_method
       end
 
@@ -67,9 +77,14 @@ module Wallaby
 
       # @!attribute [w] email_method
       def email_method=(email_method)
-        Deprecator.alert(
-          method(:email_method), from: '0.3', alternative: Wallaby::ResourcesController.method(:email_method)
-        )
+        Deprecator.alert 'config.security.email_method=', from: '0.3', alternative: <<~INSTRUCTION
+          Please use #email_method= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.email_method = 'email_address'
+            end
+        INSTRUCTION
+
         @email_method = email_method
       end
 
@@ -83,7 +98,7 @@ module Wallaby
       # @yield A block to get user object. All application controller methods can be used in the block.
       def current_user(&block) # rubocop:disable Metrics/MethodLength
         Deprecator.alert 'config.security.current_user', from: '0.3', alternative: <<~INSTRUCTION
-          Please change #wallaby_user from the admin application controller instead, for example:
+          Please change #wallaby_user from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               def wallaby_user
@@ -117,7 +132,7 @@ module Wallaby
       # @yield A block to authenticate user. All application controller methods can be used in the block.
       def authenticate(&block) # rubocop:disable Metrics/MethodLength
         Deprecator.alert 'config.security.authenticate', from: '0.3', alternative: <<~INSTRUCTION
-          Please change #authenticate_wallaby_user! from the admin application controller instead, for example:
+          Please change #authenticate_wallaby_user! from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               def authenticate_wallaby_user!
