@@ -48,6 +48,7 @@ require 'concerns/wallaby/resources_concern'
 
 require 'concerns/wallaby/authorizable'
 require 'concerns/wallaby/baseable'
+require 'concerns/wallaby/configurable'
 require 'concerns/wallaby/decoratable'
 require 'concerns/wallaby/defaultable'
 require 'concerns/wallaby/engineable'
@@ -122,3 +123,9 @@ require 'adaptors/wallaby/custom/model_finder'
 require 'adaptors/wallaby/custom/model_decorator'
 require 'adaptors/wallaby/custom/model_pagination_provider'
 require 'adaptors/wallaby/custom/model_service_provider'
+
+module Wallaby
+  # Core module that can be included by controller
+  module Core
+  end
+end
