@@ -10,18 +10,13 @@ RSpec.configure do |config|
   end
 
   config.before :each, type: :helper do |example|
-    view.extend Wallaby::ApplicationHelper
-    view.extend Wallaby::SecureHelper
-    view.extend Wallaby::BaseHelper
     view.extend Wallaby::ResourcesHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
 
-    if view.respond_to? :default_url_options
-      view.default_url_options = { only_path: true, host: 'test.host' }
-    else
+    unless view.respond_to? :default_url_options
       def view.default_url_options
-        @default_url_options ||= { only_path: true, host: 'test.host' }
+        @default_url_options ||= {}
       end
     end
   end
