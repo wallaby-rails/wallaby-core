@@ -61,7 +61,6 @@ module Wallaby
           &block
         )
     end
-
     alias collection! collection
 
     # @note This is a template method that can be overridden by subclasses.
@@ -112,7 +111,6 @@ module Wallaby
           &block
         )
     end
-
     alias resource! resource
   end
 end

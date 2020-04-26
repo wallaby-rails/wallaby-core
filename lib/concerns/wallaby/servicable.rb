@@ -3,6 +3,8 @@
 module Wallaby
   # Servicer related attributes
   module Servicable
+    extend ActiveSupport::Concern
+
     # Configurable attribute
     module ClassMethods
       # @!attribute [w] model_servicer

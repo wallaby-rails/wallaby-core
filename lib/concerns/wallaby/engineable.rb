@@ -3,6 +3,8 @@
 module Wallaby
   # Engine related helper methods for both controller and view
   module Engineable
+    extend ActiveSupport::Concern
+
     # Configurable attribute
     module ClassMethods
       # @!attribute [w] engine_name

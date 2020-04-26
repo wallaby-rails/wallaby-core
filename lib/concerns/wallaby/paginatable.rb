@@ -3,6 +3,8 @@
 module Wallaby
   # Paginator related attributes
   module Paginatable
+    extend ActiveSupport::Concern
+
     # Configurable attribute
     module ClassMethods
       # @!attribute [w] model_paginator

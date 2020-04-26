@@ -3,6 +3,8 @@
 module Wallaby
   # Decorator related attributes
   module Decoratable
+    extend ActiveSupport::Concern
+
     # Configurable attribute
     module ClassMethods
       # @!attribute [w] resource_decorator

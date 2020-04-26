@@ -5,46 +5,22 @@ module Wallaby
   module ResourcesConcern
     extend ActiveSupport::Concern
 
-    # @!parse
-    #   include ApplicationConcern
-    #   include AuthenticationConcern
-    #   extend Authorizable::ClassMethods
-    #   extend Baseable::ClassMethods
-    #   extend Decoratable::ClassMethods
-    #   extend Paginatable::ClassMethods
-    #   extend Resourcable::ClassMethods
-    #   extend Servicable::ClassMethods
-    #
-    #   include View
-    #   prepend Prefixable
-    #
-    #   include Authorizable
-    #   include Decoratable
-    #   include Defaultable
-    #   include Paginatable
-    #   include Resourcable
-    #   include Servicable
+    include Authorizable
+    include Baseable
+    include Configurable
+    include Decoratable
+    include Defaultable
+    include Prefixable
+    include Paginatable
+    include Resourcable
+    include Servicable
 
-    included do # rubocop:disable Metrics/BlockLength
+    included do
+      include View
+      alias_method :_prefixes, :wallaby_prefixes
+
       include ApplicationConcern
       include AuthenticationConcern
-
-      extend Authorizable::ClassMethods
-      extend Baseable::ClassMethods
-      extend Configurable::ClassMethods
-      extend Decoratable::ClassMethods
-      extend Paginatable::ClassMethods
-      extend Servicable::ClassMethods
-
-      include View
-      prepend Prefixable
-
-      include Authorizable
-      include Decoratable
-      include Defaultable
-      include Paginatable
-      include Resourcable
-      include Servicable
 
       base_class!
 
@@ -61,7 +37,7 @@ module Wallaby
       respond_to :json
       respond_to :csv
       helper ResourcesHelper
-      before_action :set_config
+      before_action :set_configs
       before_action :authenticate_wallaby_user!
     end
 

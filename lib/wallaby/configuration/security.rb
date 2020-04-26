@@ -2,25 +2,18 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Security configuration
-    # TODO: remove this from 6.2
+    # TODO: remove this from 0.3
     class Security
       # Default block to return nil for current user
       DEFAULT_CURRENT_USER = -> { nil }
       # Default block to return nil
       DEFAULT_AUTHENTICATE = -> { true }
 
+      # @deprecated
       # @!attribute [r] logout_path
-      # To globally configure the logout path.
-      #
-      # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout path will be required
-      # so that Wallaby knows where to navigate the user to when user clicks the logout button.
-      #
-      # But once it detects `Devise`, it will use the path that Devise uses without the need of configuration.
-      # @example To update the logout path in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.logout_path = 'logout_path'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#logout_path
       # @since wallaby-5.1.4
       attr_reader :logout_path
 
@@ -37,17 +30,9 @@ module Wallaby
         @logout_path = logout_path
       end
 
+      # @deprecated
       # @!attribute [r] logout_method
-      # To globally configure the logout HTTP method.
-      #
-      # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout method will be required
-      # so that Wallaby knows how navigate the user via what HTTP method when user clicks the logout button.
-      #
-      # But once it detects `Devise`, it will use the HTTP method that Devise uses without the need of configuration.
-      # @example To update the logout method in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.logout_method = 'post'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#logout_method
       # @since wallaby-5.1.4
       attr_reader :logout_method
 
@@ -56,22 +41,17 @@ module Wallaby
         Deprecator.alert 'config.security.logout_method=', from: '0.3', alternative: <<~INSTRUCTION
           Please use #logout_method= from the controller instead, for example:
 
-            class Admin::ApplicationController < Wallaby::ResourcesController
-              self.logout_method = 'put'
-            end
+          class Admin::ApplicationController < Wallaby::ResourcesController
+            self.logout_method = 'put'
+          end
         INSTRUCTION
 
         @logout_method = logout_method
       end
 
+      # @deprecated
       # @!attribute [r] email_method
-      # To globally configure the method on {#current_user} to retrieve email address.
-      #
-      # If no configuration is given, it will attempt to call `email` on {#current_user}.
-      # @example To update the email method in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.email_method = 'email_address'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#email_method
       # @since wallaby-5.1.4
       attr_reader :email_method
 
@@ -88,6 +68,7 @@ module Wallaby
         @email_method = email_method
       end
 
+      # @deprecated
       # To globally configure how to get user object.
       # @example To update how to get the current user object in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
@@ -120,6 +101,7 @@ module Wallaby
         current_user != DEFAULT_CURRENT_USER
       end
 
+      # @deprecated
       # To globally configure how to authenicate a user.
       # @example
       #   Wallaby.config do |config|
@@ -150,6 +132,7 @@ module Wallaby
         end
       end
 
+      # @deprecated
       # Check if {#authenticate} configuration is set.
       # @return [Boolean]
       def authenticate?

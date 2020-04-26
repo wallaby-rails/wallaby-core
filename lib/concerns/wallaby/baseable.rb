@@ -3,8 +3,10 @@
 module Wallaby
   # Abstract related class methods
   module Baseable
-    SUFFIX = /(Controller|Decorator|Servicer|Authorizer|Paginator)$/.freeze
-    ATTR_NAME = 'model_class'
+    extend ActiveSupport::Concern
+
+    SUFFIX = /(Controller|Decorator|Servicer|Authorizer|Paginator)$/.freeze # :no_doc:
+    ATTR_NAME = 'model_class' # :no_doc:
 
     # @param class_name [String]
     # @param attr_name [String]

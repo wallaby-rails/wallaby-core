@@ -3,6 +3,8 @@
 module Wallaby
   # Authorizer related attributes
   module Authorizable
+    extend ActiveSupport::Concern
+
     # Configurable attribute for authorizer related
     module ClassMethods
       # @!attribute [w] model_authorizer

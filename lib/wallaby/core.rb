@@ -42,10 +42,6 @@ require 'utils/wallaby/params_utils'
 require 'utils/wallaby/test_utils'
 require 'utils/wallaby/utils'
 
-require 'concerns/wallaby/application_concern'
-require 'concerns/wallaby/authentication_concern'
-require 'concerns/wallaby/resources_concern'
-
 require 'concerns/wallaby/authorizable'
 require 'concerns/wallaby/baseable'
 require 'concerns/wallaby/configurable'
@@ -58,6 +54,10 @@ require 'concerns/wallaby/prefixable'
 require 'concerns/wallaby/resourcable'
 require 'concerns/wallaby/servicable'
 require 'concerns/wallaby/shared_helpers'
+
+require 'concerns/wallaby/application_concern'
+require 'concerns/wallaby/authentication_concern'
+require 'concerns/wallaby/resources_concern'
 
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'

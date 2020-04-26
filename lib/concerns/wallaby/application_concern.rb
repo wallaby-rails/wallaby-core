@@ -6,16 +6,10 @@ module Wallaby
   module ApplicationConcern
     extend ActiveSupport::Concern
 
-    # @!parse
-    #   extend Engineable::ClassMethods
-    #   include Engineable
-    #   include SharedHelpers
+    include Engineable
+    include SharedHelpers
 
     included do
-      extend Engineable::ClassMethods
-      include Engineable
-      include SharedHelpers
-
       rescue_from NotFound, with: :not_found
       rescue_from ::ActionController::ParameterMissing, with: :bad_request
       rescue_from ::ActiveRecord::StatementInvalid, with: :unprocessable_entity
@@ -82,10 +76,5 @@ module Wallaby
       @code = Rack::Utils::SYMBOL_TO_STATUS_CODE[symbol].to_i
       respond_with @exception, status: @code, template: ERROR_PATH, prefixes: _prefixes
     end
-
-    def config
-      RequestStore.store[:config] ||= self.class
-    end
-    alias set_config config
   end
 end
