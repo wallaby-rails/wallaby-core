@@ -21,6 +21,7 @@ module Wallaby
 
     # @!attribute [r] model_paths
     # To configure the model folders that {Wallaby::Preloader} needs to load before everything else.
+    # Default is `%w(app/models)`
     # @example To set the model paths
     #   Wallaby.config do |config|
     #     config.model_paths = ["app/models", "app/core"]

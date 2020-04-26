@@ -24,16 +24,46 @@ module Wallaby
     #   include Paginatable
     #   include Resourcable
     #   include Servicable
-    #
-    #   alias index! index
-    #   alias new! new
-    #   alias create! create
-    #   alias show! show
-    #   alias edit! edit
-    #   alias update! update
-    #   alias destroy! destroy
-    #   alias collection! collection
-    #   alias resource! resource
+
+    included do # rubocop:disable Metrics/BlockLength
+      include ApplicationConcern
+      include AuthenticationConcern
+
+      extend Authorizable::ClassMethods
+      extend Baseable::ClassMethods
+      extend Configurable::ClassMethods
+      extend Decoratable::ClassMethods
+      extend Paginatable::ClassMethods
+      extend Servicable::ClassMethods
+
+      include View
+      prepend Prefixable
+
+      include Authorizable
+      include Decoratable
+      include Defaultable
+      include Paginatable
+      include Resourcable
+      include Servicable
+
+      base_class!
+
+      # NOTE: to ensure Wallaby's layout
+      # is not inheriting from/impacted by parent controller's layout.
+      try(
+        # inherit? or include?
+        self == ResourcesController ? :layout : :theme_name=,
+        ResourcesController.controller_path
+      )
+
+      self.responder = ResourcesResponder
+      respond_to :html
+      respond_to :json
+      respond_to :csv
+      helper ResourcesHelper
+      before_action :set_config
+      before_action :authenticate_wallaby_user!
+    end
 
     # @note This is a template method that can be overridden by subclasses.
     # This is an action for landing page display. It does nothing more than rendering `home` template.
@@ -366,45 +396,6 @@ module Wallaby
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
-    end
-
-    included do # rubocop:disable Metrics/BlockLength
-      include ApplicationConcern
-      include AuthenticationConcern
-
-      extend Authorizable::ClassMethods
-      extend Baseable::ClassMethods
-      extend Configurable::ClassMethods
-      extend Decoratable::ClassMethods
-      extend Paginatable::ClassMethods
-      extend Servicable::ClassMethods
-
-      include View
-      prepend Prefixable
-
-      include Authorizable
-      include Decoratable
-      include Defaultable
-      include Paginatable
-      include Resourcable
-      include Servicable
-
-      base_class!
-
-      # NOTE: to ensure Wallaby's layout
-      # is not inheriting from/impacted by parent controller's layout.
-      try(
-        # inherit? or include?
-        self == ResourcesController ? :layout : :theme_name=,
-        ResourcesController.controller_path
-      )
-
-      self.responder = ResourcesResponder
-      respond_to :html
-      respond_to :json
-      respond_to :csv
-      helper ResourcesHelper
-      before_action :authenticate_wallaby_user!
     end
   end
 end
