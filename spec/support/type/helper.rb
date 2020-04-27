@@ -21,5 +21,7 @@ RSpec.configure do |config|
         @default_url_options ||= { only_path: true, host: 'test.host' }
       end
     end
+
+    RequestStore.store[:wallaby_controller] = example.metadata[:wallaby_controller] || Wallaby.configuration.resources_controller
   end
 end

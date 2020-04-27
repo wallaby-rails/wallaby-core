@@ -9,14 +9,6 @@ describe Wallaby::ResourcesController, type: :controller do
     end
   end
 
-  context "with #{Wallaby::Configurable}" do
-    it 'has the following alias methods' do
-      %i(set_configs).each do |method_id|
-        expect(controller).to be_respond_to method_id
-      end
-    end
-  end
-
   context "with #{Wallaby::Resourcable}" do
     it 'has the following alias methods' do
       %i(collection! resource!).each do |method_id|

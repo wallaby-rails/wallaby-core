@@ -13,7 +13,8 @@ module Wallaby
               self.page_size = 50
             end
         INSTRUCTION
-        @page_size = page_size
+
+        Wallaby.configuration.resources_controller.page_size = page_size
       end
 
       # @!attribute [r] page_size
@@ -39,7 +40,8 @@ module Wallaby
               self.page_size = 50
             end
         INSTRUCTION
-        @page_size ||= DEFAULT_PAGE_SIZE
+
+        Wallaby.configuration.resources_controller.page_size
       end
     end
   end

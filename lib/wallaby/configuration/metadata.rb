@@ -13,7 +13,8 @@ module Wallaby
               self.max_length = 50
             end
         INSTRUCTION
-        @max = max
+
+        Wallaby.configuration.resources_controller.max_length = max
       end
 
       # @!attribute [r] resources_controller
@@ -25,7 +26,7 @@ module Wallaby
       # @return [Integer] max number of characters to truncate, default to 20
       # @since wallaby-5.1.6
       def max
-        @max ||= DEFAULT_MAX
+        Wallaby.configuration.resources_controller.max_length
       end
     end
   end

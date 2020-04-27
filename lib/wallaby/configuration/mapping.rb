@@ -2,6 +2,7 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Configuration used in {Wallaby::Map}
     # @since wallaby-5.1.6
     class Mapping
@@ -9,7 +10,16 @@ module Wallaby
 
       # @!attribute [w] resources_controller
       def resources_controller=(resources_controller)
-        @resources_controller = to_class_name resources_controller
+        Deprecator.alert 'config.mapping.resources_controller=', from: '0.3', alternative: <<~INSTRUCTION
+          Please use set #resources_controller= from the config instead, for example:
+
+            Wallaby.config do |config|
+              config.resources_controller = ::GlobalResourcesController
+            end
+        INSTRUCTION
+
+        Wallaby.configuration.resources_controller = resources_controller
+        Wallaby.configuration.resources_controller
       end
 
       # @!attribute [r] resources_controller
@@ -27,11 +37,7 @@ module Wallaby
       # @return [Class] resources controller class
       # @since wallaby-5.1.6
       def resources_controller
-        @resources_controller ||=
-          defined?(::Admin::ApplicationController) \
-            && ::Admin::ApplicationController < ::Wallaby::ResourcesController \
-            && 'Admin::ApplicationController'
-        to_class @resources_controller ||= 'Wallaby::ResourcesController'
+        Wallaby.configuration.resources_controller
       end
 
       # @!attribute [w] resource_decorator

@@ -7,6 +7,46 @@ module Wallaby
 
     # Configurable related class methods
     module ClassMethods
+      # Models related
+      begin
+        # @!attribute [r] models
+        # To configure the models that the controller should be handling.
+        # It takes both Class and Class String.
+        # @example To update the models in `Admin::ApplicationController`
+        #   class Admin::ApplicationController < Wallaby::ResourcesController
+        #     self.models = User, 'Product'
+        #   end
+        # @since 0.2.3
+        def models
+          @models || superclass.try(:models) || ClassArray.new
+        end
+
+        # @!attribute [w] models
+        def models=(*models)
+          @models = ClassArray.new models.flatten
+        end
+
+        # @note If models are whitelisted using {#models}, models exclusion will NOT be applied.
+        # @!attribute [r] models_to_exclude
+        # To configure the models to exclude that the controller should be handling.
+        # It takes both Class and Class String.
+        # @example To update the models to exclude in `Admin::ApplicationController`
+        #   class Admin::ApplicationController < Wallaby::ResourcesController
+        #     self.models_to_exclude = User, 'Product'
+        #   end
+        # @since 0.2.3
+        def models_to_exclude
+          @models_to_exclude ||
+            superclass.try(:models_to_exclude) ||
+            ClassArray.new(['ActiveRecord::SchemaMigration'])
+        end
+
+        # @!attribute [w] models_to_exclude
+        def models_to_exclude=(*models_to_exclude)
+          @models_to_exclude = ClassArray.new models_to_exclude.flatten
+        end
+      end
+
       # Authentication related
       begin
         # @!attribute [r] logout_path
@@ -22,7 +62,7 @@ module Wallaby
         #   end
         # @since 0.2.3
         def logout_path
-          @logout_path ||= superclass.try :logout_path
+          @logout_path || superclass.try(:logout_path)
         end
 
         # @!attribute [w] logout_path
@@ -48,7 +88,7 @@ module Wallaby
         #   end
         # @since 0.2.3
         def logout_method
-          @logout_method ||= superclass.try :logout_method
+          @logout_method || superclass.try(:logout_method)
         end
 
         # @!attribute [w] logout_method
@@ -73,7 +113,7 @@ module Wallaby
         #   end
         # @since 0.2.3
         def email_method
-          @email_method ||= superclass.try :email_method
+          @email_method || superclass.try(:email_method)
         end
 
         # @!attribute [w] email_method
@@ -99,7 +139,7 @@ module Wallaby
         # @see Wallaby::DEFAULT_MAX
         # @since 0.2.3
         def max_length
-          @max_length ||= superclass.try(:max_length) || DEFAULT_MAX
+          @max_length || superclass.try(:max_length) || DEFAULT_MAX
         end
 
         # @!attribute [w] max_length
@@ -133,7 +173,7 @@ module Wallaby
         # @see Wallaby::DEFAULT_PAGE_SIZE
         # @since 0.2.3
         def page_size
-          @page_size ||= superclass.try(:page_size) || DEFAULT_PAGE_SIZE
+          @page_size || superclass.try(:page_size) || DEFAULT_PAGE_SIZE
         end
 
         # @!attribute [w] page_size
@@ -162,7 +202,7 @@ module Wallaby
         # @see Wallaby::PERS
         # @since 0.2.3
         def sorting_strategy
-          @sorting_strategy ||= superclass.try(:sorting_strategy) || :multiple
+          @sorting_strategy || superclass.try(:sorting_strategy) || :multiple
         end
 
         # @!attribute [w] sorting_strategy
@@ -175,11 +215,20 @@ module Wallaby
           end
         end
       end
+
+      def clear
+        %w(
+          @models @models_to_exclude
+          @logout_path @logout_method @email_method
+          @max_length @page_size @sorting_strategy
+        ).each { |name| instance_variable_set name, nil }
+      end
     end
 
-    def configs
-      RequestStore.store[:configs] ||= self.class
+    protected
+
+    def set_controller_class
+      RequestStore.store[:wallaby_controller] ||= self.class
     end
-    alias set_configs configs
   end
 end

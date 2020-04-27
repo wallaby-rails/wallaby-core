@@ -27,10 +27,10 @@ describe Wallaby::ResourcesController do
       end
 
       context 'when application controller set max_length to an invalid value' do
-        let(:application_value) { "invalid_value" }
+        let(:application_value) { 'invalid_value' }
 
         it 'raises error' do
-          expect {application_controller.try :max_length=, application_value}.to raise_error ArgumentError
+          expect { application_controller.try :max_length=, application_value }.to raise_error ArgumentError
         end
       end
     end
@@ -62,10 +62,10 @@ describe Wallaby::ResourcesController do
       end
 
       context 'when application controller set page_size to an invalid value' do
-        let(:application_value) { "invalid_value" }
+        let(:application_value) { 'invalid_value' }
 
         it 'raises error' do
-          expect {application_controller.try :page_size=, application_value}.to raise_error ArgumentError
+          expect { application_controller.try :page_size=, application_value }.to raise_error ArgumentError
         end
       end
     end
@@ -97,10 +97,10 @@ describe Wallaby::ResourcesController do
       end
 
       context 'when application controller set sorting_strategy to an invalid value' do
-        let(:application_value) { "invalid_value" }
+        let(:application_value) { 'invalid_value' }
 
         it 'raises error' do
-          expect {application_controller.try :sorting_strategy=, application_value}.to raise_error ArgumentError
+          expect { application_controller.try :sorting_strategy=, application_value }.to raise_error ArgumentError
         end
       end
     end
