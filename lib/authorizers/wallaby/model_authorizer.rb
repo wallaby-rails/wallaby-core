@@ -23,7 +23,7 @@ module Wallaby
       # It will be inherited from its parent classes if there isn't one for current class.
       # @return [String, Symbol]
       def provider_name
-        @provider_name ||= superclass.try :provider_name
+        @provider_name || superclass.try(:provider_name)
       end
     end
 

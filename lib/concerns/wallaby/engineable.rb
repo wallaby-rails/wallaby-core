@@ -21,7 +21,7 @@ module Wallaby
       # @return [String, Symbol, nil] engine name
       # @since wallaby-5.2.0
       def engine_name
-        @engine_name ||= superclass.try :engine_name
+        @engine_name || superclass.try(:engine_name)
       end
     end
 
