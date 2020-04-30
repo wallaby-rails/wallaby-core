@@ -29,7 +29,7 @@ module Wallaby
     module ClassMethods
       # @!attribute [w] resource_decorator
       def resource_decorator=(resource_decorator)
-        ModuleUtils.inheritance_check resource_decorator, application_decorator
+        validates_sub_class resource_decorator, application_decorator
         @resource_decorator = resource_decorator
       end
 
@@ -49,7 +49,7 @@ module Wallaby
 
       # @!attribute [w] application_decorator
       def application_decorator=(application_decorator)
-        ModuleUtils.inheritance_check resource_decorator, application_decorator
+        validates_super_class application_decorator, resource_decorator
         @application_decorator = application_decorator
       end
 
@@ -64,6 +64,13 @@ module Wallaby
       # @see Wallaby::ResourceDecorator
       # @since wallaby-5.2.0
       def application_decorator
+        # Make sure it always returns a application Class
+        if top_reached?
+          return @application_decorator ||= Guesser.class_for(
+            name, suffix: DECORATOR, super_class: ResourceDecorator, &:base_class?
+          ) || ResourceDecorator
+        end
+
         @application_decorator || superclass.try(:application_decorator)
       end
     end
@@ -409,6 +416,27 @@ module Wallaby
           @logout_path @logout_method @email_method
           @max_length @page_size @sorting_strategy
         ).each { |name| instance_variable_set name, nil }
+      end
+
+      # Validate and see if the klass is valid subclass
+      def validates_sub_class(klass, super_class)
+        raise ArgumentError, 'Please provide a Class.' unless klass.is_a? Class
+        return if !super_class || klass < super_class
+
+        raise ArgumentError, "Please provide a Class that inherits from #{super_class}."
+      end
+
+      # Validate and see if the klass is valid superclass
+      def validates_super_class(klass, sub_class)
+        raise ArgumentError, 'Please provide a Class.' unless klass.is_a? Class
+        return if !sub_class || sub_class < klass
+
+        raise ArgumentError, "Please provide a Class that is a superclass of #{sub_class}."
+      end
+
+      # Reaching the top of class inheritance chain for Classes that includes {Wallaby::Configurable}?
+      def top_reached?
+        superclass == ResourcesController || !(superclass < Configurable)
       end
     end
 

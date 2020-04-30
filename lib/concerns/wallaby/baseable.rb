@@ -5,43 +5,6 @@ module Wallaby
   module Baseable
     extend ActiveSupport::Concern
 
-    SUFFIX = /(Controller|Decorator|Servicer|Authorizer|Paginator)$/.freeze # :no_doc:
-    ATTR_NAME = 'model_class' # :no_doc:
-
-    # @param class_name [String]
-    # @param attr_name [String]
-    # @param suffix [String]
-    # @param plural [String]
-    # @return [Class] found associated class
-    # @raise [Wallaby::ClassNotFound] if associated class isn't found
-    def self.guess_associated_class_of(class_name, attr_name: ATTR_NAME, suffix: EMPTY_STRING, plural: false)
-      base_name = class_name.gsub(SUFFIX, EMPTY_STRING).try(plural ? :pluralize : :singularize) << suffix
-      parts = base_name.split(COLONS)
-      parts.each_with_index do |_, index|
-        begin
-          # NOTE: DO NOT try to use const_defined? and const_get EVER.
-          # This is Rails, use constantize
-          return parts[index..-1].join(COLONS).constantize
-        rescue NameError # rubocop:disable Lint/SuppressedException
-        end
-      end
-
-      raise ClassNotFound, <<~INSTRUCTION
-        The `#{attr_name}` hasn't been provided for Class `#{class_name}` and Wallaby cannot guess it right.
-        If `#{class_name}` is supposed to be a base class, add the following line to its class declaration:
-
-          class #{class_name}
-            base_class!
-          end
-
-        Otherwise, please specify the `#{attr_name}` in `#{class_name}`'s declaration as follows:
-
-          class #{class_name}
-            self.#{attr_name} = CorrectClass
-          end
-      INSTRUCTION
-    end
-
     # Configurable attributes:
     # 1. mark a class as a base class
     # 2. guess the model class if model class isn't given
@@ -86,19 +49,25 @@ module Wallaby
       # @return [nil] if current class is marked as base class
       # @raise [Wallaby::ModelNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty
-      def model_class
+      def model_class # rubocop:disable Metrics/MethodLength
         return if base_class?
 
-        @model_class ||= Baseable.guess_associated_class_of name
-      rescue TypeError
-        raise ArgumentError, <<~INSTRUCTION
-          Please specify the base class for class `#{name}`
-          by marking one of its parents `base_class!`, for example:
+        @model_class ||= Guesser.class_for(name) || raise(
+          ClassNotFound, <<~INSTRUCTION
+            The `model_class` hasn't been provided for Class `#{name}` and Wallaby cannot guess it right.
+            If `#{name}` is supposed to be a base class, add the following line to its class declaration:
 
-            class ParentClass
-              base_class!
-            end
-        INSTRUCTION
+              class #{name}
+                base_class!
+              end
+
+            Otherwise, please specify the `model_class` in `#{name}`'s declaration as follows:
+
+              class #{name}
+                self.model_class = CorrectClass
+              end
+          INSTRUCTION
+        )
       end
 
       # @!attribute [w] namespace

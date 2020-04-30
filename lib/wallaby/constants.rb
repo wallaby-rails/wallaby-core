@@ -21,6 +21,7 @@ module Wallaby
   # Default provider name for authorizer sorting.
   DEFAULT_PROVIDER = 'default'
 
+  # HTTP error types that Wallaby handles
   ERRORS = %i(
     bad_request
     forbidden
@@ -45,4 +46,9 @@ module Wallaby
 
   # A constant of error path for error handling
   ERROR_PATH = 'error'
+
+  DECORATOR = 'Decorator'
+  SERVICER = 'Servicer'
+  AUTHORIZER = 'Authorizer'
+  PAGINATOR = 'Paginator'
 end

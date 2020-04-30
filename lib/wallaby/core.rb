@@ -10,6 +10,7 @@ require 'wallaby/constants'
 require 'wallaby/deprecator'
 require 'wallaby/logger'
 require 'wallaby/preloader'
+require 'wallaby/guesser'
 require 'wallaby/engine'
 
 # Global class attributes that holds the most important configuration/information

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Custom logger
+  # Deprecation log for methods
   class Deprecator
     include ActiveModel::Model
 
