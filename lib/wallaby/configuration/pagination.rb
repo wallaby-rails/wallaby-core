@@ -2,12 +2,14 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Pagination configuration
     class Pagination
+      # @deprecated
       # @!attribute [w] page_size
       def page_size=(page_size)
-        Deprecator.alert 'config.metadata.page_size=', from: '0.3', alternative: <<~INSTRUCTION
-          Please use set #page_size= from the controller instead, for example:
+        Deprecator.alert 'config.pagination.page_size=', from: '0.3', alternative: <<~INSTRUCTION
+          Please set #page_size= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               self.page_size = 50
@@ -17,6 +19,7 @@ module Wallaby
         Wallaby.configuration.resources_controller.page_size = page_size
       end
 
+      # @deprecated
       # @!attribute [r] page_size
       # To globally configure the page size for pagination.
       #
@@ -33,15 +36,9 @@ module Wallaby
       #   end
       # @return [Integer] page size, default to 20
       def page_size
-        Deprecator.alert 'config.metadata.page_size', from: '0.3', alternative: <<~INSTRUCTION
-          Please use set #page_size= from the controller instead, for example:
-
-            class Admin::ApplicationController < Wallaby::ResourcesController
-              self.page_size = 50
-            end
+        Deprecator.alert 'config.pagination.page_size', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.page_size instead.
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.page_size
       end
     end
   end

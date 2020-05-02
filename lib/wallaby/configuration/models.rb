@@ -14,22 +14,21 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def set(*models)
-        Deprecator.alert 'config.models=', from: '0.3', alternative: <<~INSTRUCTION
-          Please use #models= from the controller instead, for example:
+        Deprecator.alert 'config.models.set', from: '0.3', alternative: <<~INSTRUCTION
+          Please set #models= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               self.models = User, 'Product'
             end
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.models = models.flatten
-        Wallaby.configuration.resources_controller.models
       end
 
       # @deprecated
       # @return [Array<Class>] the models configured
       def presence
-        Wallaby.configuration.resources_controller.models
+        Deprecator.alert 'config.models.presence', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.models instead.
+        INSTRUCTION
       end
 
       # @deprecated
@@ -42,22 +41,21 @@ module Wallaby
       # @param models [Array<Class, String>]
       def exclude(*models)
         Deprecator.alert 'config.models.exclude', from: '0.3', alternative: <<~INSTRUCTION
-          Please use #models_to_exclude from the controller instead, for example:
+          Please set #models_to_exclude from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               self.models_to_exclude User, 'Product'
             end
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.models_to_exclude = models
-        Wallaby.configuration.resources_controller.models_to_exclude
       end
 
       # @deprecated
       # @return [Array<Class>] the list of models to exclude.
       #   By default, `ActiveRecord::SchemaMigration` is excluded.
       def excludes
-        Wallaby.configuration.resources_controller.models_to_exclude
+        Deprecator.alert 'config.models.excludes', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.models_to_exclude instead.
+        INSTRUCTION
       end
     end
   end

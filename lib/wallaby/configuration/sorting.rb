@@ -2,22 +2,23 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Sorting global configuration
     # @since wallaby-5.2.0
     class Sorting
+      # @deprecated
       # @!attribute [w] strategy
       def strategy=(strategy)
-        Deprecator.alert 'config.metadata.max=', from: '0.3', alternative: <<~INSTRUCTION
-          Please use set #max_length= from the controller instead, for example:
+        Deprecator.alert 'config.sorting.strategy=', from: '0.3', alternative: <<~INSTRUCTION
+          Please set #sorting_strategy= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
-              self.max_length = 50
+              self.sorting_strategy = :multiple
             end
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.sorting_strategy = strategy
       end
 
+      # @deprecated
       # @!attribute [r] strategy
       # To globally configure which strategy to use for sorting. Options are
       #
@@ -31,15 +32,9 @@ module Wallaby
       #   end
       # @return [Symbol, String]
       def strategy
-        Deprecator.alert 'config.metadata.max=', from: '0.3', alternative: <<~INSTRUCTION
-          Please use set #max_length= from the controller instead, for example:
-
-            class Admin::ApplicationController < Wallaby::ResourcesController
-              self.max_length = 50
-            end
+        Deprecator.alert 'config.sorting.strategy', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.sorting_strategy instead.
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.sorting_strategy
       end
     end
   end

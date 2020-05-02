@@ -15,7 +15,11 @@ module Wallaby
       # @!attribute [r] logout_path
       # @see Wallaby::Configurable::ClassMethods#logout_path
       # @since wallaby-5.1.4
-      attr_reader :logout_path
+      def logout_path
+        Deprecator.alert 'config.security.logout_path', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.logout_path instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] logout_path
       def logout_path=(logout_path)
@@ -26,15 +30,17 @@ module Wallaby
               self.logout_path = 'destroy_admin_user_session_path'
             end
         INSTRUCTION
-
-        @logout_path = logout_path
       end
 
       # @deprecated
       # @!attribute [r] logout_method
       # @see Wallaby::Configurable::ClassMethods#logout_method
       # @since wallaby-5.1.4
-      attr_reader :logout_method
+      def logout_method
+        Deprecator.alert 'config.security.logout_method', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.logout_method instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] logout_method
       def logout_method=(logout_method)
@@ -45,15 +51,17 @@ module Wallaby
             self.logout_method = 'put'
           end
         INSTRUCTION
-
-        @logout_method = logout_method
       end
 
       # @deprecated
       # @!attribute [r] email_method
       # @see Wallaby::Configurable::ClassMethods#email_method
       # @since wallaby-5.1.4
-      attr_reader :email_method
+      def email_method
+        Deprecator.alert 'config.security.email_method', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller_class.email_method instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] email_method
       def email_method=(email_method)
@@ -64,8 +72,6 @@ module Wallaby
               self.email_method = 'email_address'
             end
         INSTRUCTION
-
-        @email_method = email_method
       end
 
       # @deprecated
@@ -87,18 +93,14 @@ module Wallaby
               end
             end
         INSTRUCTION
-
-        if block_given?
-          @current_user = block
-        else
-          @current_user ||= DEFAULT_CURRENT_USER
-        end
       end
 
       # Check if {#current_user} configuration is set.
       # @return [Boolean]
       def current_user?
-        current_user != DEFAULT_CURRENT_USER
+        Deprecator.alert 'config.security.current_user?', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller#wallaby_user instead.
+        INSTRUCTION
       end
 
       # @deprecated
@@ -124,19 +126,15 @@ module Wallaby
               end
             end
         INSTRUCTION
-
-        if block_given?
-          @authenticate = block
-        else
-          @authenticate ||= DEFAULT_AUTHENTICATE
-        end
       end
 
       # @deprecated
       # Check if {#authenticate} configuration is set.
       # @return [Boolean]
       def authenticate?
-        authenticate != DEFAULT_AUTHENTICATE
+        Deprecator.alert 'config.security.authenicate?', from: '0.3', alternative: <<~INSTRUCTION
+          Please use controller#authenticate_wallaby_user! instead.
+        INSTRUCTION
       end
     end
   end

@@ -14,7 +14,7 @@ describe Wallaby::ResourcesController, type: :controller do
       end
 
       it 'calls the defined method' do
-        expect(controller.send :wallaby_user).to eq email: 'wallaby@wallaby-rails.org.au'
+        expect(controller.send(:wallaby_user)).to eq email: 'wallaby@wallaby-rails.org.au'
       end
     end
   end
