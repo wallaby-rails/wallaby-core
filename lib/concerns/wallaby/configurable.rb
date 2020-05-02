@@ -339,7 +339,7 @@ module Wallaby
         when Integer, nil
           @max_length = max_length
         else
-          raise ArgumentError, 'Please provide a String/Symbol value or nil'
+          raise ArgumentError, 'Please provide a Integer value or nil'
         end
       end
     end
@@ -373,7 +373,7 @@ module Wallaby
         when Integer, nil
           @page_size = page_size
         else
-          raise ArgumentError, 'Please provide a String/Symbol value or nil'
+          raise ArgumentError, 'Please provide a Integer value or nil'
         end
       end
     end
@@ -442,8 +442,8 @@ module Wallaby
 
     protected
 
-    # Store controller class for later #{Wallaby.controller} usage.
-    def set_controller_class
+    # Store controller class for later #{Wallaby.controller_configuration} usage.
+    def set_controller_configuration
       RequestStore.store[:wallaby_controller] ||= self.class
     end
   end

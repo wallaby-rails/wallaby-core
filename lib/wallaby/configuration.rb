@@ -78,7 +78,7 @@ module Wallaby
 
     # @return [Wallaby::Configuration::Models] models configuration for custom mode
     def custom_models
-      @custom_models ||= Models.new
+      @custom_models ||= ClassArray.new
     end
 
     # To globally configure the models for custom mode.
@@ -88,7 +88,7 @@ module Wallaby
     #   end
     # @param models [Array<[Class, String]>] a list of model classes/name strings
     def custom_models=(models)
-      custom_models.set models
+      @custom_models = ClassArray.new models.flatten
     end
 
     # @return [Wallaby::Configuration::Models] models configuration
@@ -156,13 +156,13 @@ module Wallaby
     yield configuration
   end
 
-  def self.controller
+  def self.controller_configuration
     RequestStore.store[:wallaby_controller].tap do |config|
       raise ArgumentError, <<~INSTRUCTION if config.nil?
-        Please make sure to set `before_action :set_controller_class` in the controller, for example:
+        Please make sure to set `before_action :set_controller_configuration` in the controller, for example:
 
           class Admin::ApplicationController < Wallaby::ResourcesController
-            before_action :set_controller_class
+            before_action :set_controller_configuration
           end
       INSTRUCTION
     end

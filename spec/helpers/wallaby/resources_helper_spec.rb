@@ -63,7 +63,7 @@ describe Wallaby::ResourcesHelper, :wallaby_user do
 
   describe '#default_metadata' do
     it 'returns the metadata configuration' do
-      expect(helper.default_metadata).to be_a Wallaby::Configuration::Metadata
+      expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved
     end
   end
 

@@ -37,7 +37,7 @@ module Wallaby
       respond_to :json
       respond_to :csv
       helper ResourcesHelper
-      before_action :set_controller_class
+      before_action :set_controller_configuration
       before_action :authenticate_wallaby_user!
     end
 

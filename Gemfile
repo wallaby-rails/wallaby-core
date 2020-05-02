@@ -19,8 +19,8 @@ gemspec
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
 gem 'rails', '~> 6.0.0'
 
-gem 'wallaby-active_record'
-# gem 'wallaby-active_record', path: '../wallaby-active_record'
+# gem 'wallaby-active_record'
+gem 'wallaby-active_record', path: '../wallaby-active_record'
 gem 'wallaby-cop', path: '../wallaby-cop'
 # gem 'wallaby-her', path: '../wallaby-her'
 

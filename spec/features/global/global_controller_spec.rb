@@ -9,7 +9,7 @@ describe 'GlobalController', type: :request do
       end
     end)
 
-    Wallaby.configuration.mapping.resources_controller = GlobalController
+    Wallaby.configuration.resources_controller = GlobalController
   end
 
   it 'uses the configured resources controller instead of ResourcesController' do

@@ -23,14 +23,14 @@ describe 'routing' do
     end
 
     it 'dispatches general routes to global controller and expected action if configured' do
-      controller = Wallaby.configuration.mapping.resources_controller = global_controller
+      controller = Wallaby.configuration.resources_controller = global_controller
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
       get script_name
       expect(response.body).to eq 'home_body'
     end
 
     it 'dispatches general routes to defaults controller and expected action if defined in mounting the engine and global controller is configured' do
-      Wallaby.configuration.mapping.resources_controller = global_controller
+      Wallaby.configuration.resources_controller = global_controller
       controller = InnerController
       script_name = '/inner'
       expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
@@ -53,7 +53,7 @@ describe 'routing' do
     end
 
     it 'dispatches error routes to global controller and expected action if configured' do
-      controller = Wallaby.configuration.mapping.resources_controller = global_controller
+      controller = Wallaby.configuration.resources_controller = global_controller
       Wallaby::ERRORS.each do |status|
         code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
         expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
@@ -67,7 +67,7 @@ describe 'routing' do
     end
 
     it 'dispatches error routes to global controller and expected action if defined in mounting the engine and global controller is configured' do
-      Wallaby.configuration.mapping.resources_controller = global_controller
+      Wallaby.configuration.resources_controller = global_controller
       controller = InnerController
       script_name = '/inner'
       Wallaby::ERRORS.each do |status|
@@ -130,7 +130,7 @@ describe 'routing' do
     end
 
     it 'routes to global controller if configured' do
-      controller = Wallaby.configuration.mapping.resources_controller = global_controller
+      controller = Wallaby.configuration.resources_controller = global_controller
       resources = 'products'
 
       expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
@@ -177,7 +177,7 @@ describe 'routing' do
     end
 
     it 'routes to default controller if defined in mounting the engine' do
-      Wallaby.configuration.mapping.resources_controller = global_controller
+      Wallaby.configuration.resources_controller = global_controller
       controller = InnerController
       script_name = '/inner'
       resources = 'products'
