@@ -7,16 +7,6 @@ describe Wallaby::Configuration do
       :base_controller, ::ApplicationController, ::ActionController::Base
   end
 
-  describe '#models' do
-    it 'returns a list of models' do
-      subject.models = AllPostgresType
-      expect(subject.models.presence).to eq [AllPostgresType]
-
-      subject.models = [AllPostgresType, AllMysqlType]
-      expect(subject.models.presence).to eq [AllPostgresType, AllMysqlType]
-    end
-  end
-
   describe '#security' do
     it 'returns the configuration of security' do
       expect(subject.security).to be_a Wallaby::Configuration::Security

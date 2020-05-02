@@ -4,7 +4,7 @@ describe Wallaby::ResourcesController, type: :controller do
   describe '.model_servicer && .application_servicer' do
     it 'returns nil' do
       expect(described_class.model_servicer).to be_nil
-      expect(described_class.application_servicer).to be_nil
+      expect(described_class.application_servicer).to eq Wallaby::ModelServicer
     end
 
     context 'when subclass' do
@@ -18,9 +18,9 @@ describe Wallaby::ResourcesController, type: :controller do
 
       it 'is nil' do
         expect(subclass1.model_servicer).to be_nil
-        expect(subclass1.application_servicer).to be_nil
+        expect(subclass1.application_servicer).to eq Wallaby::ModelServicer
         expect(subclass2.model_servicer).to be_nil
-        expect(subclass2.application_servicer).to be_nil
+        expect(subclass2.application_servicer).to eq Wallaby::ModelServicer
       end
 
       it 'returns servicer classes' do

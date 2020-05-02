@@ -6,6 +6,12 @@ describe Wallaby::ConfigurationHelper, type: :helper do
   end
 end
 
+describe Wallaby::Map do
+  describe '.model_classes' do
+    it { expect { described_class.model_classes }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
 describe Wallaby::Configuration::Mapping do
   describe '#resources_controller=' do
     it { expect { subject.resources_controller = nil }.to raise_error Wallaby::MethodRemoved }

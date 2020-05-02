@@ -79,7 +79,7 @@ module Wallaby
     module ClassMethods
       # @!attribute [w] model_servicer
       def model_servicer=(model_servicer)
-        ModuleUtils.inheritance_check model_servicer, application_servicer
+        validates_sub_class model_servicer, application_servicer
         @model_servicer = model_servicer
       end
 
@@ -97,7 +97,7 @@ module Wallaby
 
       # @!attribute [w] application_servicer
       def application_servicer=(application_servicer)
-        ModuleUtils.inheritance_check model_servicer, application_servicer
+        validates_super_class application_servicer, model_servicer
         @application_servicer = application_servicer
       end
 
@@ -112,6 +112,12 @@ module Wallaby
       # @see Wallaby::ModelServicer
       # @since wallaby-5.2.0
       def application_servicer
+        if top_reached?
+          return @application_servicer ||= Guesser.class_for(
+            name, suffix: SERVICER, super_class: ModelServicer, &:base_class?
+          ) || ModelServicer
+        end
+
         @application_servicer || superclass.try(:application_servicer)
       end
     end
@@ -120,7 +126,7 @@ module Wallaby
     module ClassMethods
       # @!attribute [w] model_authorizer
       def model_authorizer=(model_authorizer)
-        ModuleUtils.inheritance_check model_authorizer, application_authorizer
+        validates_sub_class model_authorizer, application_authorizer
         @model_authorizer = model_authorizer
       end
 
@@ -138,7 +144,7 @@ module Wallaby
 
       # @!attribute [w] application_authorizer
       def application_authorizer=(application_authorizer)
-        ModuleUtils.inheritance_check model_authorizer, application_authorizer
+        validates_super_class application_authorizer, model_authorizer
         @application_authorizer = application_authorizer
       end
 
@@ -153,6 +159,12 @@ module Wallaby
       # @see Wallaby::ModelAuthorizer
       # @since wallaby-5.2.0
       def application_authorizer
+        if top_reached?
+          return @application_authorizer ||= Guesser.class_for(
+            name, suffix: AUTHORIZER, super_class: ModelAuthorizer, &:base_class?
+          ) || ModelAuthorizer
+        end
+
         @application_authorizer || superclass.try(:application_authorizer)
       end
     end
@@ -161,7 +173,7 @@ module Wallaby
     module ClassMethods
       # @!attribute [w] model_paginator
       def model_paginator=(model_paginator)
-        ModuleUtils.inheritance_check model_paginator, application_paginator
+        validates_sub_class model_paginator, application_paginator
         @model_paginator = model_paginator
       end
 
@@ -179,7 +191,7 @@ module Wallaby
 
       # @!attribute [w] application_paginator
       def application_paginator=(application_paginator)
-        ModuleUtils.inheritance_check model_paginator, application_paginator
+        validates_super_class application_paginator, model_paginator
         @application_paginator = application_paginator
       end
 
@@ -194,6 +206,12 @@ module Wallaby
       # @see Wallaby::ModelPaginator
       # @since wallaby-5.2.0
       def application_paginator
+        if top_reached?
+          return @application_paginator ||= Guesser.class_for(
+            name, suffix: PAGINATOR, super_class: ModelPaginator, &:base_class?
+          ) || ModelPaginator
+        end
+
         @application_paginator || superclass.try(:application_paginator)
       end
     end
@@ -235,6 +253,15 @@ module Wallaby
       # @!attribute [w] models_to_exclude
       def models_to_exclude=(*models_to_exclude)
         @models_to_exclude = ClassArray.new models_to_exclude.flatten
+      end
+
+      # @return [Array<Class>] all models
+      def all_models
+        @all_models ||= ModelClassFilter.execute(
+          all: Map.mode_map.keys,
+          whitelisted: models.origin,
+          blacklisted: models_to_exclude.origin
+        )
       end
     end
 
@@ -411,11 +438,9 @@ module Wallaby
     module ClassMethods
       # Clear all configurations
       def clear
-        %w(
-          @models @models_to_exclude
-          @logout_path @logout_method @email_method
-          @max_length @page_size @sorting_strategy
-        ).each { |name| instance_variable_set name, nil }
+        ClassMethods.instance_methods.grep(/=/).each do |name|
+          instance_variable_set "@#{name[0...-1]}", nil
+        end
       end
 
       # Validate and see if the klass is valid subclass

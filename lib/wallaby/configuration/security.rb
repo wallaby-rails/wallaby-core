@@ -16,14 +16,14 @@ module Wallaby
       # @see Wallaby::Configurable::ClassMethods#logout_path
       # @since wallaby-5.1.4
       def logout_path
-        Deprecator.alert 'config.security.logout_path', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.security.logout_path', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller_class.logout_path instead.
         INSTRUCTION
       end
 
       # @!attribute [w] logout_path
-      def logout_path=(logout_path)
-        Deprecator.alert 'config.security.logout_path=', from: '0.3', alternative: <<~INSTRUCTION
+      def logout_path=(_logout_path)
+        Deprecator.alert 'config.security.logout_path=', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use #logout_path= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -37,14 +37,14 @@ module Wallaby
       # @see Wallaby::Configurable::ClassMethods#logout_method
       # @since wallaby-5.1.4
       def logout_method
-        Deprecator.alert 'config.security.logout_method', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.security.logout_method', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller_class.logout_method instead.
         INSTRUCTION
       end
 
       # @!attribute [w] logout_method
-      def logout_method=(logout_method)
-        Deprecator.alert 'config.security.logout_method=', from: '0.3', alternative: <<~INSTRUCTION
+      def logout_method=(_logout_method)
+        Deprecator.alert 'config.security.logout_method=', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use #logout_method= from the controller instead, for example:
 
           class Admin::ApplicationController < Wallaby::ResourcesController
@@ -58,14 +58,14 @@ module Wallaby
       # @see Wallaby::Configurable::ClassMethods#email_method
       # @since wallaby-5.1.4
       def email_method
-        Deprecator.alert 'config.security.email_method', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.security.email_method', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller_class.email_method instead.
         INSTRUCTION
       end
 
       # @!attribute [w] email_method
-      def email_method=(email_method)
-        Deprecator.alert 'config.security.email_method=', from: '0.3', alternative: <<~INSTRUCTION
+      def email_method=(_email_method)
+        Deprecator.alert 'config.security.email_method=', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use #email_method= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -83,8 +83,8 @@ module Wallaby
       #     end
       #   end
       # @yield A block to get user object. All application controller methods can be used in the block.
-      def current_user(&block) # rubocop:disable Metrics/MethodLength
-        Deprecator.alert 'config.security.current_user', from: '0.3', alternative: <<~INSTRUCTION
+      def current_user
+        Deprecator.alert 'config.security.current_user', from: '0.2.2', alternative: <<~INSTRUCTION
           Please change #wallaby_user from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -98,7 +98,7 @@ module Wallaby
       # Check if {#current_user} configuration is set.
       # @return [Boolean]
       def current_user?
-        Deprecator.alert 'config.security.current_user?', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.security.current_user?', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller#wallaby_user instead.
         INSTRUCTION
       end
@@ -114,8 +114,8 @@ module Wallaby
       #     end
       #   end
       # @yield A block to authenticate user. All application controller methods can be used in the block.
-      def authenticate(&block) # rubocop:disable Metrics/MethodLength
-        Deprecator.alert 'config.security.authenticate', from: '0.3', alternative: <<~INSTRUCTION
+      def authenticate
+        Deprecator.alert 'config.security.authenticate', from: '0.2.2', alternative: <<~INSTRUCTION
           Please change #authenticate_wallaby_user! from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -132,7 +132,7 @@ module Wallaby
       # Check if {#authenticate} configuration is set.
       # @return [Boolean]
       def authenticate?
-        Deprecator.alert 'config.security.authenicate?', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.security.authenicate?', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller#authenticate_wallaby_user! instead.
         INSTRUCTION
       end

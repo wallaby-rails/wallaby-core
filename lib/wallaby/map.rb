@@ -20,10 +20,10 @@ module Wallaby
         @mode_map ||= ModeMapper.execute(modes).freeze
       end
 
-      # TODO: remove this method
+      # @deprecated
       # @return [Array] [ model classes ]
       def model_classes
-        ModelClassCollector.new(configuration, mode_map.keys).collect
+        Deprecator.alert method(__callee__), from: '0.2.2'
       end
 
       # { model => resources name }
@@ -51,28 +51,25 @@ module Wallaby
     class << self
       # Look up which controller to use for a given model class
       # @param model_class [Class]
-      # @param application_controller [Class, nil]
-      # @return [Class] controller class, default to `mapping.resources_controller`
-      def controller_map(model_class, application_controller = nil)
-        application_controller ||= mapping.resources_controller
+      # @param application_controller [Class]
+      # @return [Class] controller class
+      def controller_map(model_class, application_controller)
         map_of :@controller_map, model_class, application_controller
       end
 
       # Look up which resource decorator to use for a given model class
       # @param model_class [Class]
-      # @param application_decorator [Class, nil]
-      # @return [Class] resource decorator class, default to `mapping.resource_decorator`
-      def resource_decorator_map(model_class, application_decorator = nil)
-        application_decorator ||= mapping.resource_decorator
+      # @param application_decorator [Class]
+      # @return [Class] resource decorator class
+      def resource_decorator_map(model_class, application_decorator)
         map_of :@resource_decorator_map, model_class, application_decorator
       end
 
       # { model => model decorator }
       # @param model_class [Class]
-      # @param application_decorator [Class, nil]
+      # @param application_decorator [Class]
       # @return [Wallaby::ModelDecorator] model decorator instance
-      def model_decorator_map(model_class, application_decorator = nil)
-        application_decorator ||= mapping.resource_decorator
+      def model_decorator_map(model_class, application_decorator)
         @model_decorator_map ||= ClassHash.new
         @model_decorator_map[application_decorator] ||= ClassHash.new
         @model_decorator_map[application_decorator][model_class] ||=
@@ -81,28 +78,25 @@ module Wallaby
 
       # Look up which model servicer to use for a given model class
       # @param model_class [Class]
-      # @param application_servicer [Class, nil]
-      # @return [Class] model servicer class, default to `mapping.model_servicer`
-      def servicer_map(model_class, application_servicer = nil)
-        application_servicer ||= mapping.model_servicer
+      # @param application_servicer [Class]
+      # @return [Class] model servicer class
+      def servicer_map(model_class, application_servicer)
         map_of :@servicer_map, model_class, application_servicer
       end
 
       # Look up which paginator to use for a given model class
       # @param model_class [Class]
-      # @param application_paginator [Class, nil]
-      # @return [Class] resource paginator class, default to `mapping.model_paginator`
-      def paginator_map(model_class, application_paginator = nil)
-        application_paginator ||= mapping.model_paginator
+      # @param application_paginator [Class]
+      # @return [Class] resource paginator class
+      def paginator_map(model_class, application_paginator)
         map_of :@paginator_map, model_class, application_paginator
       end
 
       # Look up which authorizer to use for a given model class
       # @param model_class [Class]
-      # @param application_authorizer [Class, nil]
-      # @return [Class] model authorizer class, default to `mapping.model_authorizer`
-      def authorizer_map(model_class, application_authorizer = nil)
-        application_authorizer ||= mapping.model_authorizer
+      # @param application_authorizer [Class]
+      # @return [Class] model authorizer class
+      def authorizer_map(model_class, application_authorizer)
         map_of :@authorizer_map, model_class, application_authorizer
       end
     end
@@ -140,16 +134,6 @@ module Wallaby
       end
 
       private
-
-      # shorthand method
-      def configuration
-        ::Wallaby.configuration
-      end
-
-      # shorthand method
-      def mapping
-        configuration.mapping
-      end
 
       # Set up the hash map for given variable name
       # @param variable_name [Symbol] instance variable name e.g. :@decorator_map

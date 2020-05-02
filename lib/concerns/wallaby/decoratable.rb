@@ -13,7 +13,7 @@ module Wallaby
     def current_model_decorator
       @current_model_decorator ||=
         current_decorator.try(:model_decorator) || \
-        Map.model_decorator_map(current_model_class, controller_to_get(:application_decorator))
+        Map.model_decorator_map(current_model_class, controller_configuration.application_decorator)
     end
 
     # Get current resource decorator. It comes from
@@ -23,8 +23,12 @@ module Wallaby
     # @return [Wallaby::ResourceDecorator] current resource decorator for this request
     def current_decorator
       @current_decorator ||=
-        (controller_to_get(:resource_decorator) || \
-        Map.resource_decorator_map(current_model_class, controller_to_get(:application_decorator))).tap do |decorator|
+        (
+          controller_configuration.resource_decorator || \
+          Map.resource_decorator_map(
+            current_model_class, controller_configuration.application_decorator
+          )
+        ).tap do |decorator|
           Logger.debug %(Current decorator: #{decorator}), sourcing: false
         end
     end
@@ -43,7 +47,7 @@ module Wallaby
       return resource if resource.is_a? ResourceDecorator
       return resource.map { |item| decorate item } if resource.respond_to? :map
 
-      decorator = Map.resource_decorator_map resource.class, controller_to_get(:application_decorator)
+      decorator = Map.resource_decorator_map resource.class, controller_configuration.application_decorator
       decorator ? decorator.new(resource) : resource
     end
 

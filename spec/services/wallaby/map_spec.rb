@@ -40,10 +40,10 @@ describe Wallaby::Map do
       let!(:mysql_types_controller) { stub_const 'MysqlTypesController', (Class.new(user_controller) { self.model_class = AllMysqlType }) }
 
       it 'returns a controller class' do
-        expect(described_class.controller_map(Array)).to be_nil
-        expect(described_class.controller_map(AllPostgresType)).to eq all_postgres_types_controller
-        expect(described_class.controller_map(AllMysqlType)).to eq admin_controller
-        expect(described_class.controller_map(AllSqliteType)).to eq admin_controller
+        expect(described_class.controller_map(Array, admin_controller)).to be_nil
+        expect(described_class.controller_map(AllPostgresType, admin_controller)).to eq all_postgres_types_controller
+        expect(described_class.controller_map(AllMysqlType, admin_controller)).to eq admin_controller
+        expect(described_class.controller_map(AllSqliteType, admin_controller)).to eq admin_controller
         expect(described_class.controller_map(AllPostgresType, user_controller)).to eq user_controller
         expect(described_class.controller_map(AllMysqlType, user_controller)).to eq mysql_types_controller
         expect(described_class.controller_map(AllSqliteType, user_controller)).to eq user_controller
@@ -59,10 +59,10 @@ describe Wallaby::Map do
       let!(:mysql_type_decorator) { stub_const 'MysqlTypeDecorator', (Class.new(user_decorator) { self.model_class = AllMysqlType }) }
 
       it 'returns a decorator class' do
-        expect(described_class.resource_decorator_map(Array)).to be_nil
-        expect(described_class.resource_decorator_map(AllPostgresType)).to eq all_postgres_type_decorator
-        expect(described_class.resource_decorator_map(AllMysqlType)).to eq admin_decorator
-        expect(described_class.resource_decorator_map(AllSqliteType)).to eq admin_decorator
+        expect(described_class.resource_decorator_map(Array, admin_decorator)).to be_nil
+        expect(described_class.resource_decorator_map(AllPostgresType, admin_decorator)).to eq all_postgres_type_decorator
+        expect(described_class.resource_decorator_map(AllMysqlType, admin_decorator)).to eq admin_decorator
+        expect(described_class.resource_decorator_map(AllSqliteType, admin_decorator)).to eq admin_decorator
         expect(described_class.resource_decorator_map(AllPostgresType, user_decorator)).to eq user_decorator
         expect(described_class.resource_decorator_map(AllMysqlType, user_decorator)).to eq mysql_type_decorator
         expect(described_class.resource_decorator_map(AllSqliteType, user_decorator)).to eq user_decorator
@@ -78,10 +78,10 @@ describe Wallaby::Map do
       let!(:mysql_type_servicer) { stub_const 'MysqlTypeServicer', (Class.new(user_servicer) { self.model_class = AllMysqlType }) }
 
       it 'returns a servicer class' do
-        expect(described_class.servicer_map(Array)).to be_nil
-        expect(described_class.servicer_map(AllPostgresType)).to eq all_postgres_type_servicer
-        expect(described_class.servicer_map(AllMysqlType)).to eq admin_servicer
-        expect(described_class.servicer_map(AllSqliteType)).to eq admin_servicer
+        expect(described_class.servicer_map(Array, admin_servicer)).to be_nil
+        expect(described_class.servicer_map(AllPostgresType, admin_servicer)).to eq all_postgres_type_servicer
+        expect(described_class.servicer_map(AllMysqlType, admin_servicer)).to eq admin_servicer
+        expect(described_class.servicer_map(AllSqliteType, admin_servicer)).to eq admin_servicer
         expect(described_class.servicer_map(AllPostgresType, user_servicer)).to eq user_servicer
         expect(described_class.servicer_map(AllMysqlType, user_servicer)).to eq mysql_type_servicer
         expect(described_class.servicer_map(AllSqliteType, user_servicer)).to eq user_servicer
@@ -97,10 +97,10 @@ describe Wallaby::Map do
       let!(:mysql_type_paginator) { stub_const 'MysqlTypePaginator', (Class.new(user_paginator) { self.model_class = AllMysqlType }) }
 
       it 'returns a paginator class' do
-        expect(described_class.paginator_map(Array)).to be_nil
-        expect(described_class.paginator_map(AllPostgresType)).to eq all_postgres_type_paginator
-        expect(described_class.paginator_map(AllMysqlType)).to eq admin_paginator
-        expect(described_class.paginator_map(AllSqliteType)).to eq admin_paginator
+        expect(described_class.paginator_map(Array, admin_paginator)).to be_nil
+        expect(described_class.paginator_map(AllPostgresType, admin_paginator)).to eq all_postgres_type_paginator
+        expect(described_class.paginator_map(AllMysqlType, admin_paginator)).to eq admin_paginator
+        expect(described_class.paginator_map(AllSqliteType, admin_paginator)).to eq admin_paginator
         expect(described_class.paginator_map(AllPostgresType, user_paginator)).to eq user_paginator
         expect(described_class.paginator_map(AllMysqlType, user_paginator)).to eq mysql_type_paginator
         expect(described_class.paginator_map(AllSqliteType, user_paginator)).to eq user_paginator
@@ -116,10 +116,10 @@ describe Wallaby::Map do
       let!(:mysql_type_authorizer) { stub_const 'MysqlTypeAuthorizer', (Class.new(user_authorizer) { self.model_class = AllMysqlType }) }
 
       it 'returns a authorizer class' do
-        expect(described_class.authorizer_map(Array)).to be_nil
-        expect(described_class.authorizer_map(AllPostgresType)).to eq all_postgres_type_authorizer
-        expect(described_class.authorizer_map(AllMysqlType)).to eq admin_authorizer
-        expect(described_class.authorizer_map(AllSqliteType)).to eq admin_authorizer
+        expect(described_class.authorizer_map(Array, admin_authorizer)).to be_nil
+        expect(described_class.authorizer_map(AllPostgresType, admin_authorizer)).to eq all_postgres_type_authorizer
+        expect(described_class.authorizer_map(AllMysqlType, admin_authorizer)).to eq admin_authorizer
+        expect(described_class.authorizer_map(AllSqliteType, admin_authorizer)).to eq admin_authorizer
         expect(described_class.authorizer_map(AllPostgresType, user_authorizer)).to eq user_authorizer
         expect(described_class.authorizer_map(AllMysqlType, user_authorizer)).to eq mysql_type_authorizer
         expect(described_class.authorizer_map(AllSqliteType, user_authorizer)).to eq user_authorizer
@@ -131,8 +131,8 @@ describe Wallaby::Map do
   describe 'providers' do
     describe '.model_decorator_map' do
       it 'returns a model decorator' do
-        expect(described_class.model_decorator_map(Array)).to be_nil
-        expect(described_class.model_decorator_map(AllPostgresType)).to be_a Wallaby::ActiveRecord::ModelDecorator
+        expect(described_class.model_decorator_map(Array, Wallaby::ResourceDecorator)).to be_nil
+        expect(described_class.model_decorator_map(AllPostgresType, Wallaby::ResourceDecorator)).to be_a Wallaby::ActiveRecord::ModelDecorator
         expect(described_class.instance_variable_get(:@model_decorator_map)).to be_a Wallaby::ClassHash
       end
     end

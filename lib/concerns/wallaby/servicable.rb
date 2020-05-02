@@ -11,8 +11,8 @@ module Wallaby
     # @since wallaby-5.2.0
     def current_servicer
       @current_servicer ||=
-        (controller_to_get(:model_servicer) \
-          || Map.servicer_map(current_model_class, controller_to_get(:application_servicer))).try do |klass|
+        (controller_configuration.model_servicer \
+          || Map.servicer_map(current_model_class, controller_configuration.application_servicer)).try do |klass|
           Logger.debug %(Current servicer: #{klass}), sourcing: false
           klass.new current_model_class, current_authorizer, current_model_decorator
         end

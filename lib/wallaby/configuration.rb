@@ -9,7 +9,7 @@ module Wallaby
     # @!attribute [w] model_paths
     def model_paths=(*model_paths)
       @model_paths =
-        model_paths.flatten.presence.try do |paths|
+        model_paths.flatten.compact.presence.try do |paths|
           next paths if paths.all? { |p| p.is_a?(String) }
 
           raise ArgumentError, 'Please provide a list of string paths, e.g. `["app/models", "app/core"]`'

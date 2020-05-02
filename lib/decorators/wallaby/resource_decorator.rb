@@ -73,7 +73,7 @@ module Wallaby
       # @return [ActionView::Base]
       #   {Wallaby::Configuration::Mapping#resources_controller resources controller}'s helpers
       def h
-        @h ||= Wallaby.configuration.mapping.resources_controller.helpers
+        @h ||= Wallaby.configuration.resources_controller.helpers
       end
     end
 

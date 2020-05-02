@@ -1,38 +1,39 @@
 require 'rails_helper'
 
-describe Wallaby::Map::ModelClassCollector do
-  describe '#collect' do
-    subject { described_class.new(configuration, all_models).collect }
+describe Wallaby::ModelClassFilter do
+  describe '#execute' do
+    subject do
+      described_class.execute(
+        all: all,
+        whitelisted: whitelisted,
+        blacklisted: blacklisted
+      )
+    end
 
-    let(:configuration) { Wallaby::Configuration.new }
-    let(:all_models) { [AllPostgresType, AllMysqlType, AllSqliteType] }
+    let(:all) { [AllPostgresType, AllMysqlType, AllSqliteType] }
+    let(:whitelisted) { [] }
+    let(:blacklisted) { [] }
 
     it 'returns all models' do
       expect(subject).to eq [AllPostgresType, AllMysqlType, AllSqliteType]
     end
 
     context 'when there are excludes' do
-      before do
-        configuration.models.exclude AllPostgresType
-      end
+      let(:blacklisted) { [AllPostgresType] }
 
       it 'excludes AllPostgresType' do
         expect(subject).to eq [AllMysqlType, AllSqliteType]
       end
 
       context 'when models are set' do
-        before do
-          configuration.models.set AllSqliteType
-        end
+        let(:whitelisted) { [AllSqliteType] }
 
         it 'returns the models being set' do
           expect(subject).to eq [AllSqliteType]
         end
 
         context 'when some of the models being set are invalid' do
-          before do
-            configuration.models.set Wallaby, AllSqliteType
-          end
+          let(:whitelisted) { [Wallaby, AllSqliteType] }
 
           it 'raises error' do
             expect { subject }.to raise_error Wallaby::InvalidError
@@ -42,18 +43,14 @@ describe Wallaby::Map::ModelClassCollector do
     end
 
     context 'when models are set' do
-      before do
-        configuration.models.set AllSqliteType
-      end
+      let(:whitelisted) { [AllSqliteType] }
 
       it 'returns the models being set' do
         expect(subject).to eq [AllSqliteType]
       end
 
       context 'when some of the models being set are invalid' do
-        before do
-          configuration.models.set Wallaby, AllSqliteType
-        end
+        let(:whitelisted) { [Wallaby, AllSqliteType] }
 
         it 'raises error' do
           expect { subject }.to raise_error Wallaby::InvalidError
@@ -61,9 +58,7 @@ describe Wallaby::Map::ModelClassCollector do
       end
 
       context 'when there are excludes' do
-        before do
-          configuration.models.exclude AllPostgresType
-        end
+        let(:blacklisted) { [AllPostgresType] }
 
         it 'still returns the models being set' do
           expect(subject).to eq [AllSqliteType]

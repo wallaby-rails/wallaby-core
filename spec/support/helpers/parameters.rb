@@ -1,4 +1,4 @@
-module Parameters
+module ParametersHelper
   def parameters(hash = {})
     ActionController::Parameters.new hash
   end
@@ -13,5 +13,5 @@ module Parameters
 end
 
 RSpec.configure do |config|
-  config.include Parameters
+  config.include ParametersHelper
 end

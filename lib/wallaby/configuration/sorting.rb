@@ -8,8 +8,8 @@ module Wallaby
     class Sorting
       # @deprecated
       # @!attribute [w] strategy
-      def strategy=(strategy)
-        Deprecator.alert 'config.sorting.strategy=', from: '0.3', alternative: <<~INSTRUCTION
+      def strategy=(_strategy)
+        Deprecator.alert 'config.sorting.strategy=', from: '0.2.2', alternative: <<~INSTRUCTION
           Please set #sorting_strategy= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -32,7 +32,7 @@ module Wallaby
       #   end
       # @return [Symbol, String]
       def strategy
-        Deprecator.alert 'config.sorting.strategy', from: '0.3', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.sorting.strategy', from: '0.2.2', alternative: <<~INSTRUCTION
           Please use controller_class.sorting_strategy instead.
         INSTRUCTION
       end

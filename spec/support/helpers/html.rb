@@ -1,4 +1,4 @@
-module Html
+module HtmlHelper
   def h(str)
     ERB::Util.h str
   end
@@ -10,5 +10,5 @@ module Html
 end
 
 RSpec.configure do |config|
-  config.include Html
+  config.include HtmlHelper
 end
