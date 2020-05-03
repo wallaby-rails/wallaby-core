@@ -5,7 +5,9 @@ module Wallaby
     # Features global configuration
     class Features
       # @!attribute [w] turbolinks_enabled
-      attr_writer :turbolinks_enabled
+      def turbolinks_enabled=(_turbolinks_enabled)
+        Deprecator.alert 'config.features.turbolinks_enabled=', from: '0.3.0'
+      end
 
       # @!attribute [r] turbolinks_enabled
       # To globally configure whether to use turbolinks or not.
@@ -17,7 +19,11 @@ module Wallaby
       #   end
       # @return [Boolean] a feture flag of turbolinks, default to false.
       def turbolinks_enabled
-        @turbolinks_enabled ||= false
+        Deprecator.alert method(__callee__), from: '0.3.0', alternative: <<~INSTRUCTION
+          If Turbolinks is included, it will be used by Wallaby. If you want to disable it,
+          you can either take `turbolinks` gem out from your Gemfile
+          or override the `frontend` partial by taking it out.
+        INSTRUCTION
       end
     end
   end
