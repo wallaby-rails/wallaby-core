@@ -5,7 +5,6 @@ module Wallaby
   module ApplicationHelper
     include ConfigurationHelper
     include Engineable
-    include SharedHelpers
 
     # Override origin method to handle URL for Wallaby engine.
     #

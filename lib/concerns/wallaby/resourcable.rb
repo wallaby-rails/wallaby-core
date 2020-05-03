@@ -11,7 +11,7 @@ module Wallaby
     # @return [Class] model class for current request
     def current_model_class
       @current_model_class ||=
-        controller_to_get(__callee__, :model_class) || Map.model_class_map(current_resources_name || controller_path)
+        controller_configuration.model_class || Map.model_class_map(current_resources_name || controller_path)
     end
 
     # Shorthand of params[:id]
@@ -61,7 +61,6 @@ module Wallaby
           &block
         )
     end
-
     alias collection! collection
 
     # @note This is a template method that can be overridden by subclasses.
@@ -112,7 +111,6 @@ module Wallaby
           &block
         )
     end
-
     alias resource! resource
   end
 end

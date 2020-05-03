@@ -13,7 +13,7 @@ module Wallaby
     #   the typed keyword
     # @return [String] URL for autocomplete
     def remote_url(url, model_class, wildcard = 'QUERY')
-      url || index_path(model_class, url_params: { q: wildcard, per: pagination.page_size })
+      url || index_path(model_class, url_params: { q: wildcard, per: Wallaby.controller_configuration.try(:page_size) })
     end
 
     # To generate dropdown options (class => url) for polymorphic class.

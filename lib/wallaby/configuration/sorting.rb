@@ -2,12 +2,23 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Sorting global configuration
     # @since wallaby-5.2.0
     class Sorting
+      # @deprecated
       # @!attribute [w] strategy
-      attr_writer :strategy
+      def strategy=(_strategy)
+        Deprecator.alert 'config.sorting.strategy=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set #sorting_strategy= from the controller instead, for example:
 
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.sorting_strategy = :multiple
+            end
+        INSTRUCTION
+      end
+
+      # @deprecated
       # @!attribute [r] strategy
       # To globally configure which strategy to use for sorting. Options are
       #
@@ -21,7 +32,9 @@ module Wallaby
       #   end
       # @return [Symbol, String]
       def strategy
-        @strategy ||= :multiple
+        Deprecator.alert 'config.sorting.strategy', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.sorting_strategy instead.
+        INSTRUCTION
       end
     end
   end

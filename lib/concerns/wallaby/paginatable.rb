@@ -3,56 +3,15 @@
 module Wallaby
   # Paginator related attributes
   module Paginatable
-    # Configurable attribute
-    module ClassMethods
-      # @!attribute [w] model_paginator
-      def model_paginator=(model_paginator)
-        ModuleUtils.inheritance_check model_paginator, application_paginator
-        @model_paginator = model_paginator
-      end
-
-      # @!attribute [r] model_paginator
-      # If Wallaby doesn't get it right, please specify the **model_paginator**.
-      # @example To set model paginator
-      #   class Admin::ProductionsController < Admin::ApplicationController
-      #     self.model_paginator = ProductPaginator
-      #   end
-      # @return [Class] model paginator
-      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
-      # @see Wallaby::ModelPaginator
-      # @since wallaby-5.2.0
-      attr_reader :model_paginator
-
-      # @!attribute [w] application_paginator
-      def application_paginator=(application_paginator)
-        ModuleUtils.inheritance_check model_paginator, application_paginator
-        @application_paginator = application_paginator
-      end
-
-      # @!attribute [r] application_paginator
-      # The **application_paginator** is as the base class of {#model_paginator}.
-      # @example To set application decorator:
-      #   class Admin::ApplicationController < Wallaby::ResourcesController
-      #     self.application_paginator = AnotherApplicationPaginator
-      #   end
-      # @return [Class] application decorator
-      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
-      # @see Wallaby::ModelPaginator
-      # @since wallaby-5.2.0
-      def application_paginator
-        @application_paginator ||= superclass.try :application_paginator
-      end
-    end
-
     # Model paginator for current modal class. It comes from:
     #
-    # - controller configuration {Wallaby::Paginatable::ClassMethods#model_paginator .model_paginator}
-    # - a generic paginator based on {Wallaby::Paginatable::ClassMethods#application_paginator .application_paginator}
+    # - controller configuration {Wallaby::Configurable::ClassMethods#model_paginator .model_paginator}
+    # - a generic paginator based on {Wallaby::Configurable::ClassMethods#application_paginator .application_paginator}
     # @return [Class] model paginator class
     def current_paginator
       @current_paginator ||=
-        (controller_to_get(:model_paginator) \
-          || Map.paginator_map(current_model_class, controller_to_get(:application_paginator))).try do |klass|
+        (controller_configuration.model_paginator \
+          || Map.paginator_map(current_model_class, controller_configuration.application_paginator)).try do |klass|
           Logger.debug %(Current paginator: #{klass}), sourcing: false
           klass.new current_model_class, collection, params
         end

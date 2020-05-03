@@ -2,92 +2,79 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Security configuration
-    # TODO: remove this from 6.2
+    # TODO: remove this from 0.3
     class Security
       # Default block to return nil for current user
       DEFAULT_CURRENT_USER = -> { nil }
       # Default block to return nil
       DEFAULT_AUTHENTICATE = -> { true }
 
+      # @deprecated
       # @!attribute [r] logout_path
-      # To globally configure the logout path.
-      #
-      # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout path will be required
-      # so that Wallaby knows where to navigate the user to when user clicks the logout button.
-      #
-      # But once it detects `Devise`, it will use the path that Devise uses without the need of configuration.
-      # @example To update the logout path in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.logout_path = 'logout_path'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#logout_path
       # @since wallaby-5.1.4
-      attr_reader :logout_path
+      def logout_path
+        Deprecator.alert 'config.security.logout_path', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.logout_path instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] logout_path
-      def logout_path=(logout_path)
-        Deprecator.alert 'config.security.logout_path=', from: '0.3', alternative: <<~INSTRUCTION
+      def logout_path=(_logout_path)
+        Deprecator.alert 'config.security.logout_path=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use #logout_path= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               self.logout_path = 'destroy_admin_user_session_path'
             end
         INSTRUCTION
-
-        @logout_path = logout_path
       end
 
+      # @deprecated
       # @!attribute [r] logout_method
-      # To globally configure the logout HTTP method.
-      #
-      # Wallaby does not implement any authentication (e.g. login/logout), therefore, logout method will be required
-      # so that Wallaby knows how navigate the user via what HTTP method when user clicks the logout button.
-      #
-      # But once it detects `Devise`, it will use the HTTP method that Devise uses without the need of configuration.
-      # @example To update the logout method in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.logout_method = 'post'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#logout_method
       # @since wallaby-5.1.4
-      attr_reader :logout_method
+      def logout_method
+        Deprecator.alert 'config.security.logout_method', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.logout_method instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] logout_method
-      def logout_method=(logout_method)
-        Deprecator.alert 'config.security.logout_method=', from: '0.3', alternative: <<~INSTRUCTION
+      def logout_method=(_logout_method)
+        Deprecator.alert 'config.security.logout_method=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use #logout_method= from the controller instead, for example:
 
-            class Admin::ApplicationController < Wallaby::ResourcesController
-              self.logout_method = 'put'
-            end
+          class Admin::ApplicationController < Wallaby::ResourcesController
+            self.logout_method = 'put'
+          end
         INSTRUCTION
-
-        @logout_method = logout_method
       end
 
+      # @deprecated
       # @!attribute [r] email_method
-      # To globally configure the method on {#current_user} to retrieve email address.
-      #
-      # If no configuration is given, it will attempt to call `email` on {#current_user}.
-      # @example To update the email method in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.security.email_method = 'email_address'
-      #   end
+      # @see Wallaby::Configurable::ClassMethods#email_method
       # @since wallaby-5.1.4
-      attr_reader :email_method
+      def email_method
+        Deprecator.alert 'config.security.email_method', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.email_method instead.
+        INSTRUCTION
+      end
 
       # @!attribute [w] email_method
-      def email_method=(email_method)
-        Deprecator.alert 'config.security.email_method=', from: '0.3', alternative: <<~INSTRUCTION
+      def email_method=(_email_method)
+        Deprecator.alert 'config.security.email_method=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use #email_method= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
               self.email_method = 'email_address'
             end
         INSTRUCTION
-
-        @email_method = email_method
       end
 
+      # @deprecated
       # To globally configure how to get user object.
       # @example To update how to get the current user object in `config/initializers/wallaby.rb`
       #   Wallaby.config do |config|
@@ -96,8 +83,8 @@ module Wallaby
       #     end
       #   end
       # @yield A block to get user object. All application controller methods can be used in the block.
-      def current_user(&block) # rubocop:disable Metrics/MethodLength
-        Deprecator.alert 'config.security.current_user', from: '0.3', alternative: <<~INSTRUCTION
+      def current_user
+        Deprecator.alert 'config.security.current_user', from: '0.3.0', alternative: <<~INSTRUCTION
           Please change #wallaby_user from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -106,20 +93,17 @@ module Wallaby
               end
             end
         INSTRUCTION
-
-        if block_given?
-          @current_user = block
-        else
-          @current_user ||= DEFAULT_CURRENT_USER
-        end
       end
 
       # Check if {#current_user} configuration is set.
       # @return [Boolean]
       def current_user?
-        current_user != DEFAULT_CURRENT_USER
+        Deprecator.alert 'config.security.current_user?', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller#wallaby_user instead.
+        INSTRUCTION
       end
 
+      # @deprecated
       # To globally configure how to authenicate a user.
       # @example
       #   Wallaby.config do |config|
@@ -130,8 +114,8 @@ module Wallaby
       #     end
       #   end
       # @yield A block to authenticate user. All application controller methods can be used in the block.
-      def authenticate(&block) # rubocop:disable Metrics/MethodLength
-        Deprecator.alert 'config.security.authenticate', from: '0.3', alternative: <<~INSTRUCTION
+      def authenticate
+        Deprecator.alert 'config.security.authenticate', from: '0.3.0', alternative: <<~INSTRUCTION
           Please change #authenticate_wallaby_user! from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -142,18 +126,15 @@ module Wallaby
               end
             end
         INSTRUCTION
-
-        if block_given?
-          @authenticate = block
-        else
-          @authenticate ||= DEFAULT_AUTHENTICATE
-        end
       end
 
+      # @deprecated
       # Check if {#authenticate} configuration is set.
       # @return [Boolean]
       def authenticate?
-        authenticate != DEFAULT_AUTHENTICATE
+        Deprecator.alert 'config.security.authenicate?', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller#authenticate_wallaby_user! instead.
+        INSTRUCTION
       end
     end
   end

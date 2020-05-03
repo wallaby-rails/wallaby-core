@@ -17,10 +17,6 @@ describe Wallaby::ConfigurationHelper do
     it { expect(helper.mapping).to be_a Wallaby::Configuration::Mapping }
   end
 
-  describe '#default_metadata' do
-    it { expect(helper.default_metadata).to be_a Wallaby::Configuration::Metadata }
-  end
-
   describe '#pagination' do
     it { expect(helper.pagination).to be_a Wallaby::Configuration::Pagination }
   end

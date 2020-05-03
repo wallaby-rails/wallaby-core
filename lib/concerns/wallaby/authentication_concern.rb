@@ -5,45 +5,13 @@ module Wallaby
   module AuthenticationConcern
     extend ActiveSupport::Concern
 
-    # @deprecated Use {#wallaby_user} instead
-    # @!method current_user
-    # @note This is a template method that can be overridden by subclasses
-    # This {current_user} method will try to looking up the actual implementation from the following
-    # places from high precedence to low:
-    #
-    # - {Wallaby::Configuration::Security#current_user}
-    # - `super`
-    # - do nothing
-    #
-    # It can be replaced completely in subclasses:
-    #
-    #   def current_user
-    #     # NOTE: please ensure `@current_user` is assigned, for instance:
-    #     @current_user ||= User.new params.slice(:email)
-    #   end
-    # @return [Object] a user object
+    included do
+      helper_method :wallaby_user
 
-    # @deprecated Use {#authenticate_wallaby_user!} instead
-    # @!method authenticate_user!
-    # @note This is a template method that can be overridden by subclasses
-    # This {authenticate_user!} method will try to looking up the actual implementation from the following
-    # places from high precedence to low:
-    #
-    # - {Wallaby::Configuration::Security#authenticate}
-    # - `super`
-    # - do nothing
-    #
-    # It can be replaced completely in subclasses:
-    #
-    #   def authenticate_user!
-    #     authenticate_or_request_with_http_basic do |username, password|
-    #       username == 'too_simple' && password == 'too_naive'
-    #     end
-    #   end
-    # @return [true] when user is authenticated successfully
-    # @raise [Wallaby::NotAuthenticated] when user fails to authenticate
+      rescue_from NotAuthenticated, with: :unauthorized
+      rescue_from Forbidden, with: :forbidden
+    end
 
-    # @!method wallaby_user
     # @note This is a template method that can be overridden by subclasses
     # This method will try to call {#current_user} from superclass.
     # @example It can be overridden in subclasses:
@@ -52,23 +20,10 @@ module Wallaby
     #     @wallaby_user ||= User.new params.slice(:email)
     #   end
     # @return [Object] a user object
+    def wallaby_user
+      @wallaby_user ||= try :current_user
+    end
 
-    # @!method pundit_user
-    # @note This is a template method that can be overridden by subclasses
-    # This overridden method of {#original_pundit_user} will try to call {#wallaby_user} instead of {#current_user}.
-    # @example It can be overridden in subclasses:
-    #   def pundit_user
-    #     @pundit_user ||= User.new params.slice(:email)
-    #   end
-    # @return [Object] a user object
-
-    # @!parse alias :override_pundit_user :pundit_user
-
-    # @!method original_pundit_user
-    # This method is the original version of {#pundit_user} which calls the {#current_user}.
-    # @return [Object] a user object
-
-    # @!method authenticate_wallaby_user!
     # @note This is a template method that can be overridden by subclasses
     # This method will try to call {#authenticate_user!} from superclass.
     # And it will be run as the first callback before an action.
@@ -80,82 +35,23 @@ module Wallaby
     #   end
     # @return [true] when user is authenticated successfully
     # @raise [Wallaby::NotAuthenticated] when user fails to authenticate
+    def authenticate_wallaby_user!
+      authenticated = try :authenticate_user!
+      raise NotAuthenticated if authenticated == false
 
-    # @!method unauthorized(exception = nil)
+      true
+    end
+
     # Unauthorized page.
     # @param exception [Exception] comes from **rescue_from**
+    def unauthorized(exception = nil)
+      render_error exception, __callee__
+    end
 
-    # @!method forbidden(exception = nil)
     # Forbidden page.
     # @param exception [Exception] comes from **rescue_from**
-
-    included do # rubocop:disable Metrics/BlockLength
-      helper_method :wallaby_user
-
-      rescue_from NotAuthenticated, with: :unauthorized
-      rescue_from Forbidden, with: :forbidden
-
-      # (see #current_user)
-      # TODO: remove this from 6.2
-      def current_user
-        @current_user ||=
-          if security.current_user? || !defined? super
-            instance_exec(&security.current_user)
-          else
-            Deprecator.alert method(:current_user), from: '0.3', alternative: method(:wallaby_user)
-            super
-          end
-      end
-
-      # (see #authenticate_user!)
-      # TODO: remove this from 6.2
-      def authenticate_user!
-        authenticated =
-          if security.authenticate? || !defined? super
-            instance_exec(&security.authenticate)
-          else
-            Deprecator.alert method(:authenticate_user!), from: '0.3', alternative: method(:authenticate_wallaby_user!)
-            super
-          end
-        raise NotAuthenticated if authenticated == false
-
-        true
-      end
-
-      # (see #wallaby_user)
-      def wallaby_user
-        @wallaby_user ||= try :current_user
-      end
-
-      if defined?(::Pundit) && instance_methods.include?(:pundit_user)
-        # (see #override_pundit_user)
-        def override_pundit_user
-          wallaby_user
-        end
-
-        # (see #original_pundit_user)
-        alias_method :original_pundit_user, :pundit_user
-        # (see #pundit_user)
-        alias_method :pundit_user, :override_pundit_user
-      end
-
-      # (see #authenticate_wallaby_user!)
-      def authenticate_wallaby_user!
-        authenticated = try :authenticate_user!
-        raise NotAuthenticated if authenticated == false
-
-        true
-      end
-
-      # (see #unauthorized)
-      def unauthorized(exception = nil)
-        render_error exception, __callee__
-      end
-
-      # (see #forbidden)
-      def forbidden(exception = nil)
-        render_error exception, __callee__
-      end
+    def forbidden(exception = nil)
+      render_error exception, __callee__
     end
   end
 end

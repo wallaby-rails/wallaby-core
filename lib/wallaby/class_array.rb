@@ -6,8 +6,8 @@ module Wallaby
     include Classifier
 
     # @param [Array] array
-    def initialize(array = [])
-      @internal = array || []
+    def initialize(*array)
+      @internal = (array || []).flatten
       return if @internal.blank?
 
       @internal.map!(&method(:to_class_name)).compact!

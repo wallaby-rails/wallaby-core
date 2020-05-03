@@ -36,16 +36,4 @@ describe Wallaby::ResourcesController, type: :controller do
       end
     end
   end
-
-  describe '#current_model_decorator' do
-    it 'returns model decorator for existing resource decorator' do
-      controller.params[:resources] = 'all_postgres_types'
-      expect(controller.current_model_decorator).to eq AllPostgresTypeDecorator.model_decorator
-    end
-
-    it 'returns model decorator for non-existing resource decorator' do
-      controller.params[:resources] = 'orders'
-      expect(controller.current_model_decorator).to be_a Wallaby::ModelDecorator
-    end
-  end
 end

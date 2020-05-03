@@ -12,15 +12,13 @@ module Wallaby
         model_paths.flatten.compact.presence.try do |paths|
           next paths if paths.all? { |p| p.is_a?(String) }
 
-          raise(
-            ArgumentError,
-            'Please provide a list of string paths, e.g. `["app/models", "app/core"]`'
-          )
+          raise ArgumentError, 'Please provide a list of string paths, e.g. `["app/models", "app/core"]`'
         end
     end
 
     # @!attribute [r] model_paths
     # To configure the model folders that {Wallaby::Preloader} needs to load before everything else.
+    # Default is `%w(app/models)`
     # @example To set the model paths
     #   Wallaby.config do |config|
     #     config.model_paths = ["app/models", "app/core"]
@@ -37,9 +35,9 @@ module Wallaby
     end
 
     # @!attribute [r] base_controller
-    # To globally configure the base controller class that {Wallaby::ApplicationController} should inherit from.
+    # To globally configure the base controller class that {Wallaby::ResourcesController} should inherit from.
     #
-    # If no configuration is given, {Wallaby::ApplicationController} defaults to inherit from `::ApplicationController`
+    # If no configuration is given, {Wallaby::ResourcesController} defaults to inherit from **::ApplicationController**
     # from the host Rails app.
     # @example To update base controller to `CoreController` in `config/initializers/wallaby.rb`
     #   Wallaby.config do |config|
@@ -50,9 +48,34 @@ module Wallaby
       to_class @base_controller ||= '::ApplicationController'
     end
 
+    # @!attribute [w] resources_controller
+    def resources_controller=(resources_controller)
+      @resources_controller = to_class_name resources_controller
+    end
+
+    # @!attribute [r] resources_controller
+    # To globally configure the application controller class that {Wallaby::Engine} should use.
+    #
+    # If no configuration is given, {Wallaby::Engine} defaults to use **Admin::ApplicationController** or
+    # {Wallaby::ResourcesController}
+    # from the host Rails app.
+    # @example To update base controller to `CoreController` in `config/initializers/wallaby.rb`
+    #   Wallaby.config do |config|
+    #     config.resources_controller = ::CoreController
+    #   end
+    # @return [Class] base controller class
+    # @since 0.2.3
+    def resources_controller
+      @resources_controller ||=
+        defined?(::Admin::ApplicationController) \
+          && ::Admin::ApplicationController < ::Wallaby::ResourcesController \
+          && 'Admin::ApplicationController'
+      to_class @resources_controller ||= 'Wallaby::ResourcesController'
+    end
+
     # @return [Wallaby::Configuration::Models] models configuration for custom mode
     def custom_models
-      @custom_models ||= Models.new
+      @custom_models ||= ClassArray.new
     end
 
     # To globally configure the models for custom mode.
@@ -62,7 +85,7 @@ module Wallaby
     #   end
     # @param models [Array<[Class, String]>] a list of model classes/name strings
     def custom_models=(models)
-      custom_models.set models
+      @custom_models = ClassArray.new models.flatten
     end
 
     # @return [Wallaby::Configuration::Models] models configuration
@@ -128,5 +151,17 @@ module Wallaby
   #   end
   def self.config
     yield configuration
+  end
+
+  def self.controller_configuration
+    RequestStore.store[:wallaby_controller].tap do |config|
+      raise ArgumentError, <<~INSTRUCTION if config.nil?
+        Please make sure to set `before_action :set_controller_configuration` in the controller, for example:
+
+          class Admin::ApplicationController < Wallaby::ResourcesController
+            before_action :set_controller_configuration
+          end
+      INSTRUCTION
+    end
   end
 end

@@ -7,7 +7,7 @@ module Wallaby
     class ModelFinder < ::Wallaby::ModelFinder
       # @return [Wallaby::ClashArray] a list of classes
       def all
-        Wallaby.configuration.custom_models.presence
+        Wallaby.configuration.custom_models
       end
     end
   end

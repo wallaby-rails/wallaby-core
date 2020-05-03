@@ -2,16 +2,25 @@
 
 module Wallaby
   class Configuration
+    # @deprecated
     # Configuration used in {Wallaby::Map}
     # @since wallaby-5.1.6
     class Mapping
       include Classifier
 
+      # @deprecated
       # @!attribute [w] resources_controller
-      def resources_controller=(resources_controller)
-        @resources_controller = to_class_name resources_controller
+      def resources_controller=(_resources_controller)
+        Deprecator.alert 'config.mapping.resources_controller=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set #resources_controller= from the config instead, for example:
+
+            Wallaby.config do |config|
+              config.resources_controller = ::GlobalResourcesController
+            end
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [r] resources_controller
       # To globally configure the resources controller.
       #
@@ -27,18 +36,24 @@ module Wallaby
       # @return [Class] resources controller class
       # @since wallaby-5.1.6
       def resources_controller
-        @resources_controller ||=
-          defined?(::Admin::ApplicationController) \
-            && ::Admin::ApplicationController < ::Wallaby::ResourcesController \
-            && 'Admin::ApplicationController'
-        to_class @resources_controller ||= 'Wallaby::ResourcesController'
+        Deprecator.alert 'config.mapping.resources_controller', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use config.resources_controller instead.
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [w] resource_decorator
-      def resource_decorator=(resource_decorator)
-        @resource_decorator = to_class_name resource_decorator
+      def resource_decorator=(_resource_decorator)
+        Deprecator.alert 'config.mapping.resource_decorator=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set .application_decorator= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.application_decorator = ::GlobalModelDecorator
+            end
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [r] resource_decorator
       # To globally configure the resource decorator.
       #
@@ -54,18 +69,24 @@ module Wallaby
       # @return [Class] resource decorator class
       # @since wallaby-5.1.6
       def resource_decorator
-        @resource_decorator ||=
-          defined?(::Admin::ApplicationDecorator) \
-            && ::Admin::ApplicationDecorator < ::Wallaby::ResourceDecorator \
-            && 'Admin::ApplicationDecorator'
-        to_class @resource_decorator ||= 'Wallaby::ResourceDecorator'
+        Deprecator.alert 'config.mapping.resource_decorator', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.application_decorator.
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [w] model_servicer
-      def model_servicer=(model_servicer)
-        @model_servicer = to_class_name model_servicer
+      def model_servicer=(_model_servicer)
+        Deprecator.alert 'config.mapping.model_servicer=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set .application_servicer= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.application_servicer = ::GlobalModelServicer
+            end
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [r] model_servicer
       # To globally configure the model servicer.
       #
@@ -81,18 +102,24 @@ module Wallaby
       # @return [Class] model servicer class
       # @since wallaby-5.1.6
       def model_servicer
-        @model_servicer ||=
-          defined?(::Admin::ApplicationServicer) \
-            && ::Admin::ApplicationServicer < ::Wallaby::ModelServicer \
-            && 'Admin::ApplicationServicer'
-        to_class @model_servicer ||= 'Wallaby::ModelServicer'
+        Deprecator.alert 'config.mapping.model_servicer', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.application_servicer.
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [w] model_authorizer
-      def model_authorizer=(model_authorizer)
-        @model_authorizer = to_class_name model_authorizer
+      def model_authorizer=(_model_authorizer)
+        Deprecator.alert 'config.mapping.model_authorizer=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set .application_authorizer= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.application_authorizer = ::GlobalModelAuthorizer
+            end
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [r] model_authorizer
       # To globally configure the model authorizer.
       #
@@ -108,18 +135,24 @@ module Wallaby
       # @return [Class] model authorizer class
       # @since wallaby-5.2.0
       def model_authorizer
-        @model_authorizer ||=
-          defined?(::Admin::ApplicationAuthorizer) \
-            && ::Admin::ApplicationAuthorizer < ::Wallaby::ModelAuthorizer \
-            && 'Admin::ApplicationAuthorizer'
-        to_class @model_authorizer ||= 'Wallaby::ModelAuthorizer'
+        Deprecator.alert 'config.mapping.model_authorizer', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.application_authorizer.
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [w] model_paginator
-      def model_paginator=(model_paginator)
-        @model_paginator = to_class_name model_paginator
+      def model_paginator=(_model_paginator)
+        Deprecator.alert 'config.mapping.model_paginator=', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please set .application_paginator= from the controller instead, for example:
+
+            class Admin::ApplicationController < Wallaby::ResourcesController
+              self.application_paginator = ::GlobalModelPaginator
+            end
+        INSTRUCTION
       end
 
+      # @deprecated
       # @!attribute [r] model_paginator
       # To globally configure the resource paginator.
       #
@@ -135,11 +168,9 @@ module Wallaby
       # @return [Class] resource paginator class
       # @since wallaby-5.2.0
       def model_paginator
-        @model_paginator ||=
-          defined?(::Admin::ApplicationPaginator) \
-            && ::Admin::ApplicationPaginator < ::Wallaby::ModelPaginator \
-            && 'Admin::ApplicationPaginator'
-        to_class @model_paginator ||= 'Wallaby::ModelPaginator'
+        Deprecator.alert 'config.mapping.model_paginator', from: '0.3.0', alternative: <<~INSTRUCTION
+          Please use controller_class.application_paginator.
+        INSTRUCTION
       end
     end
   end

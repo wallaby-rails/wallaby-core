@@ -1,4 +1,4 @@
-module Versions
+module VersionsHelper
   def minor(results, other = nil)
     results[Rails::VERSION::MAJOR].try(:[], Rails::VERSION::MINOR) || tiny(results, other)
   end
@@ -26,5 +26,5 @@ module Versions
 end
 
 RSpec.configure do |config|
-  config.include Versions
+  config.include VersionsHelper
 end

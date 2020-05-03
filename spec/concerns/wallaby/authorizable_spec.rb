@@ -4,7 +4,7 @@ describe Wallaby::ResourcesController, type: :controller do
   describe '.model_authorizer && .application_authorizer' do
     it 'returns nil' do
       expect(described_class.model_authorizer).to be_nil
-      expect(described_class.application_authorizer).to be_nil
+      expect(described_class.application_authorizer).to eq Wallaby::ModelAuthorizer
     end
 
     context 'when subclass' do
@@ -18,9 +18,9 @@ describe Wallaby::ResourcesController, type: :controller do
 
       it 'is nil' do
         expect(subclass1.model_authorizer).to be_nil
-        expect(subclass1.application_authorizer).to be_nil
+        expect(subclass1.application_authorizer).to eq Wallaby::ModelAuthorizer
         expect(subclass2.model_authorizer).to be_nil
-        expect(subclass2.application_authorizer).to be_nil
+        expect(subclass2.application_authorizer).to eq Wallaby::ModelAuthorizer
       end
 
       it 'returns authorizer classes' do

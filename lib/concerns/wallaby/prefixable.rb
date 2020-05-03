@@ -4,7 +4,7 @@ module Wallaby
   # Field helper for model decorator
   module Prefixable
     # @return [Array<String>] prefixes
-    def _prefixes
+    def wallaby_prefixes
       override_prefixes(
         options: { mapping_actions: Hash.new('form') }
       ) do |prefixes|

@@ -36,7 +36,7 @@ module Wallaby
     # @param classes [Array<Class>]
     #   a list of all the classes that wallaby supports
     # @return [Array<Wallaby::Node>] a tree structure of given classes
-    def model_classes(classes = Map.model_classes)
+    def model_classes(classes = controller_configuration.all_models)
       nested_hash = classes.each_with_object({}) do |klass, hash|
         hash[klass] = Node.new(klass)
       end

@@ -30,7 +30,7 @@ module Wallaby
     # @return [Class] controller class
     def find_controller_by(params)
       model_class = find_model_class_by params
-      Map.controller_map(model_class, params[:resources_controller]) || default_controller(params)
+      Map.controller_map(model_class, default_controller(params)) || default_controller(params)
     end
 
     # Default controller class sources from:
@@ -40,7 +40,7 @@ module Wallaby
     # @param params [Hash]
     # @return [Class] controller class
     def default_controller(params)
-      params[:resources_controller] || Wallaby.configuration.mapping.resources_controller
+      params[:resources_controller] || Wallaby.configuration.resources_controller
     end
 
     # Find out the model class
