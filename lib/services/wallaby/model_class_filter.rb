@@ -14,14 +14,14 @@ module Wallaby
 
         raise InvalidError, <<~INSTRUCTION
           Wallaby can't handle these models: #{invalid.map(&:name).to_sentence}.
-          If it's set via `#{name}.models=` or `#{name}.models_to_exclude=`, please remove them from the list.
+          If it's set via controller_class.models= or controller_class.models_to_exclude=,
+          please remove them from the list.
+
           Or they can be added to Custom model list as below, and custom implementation will be required:
 
-            ```
-              Wallaby.config do |config|
-                config.custom_models = #{invalid.map(&:name).join ', '}
-              end
-            ```
+            Wallaby.config do |config|
+              config.custom_models = #{invalid.map(&:name).join ', '}
+            end
         INSTRUCTION
       end
     end

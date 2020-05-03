@@ -7,7 +7,6 @@ module Wallaby
     extend ActiveSupport::Concern
 
     include Engineable
-    include SharedHelpers
 
     included do
       rescue_from NotFound, with: :not_found

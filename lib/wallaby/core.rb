@@ -54,7 +54,6 @@ require 'concerns/wallaby/paginatable'
 require 'concerns/wallaby/prefixable'
 require 'concerns/wallaby/resourcable'
 require 'concerns/wallaby/servicable'
-require 'concerns/wallaby/shared_helpers'
 
 require 'concerns/wallaby/application_concern'
 require 'concerns/wallaby/authentication_concern'
