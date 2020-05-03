@@ -41,26 +41,6 @@ module Wallaby
       end || super(options)
     end
 
-    # Override origin method to add turbolinks tracking when it's enabled
-    # @param sources [Array<String>]
-    # @return [String] stylesheet link tags HTML
-    def stylesheet_link_tag(*sources)
-      default_options =
-        features.turbolinks_enabled ? { 'data-turbolinks-track' => true } : {}
-      options = default_options.merge!(sources.extract_options!.stringify_keys)
-      super(*sources, options)
-    end
-
-    # Override origin method to add turbolinks tracking when it's enabled
-    # @param sources [Array<String>]
-    # @return [String] javascript script tags HTML
-    def javascript_include_tag(*sources)
-      default_options =
-        features.turbolinks_enabled ? { 'data-turbolinks-track' => true, 'data-turbolinks-eval' => false } : {}
-      options = default_options.merge!(sources.extract_options!.stringify_keys)
-      super(*sources, options)
-    end
-
     # @param key
     # @param options [Hash]
     def wt(key, options = {})
