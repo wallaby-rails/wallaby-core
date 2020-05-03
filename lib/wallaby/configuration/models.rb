@@ -14,7 +14,7 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def set(*_models)
-        Deprecator.alert 'config.models.set', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.models.set', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #models= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -26,7 +26,7 @@ module Wallaby
       # @deprecated
       # @return [Array<Class>] the models configured
       def presence
-        Deprecator.alert 'config.models.presence', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.models.presence', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.models instead.
         INSTRUCTION
       end
@@ -40,7 +40,7 @@ module Wallaby
       #   end
       # @param models [Array<Class, String>]
       def exclude(*_models)
-        Deprecator.alert 'config.models.exclude', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.models.exclude', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #models_to_exclude from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -53,7 +53,7 @@ module Wallaby
       # @return [Array<Class>] the list of models to exclude.
       #   By default, `ActiveRecord::SchemaMigration` is excluded.
       def excludes
-        Deprecator.alert 'config.models.excludes', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.models.excludes', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.models_to_exclude instead.
         INSTRUCTION
       end

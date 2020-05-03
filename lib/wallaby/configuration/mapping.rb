@@ -11,7 +11,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] resources_controller
       def resources_controller=(_resources_controller)
-        Deprecator.alert 'config.mapping.resources_controller=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.resources_controller=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #resources_controller= from the config instead, for example:
 
             Wallaby.config do |config|
@@ -36,7 +36,7 @@ module Wallaby
       # @return [Class] resources controller class
       # @since wallaby-5.1.6
       def resources_controller
-        Deprecator.alert 'config.mapping.resources_controller', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.resources_controller', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use config.resources_controller instead.
         INSTRUCTION
       end
@@ -44,7 +44,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] resource_decorator
       def resource_decorator=(_resource_decorator)
-        Deprecator.alert 'config.mapping.resource_decorator=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.resource_decorator=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set .application_decorator= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -69,7 +69,7 @@ module Wallaby
       # @return [Class] resource decorator class
       # @since wallaby-5.1.6
       def resource_decorator
-        Deprecator.alert 'config.mapping.resource_decorator', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.resource_decorator', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.application_decorator.
         INSTRUCTION
       end
@@ -77,7 +77,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] model_servicer
       def model_servicer=(_model_servicer)
-        Deprecator.alert 'config.mapping.model_servicer=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_servicer=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set .application_servicer= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -102,7 +102,7 @@ module Wallaby
       # @return [Class] model servicer class
       # @since wallaby-5.1.6
       def model_servicer
-        Deprecator.alert 'config.mapping.model_servicer', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_servicer', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.application_servicer.
         INSTRUCTION
       end
@@ -110,7 +110,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] model_authorizer
       def model_authorizer=(_model_authorizer)
-        Deprecator.alert 'config.mapping.model_authorizer=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_authorizer=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set .application_authorizer= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -135,7 +135,7 @@ module Wallaby
       # @return [Class] model authorizer class
       # @since wallaby-5.2.0
       def model_authorizer
-        Deprecator.alert 'config.mapping.model_authorizer', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_authorizer', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.application_authorizer.
         INSTRUCTION
       end
@@ -143,7 +143,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] model_paginator
       def model_paginator=(_model_paginator)
-        Deprecator.alert 'config.mapping.model_paginator=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_paginator=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set .application_paginator= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -168,7 +168,7 @@ module Wallaby
       # @return [Class] resource paginator class
       # @since wallaby-5.2.0
       def model_paginator
-        Deprecator.alert 'config.mapping.model_paginator', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.mapping.model_paginator', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.application_paginator.
         INSTRUCTION
       end

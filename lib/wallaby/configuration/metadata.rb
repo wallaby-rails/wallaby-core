@@ -8,7 +8,7 @@ module Wallaby
       # @deprecated
       # @!attribute [w] max
       def max=(_max)
-        Deprecator.alert 'config.metadata.max=', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.metadata.max=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set .max_length= from the controller instead, for example:
 
             class Admin::ApplicationController < Wallaby::ResourcesController
@@ -20,7 +20,7 @@ module Wallaby
       # @deprecated
       # @!attribute [r] max
       def max
-        Deprecator.alert 'config.metadata.max', from: '0.2.2', alternative: <<~INSTRUCTION
+        Deprecator.alert 'config.metadata.max', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.max_length instead.
         INSTRUCTION
       end

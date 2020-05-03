@@ -23,7 +23,7 @@ module Wallaby
       # @deprecated
       # @return [Array] [ model classes ]
       def model_classes
-        Deprecator.alert method(__callee__), from: '0.2.2'
+        Deprecator.alert method(__callee__), from: '0.3.0'
       end
 
       # { model => resources name }
