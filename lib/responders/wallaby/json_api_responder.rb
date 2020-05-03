@@ -76,7 +76,7 @@ module Wallaby
       field_names = index? ? decorated.index_field_names : decorated.show_field_names
       field_names.each_with_object({}) do |name, attributes|
         attributes[name] = decorated.try(name).try do |value|
-          next value unless value.is_a? ActiveStorage::Attached
+          next value unless defined?(::ActiveStorage::Attached) && value.is_a?(::ActiveStorage::Attached)
 
           # NOTE: 19/04/20 `as_json` for ActiveStorage will cause a dead loop.
           # Therefore, it's better to render the filename instead
