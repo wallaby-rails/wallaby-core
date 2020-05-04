@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-describe Wallaby::ConfigurationHelper, type: :helper do
-  describe '#default_metadata' do
-    it { expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved }
-  end
-end
-
 describe Wallaby::Map do
   describe '.model_classes' do
     it { expect { described_class.model_classes }.to raise_error Wallaby::MethodRemoved }
@@ -155,6 +149,10 @@ describe Wallaby::Configuration::Features do
 end
 
 describe Wallaby::ConfigurationHelper, type: :helper do
+  describe '#default_metadata' do
+    it { expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved }
+  end
+
   describe '#models' do
     it { expect { helper.models }.to raise_error Wallaby::MethodRemoved }
   end
