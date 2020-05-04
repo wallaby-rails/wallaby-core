@@ -349,24 +349,24 @@ module Wallaby
 
     # Metadata configurables
     module ClassMethods
-      # @!attribute [r] max_length
+      # @!attribute [r] max_text_length
       # To configure max number of characters to truncate for each text field on index page.
       # @example To update the email method in `Admin::ApplicationController`
       #   class Admin::ApplicationController < Wallaby::ResourcesController
-      #     self.max_length = 50
+      #     self.max_text_length = 50
       #   end
       # @return [Integer] max number of characters to truncate, default to 20
       # @see Wallaby::DEFAULT_MAX
       # @since 0.2.3
-      def max_length
-        @max_length || superclass.try(:max_length) || DEFAULT_MAX
+      def max_text_length
+        @max_text_length || superclass.try(:max_text_length) || DEFAULT_MAX
       end
 
-      # @!attribute [w] max_length
-      def max_length=(max_length)
-        case max_length
+      # @!attribute [w] max_text_length
+      def max_text_length=(max_text_length)
+        case max_text_length
         when Integer, nil
-          @max_length = max_length
+          @max_text_length = max_text_length
         else
           raise ArgumentError, 'Please provide a Integer value or nil'
         end

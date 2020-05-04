@@ -1,11 +1,5 @@
 require 'rails_helper'
 
-describe Wallaby::ConfigurationHelper, type: :helper do
-  describe '#default_metadata' do
-    it { expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved }
-  end
-end
-
 describe Wallaby::Map do
   describe '.model_classes' do
     it { expect { described_class.model_classes }.to raise_error Wallaby::MethodRemoved }
@@ -141,5 +135,45 @@ describe Wallaby::Configuration::Sorting do
 
   describe '#strategy' do
     it { expect { subject.strategy }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
+describe Wallaby::Configuration::Features do
+  describe '#turbolinks_enabled=' do
+    it { expect { subject.turbolinks_enabled = nil }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#turbolinks_enabled' do
+    it { expect { subject.turbolinks_enabled }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
+describe Wallaby::ConfigurationHelper, type: :helper do
+  describe '#default_metadata' do
+    it { expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#models' do
+    it { expect { helper.models }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#mapping' do
+    it { expect { helper.mapping }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#security' do
+    it { expect { helper.security }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#features' do
+    it { expect { helper.features }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#sorting' do
+    it { expect { helper.sorting }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#pagination' do
+    it { expect { helper.pagination }.to raise_error Wallaby::MethodRemoved }
   end
 end

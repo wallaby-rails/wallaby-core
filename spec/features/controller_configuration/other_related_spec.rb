@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
-  describe '.max_length' do
+  describe '.max_text_length' do
     it 'returns nil' do
-      expect(described_class.try(:max_length)).to eq Wallaby::DEFAULT_MAX
+      expect(described_class.try(:max_text_length)).to eq Wallaby::DEFAULT_MAX
     end
 
     context 'when subclasses' do
@@ -13,24 +13,24 @@ describe Wallaby::ResourcesController do
         end))
       end
 
-      it 'returns its max_length' do
-        expect(application_controller.try(:max_length)).to eq Wallaby::DEFAULT_MAX
+      it 'returns its max_text_length' do
+        expect(application_controller.try(:max_text_length)).to eq Wallaby::DEFAULT_MAX
       end
 
-      context 'when application controller has its own max_length' do
+      context 'when application controller has its own max_text_length' do
         let(:application_value) { 10 }
 
-        it 'returns its max_length' do
-          application_controller.try :max_length=, application_value
-          expect(application_controller.try(:max_length)).to eq application_value
+        it 'returns its max_text_length' do
+          application_controller.try :max_text_length=, application_value
+          expect(application_controller.try(:max_text_length)).to eq application_value
         end
       end
 
-      context 'when application controller set max_length to an invalid value' do
+      context 'when application controller set max_text_length to an invalid value' do
         let(:application_value) { 'invalid_value' }
 
         it 'raises error' do
-          expect { application_controller.try :max_length=, application_value }.to raise_error ArgumentError
+          expect { application_controller.try :max_text_length=, application_value }.to raise_error ArgumentError
         end
       end
     end

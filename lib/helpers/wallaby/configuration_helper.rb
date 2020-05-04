@@ -4,7 +4,7 @@ module Wallaby
   # Configuration helper module. Provide shortcut methods to configurations.
   module ConfigurationHelper
     delegate :controller_configuration, to: Wallaby
-    delegate :models, :security, :mapping, :pagination, :features, :sorting, to: :configuration
+    delegate :max_text_length, to: :controller_configuration
 
     # @return [Wallaby::Configuration] shortcut method of configuration
     def configuration
@@ -18,8 +18,28 @@ module Wallaby
       INSTRUCTION
     end
 
-    def max_text_length
-      controller_configuration.max_length
+    def mapping
+      Deprecator.alert method(__callee__), from: '0.3.0'
+    end
+
+    def security
+      Deprecator.alert method(__callee__), from: '0.3.0'
+    end
+
+    def models
+      Deprecator.alert method(__callee__), from: '0.3.0'
+    end
+
+    def pagination
+      Deprecator.alert method(__callee__), from: '0.3.0'
+    end
+
+    def features
+      Deprecator.alert method(__callee__), from: '0.3.0'
+    end
+
+    def sorting
+      Deprecator.alert method(__callee__), from: '0.3.0'
     end
   end
 end
