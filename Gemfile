@@ -65,6 +65,7 @@ gem 'sassc', '< 2.2.0'
 group :test do
   gem 'database_cleaner'
   gem 'deep-cover'
+  gem 'generator_spec'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '4.0.0.beta3'
   gem 'simplecov', '~> 0.17.0'
