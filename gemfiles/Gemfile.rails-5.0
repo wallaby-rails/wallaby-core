@@ -26,6 +26,7 @@ gem 'sqlite3', '< 1.4.0'
 
 group :test do
   gem 'database_cleaner'
+  gem 'generator_spec'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'simplecov', '~> 0.17.0'
