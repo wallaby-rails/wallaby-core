@@ -30,13 +30,13 @@ module <%= class_name %>
     # NOTE: Once this is set, Wallaby will ignore `models_to_exclude` configuration
     # self.models = User
 
-    # Specify the models that Wallaby should exclude.
+    # Specify the models that Wallaby should exclude. It's used by the models navigation in the header.
     # self.models_to_exclude = ::ActiveRecord::SchemaMigration
 
     # Specify the logout url helper method name that Wallaby uses to log user out
     # self.logout_path = :logout_path
 
-    # Specify the http verb for logging out a user
+    # Specify the HTTP verb for logging out a user
     # self.logout_method = :delete
 
     # Specify the method name that Wallaby uses to retrieve email from for user portrait display using gravatar.
@@ -48,12 +48,12 @@ module <%= class_name %>
     # Specify the default page size for pagination on index page
     # config.page_size = 20
 
-    # Specify the sorting strategy to use, and valid values are:
-    #   :multiple - default value, allowing sorting on multiple columns
-    #   :single - sorting is allowed only on one column
+    # Specify the sorting strategy to use. Valid values are:
+    #   :multiple - default value, sorting is allowed on multiple columns
+    #   :single - sorting is allowed on only one column
     # config.sorting_strategy = :single
 
-    # Customize how to authenticate a user
+    # Customize how to authenticate a user. If a user is not authenticated, redirect them to the sign in page.
     # def authenticate_wallaby_user!
     #   super # do something for all the subclasses
     # end
@@ -143,7 +143,7 @@ module <%= class_name %>
 
     # Customize what parameters to be white-listed for mass assignment
     # def resource_params
-    #   super # something for all the subclasses
+    #   super # do something for all the subclasses
     # end
 
     # Customize how to return a collection

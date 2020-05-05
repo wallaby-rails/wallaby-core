@@ -4,7 +4,7 @@ module <%= class_name %>
     # Mark current class as base/abstract
     base_class!
 
-    # specify which provider (:cancancan, :pundit or :default) to use.
+    # Specify which provider (:cancancan, :pundit or :default) to use.
     # :default means no authorization will be in use.
     # self.provider_name = :cancancan
 
@@ -19,17 +19,17 @@ module <%= class_name %>
     #   super # do something for all the subclasses
     # end
 
-    # Restrict user to access certain scope.
+    # Filter the scope based on user's permission.
     # def accessible_for(action, scope)
     #   super # do something for all the subclasses
     # end
 
-    # Restrict user to assign certain values.
+    # Assign the values based on user's permission.
     # def attributes_for(action, subject)
     #   super # do something for all the subclasses
     # end
 
-    # Restrict user to permit parameters.
+    # Whitelist the parameters based on user's permission.
     # def permit_params(action, subject)
     #   super # do something for all the subclasses
     # end
