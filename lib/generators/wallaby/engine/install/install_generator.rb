@@ -31,7 +31,7 @@ module Wallaby
         type: :string, default: nil,
         desc: 'Include to generate application partials'
 
-      # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/install/USAGE
+      # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/install/USAGE
       def install
         mount_wallaby_to_given_name
         return if options[:mount_only]
@@ -64,21 +64,21 @@ module Wallaby
         create_application_partials if options[:include_partials]
       end
 
-      def create_basic_files
+      def create_basic_files # :nodoc:
         template 'application_controller.rb.erb', "app/controllers/#{file_name}/application_controller.rb"
         template 'application_decorator.rb.erb', "app/decorators/#{file_name}/application_decorator.rb"
         template 'application_servicer.rb.erb', "app/servicers/#{file_name}/application_servicer.rb"
       end
 
-      def create_application_authorizer
+      def create_application_authorizer # :nodoc:
         template 'application_authorizer.rb.erb', "app/authorizers/#{file_name}/application_authorizer.rb"
       end
 
-      def create_application_paginator
+      def create_application_paginator # :nodoc:
         template 'application_paginator.rb.erb', "app/paginators/#{file_name}/application_paginator.rb"
       end
 
-      def create_application_partials
+      def create_application_partials # :nodoc:
         task = options[:include_partials] == 'include_partials' ? 'wallaby:engine:partials' : options[:include_partials]
         generate task
       end
