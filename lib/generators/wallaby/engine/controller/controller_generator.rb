@@ -10,7 +10,7 @@ module Wallaby
 
       # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/controller/USAGE
       def install
-        template 'controller.rb.erb', "app/controllers/#{file_name}_controller.rb"
+        template 'controller.rb.erb', "app/controllers/#{name}_controller.rb"
       end
 
       protected

@@ -3,7 +3,7 @@ require 'generator_spec'
 require 'generators/wallaby/engine/install/install_generator'
 
 describe Wallaby::Engine::InstallGenerator, 'with default', type: :generator do # rubocop:disable RSpec/DescribeMethod
-  destination File.expand_path('../tmp', __dir__)
+  destination File.expand_path('../../../../tmp', __dir__)
 
   before do
     prepare_destination
@@ -50,7 +50,7 @@ describe Wallaby::Engine::InstallGenerator, 'with default', type: :generator do 
 end
 
 describe Wallaby::Engine::InstallGenerator, 'with argument backend', type: :generator do # rubocop:disable RSpec/DescribeMethod
-  destination File.expand_path('../tmp', __dir__)
+  destination File.expand_path('../../../../tmp', __dir__)
   arguments %w(backend)
 
   before do
