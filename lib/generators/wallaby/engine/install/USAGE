@@ -1,10 +1,10 @@
 Description:
-    Install Wallaby onto the given NAME (default to 'admin').
+    Install Wallaby Engine at the given NAME (default to 'admin').
 
-    For example, if 'backend' is provided as the NAME, this generator will carry out the following items:
-    - Mounting Wallaby Engine to `/backend` in `config/routes.rb`.
+    For example, if 'admin' is provided as the NAME, this generator will carry out the following items:
+    - Mounting Wallaby Engine to `/admin` in `config/routes.rb`.
     - Create initializer file `config/initializers/wallaby.rb`.
-    - Create basic application controller/decorator/servicer under camelized namespace `Backend`.
+    - Create basic application controller/decorator/servicer under camelized namespace `Admin`.
     - Optionally, application authorizer and paginator can be created as well.
 
 Example:
