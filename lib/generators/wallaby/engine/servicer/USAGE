@@ -1,20 +1,20 @@
 Description:
-    Generate decorator for Wallaby Engine usage by given NAME.
-    It also takes the PARENT name and makes the generated decorator inherit from the PARENT.
+    Generate servicer for Wallaby Engine usage by given NAME.
+    It also takes the PARENT name and makes the generated servicer inherit from the PARENT.
 
     For example, if 'apple' is provided as the NAME, this generator will carry out the following items:
-    - Generate AppleDecorator that inherits from Wallaby Engine's application decorator.
+    - Generate AppleServicer that inherits from Wallaby Engine's application servicer.
 
 Example:
-    rails generate wallaby:engine:decorator admin/user
+    rails generate wallaby:engine:servicer admin/user
 
     This will create:
-    - app/decorators/admin/user_decorator.rb
+    - app/servicers/admin/user_servicer.rb
 
 Example:
-    rails generate wallaby:engine:decorator admin/user admin/application
+    rails generate wallaby:engine:servicer admin/user admin/application
 
     This will create:
-    - app/decorators/admin/user_decorator.rb
+    - app/servicers/admin/user_servicer.rb
 
-    And it makes Admin::UserDecorator class inherit from Admin::ApplicationDecorator
+    And it makes Admin::UserServicer class inherit from Admin::ApplicationServicer
