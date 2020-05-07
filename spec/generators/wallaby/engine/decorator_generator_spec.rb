@@ -1,10 +1,10 @@
 require 'rails_helper'
 require 'generator_spec'
-require 'generators/wallaby/engine/controller/controller_generator'
+require 'generators/wallaby/engine/decorator/decorator_generator'
 
-describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::DecoratorGenerator, 'with a name', type: :generator do # rubocop:disable RSpec/DescribeMethod
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/users)
+  arguments %w(admin/user)
 
   before do
     prepare_destination
@@ -14,10 +14,10 @@ describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator d
   specify do
     expect(destination_root).to(have_structure do
       directory 'app' do
-        directory 'controllers' do
+        directory 'decorators' do
           directory 'admin' do
-            file 'users_controller.rb' do
-              contains 'class Admin::UsersController < Admin::ApplicationController'
+            file 'user_decorator.rb' do
+              contains 'class Admin::UserDecorator < Wallaby::ResourceDecorator'
               contains '# self.model_class = Admin::User'
             end
           end
@@ -27,9 +27,9 @@ describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator d
   end
 end
 
-describe Wallaby::Engine::ControllerGenerator, 'with name and parent', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::DecoratorGenerator, 'with name and parent', type: :generator do # rubocop:disable RSpec/DescribeMethod
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/users backend/application)
+  arguments %w(admin/user backend/application)
 
   before do
     prepare_destination
@@ -39,10 +39,10 @@ describe Wallaby::Engine::ControllerGenerator, 'with name and parent', type: :ge
   specify do
     expect(destination_root).to(have_structure do
       directory 'app' do
-        directory 'controllers' do
+        directory 'decorators' do
           directory 'admin' do
-            file 'users_controller.rb' do
-              contains 'class Admin::UsersController < Backend::ApplicationController'
+            file 'user_decorator.rb' do
+              contains 'class Admin::UserDecorator < Backend::ApplicationDecorator'
             end
           end
         end

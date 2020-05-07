@@ -1,5 +1,8 @@
 # @see https://github.com/wallaby-rails/wallaby/blob/master/docs/controller.md
 class <%= controller_class %> < <%= parent_controller_class %>
+  # Specify the model class if Wallaby doesn't get it right
+  # self.model_class = <%= model_name %>
+
   # Specify the resource decorator if Wallaby doesn't get it right
   # self.resource_decorator = <%= model_name %>Decorator
 

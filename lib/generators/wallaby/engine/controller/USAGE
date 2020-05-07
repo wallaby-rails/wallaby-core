@@ -2,8 +2,8 @@ Description:
     Generate controller for Wallaby Engine usage by given NAME.
     It also takes the PARENT name and makes the generated controller inherit from the PARENT.
 
-    For example, if 'apple' is provided as the NAME, this generator will carry out the following items:
-    - Generate controller that inherits from Wallaby Engine's application controller.
+    For example, if 'apples' is provided as the NAME, this generator will carry out the following items:
+    - Generate ApplesController that inherits from Wallaby Engine's application controller.
 
 Example:
     rails generate wallaby:engine:controller admin/users
