@@ -10,7 +10,7 @@ describe Wallaby::ResourcesController, type: :controller do
     context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
-      let!(:application_servicer) { stub_const 'ApplicationServicer', (Class.new(Wallaby::ModelServicer) { base_class! }) }
+      let!(:application_servicer) { stub_const 'ApplicationServicer', base_class_from(Wallaby::ModelServicer) }
       let!(:apple_servicer) { stub_const 'AppleServicer', Class.new(application_servicer) }
       let!(:thing_servicer) { stub_const 'ThingServicer', Class.new(apple_servicer) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }

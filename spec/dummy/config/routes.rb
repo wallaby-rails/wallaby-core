@@ -38,11 +38,15 @@ Rails.application.routes.draw do
     end
 
     # testing theming purpose
-    resources :blogs
+    resources :blogs do
+      get :prefixes, on: :collection
+    end
 
     # others
-    resources :orders, module: :order do
-      resources :items
+    resources :orders do
+      resources :items do
+        get :prefixes, on: :collection
+      end
     end
 
     resources :categories

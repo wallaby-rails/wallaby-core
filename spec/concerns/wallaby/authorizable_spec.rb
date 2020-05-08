@@ -10,7 +10,7 @@ describe Wallaby::ResourcesController, type: :controller do
     context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
-      let!(:application_authorizer) { stub_const 'ApplicationAuthorizer', (Class.new(Wallaby::ModelAuthorizer) { base_class! }) }
+      let!(:application_authorizer) { stub_const 'ApplicationAuthorizer', base_class_from(Wallaby::ModelAuthorizer) }
       let!(:apple_authorizer) { stub_const 'AppleAuthorizer', Class.new(application_authorizer) }
       let!(:thing_authorizer) { stub_const 'ThingAuthorizer', Class.new(apple_authorizer) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
