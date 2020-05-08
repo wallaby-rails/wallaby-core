@@ -3,7 +3,6 @@ RSpec.configure do |config|
     Wallaby.configuration.resources_controller.try(:clear)
     Wallaby.configuration.clear
     Wallaby::Map.clear
-    RequestStore
   end
 
   config.around :suite do |example|
@@ -16,5 +15,8 @@ RSpec.configure do |config|
     (const_after - const_before).each do |const|
       Object.send :remove_const, const
     end
+    Wallaby.configuration.resources_controller.try(:clear)
+    Wallaby.configuration.clear
+    Wallaby::Map.clear
   end
 end

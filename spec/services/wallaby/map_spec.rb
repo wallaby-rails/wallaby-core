@@ -34,8 +34,8 @@ describe Wallaby::Map do
   describe 'application classes' do
     describe '.controller_map' do
       let!(:base_controller) { Wallaby::ResourcesController }
-      let!(:admin_controller) { stub_const 'Admin::ApplicationController', (Class.new(base_controller) { base_class! }) }
-      let!(:user_controller) { stub_const 'UserController', (Class.new(base_controller) { base_class! }) }
+      let!(:admin_controller) { stub_const 'Admin::ApplicationController', base_class_from(base_controller) }
+      let!(:user_controller) { stub_const 'UserController', base_class_from(base_controller) }
       let!(:all_postgres_types_controller) { stub_const 'AllPostgresTypesController', Class.new(admin_controller) }
       let!(:mysql_types_controller) { stub_const 'MysqlTypesController', (Class.new(user_controller) { self.model_class = AllMysqlType }) }
 
@@ -110,8 +110,8 @@ describe Wallaby::Map do
 
     describe '.authorizer_map' do
       let!(:base_authorizer) { Wallaby::ModelAuthorizer }
-      let!(:admin_authorizer) { stub_const 'Admin::ApplicationAuthorizer', (Class.new(base_authorizer) { base_class! }) }
-      let!(:user_authorizer) { stub_const 'UserAuthorizer', (Class.new(base_authorizer) { base_class! }) }
+      let!(:admin_authorizer) { stub_const 'Admin::ApplicationAuthorizer', base_class_from(base_authorizer) }
+      let!(:user_authorizer) { stub_const 'UserAuthorizer', base_class_from(base_authorizer) }
       let!(:all_postgres_type_authorizer) { stub_const 'AllPostgresTypeAuthorizer', Class.new(admin_authorizer) }
       let!(:mysql_type_authorizer) { stub_const 'MysqlTypeAuthorizer', (Class.new(user_authorizer) { self.model_class = AllMysqlType }) }
 

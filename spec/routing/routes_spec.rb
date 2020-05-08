@@ -12,7 +12,7 @@ describe 'routing' do
     def mock_response_with(body)
       proc { [200, {}, [body]] }
     end
-    let!(:global_controller) { stub_const 'GlobalController', (Class.new(Wallaby::ResourcesController) { base_class! }) }
+    let!(:global_controller) { stub_const 'GlobalController', base_class_from(Wallaby::ResourcesController) }
     let(:script_name) { '/admin' }
 
     it 'dispatches general routes to expected controller and action' do

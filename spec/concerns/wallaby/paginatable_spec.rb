@@ -10,8 +10,8 @@ describe Wallaby::ResourcesController, type: :controller do
     context 'when subclass' do
       let!(:subclass1) { stub_const 'ApplesController', Class.new(described_class) }
       let!(:subclass2) { stub_const 'ThingsController', Class.new(subclass1) }
-      let!(:application_paginator) { stub_const 'ApplicationPaginator', Class.new(Wallaby::ModelPaginator) }
-      let!(:another_paginator) { stub_const 'AnotherPaginator', Class.new(application_paginator) }
+      let!(:application_paginator) { stub_const 'ApplicationPaginator', base_class_from(Wallaby::ModelPaginator) }
+      let!(:another_paginator) { stub_const 'AnotherPaginator', base_class_from(application_paginator) }
       let!(:apple_paginator) { stub_const 'ApplePaginator', Class.new(application_paginator) }
       let!(:thing_paginator) { stub_const 'ThingPaginator', Class.new(apple_paginator) }
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }

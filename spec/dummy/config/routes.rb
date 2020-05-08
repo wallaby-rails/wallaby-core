@@ -41,7 +41,7 @@ Rails.application.routes.draw do
     resources :blogs
 
     # others
-    resources :orders, module: :order do
+    resources :orders do
       resources :items
     end
 
