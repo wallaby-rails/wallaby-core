@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'blog that uses theme', type: :request do
   before do
     10.times do
-      Blog.create(
+      Blog.create!(
         author: FFaker::Name.name,
         subject: FFaker::Lorem.sentence,
         summary: FFaker::Lorem.sentence(20),

@@ -1,13 +1,13 @@
 require 'rails_helper'
 
 describe 'include as module', type: :request do
-  let!(:order) { Order.create(customer: FFaker::Name.name) }
-  let!(:product) { Product.create(name: 'new Product') }
-  let!(:item) { Order::Item.first }
+  let!(:order) { Order.create!(customer: FFaker::Name.name) }
+  let!(:product) { Product.create!(name: 'new Product') }
+  let(:item) { Order::Item.first }
 
   before do
     10.times do |i|
-      Order::Item.create(order: order, product: product, quantity: i, price: 99)
+      Order::Item.create!(order: order, product: product, quantity: i, price: 99)
     end
   end
 
