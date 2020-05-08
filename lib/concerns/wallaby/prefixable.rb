@@ -13,8 +13,6 @@ module Wallaby
           resources_name: current_resources_name,
           script_name: request.env[SCRIPT_NAME]
         ).execute
-
-        prefixes[0..prefixes.index(ResourcesController.controller_path)]
       end
     end
   end

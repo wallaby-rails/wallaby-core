@@ -14,7 +14,7 @@ module Wallaby
 
       full_prefix = [script_path, resources_path].compact.join(SLASH)
 
-      return if prefixes.include? full_prefix
+      return if full_prefix.blank? || prefixes.include?(full_prefix)
 
       prefixes.insert 0, full_prefix
     end

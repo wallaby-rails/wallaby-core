@@ -34,4 +34,12 @@ describe 'blog that uses theme', type: :request do
       expect(response.body).to include blog.subject
     end
   end
+
+  describe 'GET prefixes' do
+    it 'returns the prefixes' do
+      http :get, '/blogs/prefixes'
+      expect(response).to be_successful
+      expect(parse_body_for(response)).to eq ['blogs/prefixes', 'blogs/form', 'blogs', 'simple_blog_theme/prefixes', 'simple_blog_theme/form', 'simple_blog_theme', 'application/prefixes', 'application/form', 'application']
+    end
+  end
 end

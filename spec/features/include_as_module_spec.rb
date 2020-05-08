@@ -31,4 +31,12 @@ describe 'include as module', type: :request do
       expect(response.body).to include item.quantity.to_s
     end
   end
+
+  describe 'GET prefixes' do
+    it 'returns the prefixes' do
+      http :get, "/orders/#{order.id}/items/prefixes"
+      expect(response).to be_successful
+      expect(parse_body_for(response)).to eq ['items/prefixes', 'items/form', 'items', 'base/prefixes', 'base/form', 'base', 'wallaby/resources/prefixes', 'wallaby/resources/form', 'wallaby/resources', 'application/prefixes', 'application/form', 'application']
+    end
+  end
 end
