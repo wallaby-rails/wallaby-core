@@ -4,16 +4,15 @@ module Wallaby
   # Utils for module and class
   module ModuleUtils
     class << self
+      # @deprecated
       # A helper method to check if subject responds to given method and to return the result if so
       # @param subject [Object]
       # @param method_id [String, Symbol]
       # @param args [Array] a list of arguments
       # @return [Object] result from executing given method on subject
       # @return [nil] if subject doesn't respond to given method
-      def try_to(subject, method_id, *args, &block)
-        return if method_id.blank?
-
-        subject.respond_to?(method_id) && subject.public_send(method_id, *args, &block) || nil
+      def try_to(_subject, _method_id, *_args)
+        Deprecator.alert method(__callee__), from: '0.3.0'
       end
 
       # Check whether a class is anonymous or not

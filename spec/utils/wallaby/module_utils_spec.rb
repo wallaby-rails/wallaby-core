@@ -1,24 +1,6 @@
 require 'rails_helper'
 
 describe Wallaby::ModuleUtils do
-  describe '.try_to' do
-    it 'returns the message sent to subject' do
-      expect(described_class.try_to(Product, :table_name)).to eq 'products'
-    end
-
-    context 'when method_id is blank' do
-      it 'returns nil' do
-        expect(described_class.try_to(Product, '')).to be_nil
-      end
-    end
-
-    context 'when method_id is unknown' do
-      it 'returns nil' do
-        expect(described_class.try_to(Product, :unknown_method)).to be_nil
-      end
-    end
-  end
-
   describe '.anonymous_class?' do
     it 'returns true when class is anonymous' do
       expect(described_class).to be_anonymous_class(Class.new)

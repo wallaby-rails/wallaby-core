@@ -24,6 +24,7 @@ module Wallaby
       # Load the rest files
       unless Rails.env.development? || Rails.configuration.eager_load
         Logger.debug 'Preload all other eager load files after initialize.', sourcing: false
+        Preloader.pending!
         Preloader.require_all
       end
     end
