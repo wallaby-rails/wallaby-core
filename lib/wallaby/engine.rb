@@ -8,9 +8,8 @@ module Wallaby
       # @see http://rmosolgo.github.io/blog/2017/04/12/watching-files-during-rails-development/
       config.to_prepare do
         if Rails.env.development? || Rails.configuration.eager_load
-          Logger.debug 'Reloading after Rails\' reload...', sourcing: false
           Map.clear
-          Preloader.require_all
+          Preloader.pending!
         end
       end
     end
