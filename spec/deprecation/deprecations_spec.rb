@@ -13,6 +13,12 @@ describe Wallaby::Baseable do
   end
 end
 
+describe Wallaby::ModuleUtils do
+  describe '.try_to' do
+    it { expect { described_class.try_to(Object, :to_s) }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
 describe Wallaby::Configuration::Mapping do
   describe '#resources_controller=' do
     it { expect { subject.resources_controller = nil }.to raise_error Wallaby::MethodRemoved }
