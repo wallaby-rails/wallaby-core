@@ -17,7 +17,11 @@ module Wallaby
 
       # @return [Wallaby::ClassHash] { Model Class => {Wallaby::Mode} }
       def mode_map
-        @mode_map ||= ModeMapper.execute(modes).freeze
+        @mode_map ||= begin
+          # NOTE: this is the point where all files should be required
+          Preloader.require_all
+          ModeMapper.execute(modes).freeze
+        end
       end
 
       # @deprecated
