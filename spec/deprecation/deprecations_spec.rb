@@ -6,6 +6,13 @@ describe Wallaby::Map do
   end
 end
 
+describe Wallaby::Baseable do
+  describe '.namespace' do
+    it { expect { Wallaby::ResourcesController.namespace }.to raise_error Wallaby::MethodRemoved }
+    it { expect { Wallaby::ResourcesController.namespace = nil }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
 describe Wallaby::Configuration::Mapping do
   describe '#resources_controller=' do
     it { expect { subject.resources_controller = nil }.to raise_error Wallaby::MethodRemoved }
