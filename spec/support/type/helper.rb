@@ -1,3 +1,11 @@
+module HelperSupport
+  def url_options
+    # NOTE: make it possible to change the url_options from controller
+    # as super is frozen object
+    @url_options ||= super.dup
+  end
+end
+
 RSpec.configure do |config|
   config.around :each, type: :helper do |example|
     RequestStore.store[:wallaby_controller] = example.metadata[:wallaby_controller] || Wallaby::ResourcesController
@@ -16,6 +24,7 @@ RSpec.configure do |config|
     view.extend Wallaby::ResourcesHelper
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
+    helper.extend HelperSupport
 
     if view.respond_to? :default_url_options
       view.default_url_options = { only_path: true, host: 'test.host' }
