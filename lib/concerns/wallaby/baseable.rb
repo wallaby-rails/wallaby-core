@@ -45,7 +45,7 @@ module Wallaby
       #     end
       #   end
       # @return [Class] assigned model class or Wallaby will guess it
-      #   (see {Wallaby::Baseable.guess_associated_class_of .guess_associated_class_of})
+      #   (see {Wallaby::Guesser.class_for})
       # @return [nil] if current class is marked as base class
       # @raise [Wallaby::ModelNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty

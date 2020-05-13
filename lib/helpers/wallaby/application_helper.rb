@@ -38,11 +38,21 @@ module Wallaby
         EngineUrlFor.handle(
           engine_name: options.fetch(:engine_name, current_engine_name), parameters: options
         )
-      end || super(options)
+      end || super
     end
 
+    # Override origin #form_for method to provide default form builder
+    # @param record [ActiveRecord::Base, String, Symbol]
+    # @param options [Hash]
+    def form_for(record, options = {}, &block)
+      options[:builder] ||= Wallaby::FormBuilder
+      super
+    end
+
+    # I18n transaltion just for Wallaby
     # @param key
     # @param options [Hash]
+    # @return [String] transaltion for given key
     def wt(key, options = {})
       Locale.t key, { translator: method(:t) }.merge(options)
     end

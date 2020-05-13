@@ -12,7 +12,6 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.models = [Product, Order]
       #   end
-      # @param models [Array<Class, String>]
       def set(*_models)
         Deprecator.alert 'config.models.set', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #models= from the controller instead, for example:
@@ -38,7 +37,6 @@ module Wallaby
       #   Wallaby.config do |config|
       #     config.models.exclude Product, Order
       #   end
-      # @param models [Array<Class, String>]
       def exclude(*_models)
         Deprecator.alert 'config.models.exclude', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #models_to_exclude from the controller instead, for example:

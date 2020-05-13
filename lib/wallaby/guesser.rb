@@ -39,6 +39,9 @@ module Wallaby
 
       protected
 
+      # Constantize the class name
+      # @return [Class] if class name is valid
+      # @return [nil] otherwise
       def constantize(class_name)
         # NOTE: DO NOT try to use const_defined? and const_get EVER.
         # Using constantize is Rails way to make it require the corresponding file.
