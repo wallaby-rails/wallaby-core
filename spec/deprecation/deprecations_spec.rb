@@ -190,3 +190,9 @@ describe Wallaby::ConfigurationHelper, type: :helper do
     it { expect { helper.pagination }.to raise_error Wallaby::MethodRemoved }
   end
 end
+
+describe Wallaby::ResourcesHelper, type: :helper do
+  describe '#type_render' do
+    it { expect { helper.type_render }.to raise_error Wallaby::MethodRemoved }
+  end
+end

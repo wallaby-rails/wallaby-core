@@ -19,8 +19,21 @@ module Wallaby
     # Render type cell/partial
     # @param partial_name [String]
     # @param locals [Hash]
-    def type_render(partial_name = '', locals = {}, &block)
-      TypeRenderer.render self, partial_name, locals, &block
+    def type_render(_partial_name = '', _locals = {})
+      Deprecator.alert method(__callee__), from: '0.3.0', alternative: <<~INSTRUCTION
+        If it's for index type partils, please follow below example:
+
+          render field_name, object: decorated, value: decorated.try(field_name), metadata: decorated.index_metadata_of(field_name)
+
+        If it's for show type partils, please follow below example:
+
+          render field_name, object: decorated, value: decorated.try(field_name), metadata: decorated.show_metadata_of(field_name)
+
+        If it's for new/create/edit/update/destroy type partils, please follow below example:
+
+          render field_name, form: form, object: decorated, value: decorated.try(field_name), metadata: decorated.form_metadata_of(field_name)
+
+      INSTRUCTION
     end
 
     # Title for show page of given resource

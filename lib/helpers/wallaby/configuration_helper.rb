@@ -11,6 +11,7 @@ module Wallaby
       Wallaby.configuration
     end
 
+    # @deprecated
     # @return [Wallaby::Configuration::Metadata] shortcut method of metadata
     def default_metadata
       Deprecator.alert 'default_metadata.max', from: '0.3.0', alternative: <<~INSTRUCTION
@@ -18,26 +19,32 @@ module Wallaby
       INSTRUCTION
     end
 
+    # @deprecated
     def mapping
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
 
+    # @deprecated
     def security
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
 
+    # @deprecated
     def models
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
 
+    # @deprecated
     def pagination
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
 
+    # @deprecated
     def features
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
 
+    # @deprecated
     def sorting
       Deprecator.alert method(__callee__), from: '0.3.0'
     end
