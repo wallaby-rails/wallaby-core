@@ -1,7 +1,7 @@
 module HelperSupport
   def url_options
     # NOTE: make it possible to change the url_options from controller
-    # as super is frozen object
+    # as super is a frozen object
     @url_options ||= super.dup
   end
 end

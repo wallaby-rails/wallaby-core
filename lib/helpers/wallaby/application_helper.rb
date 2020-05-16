@@ -45,7 +45,7 @@ module Wallaby
     # @param record [ActiveRecord::Base, String, Symbol]
     # @param options [Hash]
     def form_for(record, options = {}, &block)
-      options[:builder] ||= Wallaby::FormBuilder
+      options[:builder] ||= FormBuilder
       super
     end
 
