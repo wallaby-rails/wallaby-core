@@ -4,19 +4,6 @@ describe Wallaby::FormHelper do
   include Wallaby::LinksHelper
   include Wallaby::BaseHelper
 
-  describe '#form_type_partial_render' do
-    let(:form) { Wallaby::FormBuilder.new object_name, object, helper, {} }
-    let(:object_name) { object.model_name.param_key }
-    let(:object) { Wallaby::ResourceDecorator.new Product.new(name: 'product_name') }
-
-    describe 'partials', prefixes: ['wallaby/resources/form'] do
-      it 'renders a type partial' do
-        helper.params[:action] = 'edit'
-        expect(helper.type_render('integer', field_name: 'name', form: form)).to match 'type="number"'
-      end
-    end
-  end
-
   describe '#remote_url' do
     it 'returns remote url' do
       expect(helper.remote_url('/path_to_api', Product)).to eq '/path_to_api'
