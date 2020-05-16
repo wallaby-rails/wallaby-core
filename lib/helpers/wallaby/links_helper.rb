@@ -206,7 +206,7 @@ module Wallaby
     # @return [Hash] default path params
     def default_path_params(resources: nil)
       { script_name: request.env[SCRIPT_NAME] }.tap do |default|
-        default[:resources] = resources if current_engine_name && resources
+        default[:resources] = resources if current_engine_name.present? && resources
         default[:only_path] = true unless default.key?(:only_path)
       end
     end
