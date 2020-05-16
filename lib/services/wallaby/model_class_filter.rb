@@ -4,7 +4,9 @@ module Wallaby
   # Fitler the model classes using
   class ModelClassFilter
     class << self
-      # @param class_array [Array<Class>]
+      # @param all [Array<Class>]
+      # @param whitelisted [Array<Class>]
+      # @param blacklisted [Array<Class>]
       def execute(all:, whitelisted:, blacklisted:)
         invalid, valid =
           if whitelisted.present? then [whitelisted - all, whitelisted]

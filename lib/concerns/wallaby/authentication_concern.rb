@@ -13,7 +13,7 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses
-    # This method will try to call {#current_user} from superclass.
+    # This method will try to call #current_user from superclass.
     # @example It can be overridden in subclasses:
     #   def wallaby_user
     #     # NOTE: better to assign user to `@wallaby_user` for better performance:
@@ -25,7 +25,7 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses
-    # This method will try to call {#authenticate_user!} from superclass.
+    # This method will try to call #authenticate_user! from superclass.
     # And it will be run as the first callback before an action.
     # @example It can be overridden in subclasses:
     #   def authenticate_wallaby_user!

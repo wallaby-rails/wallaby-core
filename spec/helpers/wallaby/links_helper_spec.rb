@@ -9,8 +9,17 @@ describe Wallaby::LinksHelper, :wallaby_user do
     end
 
     context 'when script name is blank' do
-      it 'returns index path', script_name: '' do
-        expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
+      context 'when defined by wresource' do
+        it 'returns index path', script_name: '' do
+          expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
+        end
+      end
+
+      context 'when defined by resource' do
+        it 'returns index path', script_name: '' do
+          helper.url_options[:_recall] = { controller: 'blogs' }
+          expect(helper.index_path(Blog)).to eq '/blogs'
+        end
       end
     end
 

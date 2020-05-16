@@ -165,6 +165,7 @@ module Wallaby
         default_path_params(resources: to_resources_name(model_class)),
         url_params.to_h
       )
+
       current_engine.try(:new_resource_path, hash) || url_for(hash)
     end
 
@@ -205,7 +206,7 @@ module Wallaby
     # @return [Hash] default path params
     def default_path_params(resources: nil)
       { script_name: request.env[SCRIPT_NAME] }.tap do |default|
-        default[:resources] = resources if current_engine || resources
+        default[:resources] = resources if current_engine_name.present? && resources
         default[:only_path] = true unless default.key?(:only_path)
       end
     end

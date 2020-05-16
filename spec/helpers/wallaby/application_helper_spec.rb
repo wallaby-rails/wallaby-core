@@ -69,4 +69,14 @@ describe Wallaby::ApplicationHelper do
       end
     end
   end
+
+  describe '#form_for' do
+    it 'uses the Wallaby::FormBuilder' do
+      product = Product.new
+      product.errors.add :name, 'invalid name'
+      expect(helper.form_for(product) do |f|
+        f.error_messages :name
+      end).to include 'invalid name'
+    end
+  end
 end
