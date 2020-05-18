@@ -25,7 +25,6 @@ module Wallaby
       end
 
       # @deprecated
-      # @return [Array] [ model classes ]
       def model_classes
         Deprecator.alert method(__callee__), from: '0.3.0'
       end

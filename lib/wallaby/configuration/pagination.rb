@@ -3,10 +3,8 @@
 module Wallaby
   class Configuration
     # @deprecated
-    # Pagination configuration
     class Pagination
       # @deprecated
-      # @!attribute [w] page_size
       def page_size=(page_size)
         Deprecator.alert 'config.pagination.page_size=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #page_size= from the controller instead, for example:
@@ -20,21 +18,6 @@ module Wallaby
       end
 
       # @deprecated
-      # @!attribute [r] page_size
-      # To globally configure the page size for pagination.
-      #
-      # Page size can be one of the following values:
-      #
-      # - 10
-      # - 20
-      # - 50
-      # - 100
-      # @see Wallaby::PERS
-      # @example To update the page size in `config/initializers/wallaby.rb`
-      #   Wallaby.config do |config|
-      #     config.pagination.page_size = 50
-      #   end
-      # @return [Integer] page size, default to 20
       def page_size
         Deprecator.alert 'config.pagination.page_size', from: '0.3.0', alternative: <<~INSTRUCTION
           Please use controller_class.page_size instead.

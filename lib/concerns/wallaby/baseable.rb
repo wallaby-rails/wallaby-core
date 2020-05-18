@@ -71,17 +71,11 @@ module Wallaby
       end
 
       # @deprecated
-      # @!attribute [w] namespace
-      # Used by `model_class`
-      # @since wallaby-5.2.0
       def namespace=(_namespace)
         Deprecator.alert method(__callee__), from: '0.3.0'
       end
 
       # @deprecated
-      # @!attribute [r] namespace
-      # @return [String] namespace
-      # @since wallaby-5.2.0
       def namespace
         Deprecator.alert method(__callee__), from: '0.3.0'
       end
