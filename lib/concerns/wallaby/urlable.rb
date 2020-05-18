@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Wallaby
+  # All URL helpers
   module Urlable
     # Override origin method to handle URL for Wallaby engine.
     #

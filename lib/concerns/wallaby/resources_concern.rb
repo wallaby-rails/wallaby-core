@@ -26,11 +26,13 @@ module Wallaby
 
       # NOTE: to ensure Wallaby's layout
       # is not inheriting from/impacted by parent controller's layout.
-      try(
-        # inherit? or include?
-        self == ResourcesController ? :layout : :theme_name=,
-        ResourcesController.controller_path
-      ) if respond_to?(:layout)
+      if respond_to?(:layout)
+        try(
+          # inherit? or include?
+          self == ResourcesController ? :layout : :theme_name=,
+          ResourcesController.controller_path
+        )
+      end
 
       self.responder = ResourcesResponder
       respond_to :html
