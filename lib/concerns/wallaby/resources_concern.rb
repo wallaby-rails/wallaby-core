@@ -22,7 +22,7 @@ module Wallaby
       include ApplicationConcern
       include AuthenticationConcern
 
-      base_class!
+      base_class! if self == ResourcesController
 
       # NOTE: to ensure Wallaby's layout
       # is not inheriting from/impacted by parent controller's layout.
@@ -30,13 +30,13 @@ module Wallaby
         # inherit? or include?
         self == ResourcesController ? :layout : :theme_name=,
         ResourcesController.controller_path
-      )
+      ) if respond_to?(:layout)
 
       self.responder = ResourcesResponder
       respond_to :html
       respond_to :json
       respond_to :csv
-      helper ResourcesHelper
+      try :helper, ResourcesHelper
       before_action :set_controller_configuration
       before_action :authenticate_wallaby_user!
     end

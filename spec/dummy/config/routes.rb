@@ -64,8 +64,11 @@ Rails.application.routes.draw do
     end
 
     scope path: '/api', as: :api do
-      wresources :products, controller: 'json_api'
       wresources :pictures, controller: 'json_api'
+    end
+
+    namespace :json do
+      resources :pictures
     end
   end
 

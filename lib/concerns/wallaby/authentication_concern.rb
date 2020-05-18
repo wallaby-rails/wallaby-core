@@ -6,7 +6,7 @@ module Wallaby
     extend ActiveSupport::Concern
 
     included do
-      helper_method :wallaby_user
+      try :helper_method, :wallaby_user
 
       rescue_from NotAuthenticated, with: :unauthorized
       rescue_from Forbidden, with: :forbidden

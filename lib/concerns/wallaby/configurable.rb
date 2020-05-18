@@ -473,5 +473,7 @@ module Wallaby
     def set_controller_configuration
       RequestStore.store[:wallaby_controller] ||= self.class
     end
+
+    alias controller_configuration set_controller_configuration
   end
 end

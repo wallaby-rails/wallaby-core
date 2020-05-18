@@ -7,6 +7,7 @@ module Wallaby
     extend ActiveSupport::Concern
 
     include Engineable
+    include Urlable
 
     included do
       rescue_from NotFound, with: :not_found
@@ -15,7 +16,7 @@ module Wallaby
       rescue_from NotImplemented, with: :not_implemented
       rescue_from UnprocessableEntity, with: :unprocessable_entity
 
-      delegate(*ConfigurationHelper.instance_methods(false), :url_for, to: :helpers)
+      delegate(:configuration, to: Wallaby)
     end
 
     # Health check page
@@ -59,7 +60,7 @@ module Wallaby
     #   ActionController::Helpers#helpers
     # @see https://github.com/rails/rails/blob/5-0-stable/actionpack/lib/action_controller/metal/helpers.rb#L118
     def helpers
-      @helpers ||= defined?(super) ? super : view_context
+      @helpers ||= defined?(super) ? super : try(:view_context)
     end
 
     protected

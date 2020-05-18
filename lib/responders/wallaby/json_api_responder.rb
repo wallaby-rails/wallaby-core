@@ -35,7 +35,7 @@ module Wallaby
     def single(resource)
       {
         id: resource.id,
-        type: params[:resources],
+        type: params[:resources] || ModelUtils.to_resources_name(resource.class),
         attributes: attributes_of(resource)
       }
     end
