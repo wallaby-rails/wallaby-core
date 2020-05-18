@@ -12,7 +12,6 @@ module Wallaby
     end
 
     # @deprecated
-    # @return [Wallaby::Configuration::Metadata] shortcut method of metadata
     def default_metadata
       Deprecator.alert 'default_metadata.max', from: '0.3.0', alternative: <<~INSTRUCTION
         Please use `max_text_length` instead

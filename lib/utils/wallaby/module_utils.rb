@@ -5,7 +5,6 @@ module Wallaby
   module ModuleUtils
     class << self
       # @deprecated
-      # A helper method to check if subject responds to given method and to return the result if so
       def try_to(_subject, _method_id, *_args)
         Deprecator.alert method(__callee__), from: '0.3.0'
       end
