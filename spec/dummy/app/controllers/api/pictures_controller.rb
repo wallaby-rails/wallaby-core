@@ -1,5 +1,5 @@
 if Rails::VERSION::MAJOR >= 5
-  module Json
+  module Api
     class PicturesController < ActionController::API
       include Wallaby::ResourcesConcern
       self.responder = Wallaby::JsonApiResponder

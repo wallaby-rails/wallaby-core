@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe 'blog that uses theme', type: :request do
+describe 'uses theme', type: :request do
   before do
     10.times do
       Blog.create!(
@@ -16,7 +16,7 @@ describe 'blog that uses theme', type: :request do
 
   describe 'post list page' do
     it 'renders the theme' do
-      http :get, '/blogs'
+      http :get, blogs_path
       expect(response).to be_successful
       expect(response).to render_template 'layouts/simple_blog_theme'
       expect(response).to render_template 'simple_blog_theme/index'
@@ -26,7 +26,7 @@ describe 'blog that uses theme', type: :request do
 
   describe 'post show page' do
     it 'renders the theme' do
-      http :get, "/blogs/#{blog.id}"
+      http :get, blog_path(blog)
       expect(response).to be_successful
       expect(response).to render_template 'layouts/simple_blog_theme'
       expect(response).to render_template 'simple_blog_theme/show'
@@ -37,7 +37,7 @@ describe 'blog that uses theme', type: :request do
 
   describe 'GET prefixes' do
     it 'returns the prefixes' do
-      http :get, '/blogs/prefixes'
+      http :get, prefixes_blogs_path
       expect(response).to be_successful
       expect(parse_body_for(response)).to eq ['blogs/prefixes', 'blogs/form', 'blogs', 'simple_blog_theme/prefixes', 'simple_blog_theme/form', 'simple_blog_theme', 'application/prefixes', 'application/form', 'application']
     end

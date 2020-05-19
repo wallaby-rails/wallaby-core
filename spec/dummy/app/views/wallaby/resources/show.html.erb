@@ -6,7 +6,7 @@ if resource
   <% decorated.show_field_names.each do |field_name| %>
     <dl>
       <dt><%= decorated.show_label_of field_name %></dt>
-      <dd><%= decorated.public_send field_name %></dd>
+      <dd><%= decorated.try field_name %></dd>
     </dl>
   <% end %>
 <% end %>
