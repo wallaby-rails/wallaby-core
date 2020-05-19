@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
     # others
     resources :orders do
-      resources :items do
+      resources :items, module: :orders do
         get :prefixes, on: :collection
       end
     end
@@ -63,9 +63,19 @@ Rails.application.routes.draw do
       wresources :pictures, controller: 'wallaby/resources'
     end
 
-    scope path: '/api', as: :api do
-      wresources :products, controller: 'json_api'
-      wresources :pictures, controller: 'json_api'
+    # Tests for JsonApiResponder
+    begin
+      namespace :app do
+        resources :pictures
+      end
+
+      namespace :api do
+        resources :pictures
+      end
+
+      namespace :resources do
+        resources :pictures
+      end
     end
   end
 

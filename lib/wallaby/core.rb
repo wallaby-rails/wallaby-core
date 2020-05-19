@@ -46,6 +46,8 @@ require 'utils/wallaby/utils'
 require 'concerns/wallaby/authorizable'
 require 'concerns/wallaby/baseable'
 require 'concerns/wallaby/configurable'
+require 'concerns/wallaby/urlable'
+
 require 'concerns/wallaby/decoratable'
 require 'concerns/wallaby/defaultable'
 require 'concerns/wallaby/engineable'

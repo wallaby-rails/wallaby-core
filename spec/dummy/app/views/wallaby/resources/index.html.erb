@@ -23,7 +23,7 @@ decorated_collection = decorate collection
           <td><%= decorated.to_label %></td>
           <% field_names.each do |field_name| %>
             <td>
-              <%= decorated.public_send field_name %>
+              <%= decorated.try field_name %>
             </td>
           <% end %>
         </tr>
