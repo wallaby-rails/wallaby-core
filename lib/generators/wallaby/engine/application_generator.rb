@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Wallaby
+  # base generator
   class ApplicationGenerator < Rails::Generators::NamedBase
     argument :name, type: :string
     argument :parent_name, type: :string, default: nil, required: false

@@ -6,7 +6,7 @@ module Wallaby
   class Engine
     # `wallaby:engine:controller` generator
     # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/controller/USAGE
-    class ControllerGenerator  < ApplicationGenerator
+    class ControllerGenerator < ApplicationGenerator
       source_root File.expand_path('templates', __dir__)
 
       protected

@@ -6,7 +6,7 @@ module Wallaby
   class Engine
     # `wallaby:engine:decorator` generator
     # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/decorator/USAGE
-    class DecoratorGenerator  < ApplicationGenerator
+    class DecoratorGenerator < ApplicationGenerator
       source_root File.expand_path('templates', __dir__)
 
       protected
