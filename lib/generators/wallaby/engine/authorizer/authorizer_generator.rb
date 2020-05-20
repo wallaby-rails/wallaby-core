@@ -1,32 +1,18 @@
 # frozen_string_literal: true
 
+require_relative '../application_generator'
+
 module Wallaby
   class Engine
     # `wallaby:engine:authorizer` generator
-    class AuthorizerGenerator < Rails::Generators::NamedBase
+    # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/authorizer/USAGE
+    class AuthorizerGenerator < ApplicationGenerator
       source_root File.expand_path('templates', __dir__)
-      argument :name, type: :string
-      argument :parent_name, type: :string, default: nil, required: false
-
-      # @see https://github.com/wallaby-rails/wallaby-core/blob/master/lib/generators/wallaby/engine/authorizer/USAGE
-      def install
-        template 'authorizer.rb.erb', "app/authorizers/#{name}_authorizer.rb"
-      end
 
       protected
 
-      def authorizer_class
-        "#{class_name}Authorizer"
-      end
-
-      def parent_authorizer_class
-        return "#{parent_name.classify}Authorizer" if parent_name
-
-        Wallaby.configuration.resources_controller.application_authorizer
-      end
-
-      def model_name
-        class_name.singularize
+      def base_name
+        'authorizer'
       end
     end
   end
