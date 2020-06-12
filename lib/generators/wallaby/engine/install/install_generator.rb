@@ -79,8 +79,12 @@ module Wallaby
       end
 
       def create_application_partials # :nodoc:
-        task = options[:include_partials] == 'include_partials' ? 'wallaby:engine:partials' : options[:include_partials]
-        generate task
+        task =
+          case options[:include_partials]
+          when 'include_partials', true then 'wallaby:engine:partials'
+          else options[:include_partials]
+          end
+        invoke task, [name]
       end
     end
   end

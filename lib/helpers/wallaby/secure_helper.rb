@@ -11,7 +11,7 @@ module Wallaby
     # @param method_name [Symbol, String]
     # @return [String] IMG or I element
     def user_portrait(user: wallaby_user, method_name: controller_configuration.try(:email_method))
-      method_name ||= user.methods.grep(/email/i).first || :email
+      method_name ||= user.methods.grep(/email/i).min || :email
       email = user.try method_name
       return fa_icon 'user' if email.blank?
 

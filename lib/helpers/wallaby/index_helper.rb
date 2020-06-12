@@ -45,19 +45,27 @@ module Wallaby
     # @param filters [Hash]
     # @param url_params [Hash, ActionController::Parameters]
     # @return [String] HTML anchor link
-    def filter_link(model_class, filter_name, filters: {}, url_params: {})
+    def filter_link(model_class, filter_name, filters: {}, url_params: {}, html_options: {})
       is_all = filter_name == :all
       config = filters[filter_name] || {}
       label = is_all ? all_label : filter_label(filter_name, filters)
       url_params[:filter] = config[:default] ? nil : filter_name
-      index_link(model_class, options: { url: url_for(url_params.merge(with_query: true)) }) { label }
+
+      index_link(
+        model_class,
+        options: { url: url_for(url_params.merge(with_query: true)) }, html_options: html_options
+      ) { label }
     end
 
     # @param model_class [Class]
     # @param url_params [Hash, ActionController::Parameters] extra URL params
     # @return [String] Export link for the given model_class.
-    def export_link(model_class, url_params: {})
-      index_link(model_class, url_params: { format: 'csv', page: nil, per: nil, with_query: true }.merge(url_params)) do
+    def export_link(model_class, url_params: {}, html_options: {})
+      index_link(
+        model_class,
+        url_params: { format: 'csv', page: nil, per: nil, with_query: true }.merge(url_params),
+        html_options: html_options
+      ) do
         wt 'links.export', ext: 'CSV'
       end
     end
