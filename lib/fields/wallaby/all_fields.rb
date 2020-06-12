@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Wallaby
   # A simple wrapper so that all fields (index/show/form) can be set in one-line.
   # @example set type for name to `'string'` in decorator
@@ -16,14 +18,14 @@ module Wallaby
     end
 
     def []=(last_key, value)
-      %i[index_fields show_fields form_fields].each do |fields|
+      %i(index_fields show_fields form_fields).each do |fields|
         last = @keys.reduce(@decorator.try(fields)) do |metadata, key|
           metadata.try :[], key
         end
         last.try :[]=, last_key, value
       end
 
-      value
+      value # rubocop:disable Lint/Void
     end
   end
 end
