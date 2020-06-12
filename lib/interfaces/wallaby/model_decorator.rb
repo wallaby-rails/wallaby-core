@@ -16,6 +16,11 @@ module Wallaby
     # @return [Class]
     attr_reader :model_class
 
+    # @!attribute [r] all_fields
+    def all_fields
+      AllFields.new self
+    end
+
     # @!attribute [r] fields
     # @note to be implemented in subclasses.
     # Origin fields metadata.

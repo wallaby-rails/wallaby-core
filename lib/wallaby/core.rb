@@ -31,6 +31,7 @@ require 'wallaby/map'
 require 'support/action_dispatch/routing/mapper'
 
 require 'routes/wallaby/resources_router'
+require 'fields/wallaby/all_fields'
 require 'tree/wallaby/node'
 require 'parsers/wallaby/parser'
 
