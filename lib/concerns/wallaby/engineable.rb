@@ -23,16 +23,9 @@ module Wallaby
       @current_engine ||= try current_engine_name
     end
 
-    # Find out the engine name under current script name.
-    #
-    # Considering **Wallaby** is mounted at the following paths:
-    #
-    # ```
-    # mount Wallaby::Engine, at: '/admin'
-    # mount Wallaby::Engine, at: '/inner', as: :inner_engine, defaults: { resources_controller: InnerController }
-    # ```
-    #
-    # If `/inner` is current script name, then `current_engine_name` returns `'inner_engine'`.
+    # Find out the engine name for the current request, it comes from either:
+    # - {Wallaby::Configurable#engine_name}
+    # - Judge from the request path (which includes the script and path info)
     # @return [String] engine name for current request
     def current_engine_name
       @current_engine_name ||= controller_configuration.engine_name || EngineNameFinder.find(request.path)
