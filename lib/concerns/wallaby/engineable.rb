@@ -35,7 +35,7 @@ module Wallaby
     # If `/inner` is current script name, then `current_engine_name` returns `'inner_engine'`.
     # @return [String] engine name for current request
     def current_engine_name
-      @current_engine_name ||= controller_configuration.engine_name || EngineNameFinder.find(request.env)
+      @current_engine_name ||= controller_configuration.engine_name || EngineNameFinder.find(request.path)
     end
   end
 end
