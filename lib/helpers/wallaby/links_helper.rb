@@ -56,7 +56,7 @@ module Wallaby
     # @param options [Hash]
     # @option options [String] :url url/path for the link
     # @option options [Boolean] :readonly readonly and therefore output the label
-    # @option options [Boolean] :is_resource to tell {#show_path} if it is a resource
+    # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#show_path} if it is a resource
     # @param url_params [ActionController::Parameters, Hash]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
@@ -85,7 +85,7 @@ module Wallaby
     # @param options [Hash]
     # @option options [String] :url url/path for the link
     # @option options [Boolean] :readonly readonly and therefore output the label
-    # @option options [Boolean] :is_resource to tell {#edit_path} if it is a resource
+    # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#edit_path} if it is a resource
     # @param url_params [ActionController::Parameters, Hash]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
@@ -111,7 +111,7 @@ module Wallaby
     # @param resource [Object, Wallaby::ResourceDecorator] model class
     # @param options [Hash]
     # @option options [String] :url url/path for the link
-    # @option options [Boolean] :is_resource to tell {#edit_path} if it is a resource
+    # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#edit_path} if it is a resource
     # @param url_params [ActionController::Parameters, Hash]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to

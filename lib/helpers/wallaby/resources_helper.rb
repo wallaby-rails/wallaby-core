@@ -57,7 +57,9 @@ module Wallaby
     # @param decorated [Wallaby::ResourceDecorator]
     # @return [String]
     def show_title(decorated)
-      raise ::ArgumentError unless decorated.is_a? ResourceDecorator
+      unless decorated.is_a? ResourceDecorator
+        raise ::ArgumentError, 'Please provide a resource wrapped by a decorator.'
+      end
 
       [
         to_model_label(decorated.model_class), decorated.to_label
