@@ -31,10 +31,10 @@ Rails.application.routes.draw do
 
   begin # for non-admin usage
     # testing custom mode purpose
-    wresources :postcodes, controller: 'wallaby/resources'
-    wresources :zipcodes, controller: 'wallaby/resources'
-    wresource :profile, controller: 'wallaby/resources' do
-      wresources :postcodes, controller: 'wallaby/resources'
+    resources :postcodes
+    resources :zipcodes
+    resource :profile do
+      resources :postcodes
     end
 
     # testing theming purpose
@@ -50,17 +50,17 @@ Rails.application.routes.draw do
     end
 
     resources :categories
-    wresources :products, controller: 'wallaby/resources'
-    wresources :pictures, controller: 'wallaby/resources'
+    resources :products
+    resources :pictures
 
     scope path: '/before', as: :before do
-      wresources :products, controller: 'wallaby/resources'
-      wresources :pictures, controller: 'wallaby/resources'
+      resources :products
+      resources :pictures
     end
 
     scope path: '/after', as: :after do
-      wresources :products, controller: 'wallaby/resources'
-      wresources :pictures, controller: 'wallaby/resources'
+      resources :products
+      resources :pictures
     end
 
     # Tests for JsonApiResponder
