@@ -59,7 +59,7 @@ describe 'include ResourcesConcern', type: :request do
       it 'returns the prefixes' do
         http :get, "/orders/#{order.id}/items/prefixes"
         expect(response).to be_successful
-        expect(parse_body_for(response)).to eq ['orders/items/prefixes', 'orders/items/form', 'orders/items', 'base/prefixes', 'base/form', 'base', 'wallaby/resources/prefixes', 'wallaby/resources/form', 'wallaby/resources', 'application/prefixes', 'application/form', 'application']
+        expect(parse_body_for(response)).to eq ['order/items/prefixes', 'order/items/form', 'order/items', 'base/prefixes', 'base/form', 'base', 'wallaby/resources/prefixes', 'wallaby/resources/form', 'wallaby/resources', 'application/prefixes', 'application/form', 'application']
       end
     end
   end

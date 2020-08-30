@@ -82,7 +82,7 @@ describe 'routing' do
       end
     end
 
-    it 'dispatches resourceful routes to expected controller and action' do
+    it 'dispatches resourcesful routes to expected controller and action' do
       controller  = Wallaby::ResourcesController
       resources   = 'products'
 

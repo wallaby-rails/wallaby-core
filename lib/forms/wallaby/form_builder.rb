@@ -30,21 +30,21 @@ module Wallaby
     # @see ActionView::Helpers::FormBuilder#label
     def label(method, text = nil, options = {}, &block)
       text = instance_exec(&text) if text.is_a?(Proc)
-      super
+      super(method, text, options, &block)
     end
 
     # Extend select to accept proc type `choices` argument
     # @see ActionView::Helpers::FormBuilder#select
     def select(method, choices = nil, options = {}, html_options = {}, &block)
       choices = instance_exec(&choices) if choices.is_a?(Proc)
-      super
+      super(method, choices, options, html_options, &block)
     end
 
     protected
 
     # Delegate missing method to `@template`
     def method_missing(method, *args, &block)
-      return super unless @template.respond_to? method
+      return super(method, *args, &block) unless @template.respond_to? method
 
       # Delegate the method so that we don't come in here the next time
       # when same method is called
@@ -53,8 +53,8 @@ module Wallaby
     end
 
     # Delegate missing method check to `@template`
-    def respond_to_missing?(method, _include_private)
-      @template.respond_to?(method) || super
+    def respond_to_missing?(method, include_private)
+      @template.respond_to?(method) || super(method, include_private)
     end
   end
 end

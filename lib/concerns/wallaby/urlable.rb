@@ -1,25 +1,32 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # All URL helpers for {Wallaby::Engine Wallaby::Engine}
+  # All URL helpers for {Engine}
   module Urlable
     # Override original method to handle URL generation **when Wallaby is used as Rails Engine**.
     #
     # Wallaby's {https://github.com/wallaby-rails/wallaby-core/blob/master/config/routes.rb routes} are declared in
     # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} fashion.
-    # When {Wallaby::Engine Wallaby::Engine} is mounted, it requires the `:resources` parameter.
+    # When {Engine} is mounted, it requires the `:resources` parameter.
+    #
     # Therefore, using the original **usl_for** without the parameter (e.g. `url_for action: :index`)
-    # will lead to **ActionController::RoutingError** exception. This is why the original
+    # will lead to **ActionController::RoutingError** exception.
     # @param options [String, Hash, ActionController::Parameters]
     # @option options [Boolean] :with_query see {#with_query}
     # @option options [String]
-    #   :engine_name to specify the engine_name to use, default to {Wallaby::Engineable#current_engine_name}
+    #   :engine_name to specify the engine_name to use, default to {Engineable#current_engine_name}
     # @return [String] URL string
-    # @see Wallaby::EngineUrlFor.handle
+    # @see EngineUrlFor.handle
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
-      EngineUrlFor.handle(context: self, options: options) || super
+      EngineUrlFor.handle(context: self, options: options) || super(options)
+    end
+
+    # @see Map.resources_name_map
+    # @return [String] resources name for given model class
+    def to_resources_name(model_class)
+      Map.resources_name_map model_class
     end
 
     # This provides the feature to include all query parameters for given url params.
@@ -70,14 +77,13 @@ module Wallaby
     # @return [String] show page path
     def show_path(resource, url_params: {})
       decorated = decorate resource
-      decorated.primary_key_value.try do |id|
-        url_params = with_query url_params
-        current_engine.try(:resource_path, {
-          resources: to_resources_name(decorated.model_class), id: id
-        }.merge(url_params)) || url_for({
-          controller: ModelUtils.to_controllers_name(decorated.model_class), action: :show, id: id
-        }.merge(url_params))
-      end
+      id = decorated.primary_key_value
+      url_params = with_query url_params
+      current_engine.try(:resource_path, {
+        resources: to_resources_name(decorated.model_class), id: id
+      }.merge(url_params)) || url_for({
+        controller: ModelUtils.to_controllers_name(decorated.model_class), action: :show, id: id
+      }.merge(url_params))
     end
 
     # Generate the resourcesful edit path for given resource.
@@ -87,14 +93,13 @@ module Wallaby
     # @return [String] edit page path
     def edit_path(resource, url_params: {})
       decorated = decorate resource
-      decorated.primary_key_value.try do |id|
-        url_params = with_query url_params
-        current_engine.try(:edit_resource_path, {
-          resources: to_resources_name(decorated.model_class), id: id
-        }.merge(url_params)) || url_for({
-          controller: ModelUtils.to_controllers_name(decorated.model_class), action: :edit, id: id
-        }.merge(url_params))
-      end
+      id = decorated.primary_key_value
+      url_params = with_query url_params
+      current_engine.try(:edit_resource_path, {
+        resources: to_resources_name(decorated.model_class), id: id
+      }.merge(url_params)) || url_for({
+        controller: ModelUtils.to_controllers_name(decorated.model_class), action: :edit, id: id
+      }.merge(url_params))
     end
   end
 end

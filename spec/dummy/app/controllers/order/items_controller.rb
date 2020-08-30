@@ -1,5 +1,2 @@
-module Orders
-  class ItemsController < BaseController
-    self.model_class = Order::Item
-  end
+class Order::ItemsController < BaseController
 end

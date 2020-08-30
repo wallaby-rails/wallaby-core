@@ -12,12 +12,6 @@ module Wallaby
       ModelUtils.to_model_label model_class
     end
 
-    # @see Map.resources_name_map
-    # @return [String] resources name for given model class
-    def to_resources_name(model_class)
-      Map.resources_name_map model_class
-    end
-
     # Generate body class from the following sources:
     # - `:action` parameter
     # - converted current resources name (e.g. `order__item` from `Order::Item`)
@@ -51,7 +45,7 @@ module Wallaby
     # @param array [Array<Wallaby::Node>] root classes
     # @return [String] HTML for the whole tree
     def model_tree(array, base_class = nil)
-      return EMPTY_STRING if array.blank?
+      return EMPTY_STRING if array.blank? || current_engine.blank?
 
       options = { html_options: { class: 'dropdown-item' } }
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do

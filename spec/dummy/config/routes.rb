@@ -44,7 +44,7 @@ Rails.application.routes.draw do
 
     # others
     resources :orders do
-      resources :items, module: :orders do
+      resources :items, module: :order do
         get :prefixes, on: :collection
       end
     end
