@@ -15,7 +15,7 @@ module Wallaby
 
         new_key, new_defaults = normalize key, options.delete(:default)
 
-        translator.call(new_key, { default: new_defaults }.merge(options))
+        translator.call(new_key, default: new_defaults, **options)
       end
 
       private

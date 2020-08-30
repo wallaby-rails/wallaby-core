@@ -3,6 +3,12 @@
 module Wallaby
   # URL service object for {Wallaby::Urlable#url_for} helper
   class EngineUrlFor
+    include ActiveModel::Model
+
+    attr_accessor :context
+    attr_accessor :options
+    attr_accessor :params
+
     # A constant to map actions to their route paths defined in Wallaby routes.
     ACTION_TO_PATH_MAP =
       Wallaby::ERRORS.each_with_object(ActiveSupport::HashWithIndifferentAccess.new) do |error, map|
@@ -15,30 +21,71 @@ module Wallaby
         edit: :edit_resource_path
       ).freeze
 
-    class << self
-      # Generate URL that Wallaby engine supports (e.g. home/resourcesful/errors)
-      # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
-      # @param context [ActionController::Base, ActionView::Base]
-      # @param options [Hash, ActionController::Parameters]
-      # @return [String] path string for wallaby engine
-      # @return [nil] nil if given engine name cannot be found
-      def handle(context:, options:)
-        return unless options.is_a?(Hash) || options.try(:permitted?)
+    # Generate URL that Wallaby engine supports (e.g. home/resourcesful/errors)
+    # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
+    # @param context [ActionController::Base, ActionView::Base]
+    # @param params [Hash, ActionController::Parameters]
+    # @param options [Hash]
+    # @return [String] Wallaby
+    # @return [nil] nil if params is not a Hash or ActionController::Parameters
+    def self.handle(context:, params:, options:, &block)
+      return unless params.is_a?(Hash) || params.try(:permitted?)
 
-        engine = context.try(options.delete(:engine_name) || context.try(:current_engine_name))
-        options = context.with_query(options, url_options: context.url_options).symbolize_keys
+      new(context: context, params: params, options: options).execute(&block)
+    end
 
-        engine.try action_path_from(options), options if options[:resources] || action_path_from(options).present?
+    def execute(&block)
+      action_path && route && Engine.routes.url_helpers.try(
+        action_path, **resources_param, **normalized_params
+      ) || block.call(
+        **controllers_param, **normalized_params
+      )
+    end
+
+    private
+
+    def action_path
+      @action_path ||= ACTION_TO_PATH_MAP[
+        params[:action] || params.fetch(:_recall, {})[:action]
+      ]
+    end
+
+    def script_name
+      @script_name ||= route.path.spec.to_s
+    end
+
+    def model_class
+      options[:model_class]
+    end
+
+    def resources_param
+      {}.tap do |params|
+        params[:resources] = ModelUtils.to_resources_name(model_class) if model_class
       end
+    end
 
-      protected
-
-      # Find out the named path from given params
-      # @return [Symbol] named path
-      def action_path_from(params)
-        action = params[:action] || params.fetch(:_recall, {})[:action]
-        ACTION_TO_PATH_MAP[action]
+    def controllers_param
+      {}.tap do |params|
+        params[:controller] = ModelUtils.to_controllers_name(model_class) if model_class
       end
+    end
+
+    def normalized_params
+      ParamsUtils.presence(
+        *(
+          options[:with_query] && [context.request.query_parameters, context.url_options] || []
+        ), params
+      ).symbolize_keys.tap do |p|
+        p[:script_name] = script_name if route
+      end
+    end
+
+    def route
+      Rails.application.routes.named_routes[engine_name]
+    end
+
+    def engine_name
+      options[:engine_name] || context.try(:current_engine_name)
     end
   end
 end

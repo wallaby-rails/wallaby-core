@@ -5,31 +5,31 @@ describe Wallaby::EngineUrlFor, type: :helper do
     context 'when action is index' do
       it 'returns resources_path' do
         %w(index).each do |action|
-          expect(described_class.handle(context: helper, options: { engine_name: 'wallaby_engine', resources: 'products', action: action })).to eq '/admin/products'
-          expect(described_class.handle(context: helper, options: parameters!(engine_name: 'wallaby_engine', resources: 'products', action: action))).to eq '/admin/products'
+          expect(described_class.handle(context: helper, params: { action: action }, options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products'
+          expect(described_class.handle(context: helper, params: parameters!(action: action), options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products'
         end
       end
     end
 
     context 'when action is new' do
       it 'returns new_resource_path' do
-        expect(described_class.handle(context: helper, options: { engine_name: 'wallaby_engine', resources: 'products', action: 'new' })).to eq '/admin/products/new'
-        expect(described_class.handle(context: helper, options: parameters!(engine_name: 'wallaby_engine', resources: 'products', action: 'new'))).to eq '/admin/products/new'
+        expect(described_class.handle(context: helper, params: { action: 'new' }, options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/new'
+        expect(described_class.handle(context: helper, params: parameters!(action: 'new'), options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/new'
       end
     end
 
     context 'when action is edit' do
       it 'returns edit_resource_path' do
-        expect(described_class.handle(context: helper, options: { engine_name: 'wallaby_engine', resources: 'products', action: 'edit', id: 1 })).to eq '/admin/products/1/edit'
-        expect(described_class.handle(context: helper, options: parameters!(engine_name: 'wallaby_engine', resources: 'products', action: 'edit', id: 1))).to eq '/admin/products/1/edit'
+        expect(described_class.handle(context: helper, params: { action: 'edit', id: 1 }, options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/1/edit'
+        expect(described_class.handle(context: helper, params: parameters!(action: 'edit', id: 1), options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/1/edit'
       end
     end
 
     context 'when action is show' do
       it 'returns resource_path' do
         %w(show).each do |action|
-          expect(described_class.handle(context: helper, options: { engine_name: 'wallaby_engine', resources: 'products', action: action, id: 1 })).to eq '/admin/products/1'
-          expect(described_class.handle(context: helper, options: parameters!(engine_name: 'wallaby_engine', resources: 'products', action: action, id: 1))).to eq '/admin/products/1'
+          expect(described_class.handle(context: helper, params: { action: action, id: 1 }, options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/1'
+          expect(described_class.handle(context: helper, params: parameters!(action: action, id: 1), options: { engine_name: 'wallaby_engine', model_class: Product })).to eq '/admin/products/1'
         end
       end
     end

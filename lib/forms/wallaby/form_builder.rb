@@ -53,7 +53,7 @@ module Wallaby
     end
 
     # Delegate missing method check to `@template`
-    def respond_to_missing?(method, include_private)
+    def respond_to_missing?(method, _include_private)
       @template.respond_to?(method) || super
     end
   end

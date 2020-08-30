@@ -6,6 +6,12 @@ module Wallaby
     include StylingHelper
     include LinksHelper
 
+    # @see Map.resources_name_map
+    # @return [String] resources name for given model class
+    def to_resources_name(model_class)
+      Map.resources_name_map model_class
+    end
+
     # @see ModelUtils.to_model_label
     # @return [String] label for given model class
     def to_model_label(model_class)
@@ -45,12 +51,12 @@ module Wallaby
     # @param array [Array<Wallaby::Node>] root classes
     # @return [String] HTML for the whole tree
     def model_tree(array, base_class = nil)
-      return EMPTY_STRING if array.blank? || current_engine.blank?
+      return EMPTY_STRING if array.blank? || current_engine_name.blank?
 
       options = { html_options: { class: 'dropdown-item' } }
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do
         array.sort_by(&:name).each do |node|
-          content = index_link(node.klass, options).try :<<, model_tree(node.children)
+          content = index_link(node.klass, **options).try :<<, model_tree(node.children)
           concat content_tag(:li, content)
         end
       end

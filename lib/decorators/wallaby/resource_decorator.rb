@@ -155,7 +155,7 @@ module Wallaby
     end
 
     # Delegate missing method check to {#resource}
-    def respond_to_missing?(method_id, include_private)
+    def respond_to_missing?(method_id, _include_private)
       resource.respond_to?(method_id) || super
     end
   end
