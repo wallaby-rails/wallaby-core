@@ -7,7 +7,7 @@ module Wallaby
     include Engineable
     include Urlable
 
-    # Override origin #form_for method to provide default form builder
+    # Override original #form_for method to provide default form builder
     # @param record [ActiveRecord::Base, String, Symbol]
     # @param options [Hash]
     def form_for(record, options = {}, &block)

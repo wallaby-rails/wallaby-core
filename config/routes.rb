@@ -22,7 +22,7 @@ Wallaby::Engine.routes.append do
       route.get code.to_s, defaults: { action: status }
     end
 
-    # To generate general CRUD resourceful routes
+    # To generate general CRUD resourcesful routes
     # @see Wallaby::ResourcesRouter
     scope path: ':resources' do
       # @see Wallaby::ResourcesController#index

@@ -7,7 +7,7 @@ module Wallaby
     # @param model_class [Class]
     # @param options [Hash]
     # @option options [String] :url url/path for the link
-    # @param url_params [ActionController::Parameters, Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
     #   ActionView::Helpers::UrlHelper#link_to})
@@ -22,7 +22,6 @@ module Wallaby
         block: -> { to_model_label model_class }
       )
 
-      url_params = request.query_parameters.merge(url_params) if url_params.delete(:with_query)
       url = options[:url] || index_path(model_class, url_params: url_params)
       link_to url, html_options, &block
     end
@@ -31,7 +30,7 @@ module Wallaby
     # @param model_class [Class]
     # @param options [Hash]
     # @option options [String] :url url/path for the link
-    # @param url_params [ActionController::Parameters, Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
     #   ActionView::Helpers::UrlHelper#link_to})
@@ -57,7 +56,7 @@ module Wallaby
     # @option options [String] :url url/path for the link
     # @option options [Boolean] :readonly readonly and therefore output the label
     # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#show_path} if it is a resource
-    # @param url_params [ActionController::Parameters, Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
     #   ActionView::Helpers::UrlHelper#link_to})
@@ -76,7 +75,7 @@ module Wallaby
       default = options[:readonly] && block.call || nil
       return default if unauthorized? :show, extract(resource)
 
-      url = options[:url] || show_path(resource, is_resource: options[:is_resource], url_params: url_params)
+      url = options[:url] || show_path(resource, url_params: url_params)
       link_to url, html_options, &block
     end
 
@@ -86,7 +85,7 @@ module Wallaby
     # @option options [String] :url url/path for the link
     # @option options [Boolean] :readonly readonly and therefore output the label
     # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#edit_path} if it is a resource
-    # @param url_params [ActionController::Parameters, Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
     #   ActionView::Helpers::UrlHelper#link_to})
@@ -103,7 +102,7 @@ module Wallaby
       default = options[:readonly] && block.call || nil
       return default if unauthorized? :edit, extract(resource)
 
-      url = options[:url] || edit_path(resource, is_resource: options[:is_resource], url_params: url_params)
+      url = options[:url] || edit_path(resource, url_params: url_params)
       link_to url, html_options, &block
     end
 
@@ -112,7 +111,7 @@ module Wallaby
     # @param options [Hash]
     # @option options [String] :url url/path for the link
     # @option options [Boolean] :is_resource to tell {Wallaby::Urlable#edit_path} if it is a resource
-    # @param url_params [ActionController::Parameters, Hash]
+    # @param url_params [Hash, ActionController::Parameters]
     # @param html_options [Hash] (see
     #   {https://api.rubyonrails.org/classes/ActionView/Helpers/UrlHelper.html#method-i-link_to
     #   ActionView::Helpers::UrlHelper#link_to})
@@ -129,7 +128,7 @@ module Wallaby
       html_options[:method] ||= :delete
       (html_options[:data] ||= {})[:confirm] ||= wt 'links.confirm.delete'
 
-      url = options[:url] || show_path(resource, is_resource: options[:is_resource], url_params: url_params)
+      url = options[:url] || show_path(resource, url_params: url_params)
       link_to url, html_options, &block
     end
 

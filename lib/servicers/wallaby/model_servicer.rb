@@ -54,7 +54,7 @@ module Wallaby
 
     # @note This is a template method that can be overridden by subclasses.
     # Whitelist parameters for mass assignment.
-    # @param params [ActionController::Parameters, Hash]
+    # @param params [Hash, ActionController::Parameters]
     # @param action [String, Symbol, nil]
     # @return [ActionController::Parameters] permitted params
     def permit(params, action = nil)
@@ -63,7 +63,7 @@ module Wallaby
 
     # @note This is a template method that can be overridden by subclasses.
     # Return a collection by querying the datasource (e.g. database, REST API).
-    # @param params [ActionController::Parameters, Hash]
+    # @param params [Hash, ActionController::Parameters]
     # @return [Enumerable] list of resources
     def collection(params)
       provider.collection params, authorizer

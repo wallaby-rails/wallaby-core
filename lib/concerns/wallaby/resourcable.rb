@@ -27,7 +27,7 @@ module Wallaby
     #
     # ```
     # def collection
-    #   # do something before the origin action
+    #   # do something before the original action
     #   options = {} # NOTE: see `options` parameter for more details
     #   collection! options do |query| # NOTE: this is better than using `super`
     #     # NOTE: make sure a collection is returned
@@ -46,7 +46,7 @@ module Wallaby
     # end
     # ```
     # @param options [Hash] (since 5.2.0)
-    # @option options [ActionController::Parameters, Hash] :params parameters for collection query
+    # @option options [Hash, ActionController::Parameters] :params parameters for collection query
     # @option options [Boolean] :paginate see {Wallaby::Paginatable#paginate}
     # @yield [collection] (since 5.2.0) a block to run to extend collection, e.g. call chain with more queries
     # @return [#each] a collection of records
@@ -72,7 +72,7 @@ module Wallaby
     #
     # ```
     # def resource
-    #   # do something before the origin action
+    #   # do something before the original action
     #   options = {} # NOTE: see `options` parameter for more details
     #   resource! options do |object| # NOTE: this is better than using `super`
     #     object.preload_status_from_api
@@ -93,8 +93,8 @@ module Wallaby
     # @param options [Hash] (since 5.2.0)
     # @option options [Array<String>] :non_find_actions action names that shouldn't use resource find.
     #   (Default to `%w(index new create)`)
-    # @option options [ActionController::Parameters, Hash] :find_params parameters/options for resource finding
-    # @option options [ActionController::Parameters, Hash] :new_params parameters/options for new resource
+    # @option options [Hash, ActionController::Parameters] :find_params parameters/options for resource finding
+    # @option options [Hash, ActionController::Parameters] :new_params parameters/options for new resource
     # @yield [resource] (since 5.2.0) a block to run to extend resource, e.g. making change to the resource.
     #   Please make sure to return the resource at the end of block
     # @return [Object] either persisted or unpersisted resource instance

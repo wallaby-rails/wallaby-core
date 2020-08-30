@@ -20,7 +20,7 @@ module Wallaby
     # @return [Hash] updated options with default values
     def assign_create_and_update_defaults_with(options)
       options[:params] ||= resource_params
-      options[:location] ||= -> { show_path resource, is_resource: params[:resource] }
+      options[:location] ||= -> { show_path resource }
     end
 
     # @param options [Hash]
@@ -28,11 +28,7 @@ module Wallaby
     def assign_destroy_defaults_with(options)
       options[:params] ||= params
       options[:location] ||=
-        if params[:resource]
-          show_path resource, is_resource: params[:resource]
-        else
-          index_path current_model_class
-        end
+        params[:resource] ? show_path(resource) : index_path(current_model_class)
     end
   end
 end

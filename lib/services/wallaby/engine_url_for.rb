@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # {Wallaby::ApplicationHelper#url_for} helper for Wallaby engine
+  # URL service object for {Wallaby::Urlable#url_for} helper
   class EngineUrlFor
     # A constant to map actions to their route paths defined in Wallaby routes.
     ACTION_TO_PATH_MAP =
@@ -16,19 +16,19 @@ module Wallaby
       ).freeze
 
     class << self
-      # Generate URL that Wallaby engine supports (e.g. home/resourceful/errors)
+      # Generate URL that Wallaby engine supports (e.g. home/resourcesful/errors)
       # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb config/routes.rb
-      # @param engine_name [string]
-      # @param parameters [ActionController::Parameters, Hash]
+      # @param context [ActionController::Base, ActionView::Base]
+      # @param options [Hash, ActionController::Parameters]
       # @return [String] path string for wallaby engine
       # @return [nil] nil if given engine name cannot be found
-      def handle(engine_name:, parameters:)
-        route = Rails.application.routes.named_routes[engine_name]
-        return unless route
+      def handle(context:, options:)
+        return unless options.is_a?(Hash) || options.try(:permitted?)
 
-        params = { script_name: route.path.spec.to_s }.merge(parameters).symbolize_keys
+        engine = context.try(options.delete(:engine_name) || context.try(:current_engine_name))
+        options = context.with_query(options, url_options: context.url_options).symbolize_keys
 
-        Engine.routes.url_helpers.try action_path_from(params), params
+        engine.try action_path_from(options), options if options[:resources] || action_path_from(options).present?
       end
 
       protected

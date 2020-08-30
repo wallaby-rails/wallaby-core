@@ -53,7 +53,7 @@ module Wallaby
 
       index_link(
         model_class,
-        options: { url: url_for(url_params.merge(with_query: true)) }, html_options: html_options
+        url_params: with_query(url_params), html_options: html_options
       ) { label }
     end
 
@@ -63,7 +63,7 @@ module Wallaby
     def export_link(model_class, url_params: {}, html_options: {})
       index_link(
         model_class,
-        url_params: { format: 'csv', page: nil, per: nil, with_query: true }.merge(url_params),
+        url_params: with_query(format: 'csv', page: nil, per: nil, **url_params),
         html_options: html_options
       ) do
         wt 'links.export', ext: 'CSV'

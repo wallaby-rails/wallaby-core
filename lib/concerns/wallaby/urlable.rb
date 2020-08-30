@@ -1,26 +1,17 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # All URL helpers
+  # All URL helpers for {Wallaby::Engine Wallaby::Engine}
   module Urlable
-    # Override origin method to handle URL for Wallaby engine.
+    # Override original method to handle URL generation **when Wallaby is used as Rails Engine**.
     #
-    # As Wallaby's routes are declared in a
-    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} fashion, this will
-    # lead to **ActionController::RoutingError** exception when using ordinary **url_for**
-    # (e.g. `url_for action: :index`).
-    #
-    # Gotcha: Wallaby can't cope well with the following situation.
-    # It's due to the limit of route declaration and matching:
-    #
-    # ```
-    # scope path: '/prefix' do
-    #   wresources :products, controller: 'wallaby/resources'
-    # end
-    # ```
+    # Wallaby's {https://github.com/wallaby-rails/wallaby-core/blob/master/config/routes.rb routes} are declared in
+    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} fashion.
+    # When {Wallaby::Engine Wallaby::Engine} is mounted, it requires the `:resources` parameter.
+    # Therefore, using the original **usl_for** without the parameter (e.g. `url_for action: :index`)
+    # will lead to **ActionController::RoutingError** exception. This is why the original
     # @param options [String, Hash, ActionController::Parameters]
-    # @option options [Boolean]
-    #   :with_query to include `request.query_parameters` values for url generation.
+    # @option options [Boolean] :with_query see {#with_query}
     # @option options [String]
     #   :engine_name to specify the engine_name to use, default to {Wallaby::Engineable#current_engine_name}
     # @return [String] URL string
@@ -28,80 +19,81 @@ module Wallaby
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
-      if options.is_a?(Hash) || options.try(:permitted?)
-        # merge with all current query parameters
-        options = request.query_parameters.merge(options) if options.delete(:with_query)
-        options = ParamsUtils.presence url_options, options # remove blank values
-        EngineUrlFor.handle(
-          engine_name: options.fetch(:engine_name, current_engine_name), parameters: options
-        )
-      end || super
+      EngineUrlFor.handle(context: self, options: options) || super
     end
 
+    # This provides the feature to include all query parameters for given url params.
+    # @param url_params [Hash, ActionController::Parameters]
+    # @option url_params [Boolean]
+    #   :with_query to include request's **query_parameters** if true.
+    # @param url_options [Hash, ActionController::Parameters]
+    # @return [Hash] new params
+    def with_query(url_params, url_options: {})
+      ParamsUtils.presence(
+        url_options,
+        url_params.delete(:with_query) ? request.query_parameters.merge(url_params) : url_params
+      )
+    end
+
+    # Generate the resourcesful index path for given model class.
     # @param model_class [Class]
     # @param url_params [Hash]
+    # @option url_params [Boolean] :with_query see {#with_query}
     # @return [String] index page path
     def index_path(model_class, url_params: {})
-      hash = ParamsUtils.presence(
-        { action: :index },
-        default_path_params(resources: ModelUtils.to_resources_name(model_class)),
-        url_params.to_h
-      )
-      current_engine.try(:resources_path, hash) || url_for(hash)
+      url_params = with_query url_params
+      current_engine.try(:resources_path, {
+        resources: to_resources_name(model_class)
+      }.merge(url_params)) || url_for({
+        controller: ModelUtils.to_controllers_name(model_class), action: :index
+      }.merge(url_params))
     end
 
+    # Generate the resourcesful new path for given model class.
     # @param model_class [Class]
     # @param url_params [Hash]
+    # @option url_params [Boolean] :with_query see {#with_query}
     # @return [String] new page path
     def new_path(model_class, url_params: {})
-      hash = ParamsUtils.presence(
-        { action: :new },
-        default_path_params(resources: ModelUtils.to_resources_name(model_class)),
-        url_params.to_h
-      )
-
-      current_engine.try(:new_resource_path, hash) || url_for(hash)
+      url_params = with_query url_params
+      current_engine.try(:new_resource_path, {
+        resources: to_resources_name(model_class)
+      }.merge(url_params)) || url_for({
+        controller: ModelUtils.to_controllers_name(model_class), action: :new
+      }.merge(url_params))
     end
 
+    # Generate the resourcesful show path for given resource.
     # @param resource [Object]
-    # @param is_resource [Boolean]
     # @param url_params [Hash]
+    # @option url_params [Boolean] :with_query see {#with_query}
     # @return [String] show page path
-    def show_path(resource, is_resource: false, url_params: {})
+    def show_path(resource, url_params: {})
       decorated = decorate resource
-      return unless is_resource || decorated.primary_key_value
-
-      hash = ParamsUtils.presence(
-        { action: :show, id: decorated.primary_key_value },
-        default_path_params(resources: decorated.resources_name),
-        url_params.to_h
-      )
-
-      current_engine.try(:resource_path, hash) || url_for(hash)
+      decorated.primary_key_value.try do |id|
+        url_params = with_query url_params
+        current_engine.try(:resource_path, {
+          resources: to_resources_name(decorated.model_class), id: id
+        }.merge(url_params)) || url_for({
+          controller: ModelUtils.to_controllers_name(decorated.model_class), action: :show, id: id
+        }.merge(url_params))
+      end
     end
 
+    # Generate the resourcesful edit path for given resource.
     # @param resource [Object]
-    # @param is_resource [Boolean]
     # @param url_params [Hash]
+    # @option url_params [Boolean] :with_query see {#with_query}
     # @return [String] edit page path
-    def edit_path(resource, is_resource: false, url_params: {})
+    def edit_path(resource, url_params: {})
       decorated = decorate resource
-      return unless is_resource || decorated.primary_key_value
-
-      hash = ParamsUtils.presence(
-        { action: :edit, id: decorated.primary_key_value },
-        default_path_params(resources: decorated.resources_name),
-        url_params.to_h
-      )
-
-      current_engine.try(:edit_resource_path, hash) || url_for(hash)
-    end
-
-    # @return [Hash] default path params
-    def default_path_params(resources: nil)
-      { script_name: request.env[SCRIPT_NAME] }.tap do |default|
-        default[:resources] = resources if current_engine_name.present? && resources
-        default[:only_path] = true unless default.key?(:only_path)
+      decorated.primary_key_value.try do |id|
+        url_params = with_query url_params
+        current_engine.try(:edit_resource_path, {
+          resources: to_resources_name(decorated.model_class), id: id
+        }.merge(url_params)) || url_for({
+          controller: ModelUtils.to_controllers_name(decorated.model_class), action: :edit, id: id
+        }.merge(url_params))
       end
     end
   end

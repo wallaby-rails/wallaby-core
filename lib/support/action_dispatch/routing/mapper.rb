@@ -20,7 +20,7 @@ module ActionDispatch
       end
 
       # @deprecated
-      def wresources(*resource_names, &block)
+      def wresources(*_resource_names)
         Wallaby::Deprecator.alert method(__callee__), from: '0.3.0', alternative: <<~INSTRUCTION
           Please use `resources` instead and include `Wallaby::ResourcesConcern` in the controller. For example:
 
@@ -35,7 +35,7 @@ module ActionDispatch
       end
 
       # @deprecated
-      def wresource(*resource_names, &block)
+      def wresource(*_resource_names)
         Wallaby::Deprecator.alert method(__callee__), from: '0.3.0', alternative: <<~INSTRUCTION
           Please use `resource` instead and include `Wallaby::ResourcesConcern` in the controller. For example:
 
