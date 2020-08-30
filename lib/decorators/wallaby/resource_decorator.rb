@@ -149,14 +149,14 @@ module Wallaby
 
     # Delegate missing method to {#resource}
     def method_missing(method_id, *args, &block)
-      return super(method_id, *args, &block) unless resource.respond_to? method_id
+      return super unless resource.respond_to? method_id
 
       resource.try method_id, *args, &block
     end
 
     # Delegate missing method check to {#resource}
     def respond_to_missing?(method_id, include_private)
-      resource.respond_to?(method_id) || super(method_id, include_private)
+      resource.respond_to?(method_id) || super
     end
   end
 end

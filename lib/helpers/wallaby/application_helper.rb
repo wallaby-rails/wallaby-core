@@ -12,7 +12,7 @@ module Wallaby
     # @param options [Hash]
     def form_for(record, options = {}, &block)
       options[:builder] ||= FormBuilder
-      super(record, options, &block)
+      super
     end
 
     # I18n transaltion just for Wallaby

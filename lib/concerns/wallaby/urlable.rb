@@ -20,7 +20,7 @@ module Wallaby
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(options = nil)
-      EngineUrlFor.handle(context: self, options: options) || super(options)
+      EngineUrlFor.handle(context: self, options: options) || super
     end
 
     # @see Map.resources_name_map
@@ -50,7 +50,7 @@ module Wallaby
     def index_path(model_class, url_params: {})
       url_params = with_query url_params
       current_engine.try(:resources_path, {
-        resources: to_resources_name(model_class)
+        resources: to_resources_name(model_class), script_name: request.script_name
       }.merge(url_params)) || url_for({
         controller: ModelUtils.to_controllers_name(model_class), action: :index
       }.merge(url_params))
@@ -64,7 +64,7 @@ module Wallaby
     def new_path(model_class, url_params: {})
       url_params = with_query url_params
       current_engine.try(:new_resource_path, {
-        resources: to_resources_name(model_class)
+        resources: to_resources_name(model_class), script_name: request.script_name
       }.merge(url_params)) || url_for({
         controller: ModelUtils.to_controllers_name(model_class), action: :new
       }.merge(url_params))
@@ -80,7 +80,7 @@ module Wallaby
       id = decorated.primary_key_value
       url_params = with_query url_params
       current_engine.try(:resource_path, {
-        resources: to_resources_name(decorated.model_class), id: id
+        resources: to_resources_name(decorated.model_class), id: id, script_name: request.script_name
       }.merge(url_params)) || url_for({
         controller: ModelUtils.to_controllers_name(decorated.model_class), action: :show, id: id
       }.merge(url_params))
@@ -96,7 +96,7 @@ module Wallaby
       id = decorated.primary_key_value
       url_params = with_query url_params
       current_engine.try(:edit_resource_path, {
-        resources: to_resources_name(decorated.model_class), id: id
+        resources: to_resources_name(decorated.model_class), id: id, script_name: request.script_name
       }.merge(url_params)) || url_for({
         controller: ModelUtils.to_controllers_name(decorated.model_class), action: :edit, id: id
       }.merge(url_params))
