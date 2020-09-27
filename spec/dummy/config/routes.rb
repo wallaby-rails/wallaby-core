@@ -12,16 +12,14 @@ Rails.application.routes.draw do
     mount Wallaby::Engine, at: '/before_engine', as: :before_engine
     # NOTE this is the part that we should focus
     wallaby_mount at: '/admin' do
-      # ordinary categories resources
-      resources :categories, module: :admin do
-        get :member_only, on: :member
-        get :collection_only, on: :collection
-      end
+      scope module: :admin do
+        # ordinary categories resources
+        resources :categories do
+          get :member_only, on: :member
+          get :collection_only, on: :collection
+        end
 
-      # custom controller for categories as well
-      resources :not_like_categories, module: :admin do
-        get :member_only, on: :member
-        get :collection_only, on: :collection
+        get 'abc', to: 'categories#index'
       end
     end
     mount Wallaby::Engine, at: '/after_engine', as: :after_engine

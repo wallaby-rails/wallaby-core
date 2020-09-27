@@ -6,8 +6,15 @@ module RequestSupport
       send verb, url, **hash
     end
   end
+
+  def page_html
+    @page_html[response.object_id] ||= Nokogiri::HTML(response.body)
+  end
 end
 
 RSpec.configure do |config|
   config.include RequestSupport, type: :request
+  config.before(:example, type: :request) do
+    @page_html = {}
+  end
 end

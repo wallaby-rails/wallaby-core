@@ -8,9 +8,7 @@ describe Wallaby::ResourcesController do
 
     context 'when subclasses' do
       let(:application_controller) do
-        stub_const('Admin::ApplicationController', (Class.new(described_class) do
-          base_class!
-        end))
+        stub_const('Admin::ApplicationController', base_class_from(described_class))
       end
 
       it 'returns its max_text_length' do
@@ -43,9 +41,7 @@ describe Wallaby::ResourcesController do
 
     context 'when subclasses' do
       let(:application_controller) do
-        stub_const('Admin::ApplicationController', (Class.new(described_class) do
-          base_class!
-        end))
+        stub_const('Admin::ApplicationController', base_class_from(described_class))
       end
 
       it 'returns its page_size' do
@@ -78,9 +74,7 @@ describe Wallaby::ResourcesController do
 
     context 'when subclasses' do
       let(:application_controller) do
-        stub_const('Admin::ApplicationController', (Class.new(described_class) do
-          base_class!
-        end))
+        stub_const('Admin::ApplicationController', base_class_from(described_class))
       end
 
       it 'returns its sorting_strategy' do
