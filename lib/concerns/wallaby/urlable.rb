@@ -3,22 +3,15 @@
 module Wallaby
   # All URL helpers for {Engine}
   module Urlable
-    # Override original method to handle URL generation **when Wallaby is used as Rails Engine**.
-    #
-    # Wallaby's {https://github.com/wallaby-rails/wallaby-core/blob/master/config/routes.rb routes} are declared in
-    # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application} fashion.
-    # When {Engine} is mounted, it requires the `:resources` parameter.
-    #
-    # Therefore, using the original **usl_for** without the parameter (e.g. `url_for action: :index`)
-    # will lead to **ActionController::RoutingError** exception.
+    # Override original method to handle URL generation **when Wallaby is mounted as Rails Engine**.
     # @param params [String, Hash, ActionController::Parameters, nil]
-    # @param options [Hash]
+    # @param options [Hash] options only used by {EngineUrlFor}
     # @return [String] URL string
-    # @see EngineUrlFor.handle
+    # @see EngineUrlFor.execute
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(params = nil, options = {})
-      EngineUrlFor.handle(context: self, params: params, options: options) { |p| super(p) } || super(params)
+      EngineUrlFor.execute(context: self, params: params, options: options) || super(params)
     end
 
     # Generate the resourcesful index path for given model class.
