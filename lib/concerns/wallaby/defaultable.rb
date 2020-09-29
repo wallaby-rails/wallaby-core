@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Defaults related methods
+  # Default options for different action
   module Defaultable
     protected
 
-    # Set default options for create action
+    # Set default options for create/update/destroy action
+    # @param action [String, Symbol]
     # @param options [Hash]
     # @return [Hash] updated options with default values
+    # @see Wallaby::ResourcesConcern#create
+    # @see Wallaby::ResourcesConcern#update
+    # @see Wallaby::ResourcesConcern#destroy
     def set_defaults_for(action, options)
       case action.try(:to_sym)
       when :create, :update then assign_create_and_update_defaults_with options

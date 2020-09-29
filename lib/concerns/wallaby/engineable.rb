@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # {Wallaby::Engine} related helper methods to be included for both controller and view.
+  # {Engine} related helper methods to be included for both controller and view.
   module Engineable
-    # This helper method returns the current {Wallaby::Engine} routing proxy.
+    # This helper method returns the current {Engine} routing proxy.
     # For example, if {Wallaby} is mounted at different paths at the same time:
     #
     # ```
@@ -18,12 +18,12 @@ module Wallaby
       @current_engine ||= try current_engine_name
     end
 
-    # Find out the {Wallaby::Engine} routing proxy name for the current request, it comes from either:
+    # Find out the {Engine} routing proxy name for the current request, it comes from either:
     #
-    # - Current controller's {Wallaby::Configurable::ClassMethods#engine_name engine_name}
+    # - Current controller's {Configurable::ClassMethods#engine_name engine_name}
     # - Judge from the current request path (which contains the script and path info)
     # @return [String] engine name for current request
-    # @see Wallaby::EngineNameFinder.execute
+    # @see EngineNameFinder.execute
     def current_engine_name
       @current_engine_name ||= controller_configuration.engine_name || EngineNameFinder.execute(request.path)
     end

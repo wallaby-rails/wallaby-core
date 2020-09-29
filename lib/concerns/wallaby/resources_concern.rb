@@ -39,7 +39,7 @@ module Wallaby
       respond_to :json
       respond_to :csv
       try :helper, ResourcesHelper
-      before_action :set_controller_configuration
+      prepend_before_action :set_controller_configuration
       before_action :authenticate_wallaby_user!
     end
 
@@ -88,14 +88,14 @@ module Wallaby
     #   respond_with @collection
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def index(options = {}, &block)
       current_authorizer.authorize :index, current_model_class
       respond_with collection, options, &block
@@ -126,14 +126,14 @@ module Wallaby
     #   @resource = Product.new new_arrival: true
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def new(options = {}, &block)
       current_authorizer.authorize :new, resource
       respond_with resource, options, &block
@@ -172,7 +172,7 @@ module Wallaby
     #   end
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [Hash, ActionController::Parameters] :params
@@ -181,7 +181,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def create(options = {}, &block)
       set_defaults_for :create, options
       current_authorizer.authorize :create, resource
@@ -214,14 +214,14 @@ module Wallaby
     #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def show(options = {}, &block)
       current_authorizer.authorize :show, resource
       respond_with resource, options, &block
@@ -252,14 +252,14 @@ module Wallaby
     #   @resource = Product.find_by_slug params[:id]
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def edit(options = {}, &block)
       current_authorizer.authorize :edit, resource
       respond_with resource, options, &block
@@ -299,7 +299,7 @@ module Wallaby
     #   end
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [Hash, ActionController::Parameters] :params
@@ -308,7 +308,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def update(options = {}, &block)
       set_defaults_for :update, options
       current_authorizer.authorize :update, resource
@@ -343,7 +343,7 @@ module Wallaby
     #   redirect_to helper.index_path(current_model_class)
     # end
     # ```
-    # @param options [Hash] (since 5.2.0) options for
+    # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
     # @option options [Hash, ActionController::Parameters] :params
@@ -352,7 +352,7 @@ module Wallaby
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
     #   to customize response behaviour.
-    # @raise [Wallaby::Forbidden] if user has no access
+    # @raise [Forbidden] if user has no access
     def destroy(options = {}, &block)
       set_defaults_for :destroy, options
       current_authorizer.authorize :destroy, resource
