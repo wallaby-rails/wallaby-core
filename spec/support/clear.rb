@@ -15,6 +15,8 @@ RSpec.configure do |config|
     (const_after - const_before).each do |const|
       Object.send :remove_const, const
     end
+    RequestStore.store[:wallaby_controller] = nil
+
     Wallaby.configuration.resources_controller.try(:clear)
     Wallaby.configuration.clear
     Wallaby::Map.clear

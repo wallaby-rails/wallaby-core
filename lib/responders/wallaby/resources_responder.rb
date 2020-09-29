@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 module Wallaby
   # Resources responder
   class ResourcesResponder < ActionController::Responder

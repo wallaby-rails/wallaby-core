@@ -4,6 +4,10 @@
 decorated_collection = decorate collection
 %>
 <% if decorated_collection.present? %>
+  <%= link_to 'INDEX', index_path(current_model_class), class: :index %>
+  <%= link_to 'NEW', new_path(current_model_class), class: :new %>
+  <%= link_to 'SHOW', show_path(decorated_collection.first), class: :show %>
+  <%= link_to 'EDIT', edit_path(decorated_collection.first), class: :edit %>
   <% field_names = current_model_decorator.index_field_names %>
   <em><%= current_paginator.total %></em>
   <table>
@@ -23,7 +27,7 @@ decorated_collection = decorate collection
           <td><%= decorated.to_label %></td>
           <% field_names.each do |field_name| %>
             <td>
-              <%= decorated.try field_name %>
+              <%= decorated.try(field_name).try(:to_a) || decorated.try(field_name) %>
             </td>
           <% end %>
         </tr>

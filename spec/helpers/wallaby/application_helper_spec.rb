@@ -61,13 +61,6 @@ describe Wallaby::ApplicationHelper do
         expect { helper.url_for(%i(admin products)) }.to raise_error NoMethodError
       end
     end
-
-    context 'when script name is blank' do
-      it 'generates the correct url', script_name: '' do
-        expect(helper.url_for(controller: 'wallaby/resources', resources: 'products', action: 'index', only_path: true)).to eq '/products'
-        expect(helper.url_for(controller: 'wallaby/resources', resources: 'pictures', action: 'index', only_path: true)).to eq '/pictures'
-      end
-    end
   end
 
   describe '#form_for' do

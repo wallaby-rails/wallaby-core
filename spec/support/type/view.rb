@@ -16,7 +16,7 @@ RSpec.configure do |config|
 
     unless view.respond_to? :default_url_options
       def view.default_url_options
-        @default_url_options ||= {}
+        @default_url_options ||= { only_path: true, host: 'www.example.com' }
       end
     end
   end

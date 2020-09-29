@@ -12,16 +12,14 @@ Rails.application.routes.draw do
     mount Wallaby::Engine, at: '/before_engine', as: :before_engine
     # NOTE this is the part that we should focus
     wallaby_mount at: '/admin' do
-      # ordinary categories resources
-      resources :categories, module: :admin do
-        get :member_only, on: :member
-        get :collection_only, on: :collection
-      end
+      scope module: :admin do
+        # ordinary categories resources
+        resources :categories do
+          get :member_only, on: :member
+          get :collection_only, on: :collection
+        end
 
-      # custom controller for categories as well
-      resources :not_like_categories, module: :admin do
-        get :member_only, on: :member
-        get :collection_only, on: :collection
+        get 'abc', to: 'categories#index'
       end
     end
     mount Wallaby::Engine, at: '/after_engine', as: :after_engine
@@ -31,10 +29,10 @@ Rails.application.routes.draw do
 
   begin # for non-admin usage
     # testing custom mode purpose
-    wresources :postcodes, controller: 'wallaby/resources'
-    wresources :zipcodes, controller: 'wallaby/resources'
-    wresource :profile, controller: 'wallaby/resources' do
-      wresources :postcodes, controller: 'wallaby/resources'
+    resources :postcodes
+    resources :zipcodes
+    resource :profile do
+      resources :postcodes
     end
 
     # testing theming purpose
@@ -44,23 +42,23 @@ Rails.application.routes.draw do
 
     # others
     resources :orders do
-      resources :items, module: :orders do
+      resources :items, module: :order do
         get :prefixes, on: :collection
       end
     end
 
     resources :categories
-    wresources :products, controller: 'wallaby/resources'
-    wresources :pictures, controller: 'wallaby/resources'
+    resources :products
+    resources :pictures
 
     scope path: '/before', as: :before do
-      wresources :products, controller: 'wallaby/resources'
-      wresources :pictures, controller: 'wallaby/resources'
+      resources :products
+      resources :pictures
     end
 
     scope path: '/after', as: :after do
-      wresources :products, controller: 'wallaby/resources'
-      wresources :pictures, controller: 'wallaby/resources'
+      resources :products
+      resources :pictures
     end
 
     # Tests for JsonApiResponder

@@ -10,12 +10,10 @@ describe Wallaby::ResourcesController do
       context 'when subclasses' do
         let(:application_value) { 'custom_value' }
         let(:application_controller) do
-          stub_const('Admin::ApplicationController', (Class.new(described_class) do
-            base_class!
-          end))
+          stub_const('Admin::ApplicationController', base_class_from(described_class))
         end
         let(:user_controller) do
-          stub_const('Admin::ApplicationController', Class.new(application_controller))
+          stub_const('Admin::ApplicationController', base_class_from(application_controller))
         end
 
         before { application_controller.try :"#{config_method}=", application_value }

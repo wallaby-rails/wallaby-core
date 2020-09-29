@@ -9,10 +9,9 @@ describe Wallaby::LinksHelper, :wallaby_user do
     end
 
     context 'when script name is blank' do
-      context 'when defined by wresource' do
-        it 'returns index path', script_name: '' do
-          expect(helper.index_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products'
-        end
+      it 'returns index path', script_name: '' do
+        helper.url_options[:_recall] = { controller: 'products' }
+        expect(helper.index_path(Product)).to eq '/products'
       end
 
       context 'when defined by resource' do
@@ -36,7 +35,8 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'returns new path', script_name: '' do
-        expect(helper.new_path(Product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/new'
+        helper.url_options[:_recall] = { controller: 'products' }
+        expect(helper.new_path(Product)).to eq '/products/new'
       end
     end
 
@@ -55,7 +55,8 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'returns show path', script_name: '' do
-        expect(helper.show_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1'
+        helper.url_options[:_recall] = { controller: 'products' }
+        expect(helper.show_path(product)).to eq '/products/1'
       end
     end
 
@@ -74,7 +75,8 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'returns edit path', script_name: '' do
-        expect(helper.edit_path(product, url_params: { controller: 'wallaby/resources', resources: 'products' })).to eq '/products/1/edit'
+        helper.url_options[:_recall] = { controller: 'products' }
+        expect(helper.edit_path(product)).to eq '/products/1/edit'
       end
     end
 
@@ -166,8 +168,9 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'accepts options for singular resource', script_name: '' do
+        helper.url_options[:_recall] = { controller: 'profiles' }
         Wallaby.configuration.custom_models = ['Profile']
-        expect(helper.show_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Tian" href="/profile?sort=name+asc">Tian</a>'
+        expect(helper.show_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), url_params: { sort: 'name asc' })).to eq '<a title="Tian" href="/profile?sort=name+asc">Tian</a>'
       end
     end
 
@@ -224,8 +227,9 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'accepts options for singular resource', script_name: '' do
+        helper.url_options[:_recall] = { controller: 'profiles' }
         Wallaby.configuration.custom_models = ['Profile']
-        expect(helper.edit_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Edit Tian" class="resource__update" href="/profile/edit?sort=name+asc">Edit Tian</a>'
+        expect(helper.edit_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), url_params: { sort: 'name asc' })).to eq '<a title="Edit Tian" class="resource__update" href="/profile/edit?sort=name+asc">Edit Tian</a>'
       end
     end
 
@@ -283,8 +287,9 @@ describe Wallaby::LinksHelper, :wallaby_user do
 
     context 'when script name is blank' do
       it 'accepts options for singular resource', script_name: '' do
+        helper.url_options[:_recall] = { controller: 'profiles' }
         Wallaby.configuration.custom_models = ['Profile']
-        expect(helper.delete_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), options: { is_resource: 'profile' }, url_params: { resource: 'profile', controller: 'wallaby/resources', sort: 'name asc' })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/profile?sort=name+asc">Delete</a>'
+        expect(helper.delete_link(Profile.new(first_name: 'Tian', last: 'Chen', email: 'tian@example.com'), url_params: { sort: 'name asc' })).to eq '<a title="Delete" class="resource__destroy" data-confirm="Please confirm to delete" rel="nofollow" data-method="delete" href="/profile?sort=name+asc">Delete</a>'
       end
     end
 

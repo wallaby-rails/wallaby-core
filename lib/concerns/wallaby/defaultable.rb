@@ -1,13 +1,17 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Defaults related methods
+  # Default options for different action
   module Defaultable
     protected
 
-    # Set default options for create action
+    # Set default options for create/update/destroy action
+    # @param action [String, Symbol]
     # @param options [Hash]
     # @return [Hash] updated options with default values
+    # @see Wallaby::ResourcesConcern#create
+    # @see Wallaby::ResourcesConcern#update
+    # @see Wallaby::ResourcesConcern#destroy
     def set_defaults_for(action, options)
       case action.try(:to_sym)
       when :create, :update then assign_create_and_update_defaults_with options
@@ -20,7 +24,7 @@ module Wallaby
     # @return [Hash] updated options with default values
     def assign_create_and_update_defaults_with(options)
       options[:params] ||= resource_params
-      options[:location] ||= -> { show_path resource, is_resource: params[:resource] }
+      options[:location] ||= -> { show_path resource }
     end
 
     # @param options [Hash]
@@ -28,11 +32,7 @@ module Wallaby
     def assign_destroy_defaults_with(options)
       options[:params] ||= params
       options[:location] ||=
-        if params[:resource]
-          show_path resource, is_resource: params[:resource]
-        else
-          index_path current_model_class
-        end
+        params[:resource] ? show_path(resource) : index_path(current_model_class)
     end
   end
 end

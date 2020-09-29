@@ -49,12 +49,12 @@ describe Wallaby::ResourcesHelper, :wallaby_user do
   describe '#extract' do
     let(:resource) { Product.new }
 
-    it 'returns origin resource' do
+    it 'returns original resource' do
       new_resource = Wallaby::ResourceDecorator.new resource
       expect(helper.extract(new_resource)).to eq resource
     end
 
-    context 'when resource is origin' do
+    context 'when resource is the origin' do
       it 'returns itself' do
         expect(helper.extract(resource)).to eq resource
       end

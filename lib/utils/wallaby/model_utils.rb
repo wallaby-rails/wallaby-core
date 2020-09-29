@@ -10,7 +10,17 @@ module Wallaby
       def to_resources_name(model_class)
         return EMPTY_STRING if model_class.blank?
 
-        model_class.to_s.underscore.gsub(SLASH, COLONS).pluralize
+        to_controllers_name(model_class).gsub SLASH, COLONS
+      end
+
+      # Convert model class (e.g. `Namespace::Product`) into resources name (e.g. `namespace/products`)
+      # @param model_class [Class, String] model class
+      # @return [String] controllers name
+      # @see https://github.com/rails/rails/blob/master/actionpack/lib/abstract_controller/base.rb#L135
+      def to_controllers_name(model_class)
+        return EMPTY_STRING if model_class.blank?
+
+        ActiveSupport::Inflector.tableize(model_class.to_s)
       end
 
       # Produce model label (e.g. `Namespace / Product`) for model class (e.g. `Namespace::Product`)

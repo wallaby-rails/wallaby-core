@@ -9,6 +9,7 @@
   <div>
     <%= form.label field_name %>
     <%= form.text_field field_name %>
+    <%= decorated.errors[field_name].first %>
   </div>
 <% end %>
 <%= form.button wt('buttons.save'), class: 'btn btn-primary' %>

@@ -27,10 +27,10 @@ RSpec.configure do |config|
     helper.extend HelperSupport
 
     if view.respond_to? :default_url_options
-      view.default_url_options = { only_path: true, host: 'test.host' }
+      view.default_url_options = { only_path: true, host: 'www.example.com' }
     else
       def view.default_url_options
-        @default_url_options ||= { only_path: true, host: 'test.host' }
+        @default_url_options ||= { only_path: true, host: 'www.example.com' }
       end
     end
   end
