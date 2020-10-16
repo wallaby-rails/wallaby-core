@@ -35,6 +35,7 @@ require 'fields/wallaby/all_fields'
 require 'tree/wallaby/node'
 require 'parsers/wallaby/parser'
 
+require 'utils/wallaby/inflector'
 require 'utils/wallaby/field_utils'
 require 'utils/wallaby/filter_utils'
 require 'utils/wallaby/locale'

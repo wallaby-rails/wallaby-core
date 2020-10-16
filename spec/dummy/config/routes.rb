@@ -19,6 +19,12 @@ Rails.application.routes.draw do
           get :collection_only, on: :collection
         end
 
+        # ordinary categories resources
+        resources :custom_categories do
+          get :member_only, on: :member
+          get :collection_only, on: :collection
+        end
+
         get 'abc', to: 'categories#index'
       end
     end

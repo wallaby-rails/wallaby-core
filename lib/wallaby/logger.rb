@@ -6,15 +6,21 @@ module Wallaby
     class << self
       %i(unknown fatal error warn info debug).each do |method_id|
         define_method method_id do |message, replacements = {}|
-          sourcing = replacements.delete :sourcing # sourcing can be set to false
+          sourcing = replacements.delete(:sourcing) # sourcing can be set to false
           heading = replacements.delete(:heading) || 'WALLABY '
-          new_message, from = normalize message, sourcing != false && Array(caller[sourcing || 0]) || nil
+          new_message, from = normalize(
+            message, sourcing != false && Array(caller[sourcing || 0]) || nil
+          )
           Rails.logger.try(
             method_id,
             "#{heading}#{method_id.to_s.upcase}: #{format new_message, replacements}#{from}"
           )
           nil
         end
+      end
+
+      def hint(message, replacements = {})
+        debug(message, replacements)
       end
 
       protected

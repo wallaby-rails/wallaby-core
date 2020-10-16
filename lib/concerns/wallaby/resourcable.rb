@@ -26,6 +26,21 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses.
+    # To whitelist the params for {ResourcesConcern#create} and {ResourcesConcern#update} actions.
+    #
+    # If Wallaby cannot generate the correct strong parameters, it can be replaced, for example:
+    #
+    # ```
+    # def resource_params
+    #   params.fetch(:product, {}).permit(:name, :sku)
+    # end
+    # ```
+    # @return [ActionController::Parameters] whitelisted params
+    def resource_params
+      @resource_params ||= current_servicer.permit params, action_name
+    end
+
+    # @note This is a template method that can be overridden by subclasses.
     # This is a method to return collection for index page.
     #
     # It can be customized as below in subclasses:
