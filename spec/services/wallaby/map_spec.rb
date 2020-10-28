@@ -32,25 +32,6 @@ describe Wallaby::Map do
   end
 
   describe 'application classes' do
-    describe '.controller_map' do
-      let!(:base_controller) { Wallaby::ResourcesController }
-      let!(:admin_controller) { stub_const 'Admin::ApplicationController', base_class_from(base_controller) }
-      let!(:user_controller) { stub_const 'UserController', base_class_from(base_controller) }
-      let!(:all_postgres_types_controller) { stub_const 'AllPostgresTypesController', Class.new(admin_controller) }
-      let!(:mysql_types_controller) { stub_const 'MysqlTypesController', (Class.new(user_controller) { self.model_class = AllMysqlType }) }
-
-      it 'returns a controller class' do
-        expect(described_class.controller_map(Array, admin_controller)).to be_nil
-        expect(described_class.controller_map(AllPostgresType, admin_controller)).to eq all_postgres_types_controller
-        expect(described_class.controller_map(AllMysqlType, admin_controller)).to eq admin_controller
-        expect(described_class.controller_map(AllSqliteType, admin_controller)).to eq admin_controller
-        expect(described_class.controller_map(AllPostgresType, user_controller)).to eq user_controller
-        expect(described_class.controller_map(AllMysqlType, user_controller)).to eq mysql_types_controller
-        expect(described_class.controller_map(AllSqliteType, user_controller)).to eq user_controller
-        expect(described_class.instance_variable_get(:@controller_map)).to be_a Wallaby::ClassHash
-      end
-    end
-
     describe '.resource_decorator_map' do
       let!(:base_decorator) { Wallaby::ResourceDecorator }
       let!(:admin_decorator) { stub_const 'Admin::ApplicationDecorator', Class.new(base_decorator) }
