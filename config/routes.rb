@@ -1,12 +1,6 @@
 # frozen_string_literal: true
 
-# NOTE: this file will be loaded after main app's routes.
-# And these routes should be appended to the end of {Wallaby::Engine}'s routes
-# to allow adding custom routes to the {Wallaby::Engine} itself.
-Wallaby::Engine.routes.append do
-  # NOTE: Check to prevent this from being loaded again while Rails reloads
-  next if @set.routes.find { |r| r.name == 'resources' }
-
+Wallaby::Engine.routes.draw do
   # NOTE: For health check if needed
   # @see Wallaby::ApplicationConcern#healthy
   get 'status', to: 'wallaby/resources#healthy'
@@ -15,14 +9,21 @@ Wallaby::Engine.routes.append do
     # @see Wallaby::ResourcesConcern#home
     route.root defaults: { action: 'home' }
 
-    # To generate error pages for all supported HTTP status in {Wallaby::ERRORS}
+    # Error pages for all supported HTTP status in {Wallaby::ERRORS}
     Wallaby::ERRORS.each do |status|
       code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
       route.get status, defaults: { action: status }
       route.get code.to_s, defaults: { action: status }
     end
 
-    # To generate general CRUD resourcesful routes
+    # Resourcesful routes.
+    #
+    # `:resources` param here will be converted to the model class in the controller.
+    # For instance, `"order::items"` will become `Order::Item` later,
+    # and `Order::Item` will be used by servicer/authorizer/paginator through out the whole request process.
+    #
+    # Using colons in the `:resources` param e.g. `"order::items"` instead of `"order/items"` is
+    # to make nested namespace possible to be handled by these dynamic routes.
     # @see Wallaby::ResourcesRouter
     scope path: ':resources' do
       # @see Wallaby::ResourcesConcern#index

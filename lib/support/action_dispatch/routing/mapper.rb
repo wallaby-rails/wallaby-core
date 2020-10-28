@@ -4,19 +4,26 @@ module ActionDispatch
   module Routing
     # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for Wallaby.
     class Mapper
-      # Mount {Wallaby::Engine} to given mount path.
-      # And prepend custom routes to {Wallaby::Engine} if block is given.
+      # Mount {Wallaby::Engine} to given path.
+      # And prepend custom routes to Rails app if block is given.
       # @example Mount {Wallaby::Engine} to a path
       #   wallaby_mount at: '/admin'
-      # @example Mount and prepend custom routes to {Wallaby::Engine}
+      # @example Mount {Wallaby::Engine} and prepend custom routes
       #   wallaby_mount at: '/super_admin' do
-      #     resource :account
+      #     resource :accounts
       #   end
-      # @param at [String]
+      #   # the above is basically the same as:
+      #   namespace :admin do
+      #     resource :accounts
+      #   end
+      #   mount Wallaby::Engine, at: '/admin'
       # @param options [Hash]
-      def wallaby_mount(at:, **options, &block)
-        Wallaby::Engine.routes.draw(&block) if block_given?
-        mount Wallaby::Engine, at: at, **options
+      # @option options [String] :at the path to mount {Wallaby::Engine} to
+      # @option options [Symbol, String] :as  engine alias name
+      # @option options [Array] :via HTTP methods
+      def wallaby_mount(options, &block)
+        namespace(options[:at][1..-1] || '', options.except(:at), &block) if block_given?
+        mount Wallaby::Engine, options.slice(:at, :as, :via)
       end
 
       # @deprecated
