@@ -69,7 +69,7 @@ module Wallaby
       )
       controller_name.constantize
     rescue NameError
-      Logger.hint(
+      Logger.hint(:customize_controller,
         <<~INSTRUCTION
           HINT: To customize the controller for resources `#{options[:resources]}`,
           create the following controller:
@@ -77,8 +77,8 @@ module Wallaby
             class #{controller_name} < #{default_controller(options)}
               def #{options[:action]}
                 # start customization here
-                # it's possible to re-use what's implemented by calling
-                #{options[:action]}! # or super if bang version does not exist
+                # it's possible to re-use what's implemented by calling `#{options[:action]}!`
+                # or `super` if bang version does not exist
                 # start customization here
               end
             end

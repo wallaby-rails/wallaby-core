@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Wallaby::AllFields do
   describe '#[] & #[]=' do
     subject { described_class.new(decorator) }
+
     let(:decorator) { Wallaby::ResourceDecorator.new(Product.new) }
 
     it 'set the values' do

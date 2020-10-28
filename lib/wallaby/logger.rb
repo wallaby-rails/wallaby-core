@@ -19,13 +19,29 @@ module Wallaby
         end
       end
 
-      def hint(message, replacements = {})
-        debug(message, replacements)
+      # @param key [Symbol,String]
+      # @param message_or_config [String, false]
+      # @param replacements [Hash]
+      # @example to disable a particular hint message:
+      #   Wallaby::Logger.hint(:customize_controller, false)
+      def hint(key, message_or_config, replacements = {})
+        @hint ||= {}
+        return @hint[key] = false if message_or_config == false
+        return if @hint[key] == false || !message_or_config.is_a?(String)
+
+        new_message = <<~MESSAGE
+          #{message_or_config}
+          If you don't want to see this message again, you can disable it in `config/initializers/wallaby.rb`:
+
+            Wallaby::Logger.hint(#{key.inspect}, false)
+        MESSAGE
+        debug(new_message, replacements)
       end
 
       protected
 
-      # @param message [Object]
+      # @param message [String,StandardError,Object]
+      # @param source [Array<String>] array of files
       def normalize(message, sources)
         case message
         when String
