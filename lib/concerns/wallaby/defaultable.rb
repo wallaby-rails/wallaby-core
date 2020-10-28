@@ -5,7 +5,8 @@ module Wallaby
   module Defaultable
     protected
 
-    # Set default options for create/update/destroy action
+    # Set default options e.g.(`:params`, `:location`) for
+    # #{ResourcesConcern#create #create}/#{ResourcesConcern#update #update}/#{ResourcesConcern#destroy #destroy}
     # @param action [String, Symbol]
     # @param options [Hash]
     # @return [Hash] updated options with default values
@@ -14,25 +15,14 @@ module Wallaby
     # @see Wallaby::ResourcesConcern#destroy
     def set_defaults_for(action, options)
       case action.try(:to_sym)
-      when :create, :update then assign_create_and_update_defaults_with options
-      when :destroy then assign_destroy_defaults_with options
+      when :create, :update
+        options[:params] ||= resource_params
+        options[:location] ||= -> { show_path resource }
+      when :destroy
+        options[:params] ||= params
+        options[:location] ||= -> { index_path current_model_class }
       end
       options
-    end
-
-    # @param options [Hash]
-    # @return [Hash] updated options with default values
-    def assign_create_and_update_defaults_with(options)
-      options[:params] ||= resource_params
-      options[:location] ||= -> { show_path resource }
-    end
-
-    # @param options [Hash]
-    # @return [Hash] updated options with default values
-    def assign_destroy_defaults_with(options)
-      options[:params] ||= params
-      options[:location] ||=
-        params[:resource] ? show_path(resource) : index_path(current_model_class)
     end
   end
 end

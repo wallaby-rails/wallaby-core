@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 describe 'routing' do
+  def mock_response_with(body)
+    proc { [200, {}, [body]] }
+  end
+
   describe 'status', type: :routing do
     routes { Wallaby::Engine.routes }
     it { expect(get: 'status').to route_to controller: 'wallaby/resources', action: 'healthy' }
@@ -9,231 +13,290 @@ describe 'routing' do
   # NOTE: this is a spec to specify that the request being dispatched to the correct controler and action
   # it does not test the actual action, see integration test for more
   describe 'resources router', type: :request do
-    def mock_response_with(body)
-      proc { [200, {}, [body]] }
-    end
-    let!(:global_controller) { stub_const 'GlobalController', base_class_from(Wallaby::ResourcesController) }
     let(:script_name) { '/admin' }
+    let(:configuration_resources_controller) { nil }
 
-    it 'dispatches general routes to expected controller and action' do
-      controller = Wallaby::ResourcesController
-      expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
-      get script_name
-      expect(response.body).to eq 'home_body'
-    end
+    before { Wallaby.configuration.resources_controller = configuration_resources_controller }
 
-    it 'dispatches general routes to global controller and expected action if configured' do
-      controller = Wallaby.configuration.resources_controller = global_controller
-      expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
-      get script_name
-      expect(response.body).to eq 'home_body'
-    end
+    context 'with /admin' do
+      it 'dispatches landing routes to Admin::ApplicationController' do
+        expect(Admin::ApplicationController).to receive(:action).with('home') { mock_response_with('home_body') }
+        get script_name
+        expect(response.body).to eq 'home_body'
+      end
 
-    it 'dispatches general routes to defaults controller and expected action if defined in mounting the engine and global controller is configured' do
-      Wallaby.configuration.resources_controller = global_controller
-      controller = InnerController
-      script_name = '/inner'
-      expect(controller).to receive(:action).with('home') { mock_response_with('home_body') }
-      get script_name
-      expect(response.body).to eq 'home_body'
-    end
+      it 'dispatches error routes to Admin::ApplicationController' do
+        Wallaby::ERRORS.each do |status|
+          code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+          expect(Admin::ApplicationController).to receive(:action).with(status) { mock_response_with(code.to_s) }
+          get "#{script_name}/#{code}"
+          expect(response.body).to eq code.to_s
 
-    it 'dispatches error routes to expected controller and action' do
-      controller = Wallaby::ResourcesController
-      Wallaby::ERRORS.each do |status|
-        code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-        expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
-        get "#{script_name}/#{code}"
-        expect(response.body).to eq code.to_s
+          expect(Admin::ApplicationController).to receive(:action).with(status) { mock_response_with(status.to_s) }
+          get "#{script_name}/#{status}"
+          expect(response.body).to eq status.to_s
+        end
+      end
 
-        expect(controller).to receive(:action).with(status) { mock_response_with(status.to_s) }
-        get "#{script_name}/#{status}"
-        expect(response.body).to eq status.to_s
+      it 'dispatches resourcesful routes to Admin::ApplicationController' do
+        controller  = Admin::ApplicationController
+        resources   = 'products'
+
+        expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
+        get "#{script_name}/#{resources}"
+        expect(response.body).to eq 'index_body'
+
+        expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
+        post "#{script_name}/#{resources}"
+        expect(response.body).to eq 'create_body'
+
+        expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
+        get "#{script_name}/#{resources}/new"
+        expect(response.body).to eq 'new_body'
+
+        expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
+        get "#{script_name}/#{resources}/1/edit"
+        expect(response.body).to eq 'edit_body'
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'show_body'
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/1-d"
+        expect(response.body).to eq 'show_body'
+
+        expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+        put "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'update_body'
+
+        expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+        patch "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'update_body'
+
+        expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
+        delete "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'destroy_body'
+
+        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/history"
+        expect(response.body).to eq 'show_body'
+      end
+
+      context 'when configuration.resources_controller is set' do
+        let(:configuration_resources_controller) { CoreController }
+
+        it 'dispatches landing routes to CoreController' do
+          expect(CoreController).to receive(:action).with('home') { mock_response_with('home_body') }
+          get script_name
+          expect(response.body).to eq 'home_body'
+        end
+
+        it 'dispatches error routes to CoreController' do
+          Wallaby::ERRORS.each do |status|
+            code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+            expect(CoreController).to receive(:action).with(status) { mock_response_with(code.to_s) }
+            get "#{script_name}/#{code}"
+            expect(response.body).to eq code.to_s
+
+            expect(CoreController).to receive(:action).with(status) { mock_response_with(status.to_s) }
+            get "#{script_name}/#{status}"
+            expect(response.body).to eq status.to_s
+          end
+        end
+
+        it 'dispatches resourcesful routes to CoreController' do
+          controller = CoreController
+          resources = 'products'
+
+          expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
+          get "#{script_name}/#{resources}"
+          expect(response.body).to eq 'index_body'
+
+          expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
+          post "#{script_name}/#{resources}"
+          expect(response.body).to eq 'create_body'
+
+          expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
+          get "#{script_name}/#{resources}/new"
+          expect(response.body).to eq 'new_body'
+
+          expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
+          get "#{script_name}/#{resources}/1/edit"
+          expect(response.body).to eq 'edit_body'
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'show_body'
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/1-d"
+          expect(response.body).to eq 'show_body'
+
+          expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+          put "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'update_body'
+
+          expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+          patch "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'update_body'
+
+          expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
+          delete "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'destroy_body'
+
+          expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/history"
+          expect(response.body).to eq 'show_body'
+        end
       end
     end
 
-    it 'dispatches error routes to global controller and expected action if configured' do
-      controller = Wallaby.configuration.resources_controller = global_controller
-      Wallaby::ERRORS.each do |status|
-        code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-        expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
-        get "#{script_name}/#{code}"
-        expect(response.body).to eq code.to_s
+    context 'with /inner' do
+      let(:script_name) { '/inner' }
 
-        expect(controller).to receive(:action).with(status) { mock_response_with(status.to_s) }
-        get "#{script_name}/#{status}"
-        expect(response.body).to eq status.to_s
+      it 'dispatches landing routes to InnerController' do
+        expect(InnerController).to receive(:action).with('home') { mock_response_with('home_body') }
+        get script_name
+        expect(response.body).to eq 'home_body'
+      end
+
+      it 'dispatches error routes to InnerController' do
+        Wallaby::ERRORS.each do |status|
+          code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
+          expect(InnerController).to receive(:action).with(status) { mock_response_with(code.to_s) }
+          get "#{script_name}/#{code}"
+          expect(response.body).to eq code.to_s
+
+          expect(InnerController).to receive(:action).with(status) { mock_response_with(status.to_s) }
+          get "#{script_name}/#{status}"
+          expect(response.body).to eq status.to_s
+        end
+      end
+
+      it 'dispatches resourcesful routes to InnerController' do
+        controller = InnerController
+        resources = 'products'
+
+        expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
+        get "#{script_name}/#{resources}"
+        expect(response.body).to eq 'index_body'
+
+        expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
+        post "#{script_name}/#{resources}"
+        expect(response.body).to eq 'create_body'
+
+        expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
+        get "#{script_name}/#{resources}/new"
+        expect(response.body).to eq 'new_body'
+
+        expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
+        get "#{script_name}/#{resources}/1/edit"
+        expect(response.body).to eq 'edit_body'
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'show_body'
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/1-d"
+        expect(response.body).to eq 'show_body'
+
+        expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+        put "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'update_body'
+
+        expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+        patch "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'update_body'
+
+        expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
+        delete "#{script_name}/#{resources}/1"
+        expect(response.body).to eq 'destroy_body'
+
+        expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+
+        expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+        get "#{script_name}/#{resources}/history"
+        expect(response.body).to eq 'show_body'
+      end
+
+      context 'when configuration.resources_controller is set' do
+        let(:configuration_resources_controller) { CoreController }
+
+        it 'dispatches landing routes to InnerController' do
+          expect(InnerController).to receive(:action).with('home') { mock_response_with('home_body') }
+          get script_name
+          expect(response.body).to eq 'home_body'
+        end
+
+        it 'dispatches resourcesful routes to InnerController' do
+          controller = InnerController
+          resources = 'products'
+
+          expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
+          get "#{script_name}/#{resources}"
+          expect(response.body).to eq 'index_body'
+
+          expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
+          post "#{script_name}/#{resources}"
+          expect(response.body).to eq 'create_body'
+
+          expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
+          get "#{script_name}/#{resources}/new"
+          expect(response.body).to eq 'new_body'
+
+          expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
+          get "#{script_name}/#{resources}/1/edit"
+          expect(response.body).to eq 'edit_body'
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'show_body'
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/1-d"
+          expect(response.body).to eq 'show_body'
+
+          expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+          put "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'update_body'
+
+          expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
+          patch "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'update_body'
+
+          expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
+          delete "#{script_name}/#{resources}/1"
+          expect(response.body).to eq 'destroy_body'
+
+          expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
+
+          expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
+          get "#{script_name}/#{resources}/history"
+          expect(response.body).to eq 'show_body'
+        end
       end
     end
 
-    it 'dispatches error routes to global controller and expected action if defined in mounting the engine and global controller is configured' do
-      Wallaby.configuration.resources_controller = global_controller
-      controller = InnerController
-      script_name = '/inner'
-      Wallaby::ERRORS.each do |status|
-        code = Rack::Utils::SYMBOL_TO_STATUS_CODE[status]
-        expect(controller).to receive(:action).with(status) { mock_response_with(code.to_s) }
-        get "#{script_name}/#{code}"
-        expect(response.body).to eq code.to_s
+    context 'with /before_engine' do
+      let(:script_name) { '/before_engine' }
 
-        expect(controller).to receive(:action).with(status) { mock_response_with(status.to_s) }
-        get "#{script_name}/#{status}"
-        expect(response.body).to eq status.to_s
+      it 'dispatches landing routes to Admin::ApplicationController' do
+        expect(Admin::ApplicationController).to receive(:action).with('home') { mock_response_with('home_body') }
+        get script_name
+        expect(response.body).to eq 'home_body'
       end
-    end
-
-    it 'dispatches resourcesful routes to expected controller and action' do
-      controller  = Wallaby::ResourcesController
-      resources   = 'products'
-
-      expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
-      get "#{script_name}/#{resources}"
-      expect(response.body).to eq 'index_body'
-
-      expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
-      post "#{script_name}/#{resources}"
-      expect(response.body).to eq 'create_body'
-
-      expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
-      get "#{script_name}/#{resources}/new"
-      expect(response.body).to eq 'new_body'
-
-      expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
-      get "#{script_name}/#{resources}/1/edit"
-      expect(response.body).to eq 'edit_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1-d"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      put "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      patch "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
-      delete "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'destroy_body'
-
-      expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/history"
-      expect(response.body).to eq 'show_body'
-    end
-
-    it 'routes to global controller if configured' do
-      controller = Wallaby.configuration.resources_controller = global_controller
-      resources = 'products'
-
-      expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
-      get "#{script_name}/#{resources}"
-      expect(response.body).to eq 'index_body'
-
-      expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
-      post "#{script_name}/#{resources}"
-      expect(response.body).to eq 'create_body'
-
-      expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
-      get "#{script_name}/#{resources}/new"
-      expect(response.body).to eq 'new_body'
-
-      expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
-      get "#{script_name}/#{resources}/1/edit"
-      expect(response.body).to eq 'edit_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1-d"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      put "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      patch "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
-      delete "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'destroy_body'
-
-      expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/history"
-      expect(response.body).to eq 'show_body'
-    end
-
-    it 'routes to default controller if defined in mounting the engine' do
-      Wallaby.configuration.resources_controller = global_controller
-      controller = InnerController
-      script_name = '/inner'
-      resources = 'products'
-
-      expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
-      get "#{script_name}/#{resources}"
-      expect(response.body).to eq 'index_body'
-
-      expect(controller).to receive(:action).with('create') { mock_response_with('create_body') }
-      post "#{script_name}/#{resources}"
-      expect(response.body).to eq 'create_body'
-
-      expect(controller).to receive(:action).with('new') { mock_response_with('new_body') }
-      get "#{script_name}/#{resources}/new"
-      expect(response.body).to eq 'new_body'
-
-      expect(controller).to receive(:action).with('edit') { mock_response_with('edit_body') }
-      get "#{script_name}/#{resources}/1/edit"
-      expect(response.body).to eq 'edit_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/1-d"
-      expect(response.body).to eq 'show_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      put "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('update') { mock_response_with('update_body') }
-      patch "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'update_body'
-
-      expect(controller).to receive(:action).with('destroy') { mock_response_with('destroy_body') }
-      delete "#{script_name}/#{resources}/1"
-      expect(response.body).to eq 'destroy_body'
-
-      expect { get "#{script_name}/#{resources}/1/history" }.to raise_error ActionController::RoutingError
-
-      expect(controller).to receive(:action).with('show') { mock_response_with('show_body') }
-      get "#{script_name}/#{resources}/history"
-      expect(response.body).to eq 'show_body'
     end
 
     context 'when target resources controller exists' do
       it 'routes to this controller' do
-        stub_const 'Alien', (Class.new(ActiveRecord::Base) do
-          self.table_name = 'products'
-        end)
-        stub_const 'AliensController', Class.new(Admin::ApplicationController)
-
-        controller = AliensController
-        resources = 'aliens'
+        controller = Admin::Order::ItemsController
+        resources = 'order::items'
 
         expect(controller).to receive(:action).with('index') { mock_response_with('index_body') }
         get "#{script_name}/#{resources}"
@@ -281,7 +344,7 @@ describe 'routing' do
 
     context 'when resources controller could not be found' do
       it 'routes to model not found' do
-        expect(Wallaby::ResourcesController).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
+        expect(Admin::ApplicationController).to receive(:action).with(:not_found) { mock_response_with('not_found_body') }
         get "#{script_name}/unknown_models"
         expect(response.body).to eq 'not_found_body'
       end

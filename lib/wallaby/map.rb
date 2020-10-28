@@ -52,14 +52,6 @@ module Wallaby
     end
 
     class << self
-      # Look up which controller to use for a given model class
-      # @param model_class [Class]
-      # @param application_controller [Class]
-      # @return [Class] controller class
-      def controller_map(model_class, application_controller)
-        map_of :@controller_map, model_class, application_controller
-      end
-
       # Look up which resource decorator to use for a given model class
       # @param model_class [Class]
       # @param application_decorator [Class]

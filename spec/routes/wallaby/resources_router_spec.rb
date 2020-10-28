@@ -9,6 +9,7 @@ describe Wallaby::ResourcesRouter do
     let(:mocked_env) do
       Hash(
         ActionDispatch::Http::Parameters::PARAMETERS_KEY => params,
+        'SCRIPT_NAME' => '/admin',
         'rack.input' => StringIO.new,
         'REQUEST_METHOD' => 'GET'
       )
@@ -20,9 +21,7 @@ describe Wallaby::ResourcesRouter do
 
     context 'when model class exists' do
       context 'when controller not exists' do
-        let(:resources_name) { 'kings' }
-
-        before { stub_const 'King', Class.new(ActiveRecord::Base) }
+        let(:resources_name) { 'products' }
 
         it 'shows index page' do
           expect(default_controller).to receive(:action).with(action_name) { mocked_action }
@@ -52,15 +51,10 @@ describe Wallaby::ResourcesRouter do
       end
 
       context 'when controller exists' do
-        let(:resources_name) { 'queens' }
-
-        before do
-          stub_const 'Queen', Class.new(ActiveRecord::Base)
-          stub_const 'QueensController', Class.new(default_controller)
-        end
+        let(:resources_name) { 'categories' }
 
         it 'shows index page' do
-          expect(QueensController).to receive(:action).with(action_name) { mocked_action }
+          expect(Admin::CategoriesController).to receive(:action).with(action_name) { mocked_action }
           subject.call mocked_env
         end
 
@@ -68,7 +62,7 @@ describe Wallaby::ResourcesRouter do
           let(:action_name) { 'unknown_action' }
 
           it 'calls not_found' do
-            expect(QueensController).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
+            expect(Admin::CategoriesController).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
             expect(default_controller).to receive(:action).with(:not_found) { mocked_action }
             subject.call mocked_env
           end
@@ -81,11 +75,11 @@ describe Wallaby::ResourcesRouter do
 
           before do
             stub_const 'Queen', Class.new(ActiveRecord::Base)
-            stub_const 'QueensController', (Class.new(default_controller) { def history; end })
+            stub_const 'Admin::CategoriesController', (Class.new(default_controller) { def history; end })
           end
 
           it 'calls show' do
-            expect(QueensController).to receive(:action).with(action_name) { mocked_action }
+            expect(Admin::CategoriesController).to receive(:action).with(action_name) { mocked_action }
             subject.call mocked_env
           end
 
@@ -95,7 +89,7 @@ describe Wallaby::ResourcesRouter do
             let(:default_controller) { resources_controller }
 
             it 'shows index page' do
-              expect(QueensController).to receive(:action).with(action_name) { mocked_action }
+              expect(Admin::CategoriesController).to receive(:action).with(action_name) { mocked_action }
               expect(resources_controller).not_to receive(:action)
               expect(default_controller).not_to receive(:action)
               subject.call mocked_env
@@ -118,7 +112,7 @@ describe Wallaby::ResourcesRouter do
           let(:action_name) { 'unknown_action' }
 
           it 'shows not found' do
-            expect(default_controller).to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
+            expect(default_controller).not_to receive(:action).with(action_name) { raise AbstractController::ActionNotFound }
             expect(default_controller).to receive(:action).with(:not_found) { mocked_action }
             subject.call mocked_env
           end

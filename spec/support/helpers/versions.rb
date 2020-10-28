@@ -8,7 +8,7 @@ module VersionsHelper
   end
 
   def version?(string)
-    operator = string[/\<|\<\=|\=\>|\>|\~\>/]
+    operator = string[/<|<=|=>|>|~>/]
     _, major, minor, tiny = string.match(/(\d+)\.?(\d+)?\.?(\d+)?/).to_a.map(&:to_i)
     operator = '==' if operator.blank?
     check_version operator, major, minor, tiny

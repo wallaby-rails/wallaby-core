@@ -6,9 +6,11 @@ module Wallaby
     class << self
       %i(unknown fatal error warn info debug).each do |method_id|
         define_method method_id do |message, replacements = {}|
-          sourcing = replacements.delete :sourcing # sourcing can be set to false
+          sourcing = replacements.delete(:sourcing) # sourcing can be set to false
           heading = replacements.delete(:heading) || 'WALLABY '
-          new_message, from = normalize message, sourcing != false && Array(caller[sourcing || 0]) || nil
+          new_message, from = normalize(
+            message, sourcing != false && Array(caller[sourcing || 0]) || nil
+          )
           Rails.logger.try(
             method_id,
             "#{heading}#{method_id.to_s.upcase}: #{format new_message, replacements}#{from}"
@@ -17,9 +19,29 @@ module Wallaby
         end
       end
 
+      # @param key [Symbol,String]
+      # @param message_or_config [String, false]
+      # @param replacements [Hash]
+      # @example to disable a particular hint message:
+      #   Wallaby::Logger.hint(:customize_controller, false)
+      def hint(key, message_or_config, replacements = {})
+        @hint ||= {}
+        return @hint[key] = false if message_or_config == false
+        return if @hint[key] == false || !message_or_config.is_a?(String)
+
+        new_message = <<~MESSAGE
+          #{message_or_config}
+          If you don't want to see this message again, you can disable it in `config/initializers/wallaby.rb`:
+
+            Wallaby::Logger.hint(#{key.inspect}, false)
+        MESSAGE
+        debug(new_message, replacements)
+      end
+
       protected
 
-      # @param message [Object]
+      # @param message [String,StandardError,Object]
+      # @param source [Array<String>] array of files
       def normalize(message, sources)
         case message
         when String

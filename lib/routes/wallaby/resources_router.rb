@@ -1,68 +1,121 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # This is the core of wallaby that dynamically dispatches request to appropriate controller and action.
+  # This is the core of {Wallaby} as it dynamically dispatches request to appropriate controller and action.
+  #
+  # Assume that:
+  #
+  # - {Wallaby} is mounted at `/admin`
+  # - current request path is `/admin/order::items`, then the resources name is `order::items`
+  #
+  # {ResourcesRouter} will try to find out which controller to dispatch to by:
+  #
+  # - check if the controller name `Admin::Order::ItemsController` exists
+  #   (converted from the mount path and resources name)
+  # - check if the `:resources_controller` defaults is set when mounting {Wallaby}, for example:
+  #
+  #   ```
+  #   wallaby_mount at: '/admin', defaults: { resources_controller: CoreController }
+  #   ```
+  #
+  # - fall back to default resources controller from
+  #   {Configuration#resources_controller Wallaby.configuration.resources_controller}
+  # @see http://edgeguides.rubyonrails.org/routing.html#routing-to-rack-applications
   class ResourcesRouter
-    # @see http://edgeguides.rubyonrails.org/routing.html#routing-to-rack-applications
-    # It tries to find out the controller that has the same model class from converted resources name.
-    # Otherwise, it falls back to base resources controller which will come from the following sources:
-    #
-    # 1. `:resources_controller` parameter
-    # 2. resources_controller mapping configuration,
-    #   e.g. `Admin::ApplicationController` if defined or `Wallaby::ResourcesController`
-    # @param env [Hash] @see http://www.rubydoc.info/github/rack/rack/master/file/SPEC
+    # It dispatches the request to corresponding controller and action.
+    # @param env [Hash] (see https://github.com/rack/rack/blob/master/SPEC.rdoc)
+    # @return [void]
     def call(env)
-      params = env[ActionDispatch::Http::Parameters::PARAMETERS_KEY]
-      controller = find_controller_by params
-      controller.action(params[:action]).call env
+      options = get_options_from(env)
+      validate_model_by(options[:resources])
+      controller_class = find_controller_class_by(options)
+      controller_class.action(options[:action]).call(env)
     rescue ::AbstractController::ActionNotFound, ModelNotFound => e
-      set_message_for e, env
-      default_controller(params).action(:not_found).call env
+      set_flash_error_for(e, env)
+      default_controller(options).action(:not_found).call(env)
     rescue UnprocessableEntity => e
-      set_message_for e, env
-      default_controller(params).action(:unprocessable_entity).call env
+      set_flash_error_for(e, env)
+      default_controller(options).action(:unprocessable_entity).call(env)
     end
 
-    private
+    protected
 
-    # Find controller class
-    # @param params [Hash]
-    # @return [Class] controller class
-    def find_controller_by(params)
-      model_class = find_model_class_by params
-      Map.controller_map(model_class, default_controller(params)) || default_controller(params)
+    # @param env [Hash] (see https://github.com/rack/rack/blob/master/SPEC.rdoc)
+    # @return [Hash] options, which contains params and script name
+    def get_options_from(env)
+      env[ActionDispatch::Http::Parameters::PARAMETERS_KEY].merge(
+        script_name: env[SCRIPT_NAME]
+      )
     end
 
-    # Default controller class sources from:
+    # Assume that:
     #
-    # 1. `:resources_controller` parameter
-    # 2. resources_controller mapping configuration,
-    # @param params [Hash]
+    # - {Wallaby} is mounted at `/admin`
+    # - current request path is `/admin/order::items`, then the resources name is `order::items`
+    #
+    # Then it expects to return the first controller from the following list:
+    #
+    # - Admin::Order::ItemsController
+    # - `:resources_controller` defaults
+    # - default controller set by
+    #   {Configuration#resources_controller Wallaby.configuration.resources_controller}
+    # @param options [Hash]
     # @return [Class] controller class
-    def default_controller(params)
-      params[:resources_controller] || Wallaby.configuration.resources_controller
+    def find_controller_class_by(options) # rubocop:disable Metrics/MethodLength
+      return default_controller(options) unless options[:resources]
+
+      controller_name = Inflector.to_controller_name(
+        options[:script_name], options[:resources]
+      )
+      controller_name.constantize
+    rescue NameError
+      Logger.hint(
+        :customize_controller,
+        <<~INSTRUCTION
+          HINT: To customize the controller for resources `#{options[:resources]}`,
+          create the following controller:
+
+            class #{controller_name} < #{default_controller(options)}
+              def #{options[:action]}
+                # start customization here
+                # it's possible to re-use what's implemented by calling `#{options[:action]}!`
+                # or `super` if bang version does not exist
+                # start customization here
+              end
+            end
+        INSTRUCTION
+      )
+
+      default_controller(options)
     end
 
-    # Find out the model class
-    # @param params [Hash]
-    # @return [Class]
-    # @raise [Wallaby::ModelNotFound] when model class is not found
-    # @raise [Wallaby::UnprocessableEntity] when there is no corresponding mode found for model class
-    def find_model_class_by(params)
-      model_class = Map.model_class_map params[:resources]
-      return model_class unless MODEL_ACTIONS.include? params[:action].to_sym
-      raise ModelNotFound, params[:resources] unless model_class
-      unless Map.mode_map[model_class]
-        raise UnprocessableEntity, Locale.t('errors.unprocessable_entity.model', model: model_class)
-      end
-
-      model_class
+    # @param options [Hash]
+    # @return [Class] default controller class
+    def default_controller(options)
+      options[:resources_controller] || Wallaby.configuration.resources_controller
     end
 
-    # Set flash error message
+    # @param resources_name [String]
+    # @raise [ModelNotFound] when model class can not be not found
+    # @raise [UnprocessableEntity]
+    #   when there is no corresponding {Mode} found for model class
+    #   (which means {Wallaby})
+    # @return [void]
+    def validate_model_by(resources_name)
+      return unless resources_name # maybe it's for landing page or error page
+
+      # now this is for our lovely resourcesful actions
+      model_class = ModelUtils.to_model_class(resources_name)
+      raise ModelNotFound, resources_name unless model_class
+      return if Map.mode_map[model_class]
+
+      raise UnprocessableEntity, Locale.t('errors.unprocessable_entity.model', model: model_class)
+    end
+
     # @param exception [Exception]
-    # @param env [Hash] @see http://www.rubydoc.info/github/rack/rack/master/file/SPEC
-    def set_message_for(exception, env)
+    # @param env [Hash] (see https://github.com/rack/rack/blob/master/SPEC.rdoc)
+    # @return [void]
+    def set_flash_error_for(exception, env)
       session = env[ActionDispatch::Request::Session::ENV_SESSION_KEY] || {}
       env[ActionDispatch::Flash::KEY] ||= ActionDispatch::Flash::FlashHash.from_session_value session['flash']
       flash = env[ActionDispatch::Flash::KEY]
