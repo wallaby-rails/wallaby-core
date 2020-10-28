@@ -18,7 +18,7 @@ describe 'routing' do
 
     before { Wallaby.configuration.resources_controller = configuration_resources_controller }
 
-    context 'for /admin' do
+    context 'with /admin' do
       it 'dispatches landing routes to Admin::ApplicationController' do
         expect(Admin::ApplicationController).to receive(:action).with('home') { mock_response_with('home_body') }
         get script_name
@@ -156,7 +156,7 @@ describe 'routing' do
       end
     end
 
-    context 'for /inner' do
+    context 'with /inner' do
       let(:script_name) { '/inner' }
 
       it 'dispatches landing routes to InnerController' do
@@ -283,7 +283,7 @@ describe 'routing' do
       end
     end
 
-    context 'for /before_engine' do
+    context 'with /before_engine' do
       let(:script_name) { '/before_engine' }
 
       it 'dispatches landing routes to Admin::ApplicationController' do
