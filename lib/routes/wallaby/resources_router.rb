@@ -69,7 +69,8 @@ module Wallaby
       )
       controller_name.constantize
     rescue NameError
-      Logger.hint(:customize_controller,
+      Logger.hint(
+        :customize_controller,
         <<~INSTRUCTION
           HINT: To customize the controller for resources `#{options[:resources]}`,
           create the following controller:
