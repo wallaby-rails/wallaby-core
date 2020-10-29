@@ -15,12 +15,11 @@
 # in the templates via {{ site.myvariable }}.
 title: Wallaby
 description: Documentation for Wallaby
-baseurl: "/wallaby" # the subpath of your site, e.g. /blog
-url: "https://wallaby-rails.github.io" # the base hostname & protocol for your site, e.g. http://example.com
+# baseurl: "/wallaby-core" # the subpath of your site, e.g. /blog
+# url: "https://wallaby-rails.github.io" # the base hostname & protocol for your site, e.g. http://example.com
 theme: "just-the-docs"
 remote_theme: pmarsceill/just-the-docs
 
-permalink: pretty
 include: [
   "index.md", "docs/**/*"
 ]
@@ -86,8 +85,8 @@ back_to_top_text: "Back to top"
 footer_content: 'Distributed by an <a href="https://github.com/wallaby-rails/wallaby/blob/master/LICENSE">MIT license.</a>'
 
 # Footer last edited timestamp
-last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
-last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
+# last_edit_timestamp: true # show or hide edit time - page must have `last_modified_date` defined in the frontmatter
+# last_edit_time_format: "%b %e %Y at %I:%M %p" # uses ruby's time format: https://ruby-doc.org/stdlib-2.7.0/libdoc/time/rdoc/Time.html
 
 
 
