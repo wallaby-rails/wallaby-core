@@ -1,0 +1,6 @@
+.jekyll-cache/
+_site/
+.idea/
+*.swp
+pkg/
+test/
