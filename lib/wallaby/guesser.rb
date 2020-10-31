@@ -46,7 +46,8 @@ module Wallaby
         # NOTE: DO NOT try to use const_defined? and const_get EVER.
         # Using constantize is Rails way to make it require the corresponding file.
         class_name.constantize
-      rescue NameError # rubocop:disable Lint/SuppressedException
+      rescue NameError
+        nil
       end
     end
   end
