@@ -24,6 +24,11 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir[
     '{app,lib,config}/**/*',
+    # docs:begin
+    '{docs}/**/*',
+    '_config.yml',
+    '_sass/custom/custom.scss'
+    # docs:end
     'LICENSE',
     'README.md'
   ]
