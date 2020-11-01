@@ -7,7 +7,7 @@ module Wallaby
     # @param klass [Object]
     # @return [String] if klass is a Class
     # @return [Object] if klass is not a Class
-    def to_class_name(klass)
+    def class_name_of(klass)
       klass.try(:name) || klass || nil
     end
 

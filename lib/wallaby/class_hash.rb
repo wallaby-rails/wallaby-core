@@ -22,8 +22,8 @@ module Wallaby
     def initialize(hash = {})
       @internal =
         (hash || {})
-        .transform_keys(&method(:to_class_name))
-        .transform_values(&method(:to_class_name))
+        .transform_keys(&method(:class_name_of))
+        .transform_values(&method(:class_name_of))
     end
 
     # @!attribute [r] origin
@@ -50,12 +50,12 @@ module Wallaby
 
     # Save the key/value to the {#internal} hash, and convert the Class key/value to String
     def []=(key, value)
-      @internal[to_class_name(key)] = to_class_name(value)
+      @internal[class_name_of(key)] = class_name_of(value)
     end
 
     # Return the value for the given key, and convert the value back to Class if it was a Class
     def [](key)
-      to_class @internal[to_class_name(key)]
+      to_class @internal[class_name_of(key)]
     end
 
     # @param other [Hash]
@@ -79,7 +79,7 @@ module Wallaby
     protected
 
     # Convert to Class name
-    def to_class_name(klass)
+    def class_name_of(klass)
       klass.is_a?(Class) ? [klass.name, true] : [klass, false]
     end
 

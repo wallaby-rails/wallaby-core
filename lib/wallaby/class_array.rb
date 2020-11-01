@@ -10,7 +10,7 @@ module Wallaby
       @internal = (array || []).flatten
       return if @internal.blank?
 
-      @internal.map!(&method(:to_class_name)).compact!
+      @internal.map!(&method(:class_name_of)).compact!
     end
 
     # @!attribute [r] internal
@@ -26,7 +26,7 @@ module Wallaby
 
     # Save the value to the {#internal} array at the given index, and convert the Class value to String
     def []=(index, value)
-      @internal[index] = to_class_name value
+      @internal[index] = class_name_of value
     end
 
     # Return the value for the given index

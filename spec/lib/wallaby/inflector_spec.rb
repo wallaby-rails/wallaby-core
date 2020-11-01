@@ -35,6 +35,15 @@ describe Wallaby::Inflector do
     end
   end
 
+  describe '.to_decorator_name' do
+    it 'returns the decorator class name' do
+      expect(described_class.to_decorator_name('/admin', 'categories')).to eq 'Admin::CategoryDecorator'
+      expect(described_class.to_decorator_name('/admin', 'category')).to eq 'Admin::CategoryDecorator'
+      expect(described_class.to_decorator_name('/admin', 'order::items')).to eq 'Admin::Order::ItemDecorator'
+      expect(described_class.to_decorator_name('/admin', 'order::item')).to eq 'Admin::Order::ItemDecorator'
+    end
+  end
+
   describe '.to_authorizer_name' do
     it 'returns the authorizer class name' do
       expect(described_class.to_authorizer_name('/admin', 'categories')).to eq 'Admin::CategoryAuthorizer'

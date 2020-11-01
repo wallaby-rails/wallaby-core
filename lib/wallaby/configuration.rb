@@ -31,7 +31,7 @@ module Wallaby
 
     # @!attribute [w] base_controller
     def base_controller=(base_controller)
-      @base_controller = to_class_name base_controller
+      @base_controller = class_name_of base_controller
     end
 
     # @!attribute [r] base_controller
@@ -50,7 +50,7 @@ module Wallaby
 
     # @!attribute [w] resources_controller
     def resources_controller=(resources_controller)
-      @resources_controller = to_class_name resources_controller
+      @resources_controller = class_name_of resources_controller
     end
 
     # @!attribute [r] resources_controller

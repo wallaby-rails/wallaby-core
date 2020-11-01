@@ -31,6 +31,13 @@ module Wallaby
 
     # @param script_name [String]
     # @param resources_name [String,nil]
+    # @return [String] decorator name
+    def to_decorator_name(script_name, resources_name)
+      to_class_name(to_script(script_name, resources_name.singularize, "_decorator"))
+    end
+
+    # @param script_name [String]
+    # @param resources_name [String,nil]
     # @return [String] authorizer name
     def to_authorizer_name(script_name, resources_name)
       to_class_name(to_script(script_name, resources_name.singularize, "_authorizer"))
