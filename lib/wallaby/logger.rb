@@ -11,7 +11,7 @@ module Wallaby
           new_message, from = normalize(
             message, sourcing != false && Array(caller[sourcing || 0]) || nil
           )
-          Rails.logger.try(
+          Wallaby.configuration.logger.try(
             method_id,
             "#{heading}#{method_id.to_s.upcase}: #{format new_message, replacements}#{from}"
           )

@@ -6,6 +6,14 @@ module Wallaby
   class Configuration
     include Classifier
 
+    # @!attribute [w] logger
+    attr_writer :logger
+
+    # @!attribute [r] logger
+    def logger
+      @logger ||= Rails.logger
+    end
+
     # @!attribute [w] model_paths
     def model_paths=(*model_paths)
       @model_paths =
