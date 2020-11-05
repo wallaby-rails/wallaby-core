@@ -13,10 +13,11 @@ module Wallaby
       # @return [String] engine name if found
       # @return [String] empty string "" if not found
       def execute(request_path)
-        named_route = Rails.application.routes.routes.find do |route|
-          route.path.match(request_path) && route.app.app == Wallaby::Engine
-        end
-        named_route.try(:name) || EMPTY_STRING
+        named_routes =
+          Rails.application.routes.routes.select { |route| route.path.match(request_path) }
+        return EMPTY_STRING unless named_routes.length == 1 && named_routes.first.app.app == Wallaby::Engine
+
+        named_routes.first.try(:name)
       end
     end
   end

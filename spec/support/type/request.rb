@@ -10,11 +10,16 @@ module RequestSupport
   def page_html
     @page_html[response.object_id] ||= Nokogiri::HTML(response.body)
   end
+
+  def page_json
+    @page_json[response.object_id] ||= JSON.parse(response.body)
+  end
 end
 
 RSpec.configure do |config|
   config.include RequestSupport, type: :request
   config.before(:example, type: :request) do
     @page_html = {}
+    @page_json = {}
   end
 end

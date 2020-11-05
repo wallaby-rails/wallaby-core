@@ -3,6 +3,8 @@
 module Wallaby
   # Concern to handle the conversion between Class and String
   module Classifier
+    extend self
+
     # Convert Class to String. If not Class, unchanged.
     # @param klass [Object]
     # @return [String] if klass is a Class
@@ -23,6 +25,7 @@ module Wallaby
       # This is Rails, use constantize
       name.constantize
     rescue NameError
+      retur yield(name) if block_given?
       Logger.error "`#{name}` is not a valid Class name."
     end
   end

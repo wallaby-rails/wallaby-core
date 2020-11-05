@@ -5,7 +5,7 @@ describe Wallaby::Sorting::LinkBuilder, :wallaby_user, type: :helper do
 
   let(:model_decorator) { Wallaby::ActiveRecord.model_decorator.new Product }
   let(:params) { parameters!(action: 'index', resources: 'products') }
-  let(:strategy) {}
+  let(:strategy) { nil }
 
   describe '#build' do
     it 'returns a sort link for non-association field' do

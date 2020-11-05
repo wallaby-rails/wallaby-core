@@ -44,11 +44,16 @@ module Wallaby
     # @param resource [Object, Enumerable]
     # @return [Wallaby::ResourceDecorator, Enumerable<Wallaby::ResourceDecorator>] decorator(s)
     def decorate(resource)
-      return resource if resource.is_a? ResourceDecorator
-      return resource.map { |item| decorate item } if resource.respond_to? :map
+      return resource if resource.is_a?(ResourceDecorator)
+      return resource.map { |item| decorate(item) } if resource.respond_to?(:map)
+      return resource unless Map.mode_map[resource.class]
 
-      decorator = Map.resource_decorator_map resource.class, controller_configuration.application_decorator
-      decorator ? decorator.new(resource) : resource
+      Guesser.decorator_for(
+        script_name: script_name,
+        model_class: resource.class,
+        current_model_class: current_model_class,
+        controller_class: controller_configuration
+      ).new(resource)
     end
 
     # @param resource [Object, Wallaby::ResourceDecorator]

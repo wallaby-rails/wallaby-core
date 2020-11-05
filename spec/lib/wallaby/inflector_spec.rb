@@ -32,6 +32,7 @@ describe Wallaby::Inflector do
       expect(described_class.to_controller_name('/admin', 'category')).to eq 'Admin::CategoryController'
       expect(described_class.to_controller_name('/admin', 'order::items')).to eq 'Admin::Order::ItemsController'
       expect(described_class.to_controller_name('/admin', 'order::item')).to eq 'Admin::Order::ItemController'
+      expect(described_class.to_controller_name('/admin', 'Order::Item')).to eq 'Admin::Order::ItemController'
     end
   end
 
@@ -41,6 +42,7 @@ describe Wallaby::Inflector do
       expect(described_class.to_decorator_name('/admin', 'category')).to eq 'Admin::CategoryDecorator'
       expect(described_class.to_decorator_name('/admin', 'order::items')).to eq 'Admin::Order::ItemDecorator'
       expect(described_class.to_decorator_name('/admin', 'order::item')).to eq 'Admin::Order::ItemDecorator'
+      expect(described_class.to_decorator_name('/admin', 'Order::Item')).to eq 'Admin::Order::ItemDecorator'
     end
   end
 

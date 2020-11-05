@@ -49,7 +49,12 @@ module Wallaby
     # @return [Wallaby::ModelAuthorizer] model authorizer for given model
     # @since wallaby-5.2.0
     def authorizer_of(model_class, authorizer_class = nil)
-      authorizer_class ||= Map.authorizer_map(model_class, controller_configuration.application_authorizer)
+      authorizer_class ||= Guesser.authorizer_for(
+        script_name: script_name,
+        model_class: model_class,
+        current_model_class: current_model_class,
+        controller_class: controller_configuration
+      )
       authorizer_class.new model_class, self
     end
   end
