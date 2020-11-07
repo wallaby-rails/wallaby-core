@@ -72,13 +72,7 @@ module Wallaby
 
       # @return [Regexp]
       def prefix_regex
-        @prefix_regex ||= %r{\A#{prefix}(\Z|/)}
-      end
-
-      # @return [String] the prefix, e.g. `/admin/custom_categories`
-      #   when current controller path is `custom_categories`
-      def prefix
-        [script_name, controller_path].map(&:presence).compact.join(SLASH)
+        @prefix_regex ||= %r{\A(#{script_name})?/#{controller_path}(\(|/|\Z)}
       end
     end
   end

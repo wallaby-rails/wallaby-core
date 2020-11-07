@@ -83,8 +83,8 @@ module Wallaby
     # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb
     def execute
       return if current_engine_route.blank?
-      return url_for(overridden_route) if overridden_route.exist?
       return url_for(other_route) if other_route.exist?
+      return url_for(overridden_route) if overridden_route.exist?
 
       # NOTE: require to use `url_helper` here.
       # otherwise, {Engine} will raise **ActionController::UrlGenerationError**.

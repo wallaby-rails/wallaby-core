@@ -11,10 +11,18 @@ module Admin
 
     def links
       render json: {
-        index: index_path(Category),
-        new: new_path(Category),
-        show: show_path(Category.new(id: 1)),
-        edit: edit_path(Category.new(id: 1))
+        category: {
+          index: index_path(Category),
+          new: new_path(Category),
+          show: show_path(Category.new(id: 1)),
+          edit: edit_path(Category.new(id: 1))
+        },
+        product: {
+          index: index_path(Product),
+          new: new_path(Product),
+          show: show_path(Product.new(id: 1)),
+          edit: edit_path(Product.new(id: 1))
+        }
       }
     end
   end

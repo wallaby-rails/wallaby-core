@@ -24,10 +24,14 @@ describe 'overrides the resourceful routes', type: :request do
   it 'reneders links' do
     http :get, '/admin/categories/links'
     expect(response).to be_successful
-    expect(page_json['index']).to include('/admin/categories')
-    expect(page_json['new']).to include('/admin/categories/new')
-    expect(page_json['show']).to include('/admin/categories/1')
-    expect(page_json['edit']).to include('/admin/categories/1/edit')
+    expect(page_json['category']['index']).to include('/admin/categories')
+    expect(page_json['category']['new']).to include('/admin/categories/new')
+    expect(page_json['category']['show']).to include('/admin/categories/1')
+    expect(page_json['category']['edit']).to include('/admin/categories/1/edit')
+    expect(page_json['product']['index']).to include('/admin/products')
+    expect(page_json['product']['new']).to include('/admin/products/new')
+    expect(page_json['product']['show']).to include('/admin/products/1')
+    expect(page_json['product']['edit']).to include('/admin/products/1/edit')
   end
 end
 
@@ -55,9 +59,13 @@ describe 'add custom resourceful routes', type: :request do
   it 'reneders links' do
     http :get, '/admin/custom_categories/links'
     expect(response).to be_successful
-    expect(page_json['index']).to include('/admin/custom_categories')
-    expect(page_json['new']).to include('/admin/custom_categories/new')
-    expect(page_json['show']).to include('/admin/custom_categories/1')
-    expect(page_json['edit']).to include('/admin/custom_categories/1/edit')
+    expect(page_json['category']['index']).to include('/admin/custom_categories')
+    expect(page_json['category']['new']).to include('/admin/custom_categories/new')
+    expect(page_json['category']['show']).to include('/admin/custom_categories/1')
+    expect(page_json['category']['edit']).to include('/admin/custom_categories/1/edit')
+    expect(page_json['product']['index']).to include('/admin/products')
+    expect(page_json['product']['new']).to include('/admin/products/new')
+    expect(page_json['product']['show']).to include('/admin/products/1')
+    expect(page_json['product']['edit']).to include('/admin/products/1/edit')
   end
 end
