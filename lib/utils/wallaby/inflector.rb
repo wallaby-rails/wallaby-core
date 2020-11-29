@@ -17,7 +17,7 @@ module Wallaby
 
     # @param script_name [String]
     # @param resources_name [String,nil]
-    # @return [String] normalized string ready for {#classify}
+    # @return [String] generate the prefix for all classes
     def to_script(script_name, resources_name, suffix = EMPTY_STRING)
       "#{script_name}/#{resources_name}#{suffix}".gsub(%r{\A/+}, EMPTY_STRING)
     end

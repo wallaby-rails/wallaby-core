@@ -59,7 +59,7 @@ module Wallaby
     # @param resource [Object, Wallaby::ResourceDecorator]
     # @return [Object] the unwrapped resource object
     def extract(resource)
-      return resource.resource if resource.is_a? ResourceDecorator
+      return resource.resource if resource.is_a?(ResourceDecorator)
 
       resource
     end

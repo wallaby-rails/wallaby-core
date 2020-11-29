@@ -6,36 +6,34 @@ module Wallaby
   # Since {Engine}'s {https://github.com/wallaby-rails/wallaby-core/blob/master/config/routes.rb routes}
   # are declared in
   # {https://guides.rubyonrails.org/routing.html#routing-to-rack-applications Rack application}
-  # fashion via {ResourcesRouter}.
-  # It means when the current request is processed by {Engine},
+  # fashion via {ResourcesRouter} to recoganize path in the pattern of `/:mount_path/:resources`.
+  # It means when the current request path (e.g. `/admin/categories`)
+  # is under the same mount path of {Engine} (e.g. `/admin`),
   # using the original Rails **usl_for** (e.g. `url_for action: :index`)
+  # without providing the `:resources` param and script name
   # will lead to an **ActionController::RoutingError** exception.
   #
-  # To generate the proper URL from given params and options within the {Engine},
+  # To generate the proper URL from given params and options for this kind of requests,
   # there are three kinds of scenarios that need to be considered
   # (assume that {Engine} is mounted at `/admin`):
-  #
-  # - if the URL to generate is a route that overrides the existing {Engine} route
-  #   (assume that `categories` is one of the resources handled by {Engine}):
-  #
-  #   ```
-  #   namespace :admin do
-  #     resources :categories
-  #   end
-  #   wallaby_mount at: '/admin'
-  #   ```
   #
   # - if the URL to generate is a regular route defined before mounting the {Engine}
   #   that does not override the resources `categories` routes handled by {Engine}, such as:
   #
-  #   ```
-  #   namespace :admin do
-  #     resources :custom_categories
-  #   end
-  #   wallaby_mount at: '/admin'
-  #   ```
+  #       namespace :admin do
+  #         resources :custom_categories
+  #       end
+  #       wallaby_mount at: '/admin'
   #
-  # - regular resources handled by {Engine}, e.g. (`/admin/categories`)
+  # - if the URL to generate is a route that overrides the existing {Engine} route
+  #   (assume that `categories` is one of the resources handled by {Engine}):
+  #
+  #       namespace :admin do
+  #         resources :categories
+  #       end
+  #       wallaby_mount at: '/admin'
+  #
+  # - regular resources handled by {ResourcesRouter}, e.g. (`/admin/products`)
   class EngineUrlFor
     include ActiveModel::Model
 
@@ -83,12 +81,11 @@ module Wallaby
     # @see https://github.com/reinteractive/wallaby/blob/master/config/routes.rb
     def execute
       return if current_engine_route.blank?
+      return engine_url if options[:wallaby_only]
       return url_for(other_route) if other_route.exist?
       return url_for(overridden_route) if overridden_route.exist?
 
-      # NOTE: require to use `url_helper` here.
-      # otherwise, {Engine} will raise **ActionController::UrlGenerationError**.
-      Engine.routes.url_helpers.try(engine_action_url_helper, engine_params)
+      engine_url
     end
 
     protected
@@ -146,14 +143,14 @@ module Wallaby
       )
     end
 
-    # @return [String] given controller param or current request's controller
+    # @return [String] given controller path or current request's controller path
     def controller_path
       @controller_path ||= (params[:controller] || recall[:controller]).to_s
     end
 
     # @return [String] given action param or current request's action
     def action_name
-      @action_name ||= (params[:action] || recall[:action]).to_s
+      @action_name ||= (params[:action] || recall[:action]).try(:to_s)
     end
 
     # @note This script name prefix is required for Rails
@@ -177,6 +174,13 @@ module Wallaby
     # @return [ActionDispatch::Journey::Route] engine route for current request
     def current_engine_route
       Rails.application.routes.named_routes[context.try(:current_engine_name)]
+    end
+
+    # @return [String] url generated for {Engine}
+    def engine_url
+      # NOTE: require to use `url_helper` here.
+      # otherwise, {Engine} will raise **ActionController::UrlGenerationError**.
+      Engine.routes.url_helpers.try(engine_action_url_helper, engine_params)
     end
 
     # Recall is the path params of current request

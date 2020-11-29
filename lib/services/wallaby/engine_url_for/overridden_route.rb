@@ -8,7 +8,7 @@ module Wallaby
     # /admin/order::items
     # ```
     #
-    # Therefore, to override this route, dev needs to define a resources similar to the following route
+    # Therefore, to override this route, dev needs to define a resources as below
     # before mounting {Engine}:
     #
     # ```
@@ -26,6 +26,8 @@ module Wallaby
     # - begins with `/admin/order::items`
     # - same **action** as the given **action**
     # - default **controller** exists (as {ResourcesRouter} does not define static **controller**)
+    #
+    # Then we use this route's params and pass it to the origin `url_for`.
     class OverriddenRoute
       include ActiveModel::Model
 

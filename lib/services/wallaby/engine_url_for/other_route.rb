@@ -2,7 +2,8 @@
 
 module Wallaby
   class EngineUrlFor
-    # The other routes defined under the same prefix as {Engine}'s mount path should look like this:
+    # The other routes defined under the same mount path
+    # as {Engine}'s mount path (AKA script name) should look like this:
     #
     # ```
     # resources :custom_categories, path: '/admin/custom_categories'
@@ -15,6 +16,8 @@ module Wallaby
     # - begins with **script_name/controller_path**, e.g. `/admin/custom_categories`
     # - same **controller_path** as the given **controller_path**
     # - same **action** as the given **action**
+    #
+    # Then we use this route's params and pass it to the origin `url_for`.
     class OtherRoute
       include ActiveModel::Model
 

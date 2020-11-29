@@ -31,7 +31,7 @@ module Wallaby
 
         new_message = <<~MESSAGE
           #{message_or_config}
-          If you don't want to see this message again, you can disable it in `config/initializers/wallaby.rb`:
+          If you don't want to see this kind of message again, you can disable it in `config/initializers/wallaby.rb`:
 
             Wallaby::Logger.hint(#{key.inspect}, false)
         MESSAGE
@@ -41,7 +41,7 @@ module Wallaby
       protected
 
       # @param message [String,StandardError,Object]
-      # @param source [Array<String>] array of files
+      # @param sources [Array<String>] array of files
       def normalize(message, sources)
         case message
         when String
