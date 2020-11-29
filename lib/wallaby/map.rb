@@ -139,7 +139,15 @@ module Wallaby
         return unless model_class
 
         unless mode_map[model_class]
-          Logger.warn Locale.t('map.missing_mode_for_model_class', model: model_class.name), sourcing: 2..5
+          Logger.warn(
+            <<~INSTRUCTION, sourcing: 2..5
+              Don't know how to handle this model #{model_class}. Please consider to add it to `custom_models`:
+
+                Wallaby.config do |config|
+                  config.custom_models << #{model_class}
+                end
+            INSTRUCTION
+          )
           return
         end
         instance_variable_set(variable_name, instance_variable_get(variable_name) || ClassHash.new)

@@ -61,7 +61,7 @@ module Wallaby
         class_name.constantize.tap do |klass|
           next if klass < parent_class
 
-          raise InvalidError, Locale.t('mode.inherit_required', klass: klass, parent: parent_class)
+          raise InvalidError, "#{class_name} must inherit from #{parent_class}."
         end
       rescue NameError => e
         Logger.error e

@@ -46,6 +46,13 @@ module Wallaby
       self.class.new origin - (other.try(:origin) || other)
     end
 
+    # @param item [Class, String]
+    # @return [Wallaby::ClassArray] self
+    def <<(item)
+      @internal << class_name_of(item)
+      self
+    end
+
     # @return [Wallaby::ClassArray] self
     def each(&block)
       origin.each(&block)

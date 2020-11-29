@@ -46,7 +46,7 @@ module Wallaby
         # This is Rails, use constantize
         class_name.constantize
       rescue NameError
-        Logger.warn Locale.t('errors.not_found.model', model: class_name), sourcing: 2..10
+        Logger.warn("Model #{class_name} cannot be found.", sourcing: 2..10)
       end
 
       # Convert resources name (e.g. `namespace::products`) into model name (e.g. `Namespace::Product`)
