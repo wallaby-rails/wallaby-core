@@ -46,8 +46,10 @@ module Wallaby
   # A constant of error path for error handling
   ERROR_PATH = 'error'
 
+  CONTROLLER = 'Controller'
   DECORATOR = 'Decorator'
   SERVICER = 'Servicer'
   AUTHORIZER = 'Authorizer'
   PAGINATOR = 'Paginator'
+  FINDER = 'Finder'
 end

@@ -62,6 +62,7 @@ require 'concerns/wallaby/application_concern'
 require 'concerns/wallaby/authentication_concern'
 require 'concerns/wallaby/resources_concern'
 
+# These are the designed interfaces if you want to get any ORMs to work with Wallaby
 require 'interfaces/wallaby/mode'
 require 'interfaces/wallaby/model_decorator'
 require 'interfaces/wallaby/model_finder'
@@ -92,6 +93,12 @@ require 'authorizers/wallaby/cancancan_authorization_provider'
 require 'authorizers/wallaby/pundit_authorization_provider'
 
 require 'forms/wallaby/form_builder'
+
+# These are the fun
+require 'services/wallaby/class_finder'
+require 'services/wallaby/controller_finder'
+require 'services/wallaby/decorator_finder'
+require 'services/wallaby/authorizer_finder'
 
 require 'services/wallaby/map/mode_mapper'
 require 'services/wallaby/map/model_class_mapper'

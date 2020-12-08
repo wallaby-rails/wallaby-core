@@ -16,21 +16,11 @@ describe Wallaby::ResourcesController, type: :controller do
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
       let!(:thing) { stub_const 'Thing', Class.new(ActiveRecord::Base) }
 
-      it 'is nil' do
-        expect(subclass1.model_authorizer).to be_nil
-        expect(subclass1.application_authorizer).to eq Wallaby::ModelAuthorizer
-        expect(subclass2.model_authorizer).to be_nil
-        expect(subclass2.application_authorizer).to eq Wallaby::ModelAuthorizer
-      end
-
       it 'returns authorizer classes' do
-        subclass1.model_authorizer = apple_authorizer
-        expect(subclass1.model_authorizer).to eq apple_authorizer
-        expect(subclass2.model_authorizer).to be_nil
-
-        subclass1.application_authorizer = application_authorizer
-        expect(subclass1.application_authorizer).to eq application_authorizer
-        expect(subclass2.application_authorizer).to eq application_authorizer
+        expect(subclass1.model_authorizer).to eq AppleAuthorizer
+        expect(subclass1.application_authorizer).to eq Wallaby::ModelAuthorizer
+        expect(subclass2.model_authorizer).to eq ThingAuthorizer
+        expect(subclass2.application_authorizer).to eq Wallaby::ModelAuthorizer
       end
     end
   end

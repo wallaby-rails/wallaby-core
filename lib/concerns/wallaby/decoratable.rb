@@ -48,12 +48,11 @@ module Wallaby
       return resource.map { |item| decorate(item) } if resource.respond_to?(:map)
       return resource unless Map.mode_map[resource.class]
 
-      Guesser.decorator_for(
+      DecoratorFinder.new(
         script_name: script_name,
         model_class: resource.class,
-        current_model_class: current_model_class,
-        controller_class: controller_configuration
-      ).new(resource)
+        current_controller_class: controller_configuration
+      ).execute.new(resource)
     end
 
     # @param resource [Object, Wallaby::ResourceDecorator]

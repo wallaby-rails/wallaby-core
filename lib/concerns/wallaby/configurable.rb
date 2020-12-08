@@ -25,6 +25,17 @@ module Wallaby
       end
     end
 
+    # Controller related
+    module ClassMethods
+      # @!attribute [r] application_controller
+      def application_controller
+        # Make sure it always returns a application Class
+        return self if base_class?
+        return ResourcesController if top_reached?
+        superclass.try(:application_controller)
+      end
+    end
+
     # Decorator configurables
     module ClassMethods
       # @!attribute [w] resource_decorator
@@ -45,7 +56,9 @@ module Wallaby
       # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @see Wallaby::ResourceDecorator
       # @since wallaby-5.2.0
-      attr_reader :resource_decorator
+      def resource_decorator
+        @resource_decorator ||= Guesser.class_for(name, suffix: DECORATOR, &:model_class)
+      end
 
       # @!attribute [w] application_decorator
       def application_decorator=(application_decorator)
@@ -140,7 +153,9 @@ module Wallaby
       # @raise [ArgumentError] when **model_authorizer** doesn't inherit from **application_authorizer**
       # @see Wallaby::ModelAuthorizer
       # @since wallaby-5.2.0
-      attr_reader :model_authorizer
+      def model_authorizer
+        @model_authorizer ||= Guesser.class_for(name, suffix: AUTHORIZER, &:model_class)
+      end
 
       # @!attribute [w] application_authorizer
       def application_authorizer=(application_authorizer)
