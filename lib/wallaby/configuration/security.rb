@@ -5,7 +5,7 @@ module Wallaby
     # @deprecated
     class Security
       # Default block to return nil for current user
-      DEFAULT_CURRENT_USER = -> { nil }
+      DEFAULT_CURRENT_USER = -> {}
       # Default block to return nil
       DEFAULT_AUTHENTICATE = -> { true }
 

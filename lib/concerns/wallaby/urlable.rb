@@ -14,10 +14,6 @@ module Wallaby
       EngineUrlFor.execute(context: self, params: params, options: options) || super(params)
     end
 
-    def script_name
-      request.env[SCRIPT_NAME]
-    end
-
     # Generate the resourcesful index path for given model class.
     # @param model_class [Class]
     # @param url_params [Hash]

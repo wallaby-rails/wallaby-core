@@ -2,11 +2,7 @@ require 'rails_helper'
 
 describe 'Mysql Types' do
   it 'returns the expected native types' do
-    if version? '~> 5.0.0'
-      column_methods = ActiveRecord::ConnectionAdapters::MySQL::ColumnMethods.instance_methods.map(&:to_s)
-      expect(column_methods.length).to eq 13
-      expect(column_methods.sort).to eq %w(blob json longblob longtext mediumblob mediumtext primary_key tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
-    elsif version? '~> 5.1.0'
+    if version?('~> 5.0.0') || version?('~> 5.1.0')
       column_methods = ActiveRecord::ConnectionAdapters::MySQL::ColumnMethods.instance_methods.map(&:to_s)
       expect(column_methods.length).to eq 13
       expect(column_methods.sort).to eq %w(blob json longblob longtext mediumblob mediumtext primary_key tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
@@ -25,13 +21,7 @@ describe 'Mysql Types' do
 
       expect(all_types.length).to eq 23
       expect(all_types.sort).to eq %w(binary blob boolean date datetime decimal float integer json longblob longtext mediumblob mediumtext primary_key string text time tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
-    elsif version? '~> 5.1.0'
-      expect(native_types.length).to eq 13
-      expect(native_types.sort).to eq %w(binary boolean date datetime decimal float integer json primary_key string text time timestamp)
-
-      expect(all_types.length).to eq 24
-      expect(all_types.sort).to eq %w(binary blob boolean date datetime decimal float integer json longblob longtext mediumblob mediumtext primary_key string text time timestamp tinyblob tinytext unsigned_bigint unsigned_decimal unsigned_float unsigned_integer)
-    elsif version? '~> 5.2.0'
+    elsif version?('~> 5.1.0') || version?('~> 5.2.0')
       expect(native_types.length).to eq 13
       expect(native_types.sort).to eq %w(binary boolean date datetime decimal float integer json primary_key string text time timestamp)
 

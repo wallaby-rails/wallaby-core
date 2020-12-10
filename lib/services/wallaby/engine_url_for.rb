@@ -47,6 +47,8 @@ module Wallaby
     # @return [Hash, ActionController::Parameters]
     attr_accessor :params
 
+    delegate :current_engine_route, :script_name, to: :context
+
     # A constant to map actions to its corresponding path helper methods
     # defined in {Engine}'s routes.
     # @see https://github.com/wallaby-rails/wallaby-core/blob/master/config/routes.rb
@@ -153,14 +155,6 @@ module Wallaby
       @action_name ||= (params[:action] || recall[:action]).try(:to_s)
     end
 
-    # @note This script name prefix is required for Rails
-    # {https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for #url_for}
-    # to generate the correct URL.
-    # @return [String] current engine's script name
-    def script_name
-      current_engine_route.path.spec.to_s
-    end
-
     # @return [Class] model class option or converted model class from recall resources name
     def model_class
       @model_class ||= options[:model_class] || Map.model_class_map(recall[:resources])
@@ -169,11 +163,6 @@ module Wallaby
     # @return [String] resources name for given model
     def resources_name
       @resources_name ||= Inflector.to_resources_name(model_class)
-    end
-
-    # @return [ActionDispatch::Journey::Route] engine route for current request
-    def current_engine_route
-      Rails.application.routes.named_routes[context.try(:current_engine_name)]
     end
 
     # @return [String] url generated for {Engine}
