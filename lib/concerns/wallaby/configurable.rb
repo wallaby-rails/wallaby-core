@@ -29,20 +29,16 @@ module Wallaby
     module ClassMethods
       # @!attribute [r] application_controller
       def application_controller
-        # Make sure it always returns a application Class
         return self if base_class?
-        return ResourcesController if top_reached?
-        superclass.try(:application_controller)
+
+        superclass.try(:application_controller) || ResourcesController
       end
     end
 
     # Decorator configurables
     module ClassMethods
       # @!attribute [w] resource_decorator
-      def resource_decorator=(resource_decorator)
-        validates_sub_class resource_decorator, application_decorator
-        @resource_decorator = resource_decorator
-      end
+      attr_writer :resource_decorator
 
       # @!attribute [r] resource_decorator
       # Resource decorator will be used for its metadata info and decoration methods.
@@ -61,10 +57,7 @@ module Wallaby
       end
 
       # @!attribute [w] application_decorator
-      def application_decorator=(application_decorator)
-        validates_super_class application_decorator, resource_decorator
-        @application_decorator = application_decorator
-      end
+      attr_writer :application_decorator
 
       # @!attribute [r] application_decorator
       # The **application_decorator** is as the base class of {#resource_decorator}.
@@ -72,29 +65,19 @@ module Wallaby
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
       #   end
-      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
       # @return [Class] application decorator
       # @see Wallaby::ResourceDecorator
       # @since wallaby-5.2.0
       def application_decorator
-        # Make sure it always returns a application Class
-        if top_reached?
-          return @application_decorator ||= Guesser.class_for(
-            name, suffix: DECORATOR, super_class: ResourceDecorator, &:base_class?
-          ) || ResourceDecorator
-        end
-
-        @application_decorator || superclass.try(:application_decorator)
+        @application_decorator ||= Guesser.class_for(name, suffix: DECORATOR, &:base_class?)
+        @application_decorator || superclass.try(:application_decorator) || ResourceDecorator
       end
     end
 
     # Servicer configurables
     module ClassMethods
       # @!attribute [w] model_servicer
-      def model_servicer=(model_servicer)
-        validates_sub_class model_servicer, application_servicer
-        @model_servicer = model_servicer
-      end
+      attr_writer :model_servicer
 
       # @!attribute [r] model_servicer
       # If Wallaby doesn't get it right, please specify the **model_servicer**.
@@ -106,13 +89,12 @@ module Wallaby
       # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       # @see Wallaby::ModelServicer
       # @since wallaby-5.2.0
-      attr_reader :model_servicer
+      def model_servicer
+        @model_servicer ||= Guesser.class_for(name, suffix: SERVICER, &:model_class)
+      end
 
       # @!attribute [w] application_servicer
-      def application_servicer=(application_servicer)
-        validates_super_class application_servicer, model_servicer
-        @application_servicer = application_servicer
-      end
+      attr_writer :application_servicer
 
       # @!attribute [r] application_servicer
       # The **application_servicer** is as the base class of {#model_servicer}.
@@ -121,27 +103,18 @@ module Wallaby
       #     self.application_servicer = AnotherApplicationServicer
       #   end
       # @return [Class] application decorator
-      # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
       # @see Wallaby::ModelServicer
       # @since wallaby-5.2.0
       def application_servicer
-        if top_reached?
-          return @application_servicer ||= Guesser.class_for(
-            name, suffix: SERVICER, super_class: ModelServicer, &:base_class?
-          ) || ModelServicer
-        end
-
-        @application_servicer || superclass.try(:application_servicer)
+        @application_servicer ||= Guesser.class_for(name, suffix: SERVICER, &:base_class?)
+        @application_servicer || superclass.try(:application_servicer) || ModelServicer
       end
     end
 
     # Authorizer configurables
     module ClassMethods
       # @!attribute [w] model_authorizer
-      def model_authorizer=(model_authorizer)
-        validates_sub_class model_authorizer, application_authorizer
-        @model_authorizer = model_authorizer
-      end
+      attr_writer :model_authorizer
 
       # @!attribute [r] model_authorizer
       # If Wallaby doesn't get it right, please specify the **model_authorizer**.
@@ -150,7 +123,6 @@ module Wallaby
       #     self.model_authorizer = ProductAuthorizer
       #   end
       # @return [Class] model authorizer
-      # @raise [ArgumentError] when **model_authorizer** doesn't inherit from **application_authorizer**
       # @see Wallaby::ModelAuthorizer
       # @since wallaby-5.2.0
       def model_authorizer
@@ -158,10 +130,7 @@ module Wallaby
       end
 
       # @!attribute [w] application_authorizer
-      def application_authorizer=(application_authorizer)
-        validates_super_class application_authorizer, model_authorizer
-        @application_authorizer = application_authorizer
-      end
+      attr_writer :application_authorizer
 
       # @!attribute [r] application_authorizer
       # The **application_authorizer** is as the base class of {#model_authorizer}.
@@ -170,27 +139,18 @@ module Wallaby
       #     self.application_authorizer = AnotherApplicationAuthorizer
       #   end
       # @return [Class] application decorator
-      # @raise [ArgumentError] when **model_authorizer** doesn't inherit from **application_authorizer**
       # @see Wallaby::ModelAuthorizer
       # @since wallaby-5.2.0
       def application_authorizer
-        if top_reached?
-          return @application_authorizer ||= Guesser.class_for(
-            name, suffix: AUTHORIZER, super_class: ModelAuthorizer, &:base_class?
-          ) || ModelAuthorizer
-        end
-
-        @application_authorizer || superclass.try(:application_authorizer)
+        @application_authorizer ||= Guesser.class_for(name, suffix: AUTHORIZER, &:base_class?)
+        @application_authorizer || superclass.try(:application_authorizer) || ModelAuthorizer
       end
     end
 
     # Paginator configurables
     module ClassMethods
       # @!attribute [w] model_paginator
-      def model_paginator=(model_paginator)
-        validates_sub_class model_paginator, application_paginator
-        @model_paginator = model_paginator
-      end
+      attr_writer :model_paginator
 
       # @!attribute [r] model_paginator
       # If Wallaby doesn't get it right, please specify the **model_paginator**.
@@ -199,16 +159,14 @@ module Wallaby
       #     self.model_paginator = ProductPaginator
       #   end
       # @return [Class] model paginator
-      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
       # @since wallaby-5.2.0
-      attr_reader :model_paginator
+      def model_paginator
+        @model_paginator ||= Guesser.class_for(name, suffix: PAGINATOR, &:model_class)
+      end
 
       # @!attribute [w] application_paginator
-      def application_paginator=(application_paginator)
-        validates_super_class application_paginator, model_paginator
-        @application_paginator = application_paginator
-      end
+      attr_writer :application_paginator
 
       # @!attribute [r] application_paginator
       # The **application_paginator** is as the base class of {#model_paginator}.
@@ -217,17 +175,11 @@ module Wallaby
       #     self.application_paginator = AnotherApplicationPaginator
       #   end
       # @return [Class] application decorator
-      # @raise [ArgumentError] when **model_paginator** doesn't inherit from **application_paginator**
       # @see Wallaby::ModelPaginator
       # @since wallaby-5.2.0
       def application_paginator
-        if top_reached?
-          return @application_paginator ||= Guesser.class_for(
-            name, suffix: PAGINATOR, super_class: ModelPaginator, &:base_class?
-          ) || ModelPaginator
-        end
-
-        @application_paginator || superclass.try(:application_paginator)
+        @application_paginator ||= Guesser.class_for(name, suffix: PAGINATOR, &:base_class?)
+        @application_paginator || superclass.try(:application_paginator) || ModelPaginator
       end
     end
 
@@ -458,27 +410,6 @@ module Wallaby
         ClassMethods.instance_methods.grep(/=/).each do |name|
           instance_variable_set "@#{name[0...-1]}", nil
         end
-      end
-
-      # Validate and see if the klass is valid subclass
-      def validates_sub_class(klass, super_class)
-        raise ArgumentError, 'Please provide a Class.' unless klass.is_a? Class
-        return if !super_class || klass < super_class
-
-        raise ArgumentError, "Please provide a Class that inherits from #{super_class}."
-      end
-
-      # Validate and see if the klass is valid superclass
-      def validates_super_class(klass, sub_class)
-        raise ArgumentError, 'Please provide a Class.' unless klass.is_a? Class
-        return if !sub_class || sub_class < klass
-
-        raise ArgumentError, "Please provide a Class that is a superclass of #{sub_class}."
-      end
-
-      # Reaching the top of class inheritance chain for Classes that includes {Wallaby::Configurable}?
-      def top_reached?
-        superclass == ResourcesController || !(superclass < Configurable)
       end
     end
 

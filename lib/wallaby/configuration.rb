@@ -75,9 +75,7 @@ module Wallaby
     # @since 0.2.3
     def resources_controller
       @resources_controller ||=
-        defined?(::Admin::ApplicationController) \
-          && ::Admin::ApplicationController < ::Wallaby::ResourcesController \
-          && 'Admin::ApplicationController'
+        Guesser.constantize('Admin::ApplicationController') && 'Admin::ApplicationController'
       to_class @resources_controller ||= 'Wallaby::ResourcesController'
     end
 

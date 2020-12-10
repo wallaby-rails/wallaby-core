@@ -17,24 +17,26 @@ describe Wallaby::ResourcesController, type: :controller do
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
       let!(:thing) { stub_const 'Thing', Class.new(ActiveRecord::Base) }
 
-      it 'is nil' do
-        expect(subclass1.model_paginator).to be_nil
+      it 'returns paginator class' do
+        expect(subclass1.model_paginator).to eq ApplePaginator
         expect(subclass1.application_paginator).to eq Wallaby::ModelPaginator
-        expect(subclass2.model_paginator).to be_nil
+        expect(subclass2.model_paginator).to eq ThingPaginator
         expect(subclass2.application_paginator).to eq Wallaby::ModelPaginator
       end
+    end
+  end
 
-      it 'returns paginator classes' do
-        subclass1.model_paginator = apple_paginator
-        expect(subclass1.model_paginator).to eq apple_paginator
-        expect(subclass2.model_paginator).to be_nil
+  describe '#current_paginator' do
+    let!(:paginator) { stub_const 'AllPostgresTypePaginator', Class.new(Wallaby::ModelPaginator) }
 
-        subclass1.application_paginator = application_paginator
-        expect(subclass1.application_paginator).to eq application_paginator
-        expect(subclass2.application_paginator).to eq application_paginator
+    it 'returns model paginator for existing resource paginator' do
+      controller.params[:resources] = 'all_postgres_types'
+      expect(controller.current_paginator).to be_a AllPostgresTypePaginator
+    end
 
-        expect { subclass1.application_paginator = another_paginator }.to raise_error ArgumentError, 'Please provide a Class that is a superclass of ApplePaginator.'
-      end
+    it 'returns model paginator for non-existing resource paginator' do
+      controller.params[:resources] = 'orders'
+      expect(controller.current_paginator).to be_a Wallaby::ModelPaginator
     end
   end
 end

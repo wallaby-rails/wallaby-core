@@ -94,11 +94,14 @@ require 'authorizers/wallaby/pundit_authorization_provider'
 
 require 'forms/wallaby/form_builder'
 
-# These are the fun
+# These are the service classes responsible
+# for finding out the controller/decorator/authorizer/servicer/paginator
 require 'services/wallaby/class_finder'
 require 'services/wallaby/controller_finder'
 require 'services/wallaby/decorator_finder'
 require 'services/wallaby/authorizer_finder'
+require 'services/wallaby/servicer_finder'
+require 'services/wallaby/paginator_finder'
 
 require 'services/wallaby/map/mode_mapper'
 require 'services/wallaby/map/model_class_mapper'

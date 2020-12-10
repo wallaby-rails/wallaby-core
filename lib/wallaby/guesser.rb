@@ -15,40 +15,22 @@ module Wallaby
       # - Order::Item
       # - Item
       # @param class_name [String]
-      # @param suffix [String]
-      # @param super_class [Class]
-      # @param replacement [String]
+      # @param options [Hash]
       # @return [Class] found associated class
       # @return [nil] if not found
       def class_for(class_name, options = {}, &block)
-        super_class = options[:super_class]
         suffix = options[:suffix] || EMPTY_STRING
         replacement = options[:replacement] || SUFFIX
         denamespace = options.key?(:denamespace) ? options[:denamespace] : true
         base_name = class_name.gsub(replacement, EMPTY_STRING).singularize << suffix
-        possible_class_from(base_name, super_class: super_class, denamespace: denamespace, &block)
-        # parts = base_name.split(COLONS)
-        # parts.each_with_index do |_, index|
-        #   klass = constantize parts[index..-1].join(COLONS)
-        #   next unless klass
-        #   # check superclass inheritance
-        #   next if super_class && klass >= super_class
-        #   # additional checking, the given block should return true to continue
-        #   next if block_given? && !yield(klass)
-
-        #   return klass
-        # end
-
-        # nil
+        possible_class_from(base_name, denamespace: denamespace, &block)
       end
 
-      def possible_class_from(class_name, super_class: nil, denamespace: false)
+      def possible_class_from(class_name, denamespace: false)
         parts = denamespace ? class_name.split(COLONS) : [class_name]
         parts.each_with_index do |_, index|
           klass = constantize parts[index..-1].join(COLONS)
           next unless klass
-          # check superclass inheritance
-          next if super_class && klass >= super_class
           # additional checking, the given block should return true to continue
           next if block_given? && !yield(klass)
 
@@ -57,8 +39,6 @@ module Wallaby
 
         nil
       end
-
-      protected
 
       # Constantize the class name
       # @param class_name [String]

@@ -19,7 +19,7 @@ module Wallaby
       def mode_map
         @mode_map ||= begin
           # NOTE: this is the point where all files should be required
-          Preloader.require_all
+          Preloader.require_models
           ModeMapper.execute(modes).freeze
         end
       end
@@ -52,14 +52,6 @@ module Wallaby
     end
 
     class << self
-      # Look up which resource decorator to use for a given model class
-      # @param model_class [Class]
-      # @param application_decorator [Class]
-      # @return [Class] resource decorator class
-      def resource_decorator_map(model_class, application_decorator)
-        map_of :@resource_decorator_map, model_class, application_decorator
-      end
-
       # { model => model decorator }
       # @param model_class [Class]
       # @param application_decorator [Class]
@@ -69,30 +61,6 @@ module Wallaby
         @model_decorator_map[application_decorator] ||= ClassHash.new
         @model_decorator_map[application_decorator][model_class] ||=
           mode_map[model_class].try(:model_decorator).try :new, model_class
-      end
-
-      # Look up which model servicer to use for a given model class
-      # @param model_class [Class]
-      # @param application_servicer [Class]
-      # @return [Class] model servicer class
-      def servicer_map(model_class, application_servicer)
-        map_of :@servicer_map, model_class, application_servicer
-      end
-
-      # Look up which paginator to use for a given model class
-      # @param model_class [Class]
-      # @param application_paginator [Class]
-      # @return [Class] resource paginator class
-      def paginator_map(model_class, application_paginator)
-        map_of :@paginator_map, model_class, application_paginator
-      end
-
-      # Look up which authorizer to use for a given model class
-      # @param model_class [Class]
-      # @param application_authorizer [Class]
-      # @return [Class] model authorizer class
-      def authorizer_map(model_class, application_authorizer)
-        map_of :@authorizer_map, model_class, application_authorizer
       end
     end
 
@@ -126,34 +94,6 @@ module Wallaby
       # Reset all the instance variables to nil
       def clear
         instance_variables.each { |name| instance_variable_set name, nil }
-      end
-
-      private
-
-      # Set up the hash map for given variable name
-      # @param variable_name [Symbol] instance variable name e.g. :@decorator_map
-      # @param model_class [Class]
-      # @param application_class [Class]
-      # @return [Class]
-      def map_of(variable_name, model_class, application_class)
-        return unless model_class
-
-        unless mode_map[model_class]
-          Logger.warn(
-            <<~INSTRUCTION, sourcing: 2..5
-              Don't know how to handle this model #{model_class}. Please consider to add it to `custom_models`:
-
-                Wallaby.config do |config|
-                  config.custom_models << #{model_class}
-                end
-            INSTRUCTION
-          )
-          return
-        end
-        instance_variable_set(variable_name, instance_variable_get(variable_name) || ClassHash.new)
-        map = instance_variable_get variable_name
-        map[application_class] ||= ModelClassMapper.map application_class.descendants
-        map[application_class][model_class] ||= application_class
       end
     end
   end

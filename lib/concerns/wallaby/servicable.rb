@@ -11,8 +11,11 @@ module Wallaby
     # @since wallaby-5.2.0
     def current_servicer
       @current_servicer ||=
-        (controller_configuration.model_servicer \
-          || Map.servicer_map(current_model_class, controller_configuration.application_servicer)).try do |klass|
+        ServicerFinder.new(
+          script_name: script_name,
+          model_class: current_model_class,
+          current_controller_class: controller_configuration
+        ).execute.try do |klass|
           Logger.debug %(Current servicer: #{klass}), sourcing: false
           klass.new current_model_class, current_authorizer, current_model_decorator
         end

@@ -23,12 +23,11 @@ module Wallaby
     # @return [Wallaby::ResourceDecorator] current resource decorator for this request
     def current_decorator
       @current_decorator ||=
-        (
-          controller_configuration.resource_decorator || \
-          Map.resource_decorator_map(
-            current_model_class, controller_configuration.application_decorator
-          )
-        ).tap do |decorator|
+        DecoratorFinder.new(
+          script_name: script_name,
+          model_class: current_model_class,
+          current_controller_class: controller_configuration
+        ).execute.tap do |decorator|
           Logger.debug %(Current decorator: #{decorator}), sourcing: false
         end
     end

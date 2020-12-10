@@ -14,7 +14,7 @@ module Wallaby
     # @since wallaby-5.2.0
     def current_authorizer
       @current_authorizer ||=
-        authorizer_of(current_model_class, controller_configuration.model_authorizer).tap do |authorizer|
+        authorizer_of(current_model_class).tap do |authorizer|
           Logger.debug %(Current authorizer: #{authorizer.try(:class)}), sourcing: false
         end
     end
@@ -48,13 +48,12 @@ module Wallaby
     # @param authorizer_class [Class, nil]
     # @return [Wallaby::ModelAuthorizer] model authorizer for given model
     # @since wallaby-5.2.0
-    def authorizer_of(model_class, authorizer_class = nil)
-      authorizer_class ||= AuthorizerFinder.new(
+    def authorizer_of(model_class)
+      AuthorizerFinder.new(
         script_name: script_name,
         model_class: model_class,
         current_controller_class: controller_configuration
-      ).execute
-      authorizer_class.new model_class, self
+      ).execute.new model_class, self
     end
   end
 end

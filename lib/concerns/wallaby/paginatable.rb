@@ -10,8 +10,11 @@ module Wallaby
     # @return [Class] model paginator class
     def current_paginator
       @current_paginator ||=
-        (controller_configuration.model_paginator \
-          || Map.paginator_map(current_model_class, controller_configuration.application_paginator)).try do |klass|
+        PaginatorFinder.new(
+          script_name: script_name,
+          model_class: current_model_class,
+          current_controller_class: controller_configuration
+        ).execute.try do |klass|
           Logger.debug %(Current paginator: #{klass}), sourcing: false
           klass.new current_model_class, collection, params
         end

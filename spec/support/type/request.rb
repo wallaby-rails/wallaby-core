@@ -8,11 +8,11 @@ module RequestSupport
   end
 
   def page_html
-    @page_html[response.object_id] ||= Nokogiri::HTML(response.body)
+    @page_html[response] ||= Nokogiri::HTML(response.body)
   end
 
   def page_json
-    @page_json[response.object_id] ||= JSON.parse(response.body)
+    @page_json[response] ||= JSON.parse(response.body)
   end
 end
 

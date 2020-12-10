@@ -10,10 +10,10 @@ describe Wallaby::DecoratorFinder do
 
     let!(:admin_application_controller) { Wallaby::ResourcesController }
     let!(:admin_application_decorator) { Wallaby::ResourceDecorator }
-    let!(:user) { stub_const("User", Class.new) }
+    let!(:user) { stub_const('User', Class.new) }
     let!(:users_controller) do
       stub_const(
-        "UsersController",
+        'UsersController',
         Class.new(::ApplicationController) do
           include Wallaby::ResourcesConcern
         end
@@ -23,21 +23,21 @@ describe Wallaby::DecoratorFinder do
     it { is_expected.to eq Wallaby::ResourceDecorator }
 
     context 'when admin application controller exists' do
-      let!(:admin_application_controller) { stub_const("Admin::ApplicationController", base_class_from(Wallaby::ResourcesController)) }
+      let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
 
       it { is_expected.to eq Wallaby::ResourceDecorator }
 
       context 'when admin application decorator exists' do
-        let!(:admin_application_decorator) { stub_const("Admin::ApplicationDecorator", base_class_from(Wallaby::ResourceDecorator)) }
+        let!(:admin_application_decorator) { stub_const('Admin::ApplicationDecorator', base_class_from(Wallaby::ResourceDecorator)) }
 
         it { is_expected.to eq Admin::ApplicationDecorator }
       end
     end
 
     context 'when admin users controller exists (admin interface)' do
-      let!(:admin_products_controller) { stub_const("Admin::ProductsController", Class.new(admin_application_controller)) }
-      let!(:admin_users_controller) { stub_const("Admin::UsersController", Class.new(admin_application_controller)) }
-      let!(:admin_custom_users_controller) { stub_const("Admin::Custom::UsersController", Class.new(admin_application_controller)) }
+      let!(:admin_products_controller) { stub_const('Admin::ProductsController', Class.new(admin_application_controller)) }
+      let!(:admin_users_controller) { stub_const('Admin::UsersController', Class.new(admin_application_controller)) }
+      let!(:admin_custom_users_controller) { stub_const('Admin::Custom::UsersController', Class.new(admin_application_controller)) }
 
       it { is_expected.to eq Wallaby::ResourceDecorator }
 
@@ -59,14 +59,14 @@ describe Wallaby::DecoratorFinder do
         it { is_expected.to eq Wallaby::ResourceDecorator }
 
         context 'when custom decorator exists' do
-          let!(:admin_custom_user_decorator) { stub_const("Admin::Custom::UserDecorator", Class.new(admin_application_decorator)) }
+          let!(:admin_custom_user_decorator) { stub_const('Admin::Custom::UserDecorator', Class.new(admin_application_decorator)) }
 
           it { is_expected.to eq Admin::Custom::UserDecorator }
         end
       end
 
       context 'when admin application controller exists' do
-        let!(:admin_application_controller) { stub_const("Admin::ApplicationController", base_class_from(Wallaby::ResourcesController)) }
+        let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
 
         it { is_expected.to eq Wallaby::ResourceDecorator }
 
@@ -88,14 +88,14 @@ describe Wallaby::DecoratorFinder do
           it { is_expected.to eq Wallaby::ResourceDecorator }
 
           context 'when custom decorator exists' do
-            let!(:admin_custom_user_decorator) { stub_const("Admin::Custom::UserDecorator", Class.new(admin_application_decorator)) }
+            let!(:admin_custom_user_decorator) { stub_const('Admin::Custom::UserDecorator', Class.new(admin_application_decorator)) }
 
             it { is_expected.to eq Admin::Custom::UserDecorator }
           end
         end
 
         context 'when admin application decorator exists' do
-          let!(:admin_application_decorator) { stub_const("Admin::ApplicationDecorator", base_class_from(Wallaby::ResourceDecorator)) }
+          let!(:admin_application_decorator) { stub_const('Admin::ApplicationDecorator', base_class_from(Wallaby::ResourceDecorator)) }
 
           it { is_expected.to eq Admin::ApplicationDecorator }
 
@@ -117,14 +117,14 @@ describe Wallaby::DecoratorFinder do
             it { is_expected.to eq Admin::ApplicationDecorator }
 
             context 'when custom decorator exists' do
-              let!(:admin_custom_user_decorator) { stub_const("Admin::Custom::UserDecorator", Class.new(admin_application_decorator)) }
+              let!(:admin_custom_user_decorator) { stub_const('Admin::Custom::UserDecorator', Class.new(admin_application_decorator)) }
 
               it { is_expected.to eq Admin::Custom::UserDecorator }
             end
           end
 
           context 'when admin User decorator exists' do
-            let!(:admin_user_decorator) { stub_const("Admin::UserDecorator", base_class_from(admin_application_decorator)) }
+            let!(:admin_user_decorator) { stub_const('Admin::UserDecorator', base_class_from(admin_application_decorator)) }
 
             it { is_expected.to eq Admin::UserDecorator }
 
@@ -146,7 +146,7 @@ describe Wallaby::DecoratorFinder do
               it { is_expected.to eq Admin::UserDecorator }
 
               context 'when custom decorator exists' do
-                let!(:admin_custom_user_decorator) { stub_const("Admin::Custom::UserDecorator", Class.new(admin_application_decorator)) }
+                let!(:admin_custom_user_decorator) { stub_const('Admin::Custom::UserDecorator', Class.new(admin_application_decorator)) }
 
                 it { is_expected.to eq Admin::Custom::UserDecorator }
               end
@@ -164,8 +164,8 @@ describe Wallaby::DecoratorFinder do
       it { is_expected.to eq Wallaby::ResourceDecorator }
 
       context 'when user decorator exists' do
-        let!(:user_decorator) { stub_const("UserDecorator", base_class_from(admin_application_decorator)) }
-        let!(:admin_user_decorator) { stub_const("Admin::UserDecorator", base_class_from(admin_application_decorator)) }
+        let!(:user_decorator) { stub_const('UserDecorator', base_class_from(admin_application_decorator)) }
+        let!(:admin_user_decorator) { stub_const('Admin::UserDecorator', base_class_from(admin_application_decorator)) }
 
         it { is_expected.to eq UserDecorator }
       end

@@ -9,10 +9,10 @@ describe Wallaby::ControllerFinder do
     let(:current_controller_class) { admin_application_controller }
 
     let!(:admin_application_controller) { Wallaby::ResourcesController }
-    let!(:user) { stub_const("User", Class.new) }
+    let!(:user) { stub_const('User', Class.new) }
     let!(:users_controller) do
       stub_const(
-        "UsersController",
+        'UsersController',
         Class.new(::ApplicationController) do
           include Wallaby::ResourcesConcern
         end
@@ -22,15 +22,15 @@ describe Wallaby::ControllerFinder do
     it { is_expected.to eq Wallaby::ResourcesController }
 
     context 'when admin application controller exists' do
-      let!(:admin_application_controller) { stub_const("Admin::ApplicationController", base_class_from(Wallaby::ResourcesController)) }
+      let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
 
       it { is_expected.to eq Admin::ApplicationController }
     end
 
     context 'when admin users controller exists (admin interface)' do
-      let!(:admin_products_controller) { stub_const("Admin::ProductsController", Class.new(admin_application_controller)) }
-      let!(:admin_users_controller) { stub_const("Admin::UsersController", Class.new(admin_application_controller)) }
-      let!(:admin_custom_users_controller) { stub_const("Admin::Custom::UsersController", Class.new(admin_application_controller)) }
+      let!(:admin_products_controller) { stub_const('Admin::ProductsController', Class.new(admin_application_controller)) }
+      let!(:admin_users_controller) { stub_const('Admin::UsersController', Class.new(admin_application_controller)) }
+      let!(:admin_custom_users_controller) { stub_const('Admin::Custom::UsersController', Class.new(admin_application_controller)) }
 
       it { is_expected.to eq Admin::UsersController }
 
@@ -53,7 +53,7 @@ describe Wallaby::ControllerFinder do
       end
 
       context 'when admin application controller exists' do
-        let!(:admin_application_controller) { stub_const("Admin::ApplicationController", base_class_from(Wallaby::ResourcesController)) }
+        let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
 
         it { is_expected.to eq Admin::UsersController }
 

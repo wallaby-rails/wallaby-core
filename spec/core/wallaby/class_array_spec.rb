@@ -34,7 +34,7 @@ describe Wallaby::ClassArray do
 
       subject << Class
       expect(subject[1]).to eq Class
-      expect(subject.internal).to eq ['Module', 'Class']
+      expect(subject.internal).to eq %w(Module Class)
       expect(subject).to eq [Module, Class]
     end
   end

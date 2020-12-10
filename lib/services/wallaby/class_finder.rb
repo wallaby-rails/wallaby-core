@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 module Wallaby
+  # Base class to find out the class for given {#script_name}, {#model_class}, {#current_controller_class}
   class ClassFinder
     include ActiveModel::Model
 
@@ -31,6 +34,7 @@ module Wallaby
       true
     end
 
+    # @return [String] type for the finder
     def type
       self.class.name.demodulize.sub(FINDER, EMPTY_STRING).underscore
     end
