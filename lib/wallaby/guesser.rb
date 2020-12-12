@@ -29,7 +29,7 @@ module Wallaby
       def possible_class_from(class_name, denamespace: false)
         parts = denamespace ? class_name.split(COLONS) : [class_name]
         parts.each_with_index do |_, index|
-          klass = constantize parts[index..-1].join(COLONS)
+          klass = Classifier.to_class(parts[index..-1].join(COLONS))
           next unless klass
           # additional checking, the given block should return true to continue
           next if block_given? && !yield(klass)
@@ -37,19 +37,6 @@ module Wallaby
           return klass
         end
 
-        nil
-      end
-
-      # Constantize the class name
-      # @param class_name [String]
-      # @return [Class] if class name is valid
-      # @return [nil] otherwise
-      def constantize(class_name)
-        # NOTE: DO NOT try to use const_defined? and const_get EVER.
-        # Using constantize is Rails way to make it require the corresponding file.
-        class_name.constantize
-      rescue NameError
-        yield(class_name) if block_given?
         nil
       end
     end

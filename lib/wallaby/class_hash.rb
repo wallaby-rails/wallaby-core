@@ -4,7 +4,7 @@ module Wallaby
   # This is a constant-safe hash that stores Class key/value as String
   # and returns value as Class if it was a Class.
   #
-  # It can be used for global methods (e.g. {Wallaby::Map.mode_map}) which cache the computed result,
+  # It can be used for global methods (e.g. {Map.mode_map}) which cache the computed result,
   # so that when Rails reloads, it won't complain that old Class constants still exist in
   # ObjectSpace (see https://github.com/wallaby-rails/wallaby/issues/181).
   #
@@ -59,18 +59,18 @@ module Wallaby
     end
 
     # @param other [Hash]
-    # @return [Wallaby::ClassHash] new Class hash
+    # @return [ClassHash] new Class hash
     def merge(other)
       self.class.new origin.merge(other.try(:origin) || other)
     end
 
-    # @return [Wallaby::ClassHash] new Class hash
+    # @return [ClassHash] new Class hash
     def select(&block)
       self.class.new origin.select(&block)
     end
 
     # Ensure to freeze the {#internal}
-    # @return [Wallaby::ClassHash] self
+    # @return [ClassHash] self
     def freeze
       @internal.freeze
       super
@@ -86,9 +86,7 @@ module Wallaby
     # Convert to Class
     def to_class(pair)
       val, is_class = pair
-      is_class ? val.constantize : val
-    rescue NameError
-      Logger.error "`#{val}` is not a valid Class name."
+      is_class ? Classifier.to_class(val) : val
     end
   end
 end

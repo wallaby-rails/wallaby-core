@@ -4,32 +4,32 @@ module Wallaby
   # This is the interface that all ORM modes should inherit from and implement.
   class Mode
     class << self
-      # @see Wallaby::ModelDecorator
+      # @see ModelDecorator
       # @return [Class] model decorator for the mode
       def model_decorator
         check_and_constantize __callee__
       end
 
-      # @see Wallaby::ModelFinder
+      # @see ModelFinder
       # @return [Class] model finder for the mode
       def model_finder
         check_and_constantize __callee__
       end
 
-      # @see Wallaby::ModelServiceProvider
+      # @see ModelServiceProvider
       # @return [Class] service provider for the mode
       def model_service_provider
         check_and_constantize __callee__
       end
 
-      # @see Wallaby::ModelPaginationProvider
+      # @see ModelPaginationProvider
       # @return [Class] pagination provider for the mode
       # @since wallaby-5.2.0
       def model_pagination_provider
         check_and_constantize __callee__
       end
 
-      # @see Wallaby::ModelPaginationProvider
+      # @see ModelPaginationProvider
       # @return [Class] pagination provider for the mode
       # @since wallaby-5.2.0
       def default_authorization_provider
@@ -37,7 +37,7 @@ module Wallaby
       end
 
       # Return a list of authorization providers for authorizer to detect which one to use.
-      # @see Wallaby::ModelAuthorizationProvider
+      # @see ModelAuthorizationProvider
       # @return [ActiveSupport::HashWithIndifferentAccess<String, Class>] authorization provider hash
       # @since wallaby-5.2.0
       def model_authorization_providers(classes = ModelAuthorizationProvider.descendants)
@@ -51,7 +51,7 @@ module Wallaby
           end
       end
 
-      private
+      protected
 
       # @return [Class] constantized class
       def check_and_constantize(method_id)

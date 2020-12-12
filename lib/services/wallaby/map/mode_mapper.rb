@@ -2,14 +2,14 @@
 
 module Wallaby
   class Map
-    # Go through each {Wallaby::Mode} (e.g. **ActiveRecord**/**Her**)
+    # Go through each {Mode} (e.g. **ActiveRecord**/**Her**)
     # and find out all the model classes respectively.
-    # Then a hash (Model => {Wallaby::Mode}) is constructed
-    # to tell {Wallaby} which {Wallaby::Mode} to use for a given model.
+    # Then a hash (Model => {Mode}) is constructed
+    # to tell {Wallaby} which {Mode} to use for a given model.
     class ModeMapper
       extend Classifier
 
-      # @param class_names [Wallaby::ClassArray] mode class names
+      # @param class_names [ClassArray] mode class names
       # @return [WallabyClassHash]
       def self.execute(class_names)
         ClassHash.new.tap do |hash|

@@ -5,9 +5,7 @@ module Wallaby
     # The other routes defined under the same mount path
     # as {Engine}'s mount path (AKA script name) should look like this:
     #
-    # ```
-    # resources :custom_categories, path: '/admin/custom_categories'
-    # ```
+    #     resources :custom_categories, path: '/admin/custom_categories'
     #
     # Here, `custom_categories` is not a resources name handled by {Engine}.
     #

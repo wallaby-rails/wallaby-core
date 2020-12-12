@@ -34,7 +34,7 @@ module Wallaby
     # @param filter_name [String, Symbol]
     # @param filters [Hash]
     # @return [String] filter name
-    # @see Wallaby::FilterUtils.filter_name_by
+    # @see FilterUtils.filter_name_by
     def filter_name_by(filter_name, filters)
       FilterUtils.filter_name_by filter_name, filters
     end
@@ -70,8 +70,8 @@ module Wallaby
       end
     end
 
-    # @return [Wallaby::Sorting::LinkBuilder]
-    # @see Wallaby::Sorting::LinkBuilder
+    # @return [Sorting::LinkBuilder]
+    # @see Sorting::LinkBuilder
     def sort_link_builder(sorting_strategy = Wallaby.controller_configuration.sorting_strategy)
       @sort_link_builder ||=
         Sorting::LinkBuilder.new(

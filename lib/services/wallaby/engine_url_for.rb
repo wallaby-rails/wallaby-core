@@ -93,6 +93,7 @@ module Wallaby
     protected
 
     # @see OverriddenRoute
+    # @return [OverriddenRoute]
     def overridden_route
       @overridden_route ||= OverriddenRoute.new(
         script_name: script_name,
@@ -103,6 +104,7 @@ module Wallaby
     end
 
     # @see OtherRoute
+    # @return [OtherRoute]
     def other_route
       @other_route ||= OtherRoute.new(
         script_name: script_name,

@@ -3,11 +3,9 @@
 module Wallaby
   # Servicer related attributes
   module Servicable
-    # Model servicer for current modal class. It comes from:
-    #
-    # - controller configuration {Wallaby::Configurable::ClassMethods#model_servicer .model_servicer}
-    # - a generic servicer based on {Wallaby::Configurable::ClassMethods#application_servicer .application_servicer}
-    # @return [Wallaby::ModelServicer] model servicer
+    # Model servicer for current modal class.
+    # @return [ModelServicer] model servicer
+    # @see ServicerFinder#execute
     # @since wallaby-5.2.0
     def current_servicer
       @current_servicer ||=

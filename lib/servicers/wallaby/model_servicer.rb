@@ -20,17 +20,17 @@ module Wallaby
     attr_reader :model_class
 
     # @!attribute [r] model_decorator
-    # @return [Wallaby::ModelDecorator]
+    # @return [ModelDecorator]
     # @since wallaby-5.2.0
     attr_reader :model_decorator
 
     # @!attribute [r] authorizer
-    # @return [Wallaby::ModelAuthorizer]
+    # @return [ModelAuthorizer]
     # @since wallaby-5.2.0
     attr_reader :authorizer
 
     # @!attribute [r] provider
-    # @return [Wallaby::ModelServiceProvider] the instance that does the job
+    # @return [ModelServiceProvider] the instance that does the job
     # @since wallaby-5.2.0
     attr_reader :provider
 
@@ -40,14 +40,14 @@ module Wallaby
     delegate :user, to: :authorizer
 
     # @param model_class [Class]
-    # @param authorizer [Wallaby::ModelAuthorizer]
-    # @param model_decorator [Wallaby::ModelDecorator]
+    # @param authorizer [ModelAuthorizer]
+    # @param model_decorator [ModelDecorator]
     # @raise [ArgumentError] if model_class is blank
-    def initialize(model_class, authorizer, model_decorator = nil)
+    def initialize(model_class, authorizer, model_decorator)
       @model_class = model_class || self.class.model_class
       raise ArgumentError, 'Please provide a `model_class`.' unless @model_class
 
-      @model_decorator = model_decorator || Map.model_decorator_map(model_class)
+      @model_decorator = model_decorator
       @authorizer = authorizer
       @provider = Map.service_provider_map(@model_class).new(@model_class, @model_decorator)
     end

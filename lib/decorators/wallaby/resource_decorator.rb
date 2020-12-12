@@ -58,12 +58,12 @@ module Wallaby
       # Return associated model decorator. It is the instance that pull out all the metadata
       # information for the associated model.
       # @param model_class [Class]
-      # @return [Wallaby::ModelDecorator]
+      # @return [ModelDecorator]
       # @return [nil] if itself is a base class or the given model_class is blank
       def model_decorator(model_class = self.model_class)
         return if model_class.blank?
 
-        Map.model_decorator_map model_class, base_class
+        Map.model_decorator_map(model_class, base_class)
       end
 
       # @!attribute [w] h
@@ -71,7 +71,7 @@ module Wallaby
 
       # @!attribute [r] h
       # @return [ActionView::Base]
-      #   {Wallaby::Configuration::Mapping#resources_controller resources controller}'s helpers
+      #   {Configuration::Mapping#resources_controller resources controller}'s helpers
       def h
         @h ||= Wallaby.configuration.resources_controller.helpers
       end
@@ -82,11 +82,11 @@ module Wallaby
     attr_reader :resource
 
     # @!attribute [r] model_decorator
-    # @return [Wallaby::ModelDecorator]
+    # @return [ModelDecorator]
     attr_reader :model_decorator
 
     # @return [ActionView::Base]
-    #   {Wallaby::Configuration::Mapping#resources_controller resources controller}'s helpers
+    #   {Configuration::Mapping#resources_controller resources controller}'s helpers
     # @see .h
     def h
       self.class.h

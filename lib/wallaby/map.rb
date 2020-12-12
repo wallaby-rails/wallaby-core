@@ -10,15 +10,15 @@ module Wallaby
       attr_writer :modes
 
       # @!attribute [r] modes
-      # @return [Array<String>] all {Wallaby::Mode}s
+      # @return [Array<String>] all {Mode}s
       def modes
         @modes ||= ClassArray.new Mode.descendants
       end
 
-      # @return [Wallaby::ClassHash] { Model Class => {Wallaby::Mode} }
+      # @return [ClassHash] { Model Class => {Mode} }
       def mode_map
         @mode_map ||= begin
-          # NOTE: this is the point where all files should be required
+          # NOTE: this is the point where all model files should be required
           Preloader.require_models
           ModeMapper.execute(modes).freeze
         end
@@ -37,7 +37,7 @@ module Wallaby
       # @return [String] resources name
       def resources_name_map(model_class, value = nil)
         @resources_name_map ||= ClassHash.new
-        @resources_name_map[model_class] ||= value || ModelUtils.to_resources_name(model_class)
+        @resources_name_map[model_class] ||= value || Inflector.to_resources_name(model_class)
       end
 
       # { resources name => model }
@@ -47,7 +47,7 @@ module Wallaby
       # @return [Class]
       def model_class_map(resources_name, value = nil)
         @model_class_map ||= ClassHash.new
-        @model_class_map[resources_name] ||= value || ModelUtils.to_model_class(resources_name)
+        @model_class_map[resources_name] ||= value || Classifier.to_class(Inflector.to_model_name(resources_name))
       end
     end
 
@@ -55,7 +55,7 @@ module Wallaby
       # { model => model decorator }
       # @param model_class [Class]
       # @param application_decorator [Class]
-      # @return [Wallaby::ModelDecorator] model decorator instance
+      # @return [ModelDecorator] model decorator instance
       def model_decorator_map(model_class, application_decorator)
         @model_decorator_map ||= ClassHash.new
         @model_decorator_map[application_decorator] ||= ClassHash.new

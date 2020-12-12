@@ -14,9 +14,9 @@ module Wallaby
   UNDERSCORE = '_' # :nodoc:
   PCT = '%' # :nodoc:
 
-  # Default page size for {Wallaby::Configuration::Pagination#page_size}
+  # Default page size for {Configuration::Pagination#page_size}
   DEFAULT_PAGE_SIZE = 20
-  # Default max charactoers to display for {Wallaby::Configuration::Metadata#max}
+  # Default max charactoers to display for {Configuration::Metadata#max}
   DEFAULT_MAX = 20
   # Default provider name for authorizer sorting.
   DEFAULT_PROVIDER = 'default'
@@ -38,7 +38,7 @@ module Wallaby
   SCRIPT_NAME = 'SCRIPT_NAME'
   PATH_INFO = 'PATH_INFO'
   # Page size list
-  # @see Wallaby::Configuration::Pagination#page_size
+  # @see Configuration::Pagination#page_size
   PERS = [10, 20, 50, 100].freeze
   CSV = 'csv'
   WILDCARD = 'QUERY'

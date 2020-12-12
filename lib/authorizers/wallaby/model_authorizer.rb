@@ -34,7 +34,7 @@ module Wallaby
     attr_reader :model_class
 
     # @!attribute [r] provider
-    # @return [Wallaby::ModelAuthorizationProvider] the instance that does the job
+    # @return [ModelAuthorizationProvider] the instance that does the job
     # @since wallaby-5.2.0
     attr_reader :provider
 

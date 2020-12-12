@@ -10,7 +10,7 @@ module Wallaby
 
       # @!attribute [r] provider_name
       # This is the provider name that can be set in Wallaby::ModelAuthorizer subclasses.
-      # @see Wallaby::ModelAuthorizer.provider_name
+      # @see ModelAuthorizer.provider_name
       # @return [String/Symbol] provider name
       def provider_name
         @provider_name ||= name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
@@ -18,7 +18,7 @@ module Wallaby
 
       # @note Template method to check and see if current provider is in used.
       # @param _context [ActionController::Base, ActionView::Base]
-      # @raise [Wallaby::NotImplemented]
+      # @raise [NotImplemented]
       def available?(_context)
         raise NotImplemented
       end
@@ -48,7 +48,7 @@ module Wallaby
     # This is the template method to check user's permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def authorize(_action, _subject)
       raise NotImplemented
     end
@@ -57,7 +57,7 @@ module Wallaby
     # This is the template method to check if user has permission for given action on given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object, Class]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def authorized?(_action, _subject)
       raise NotImplemented
     end
@@ -66,7 +66,7 @@ module Wallaby
     # This is the template method to check if user has no permission for given action on given subject.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def unauthorized?(action, subject)
       !authorized?(action, subject)
     end
@@ -75,7 +75,7 @@ module Wallaby
     # This is the template method to restrict user's access to certain scope.
     # @param _action [Symbol, String]
     # @param _scope [Object]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def accessible_for(_action, _scope)
       raise NotImplemented
     end
@@ -84,7 +84,7 @@ module Wallaby
     # This is the template method to restrict user's modification to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def attributes_for(_action, _subject)
       raise NotImplemented
     end
@@ -93,7 +93,7 @@ module Wallaby
     # This is the template method to restrict user's mass assignment to certain fields of given subject.
     # @param _action [Symbol, String]
     # @param _subject [Object]
-    # @raise [Wallaby::NotImplemented]
+    # @raise [NotImplemented]
     def permit_params(_action, _subject)
       raise NotImplemented
     end

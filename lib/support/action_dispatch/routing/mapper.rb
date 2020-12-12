@@ -2,7 +2,9 @@
 
 module ActionDispatch
   module Routing
-    # Re-open `ActionDispatch::Routing::Mapper` to add route helpers for {Wallaby}.
+    # Re-open {https://api.rubyonrails.org/classes/ActionDispatch/Routing/Mapper.html
+    # ActionDispatch::Routing::Mapper}
+    # to add route helpers for {Wallaby}.
     class Mapper
       # Mount {Wallaby::Engine} at given path.
       # And prepend custom routes to Rails app if block is given.

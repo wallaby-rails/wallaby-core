@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Configurable related class methods
+  # Configurable related for {ResourcesConcern} controllers
   module Configurable
     extend ActiveSupport::Concern
 
@@ -11,9 +11,10 @@ module Wallaby
       attr_writer :engine_name
 
       # @!attribute [r] engine_name
-      # The engine name will be used to handle URLs.
+      # The engine name is used to help with URLs handling.
       #
-      # So when to set this engine name? When Wallaby doesn't know what is the correct engine helper to use.
+      # So when to set this engine name?
+      # When Wallaby doesn't know what is the correct engine helper to use for current path.
       # @example To set an engine name:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.engine_name = 'admin_engine'
@@ -25,9 +26,10 @@ module Wallaby
       end
     end
 
-    # Controller related
+    # Controller configurables
     module ClassMethods
       # @!attribute [r] application_controller
+      # @return [Class] application controller class
       def application_controller
         return self if base_class?
 
@@ -41,16 +43,13 @@ module Wallaby
       attr_writer :resource_decorator
 
       # @!attribute [r] resource_decorator
-      # Resource decorator will be used for its metadata info and decoration methods.
-      #
-      # If Wallaby doesn't get it right, please specify the **resource_decorator**.
+      # Resource decorator is used to store metadata info and define decoration methods for a specific model class.
       # @example To set resource decorator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.resource_decorator = ProductDecorator
       #   end
       # @return [Class] resource decorator
-      # @raise [ArgumentError] when **resource_decorator** doesn't inherit from **application_decorator**
-      # @see Wallaby::ResourceDecorator
+      # @see ResourceDecorator
       # @since wallaby-5.2.0
       def resource_decorator
         @resource_decorator ||= Guesser.class_for(name, suffix: DECORATOR, &:model_class)
@@ -60,13 +59,14 @@ module Wallaby
       attr_writer :application_decorator
 
       # @!attribute [r] application_decorator
-      # The **application_decorator** is as the base class of {#resource_decorator}.
+      # The {#application_decorator} is a base class of {#resource_decorator}.
+      # It can be used to handle different models.
       # @example To set application decorator:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
       #   end
       # @return [Class] application decorator
-      # @see Wallaby::ResourceDecorator
+      # @see ResourceDecorator
       # @since wallaby-5.2.0
       def application_decorator
         @application_decorator ||= Guesser.class_for(name, suffix: DECORATOR, &:base_class?)
@@ -80,14 +80,13 @@ module Wallaby
       attr_writer :model_servicer
 
       # @!attribute [r] model_servicer
-      # If Wallaby doesn't get it right, please specify the **model_servicer**.
+      # The {#model_servicer} is used to take care of the general CRUD operations for a specific model class.
       # @example To set model servicer
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_servicer = ProductServicer
       #   end
       # @return [Class] model servicer
-      # @raise [ArgumentError] when **model_servicer** doesn't inherit from **application_servicer**
-      # @see Wallaby::ModelServicer
+      # @see ModelServicer
       # @since wallaby-5.2.0
       def model_servicer
         @model_servicer ||= Guesser.class_for(name, suffix: SERVICER, &:model_class)
@@ -97,13 +96,14 @@ module Wallaby
       attr_writer :application_servicer
 
       # @!attribute [r] application_servicer
-      # The **application_servicer** is as the base class of {#model_servicer}.
-      # @example To set application decorator:
+      # The {#application_servicer} is a base class of {#model_servicer}.
+      # It can be used to handle different models.
+      # @example To set application servicer:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_servicer = AnotherApplicationServicer
       #   end
-      # @return [Class] application decorator
-      # @see Wallaby::ModelServicer
+      # @return [Class] application servicer
+      # @see ModelServicer
       # @since wallaby-5.2.0
       def application_servicer
         @application_servicer ||= Guesser.class_for(name, suffix: SERVICER, &:base_class?)
@@ -117,13 +117,13 @@ module Wallaby
       attr_writer :model_authorizer
 
       # @!attribute [r] model_authorizer
-      # If Wallaby doesn't get it right, please specify the **model_authorizer**.
+      # The {#model_authorizer} is used to take care of the authorization for a specific model class.
       # @example To set model authorizer
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_authorizer = ProductAuthorizer
       #   end
       # @return [Class] model authorizer
-      # @see Wallaby::ModelAuthorizer
+      # @see ModelAuthorizer
       # @since wallaby-5.2.0
       def model_authorizer
         @model_authorizer ||= Guesser.class_for(name, suffix: AUTHORIZER, &:model_class)
@@ -133,13 +133,14 @@ module Wallaby
       attr_writer :application_authorizer
 
       # @!attribute [r] application_authorizer
-      # The **application_authorizer** is as the base class of {#model_authorizer}.
-      # @example To set application decorator:
+      # The {#application_authorizer} is a base class of {#model_authorizer}.
+      # It can be used to handle different models.
+      # @example To set application authorizer:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_authorizer = AnotherApplicationAuthorizer
       #   end
-      # @return [Class] application decorator
-      # @see Wallaby::ModelAuthorizer
+      # @return [Class] application authorizer
+      # @see ModelAuthorizer
       # @since wallaby-5.2.0
       def application_authorizer
         @application_authorizer ||= Guesser.class_for(name, suffix: AUTHORIZER, &:base_class?)
@@ -153,13 +154,13 @@ module Wallaby
       attr_writer :model_paginator
 
       # @!attribute [r] model_paginator
-      # If Wallaby doesn't get it right, please specify the **model_paginator**.
+      # The {#model_paginator} is used to take care of the pagination for a specific model class.
       # @example To set model paginator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_paginator = ProductPaginator
       #   end
       # @return [Class] model paginator
-      # @see Wallaby::ModelPaginator
+      # @see ModelPaginator
       # @since wallaby-5.2.0
       def model_paginator
         @model_paginator ||= Guesser.class_for(name, suffix: PAGINATOR, &:model_class)
@@ -169,13 +170,14 @@ module Wallaby
       attr_writer :application_paginator
 
       # @!attribute [r] application_paginator
-      # The **application_paginator** is as the base class of {#model_paginator}.
-      # @example To set application decorator:
+      # The {#application_paginator} is a base class of {#model_paginator}.
+      # It can be used to handle different models.
+      # @example To set application paginator:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_paginator = AnotherApplicationPaginator
       #   end
-      # @return [Class] application decorator
-      # @see Wallaby::ModelPaginator
+      # @return [Class] application paginator
+      # @see ModelPaginator
       # @since wallaby-5.2.0
       def application_paginator
         @application_paginator ||= Guesser.class_for(name, suffix: PAGINATOR, &:base_class?)
@@ -226,7 +228,7 @@ module Wallaby
 
       # @return [Array<Class>] all models
       def all_models
-        @all_models ||= ModelClassFilter.execute(
+        ModelClassFilter.execute(
           all: Map.mode_map.keys,
           whitelisted: models.origin,
           blacklisted: models_to_exclude.origin
@@ -290,10 +292,10 @@ module Wallaby
 
       # @!attribute [r] email_method
       # To configure the method on
-      # {Wallaby::AuthenticationConcern#wallaby_user} to retrieve email address.
+      # {AuthenticationConcern#wallaby_user} to retrieve email address.
       #
       # If no configuration is given, it will attempt to call `email` on
-      # {Wallaby::AuthenticationConcern#wallaby_user}.
+      # {AuthenticationConcern#wallaby_user}.
       # @example To update the email method in `Admin::ApplicationController`
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.email_method = 'email_address'
@@ -323,7 +325,7 @@ module Wallaby
       #     self.max_text_length = 50
       #   end
       # @return [Integer] max number of characters to truncate, default to 20
-      # @see Wallaby::DEFAULT_MAX
+      # @see DEFAULT_MAX
       # @since 0.2.3
       def max_text_length
         @max_text_length || superclass.try(:max_text_length) || DEFAULT_MAX
@@ -356,8 +358,8 @@ module Wallaby
       #     self.page_size = 50
       #   end
       # @return [Integer] page size, default to 20
-      # @see Wallaby::PERS
-      # @see Wallaby::DEFAULT_PAGE_SIZE
+      # @see PERS
+      # @see DEFAULT_PAGE_SIZE
       # @since 0.2.3
       def page_size
         @page_size || superclass.try(:page_size) || DEFAULT_PAGE_SIZE
@@ -386,7 +388,7 @@ module Wallaby
       #     self.sorting_strategy = :single
       #   end
       # @return [Integer] sorting strategy, default to `:multiple`
-      # @see Wallaby::PERS
+      # @see PERS
       # @since 0.2.3
       def sorting_strategy
         @sorting_strategy || superclass.try(:sorting_strategy) || :multiple

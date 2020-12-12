@@ -25,7 +25,7 @@ module Wallaby
     end
 
     # @!attribute [r] model_paths
-    # To configure the model folders that {Wallaby::Preloader} needs to load before everything else.
+    # To configure the model folders that {Preloader} needs to load before everything else.
     # Default is `%w(app/models)`
     # @example To set the model paths
     #   Wallaby.config do |config|
@@ -43,9 +43,9 @@ module Wallaby
     end
 
     # @!attribute [r] base_controller
-    # To globally configure the base controller class that {Wallaby::ResourcesController} should inherit from.
+    # To globally configure the base controller class that {ResourcesController} should inherit from.
     #
-    # If no configuration is given, {Wallaby::ResourcesController} defaults to inherit from **::ApplicationController**
+    # If no configuration is given, {ResourcesController} defaults to inherit from **::ApplicationController**
     # from the host Rails app.
     # @example To update base controller to `CoreController` in `config/initializers/wallaby.rb`
     #   Wallaby.config do |config|
@@ -62,9 +62,9 @@ module Wallaby
     end
 
     # @!attribute [r] resources_controller
-    # To globally configure the application controller class that {Wallaby::Engine} should use.
+    # To globally configure the application controller class that {Engine} should use.
     #
-    # If no configuration is given, {Wallaby::Engine} defaults to use **Admin::ApplicationController** or
+    # If no configuration is given, {Engine} defaults to use **Admin::ApplicationController** or
     # {Wallaby::ResourcesController}
     # from the host Rails app.
     # @example To update base controller to `CoreController` in `config/initializers/wallaby.rb`
@@ -74,12 +74,14 @@ module Wallaby
     # @return [Class] base controller class
     # @since 0.2.3
     def resources_controller
-      @resources_controller ||=
-        Guesser.constantize('Admin::ApplicationController') && 'Admin::ApplicationController'
-      to_class @resources_controller ||= 'Wallaby::ResourcesController'
+      to_class(
+        @resources_controller ||=
+          to_class('Admin::ApplicationController') && \
+            'Admin::ApplicationController' || 'Wallaby::ResourcesController'
+      )
     end
 
-    # @return [Wallaby::Configuration::Models] models configuration for custom mode
+    # @return [Configuration::Models] models configuration for custom mode
     def custom_models
       @custom_models ||= ClassArray.new
     end
@@ -94,7 +96,7 @@ module Wallaby
       @custom_models = ClassArray.new models.flatten
     end
 
-    # @return [Wallaby::Configuration::Models] models configuration
+    # @return [Configuration::Models] models configuration
     def models
       @models ||= Models.new
     end
@@ -109,32 +111,32 @@ module Wallaby
       self.models.set models
     end
 
-    # @return [Wallaby::Configuration::Security] security configuration
+    # @return [Configuration::Security] security configuration
     def security
       @security ||= Security.new
     end
 
-    # @return [Wallaby::Configuration::Mapping] mapping configuration
+    # @return [Configuration::Mapping] mapping configuration
     def mapping
       @mapping ||= Mapping.new
     end
 
-    # @return [Wallaby::Configuration::Metadata] metadata configuration
+    # @return [Configuration::Metadata] metadata configuration
     def metadata
       @metadata ||= Metadata.new
     end
 
-    # @return [Wallaby::Configuration::Pagination] pagination configuration
+    # @return [Configuration::Pagination] pagination configuration
     def pagination
       @pagination ||= Pagination.new
     end
 
-    # @return [Wallaby::Configuration::Features] features configuration
+    # @return [Configuration::Features] features configuration
     def features
       @features ||= Features.new
     end
 
-    # @return [Wallaby::Configuration::Sorting] sorting configuration
+    # @return [Configuration::Sorting] sorting configuration
     def sorting
       @sorting ||= Sorting.new
     end
@@ -145,7 +147,7 @@ module Wallaby
     end
   end
 
-  # @return [Wallaby::Configuration]
+  # @return [Configuration]
   def self.configuration
     @configuration ||= Configuration.new
   end
@@ -159,6 +161,7 @@ module Wallaby
     yield configuration
   end
 
+  # @return [Class] the controller for current request
   def self.controller_configuration
     RequestStore.store[:wallaby_controller].tap do |config|
       raise ArgumentError, <<~INSTRUCTION if config.nil?

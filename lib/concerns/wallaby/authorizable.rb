@@ -1,16 +1,11 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Authorizer related attributes
+  # Authorizer related
   module Authorizable
     # Model authorizer for current modal class.
-    #
-    #  It can be configured in following class attributes:
-    #
-    # - controller configuration {Wallaby::Configurable::ClassMethods#model_authorizer .model_authorizer}
-    # - a generic authorizer based on
-    #   {Wallaby::Configurable::ClassMethods#application_authorizer .application_authorizer}
-    # @return [Wallaby::ModelAuthorizer] model authorizer
+    # @return [ModelAuthorizer] model authorizer
+    # @see AuthorizerFinder#execute How model authorizer is looked up
     # @since wallaby-5.2.0
     def current_authorizer
       @current_authorizer ||=
@@ -45,8 +40,8 @@ module Wallaby
     protected
 
     # @param model_class [Class]
-    # @param authorizer_class [Class, nil]
-    # @return [Wallaby::ModelAuthorizer] model authorizer for given model
+    # @return [ModelAuthorizer] model authorizer for given model
+    # @see AuthorizerFinder#execute How model authorizer is looked up
     # @since wallaby-5.2.0
     def authorizer_of(model_class)
       AuthorizerFinder.new(

@@ -23,7 +23,7 @@ module Wallaby
       # @param message_or_config [String, false]
       # @param replacements [Hash]
       # @example to disable a particular hint message:
-      #   Wallaby::Logger.hint(:customize_controller, false)
+      #   Wallaby::Logger.hint(:customize_controller, false) if Wallaby::Logger.debug?
       def hint(key, message_or_config, replacements = {})
         @hint ||= {}
         return @hint[key] = false if message_or_config == false
@@ -31,11 +31,11 @@ module Wallaby
 
         new_message = <<~MESSAGE
           #{message_or_config}
-          If you don't want to see this kind of message again, you can disable it in `config/initializers/wallaby.rb`:
+          This kind of debug message can be disabled in `config/initializers/wallaby.rb`:
 
-            Wallaby::Logger.hint(#{key.inspect}, false)
+            Wallaby::Logger.hint(#{key.inspect}, false) if Wallaby::Logger.debug?
         MESSAGE
-        debug(new_message, replacements)
+        debug(new_message, replacements.merge(sourcing: false))
       end
 
       protected

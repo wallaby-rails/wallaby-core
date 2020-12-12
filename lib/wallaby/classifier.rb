@@ -25,8 +25,7 @@ module Wallaby
       # This is Rails, use constantize
       name.constantize
     rescue NameError
-      retur yield(name) if block_given?
-      Logger.error "`#{name}` is not a valid Class name."
+      yield(name) if block_given?
     end
   end
 end

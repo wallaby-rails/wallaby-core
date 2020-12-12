@@ -19,7 +19,7 @@ module Wallaby
 
     # @!attribute [r] ability
     # @return [Ability] the Ability instance for {#user #user} (which is a
-    #   {Wallaby::AuthenticationConcern#wallaby_user #wallaby_user})
+    #   {AuthenticationConcern#wallaby_user #wallaby_user})
     def ability
       # NOTE: use current_ability's class to create the ability instance.
       # just in case that developer uses a different Ability class (e.g. UserAbility)
@@ -33,7 +33,7 @@ module Wallaby
     # This method will be mostly used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
+    # @raise [Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
       ability.authorize! action, subject
     rescue ::CanCan::AccessDenied

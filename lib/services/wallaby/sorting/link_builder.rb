@@ -9,7 +9,7 @@ module Wallaby
       delegate :model_class, to: :@model_decorator
       delegate :index_link, :url_for, to: :@helper
 
-      # @param model_decorator [Wallaby::ModelDecorator]
+      # @param model_decorator [ModelDecorator]
       # @param params [ActionController::Parameters]
       # @param helper [ActionView::Helpers]
       def initialize(model_decorator, params, helper, strategy)
@@ -28,15 +28,11 @@ module Wallaby
 
       # Build sort link for given field name:
       #
-      # ```
-      # <a title="Product" href="/admin/products?sort=published_at+asc">Name</a>
-      # ```
+      #     <a title="Product" href="/admin/products?sort=published_at+asc">Name</a>
       #
       # If the field is not sortable, it returns a text, e.g.:
       #
-      # ```
-      # Name
-      # ```
+      #     Name
       # @param field_name [String]
       # @return [String] link or text
       def build(field_name)
@@ -53,7 +49,7 @@ module Wallaby
 
       private
 
-      # @return [Wallaby::Sorting::NextBuilder]
+      # @return [Sorting::NextBuilder]
       def next_builder
         @next_builder ||= begin
           klass = SORT_STRATEGIES[@strategy] || NextBuilder

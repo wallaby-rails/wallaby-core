@@ -3,7 +3,7 @@
 module Wallaby
   # @note This authorization provider DOES NOT use the
   #   {https://github.com/varvet/pundit#customize-pundit-user pundit_user} helper.
-  #   It uses the one from {Wallaby::AuthenticationConcern#wallaby_user #wallaby_user} instead.
+  #   It uses the one from {AuthenticationConcern#wallaby_user #wallaby_user} instead.
   # {https://github.com/varvet/pundit Pundit} base authorization provider.
   class PunditAuthorizationProvider < ModelAuthorizationProvider
     # Detect and see if Pundit is in use.
@@ -19,7 +19,7 @@ module Wallaby
     # This method will be mostly used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
-    # @raise [Wallaby::Forbidden] when user is not authorized to perform the action.
+    # @raise [Forbidden] when user is not authorized to perform the action.
     def authorize(action, subject)
       Pundit.authorize(user, subject, normalize(action)) && subject
     rescue ::Pundit::NotAuthorizedError

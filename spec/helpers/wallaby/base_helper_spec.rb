@@ -3,7 +3,6 @@ require 'rails_helper'
 describe Wallaby::BaseHelper, :wallaby_user, type: :helper do
   describe '#body_class' do
     before do
-      # @see Wallaby::BaseController#current_resources_name
       def helper.current_resources_name
         params[:resources]
       end

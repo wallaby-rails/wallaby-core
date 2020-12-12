@@ -10,7 +10,7 @@ module Wallaby
     attr_accessor :mod
     attr_accessor :alternative
 
-    # Log an warning deprecation message or raise {Wallaby::MethodRemoved} when the given method is obsolete.
+    # Log an warning deprecation message or raise {MethodRemoved} when the given method is obsolete.
     # @param method_instance [Method] deprecated/obsolete method
     # @param from [String] from/since version
     # @param mod [Class] class name which has `VERSION` constants
@@ -22,7 +22,7 @@ module Wallaby
       ).alert
     end
 
-    # @raise [Wallaby::MethodRemoved] when given method is obsolete
+    # @raise [MethodRemoved] when given method is obsolete
     def alert
       # if current version is larger than from version
       already = Gem::Version.new(mod_version) >= Gem::Version.new(from)

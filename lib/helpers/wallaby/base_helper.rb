@@ -7,9 +7,9 @@ module Wallaby
     include LinksHelper
 
     # @return [String] label for given model class
-    # @see ModelUtils.to_model_label
+    # @see Inflector.to_model_label
     def to_model_label(model_class)
-      ModelUtils.to_model_label model_class
+      Inflector.to_model_label(model_class)
     end
 
     # @return [String] resources name for given model class

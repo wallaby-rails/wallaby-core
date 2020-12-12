@@ -64,29 +64,27 @@ module Wallaby
     def find_controller_class_by(options) # rubocop:disable Metrics/MethodLength
       return default_controller(options) unless options[:resources]
 
-      controller_name = Inflector.to_controller_name(
-        options[:script_name], options[:resources]
-      )
-      controller_name.constantize
-    rescue NameError
-      Logger.hint(
-        :customize_controller,
-        <<~INSTRUCTION
-          HINT: To customize the controller for resources `#{options[:resources]}`,
-          create the following controller:
+      Classifier.to_class(
+        Inflector.to_controller_name(options[:script_name], options[:resources])
+      ) do |controller_name|
+        Logger.hint(
+          :customize_controller,
+          <<~INSTRUCTION
+            HINT: To customize the controller for resources `#{options[:resources]}`,
+            create the following controller:
 
-            class #{controller_name} < #{default_controller(options)}
-              def #{options[:action]}
-                # start customization here
-                # it's possible to re-use what's implemented by calling `#{options[:action]}!`
-                # or `super` if bang version does not exist
-                # start customization here
+              class #{controller_name} < #{default_controller(options)}
+                def #{options[:action]}
+                  # it's possible to re-use what's implemented by calling `#{options[:action]}!`
+                  # or `super` if bang version does not exist
+                  #{options[:action]}!
+                end
               end
-            end
-        INSTRUCTION
-      )
+          INSTRUCTION
+        )
 
-      default_controller(options)
+        default_controller(options)
+      end
     end
 
     # @param options [Hash]
@@ -105,7 +103,7 @@ module Wallaby
       return unless resources_name # maybe it's for landing page or error page
 
       # now this is for our lovely resourcesful actions
-      model_class = ModelUtils.to_model_class(resources_name)
+      model_class = Classifier.to_class(Inflector.to_model_name(resources_name))
       raise ModelNotFound, resources_name unless model_class
       return if Map.mode_map[model_class]
 

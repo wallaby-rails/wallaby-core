@@ -30,11 +30,9 @@ module Wallaby
     #
     # If Wallaby cannot generate the correct strong parameters, it can be replaced, for example:
     #
-    # ```
-    # def resource_params
-    #   params.fetch(:product, {}).permit(:name, :sku)
-    # end
-    # ```
+    #     def resource_params
+    #       params.fetch(:product, {}).permit(:name, :sku)
+    #     end
     # @return [ActionController::Parameters] whitelisted params
     def resource_params
       @resource_params ||= current_servicer.permit params, action_name
@@ -45,26 +43,22 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def collection
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   collection! options do |query| # NOTE: this is better than using `super`
-    #     # NOTE: make sure a collection is returned
-    #     query.where(active: true)
-    #   end
-    # end
-    # ```
+    #     def collection
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       collection! options do |query| # NOTE: this is better than using `super`
+    #         # NOTE: make sure a collection is returned
+    #         query.where(active: true)
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def collection
-    #   # NOTE: pagination should happen here if needed
-    #   # NOTE: make sure `@collection` and conditional assignment (the OR EQUAL) operator are used
-    #   @collection ||= paginate Product.active
-    # end
-    # ```
+    #     def collection
+    #       # NOTE: pagination should happen here if needed
+    #       # NOTE: make sure `@collection` and conditional assignment (the OR EQUAL) operator are used
+    #       @collection ||= paginate Product.active
+    #     end
     # @param options [Hash] (since wallaby-5.2.0)
     # @option options [Hash, ActionController::Parameters] :params parameters for collection query
     # @option options [Boolean] :paginate see {Paginatable#paginate}
@@ -90,26 +84,22 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def resource
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   resource! options do |object| # NOTE: this is better than using `super`
-    #     object.preload_status_from_api
-    #     # NOTE: make sure object is returned
-    #     object
-    #   end
-    # end
-    # ```
+    #     def resource
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       resource! options do |object| # NOTE: this is better than using `super`
+    #         object.preload_status_from_api
+    #         # NOTE: make sure object is returned
+    #         object
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def resource
-    #   # NOTE: make sure `@resource` and conditional assignment (the OR EQUAL) operator are used
-    #   @resource ||= resource_id.present? ? Product.find_by_slug(resource_id) : Product.new(arrival: true)
-    # end
-    # ```
+    #     def resource
+    #       # NOTE: make sure `@resource` and conditional assignment (the OR EQUAL) operator are used
+    #       @resource ||= resource_id.present? ? Product.find_by_slug(resource_id) : Product.new(arrival: true)
+    #     end
     # @param options [Hash] (since wallaby-5.2.0)
     # @option options [Hash, ActionController::Parameters] :find_params
     #   parameters/options for resource finding
