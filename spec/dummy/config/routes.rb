@@ -18,12 +18,14 @@ Rails.application.routes.draw do
       resources :categories do
         get :member_only, on: :member
         get :collection_only, on: :collection
+        get :links, on: :collection
       end
 
       # ordinary categories resources
       resources :custom_categories do
         get :member_only, on: :member
         get :collection_only, on: :collection
+        get :links, on: :collection
       end
 
       get 'abc', to: 'categories#index'

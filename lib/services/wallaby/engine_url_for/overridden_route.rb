@@ -4,21 +4,17 @@ module Wallaby
   class EngineUrlFor
     # The general route of {Engine} looks like as follow:
     #
-    # ```
-    # /admin/order::items
-    # ```
+    #     /admin/order::items
     #
-    # Therefore, to override this route, dev needs to define a resources similar to the following route
+    # Therefore, to override this route, dev needs to define a resources as below
     # before mounting {Engine}:
     #
-    # ```
-    # namespace :admin do
-    #   # NOTE: in order for the route to work properly,
-    #   # the colon before words need to be escaped in the path option
-    #   resources :items, path: 'order:\:item', module: :order
-    # end
-    # wallaby_mount at: '/admin'
-    # ```
+    #     namespace :admin do
+    #       # NOTE: in order for the route to work properly,
+    #       # the colon before words need to be escaped in the path option
+    #       resources :items, path: 'order:\:item', module: :order
+    #     end
+    #     wallaby_mount at: '/admin'
     #
     # So to find out if any route has been overriden with current request, e.g. `/admin/order::items/1/edit`,
     # we will look into the following conditions:
@@ -26,6 +22,8 @@ module Wallaby
     # - begins with `/admin/order::items`
     # - same **action** as the given **action**
     # - default **controller** exists (as {ResourcesRouter} does not define static **controller**)
+    #
+    # Then we use this route's params and pass it to the origin `url_for`.
     class OverriddenRoute
       include ActiveModel::Model
 

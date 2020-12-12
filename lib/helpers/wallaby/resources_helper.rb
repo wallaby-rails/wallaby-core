@@ -54,7 +54,7 @@ module Wallaby
     end
 
     # Title for show page of given resource
-    # @param decorated [Wallaby::ResourceDecorator]
+    # @param decorated [ResourceDecorator]
     # @return [String]
     def show_title(decorated)
       unless decorated.is_a? ResourceDecorator

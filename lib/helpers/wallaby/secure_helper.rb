@@ -22,7 +22,7 @@ module Wallaby
     end
 
     # Logout path for given user
-    # @see Wallaby::Configuration::Security#logout_path
+    # @see Configuration::Security#logout_path
     # @param user [Object]
     # @param app [Object]
     # @param method_name [Symbol, String]
@@ -37,7 +37,7 @@ module Wallaby
     end
 
     # Logout method for given user
-    # @see Wallaby::Configuration::Security#logout_method
+    # @see Configuration::Security#logout_method
     # @param user [Object]
     # @param http_method [Symbol, String]
     # @return [String, Symbol] http method to log out

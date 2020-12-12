@@ -25,6 +25,20 @@ describe Wallaby::ClassArray do
     end
   end
 
+  describe '#<<' do
+    it 'appends the item' do
+      subject << Module
+      expect(subject[0]).to eq Module
+      expect(subject.internal).to eq ['Module']
+      expect(subject).to eq [Module]
+
+      subject << Class
+      expect(subject[1]).to eq Class
+      expect(subject.internal).to eq %w(Module Class)
+      expect(subject).to eq [Module, Class]
+    end
+  end
+
   describe '#freeze' do
     it 'is frozen' do
       subject.freeze

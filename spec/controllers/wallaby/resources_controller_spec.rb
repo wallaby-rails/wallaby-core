@@ -124,14 +124,16 @@ describe Wallaby::ResourcesController do
   end
 
   describe 'descendants of Wallaby::ResourcesController' do
-    class CampervansController < Wallaby::ResourcesController; end
-    class Campervan; end
+    before do
+      stub_const('CampervansController', Class.new(described_class))
+      stub_const('Campervan', Class.new)
+    end
 
-    describe CampervansController do
+    describe 'CampervansController' do
       describe 'class methods ' do
         describe '.model_class' do
           it 'returns model class' do
-            expect(described_class.model_class).to eq Campervan
+            expect(CampervansController.model_class).to eq Campervan
           end
         end
       end

@@ -3,7 +3,7 @@
 module Wallaby
   # Preload files for eager load paths.
   #
-  # As Wallaby is built upon the {Wallaby::Map} which will not be completed
+  # As Wallaby is built upon the {Map} which will not be completed
   # until all models and decorators/controllers/servicers/authorizers/paginators
   # are loaded. Therefore, when Rails app is initialized,
   # all files under eager load paths (mostly `app/*` folders),
@@ -12,34 +12,14 @@ module Wallaby
     include ActiveModel::Model
 
     class << self
-      # @return [true] mark this as pending
-      def pending!
-        @pending = true
-      end
-
-      # Require all files
-      # @see #all_file_paths
-      def require_all
-        return unless @pending
-
-        @pending = nil
-        Logger.debug 'Loading all files', sourcing: false
-        new.all_file_paths.each(&method(:require_dependency))
-      end
-
-      # Require models under {Wallaby::Configuration#model_paths}
+      # Require models under {Configuration#model_paths}
       # @see #model_file_paths
       def require_models
         new.model_file_paths.each(&method(:require_dependency))
       end
     end
 
-    # @return [Array<String>] all files under **Rails.configuration.eager_load_paths**
-    def all_file_paths
-      sort all_eager_load_file_paths
-    end
-
-    # @return [Array<String>] model files under {Wallaby::Configuration#model_paths}
+    # @return [Array<String>] model files under {Configuration#model_paths}
     def model_file_paths
       sort(all_eager_load_file_paths).select(&method(:indexed))
     end
@@ -69,7 +49,7 @@ module Wallaby
     end
 
     # All files need to be sorted in the following orders:
-    # 1. {Wallaby::Configuration#model_paths} order
+    # 1. {Configuration#model_paths} order
     # 2. Alphabet order
     def sort(file_paths)
       file_paths.sort { |p1, p2| conditions_for(p1) <=> conditions_for(p2) }
@@ -80,7 +60,7 @@ module Wallaby
       [indexed(path) || model_paths.length, path]
     end
 
-    # Check if the path is in the {Wallaby::Configuration#model_paths}
+    # Check if the path is in the {Configuration#model_paths}
     def indexed(path)
       model_paths.index(&path.method(:include?))
     end

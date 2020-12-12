@@ -18,21 +18,11 @@ describe Wallaby::ResourcesController, type: :controller do
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
       let!(:thing) { stub_const 'Thing', Class.new(ActiveRecord::Base) }
 
-      it 'is nil' do
-        expect(subclass1.resource_decorator).to be_nil
+      it 'returns decorator class' do
+        expect(subclass1.resource_decorator).to eq AppleDecorator
         expect(subclass1.application_decorator).to eq application_decorator
-        expect(subclass2.resource_decorator).to be_nil
+        expect(subclass2.resource_decorator).to eq ThingDecorator
         expect(subclass2.application_decorator).to eq application_decorator
-      end
-
-      it 'returns decorator classes' do
-        subclass1.resource_decorator = apple_decorator
-        expect(subclass1.resource_decorator).to eq apple_decorator
-        expect(subclass2.resource_decorator).to be_nil
-
-        subclass1.application_decorator = another_application_decorator
-        expect(subclass1.application_decorator).to eq another_application_decorator
-        expect(subclass2.application_decorator).to eq another_application_decorator
       end
     end
   end

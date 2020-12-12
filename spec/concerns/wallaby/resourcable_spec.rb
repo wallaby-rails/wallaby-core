@@ -13,16 +13,5 @@ describe Wallaby::ResourcesController, type: :controller do
       controller.params[:resources] = 'products'
       expect(controller.send(:current_model_class)).to eq Product
     end
-
-    context 'when it responds to model_class' do
-      CampervansController = Class.new described_class
-      Campervan = Class.new ActiveRecord::Base
-
-      describe CampervansController do
-        it 'returns model_class from controller class' do
-          expect(controller.send(:current_model_class)).to eq Campervan
-        end
-      end
-    end
   end
 end

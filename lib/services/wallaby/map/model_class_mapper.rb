@@ -5,7 +5,7 @@ module Wallaby
     # Go through the class list and generate a {.map .map} that uses the class's model_class as the key.
     class ModelClassMapper
       # @param class_array [Array<Class>]
-      # @return [Wallaby::ClassHash] model class => descendant class
+      # @return [ClassHash] model class => descendant class
       def self.map(class_array)
         (class_array || EMPTY_ARRAY).each_with_object(ClassHash.new) do |klass, hash|
           next if ModuleUtils.anonymous_class?(klass)

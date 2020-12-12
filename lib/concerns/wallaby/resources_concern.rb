@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Resources concern
+  # Resources concern which mades controller to behave like {ResourcesController}
   module ResourcesConcern
     extend ActiveSupport::Concern
 
@@ -48,11 +48,9 @@ module Wallaby
     #
     # It can be replaced completely in subclasses as below:
     #
-    # ```
-    # def home
-    #   generate_dashboard_report
-    # end
-    # ```
+    #     def home
+    #       generate_dashboard_report
+    #     end
     def home
       # do nothing
     end
@@ -65,29 +63,25 @@ module Wallaby
     # `WARN: Please keep in mind that Wallaby User Interface requires **index**
     # action to respond to **csv** and **json** format as well.`
     #
-    # ```
-    # def index
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   index!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def index
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       index!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
     # `WARN: Please keep in mind that Wallaby User Interface requires **index**
     # action to respond to **csv** and **json** format as well.`
     #
-    # ```
-    # def index
-    #   # NOTE: `@collection` will be used by the view, please ensure it is assigned, for example:
-    #   @collection = Product.all
-    #   respond_with @collection
-    # end
-    # ```
+    #     def index
+    #       # NOTE: `@collection` will be used by the view, please ensure it is assigned, for example:
+    #       @collection = Product.all
+    #       respond_with @collection
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -107,25 +101,21 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def new
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   new!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def new
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       new!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def new
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.new new_arrival: true
-    # end
-    # ```
+    #     def new
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.new new_arrival: true
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -148,30 +138,26 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def create
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   create!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def create
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       create!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def create
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.new resource_params.merge(new_arrival: true)
-    #   if @resource.save
-    #     redirect_to helper.index_path(current_model_class)
-    #   else
-    #     render :new
-    #   end
-    # end
-    # ```
+    #     def create
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.new resource_params.merge(new_arrival: true)
+    #       if @resource.save
+    #         redirect_to helper.index_path(current_model_class)
+    #       else
+    #         render :new
+    #       end
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
@@ -195,25 +181,21 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def show
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   show!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def show
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       show!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def show
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.find_by_slug params[:id]
-    # end
-    # ```
+    #     def show
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.find_by_slug params[:id]
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -233,25 +215,21 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def edit
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   edit!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def edit
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       edit!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def edit
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.find_by_slug params[:id]
-    # end
-    # ```
+    #     def edit
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.find_by_slug params[:id]
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -274,31 +252,27 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def update
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   update!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def update
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       update!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def update
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.find_by_slug params[:id]
-    #   @resource.assign_attributes resource_params.merge(new_arrival: true)
-    #   if @resource.save
-    #     redirect_to helper.index_path(current_model_class)
-    #   else
-    #     render :new
-    #   end
-    # end
-    # ```
+    #     def update
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.find_by_slug params[:id]
+    #       @resource.assign_attributes resource_params.merge(new_arrival: true)
+    #       if @resource.save
+    #         redirect_to helper.index_path(current_model_class)
+    #       else
+    #         render :new
+    #       end
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below
@@ -322,27 +296,23 @@ module Wallaby
     #
     # It can be customized as below in subclasses:
     #
-    # ```
-    # def destroy
-    #   # do something before the original action
-    #   options = {} # NOTE: see `options` parameter for more details
-    #   destroy!(options) do |format| # NOTE: this is better than using `super`
-    #     # NOTE: this block is for `respond_with` which works similar to `respond_to`
-    #     # customize response behaviour, or do something before the request is rendered
-    #   end
-    # end
-    # ```
+    #     def destroy
+    #       # do something before the original action
+    #       options = {} # NOTE: see `options` parameter for more details
+    #       destroy!(options) do |format| # NOTE: this is better than using `super`
+    #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
+    #         # customize response behaviour, or do something before the request is rendered
+    #       end
+    #     end
     #
     # Otherwise, it can be replaced completely in subclasses:
     #
-    # ```
-    # def destroy
-    #   # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
-    #   @resource = Product.find_by_slug params[:id]
-    #   @resource.destroy
-    #   redirect_to helper.index_path(current_model_class)
-    # end
-    # ```
+    #     def destroy
+    #       # NOTE: `@resource` will be used by the view, please ensure it is assigned, for example:
+    #       @resource = Product.find_by_slug params[:id]
+    #       @resource.destroy
+    #       redirect_to helper.index_path(current_model_class)
+    #     end
     # @param options [Hash] (since wallaby-5.2.0) options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}. In addition, options `:params` is supported, see below

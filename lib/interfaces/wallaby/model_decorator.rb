@@ -2,7 +2,7 @@
 
 module Wallaby
   # Model Decorator interface, designed to maintain metadata for all fields from the data source (database/api)
-  # @see Wallaby::ResourceDecorator for more information on how to customize metadata
+  # @see ResourceDecorator for more information on how to customize metadata
   class ModelDecorator
     include Fieldable
 
@@ -146,7 +146,7 @@ module Wallaby
     end
 
     # @return [String]
-    # @see Wallaby::Map.resources_name_map
+    # @see Map.resources_name_map
     def resources_name
       Map.resources_name_map model_class
     end

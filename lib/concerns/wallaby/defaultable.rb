@@ -10,9 +10,9 @@ module Wallaby
     # @param action [String, Symbol]
     # @param options [Hash]
     # @return [Hash] updated options with default values
-    # @see Wallaby::ResourcesConcern#create
-    # @see Wallaby::ResourcesConcern#update
-    # @see Wallaby::ResourcesConcern#destroy
+    # @see ResourcesConcern#create
+    # @see ResourcesConcern#update
+    # @see ResourcesConcern#destroy
     def set_defaults_for(action, options)
       case action.try(:to_sym)
       when :create, :update

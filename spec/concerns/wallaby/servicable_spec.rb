@@ -16,21 +16,11 @@ describe Wallaby::ResourcesController, type: :controller do
       let!(:apple) { stub_const 'Apple', Class.new(ActiveRecord::Base) }
       let!(:thing) { stub_const 'Thing', Class.new(ActiveRecord::Base) }
 
-      it 'is nil' do
-        expect(subclass1.model_servicer).to be_nil
+      it 'returns servicer class' do
+        expect(subclass1.model_servicer).to eq AppleServicer
         expect(subclass1.application_servicer).to eq Wallaby::ModelServicer
-        expect(subclass2.model_servicer).to be_nil
+        expect(subclass2.model_servicer).to eq ThingServicer
         expect(subclass2.application_servicer).to eq Wallaby::ModelServicer
-      end
-
-      it 'returns servicer classes' do
-        subclass1.model_servicer = apple_servicer
-        expect(subclass1.model_servicer).to eq apple_servicer
-        expect(subclass2.model_servicer).to be_nil
-
-        subclass1.application_servicer = application_servicer
-        expect(subclass1.application_servicer).to eq application_servicer
-        expect(subclass2.application_servicer).to eq application_servicer
       end
     end
   end

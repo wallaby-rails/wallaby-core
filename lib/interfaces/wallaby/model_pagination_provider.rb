@@ -6,7 +6,7 @@ module Wallaby
     # @param collection [#to_a]
     # @param params [ActionController::Parameters]
     # @param options [Hash] options
-    # @param model_decorator [Wallaby::ModelDecorator, nil]
+    # @param model_decorator [ModelDecorator, nil]
     def initialize(collection, params, options: {}, model_decorator: nil)
       @collection = collection
       @params = params

@@ -2,11 +2,10 @@
 
 module Wallaby
   class EngineUrlFor
-    # The other routes defined under the same prefix as {Engine}'s mount path should look like this:
+    # The other routes defined under the same mount path
+    # as {Engine}'s mount path (AKA script name) should look like this:
     #
-    # ```
-    # resources :custom_categories, path: '/admin/custom_categories'
-    # ```
+    #     resources :custom_categories, path: '/admin/custom_categories'
     #
     # Here, `custom_categories` is not a resources name handled by {Engine}.
     #
@@ -15,6 +14,8 @@ module Wallaby
     # - begins with **script_name/controller_path**, e.g. `/admin/custom_categories`
     # - same **controller_path** as the given **controller_path**
     # - same **action** as the given **action**
+    #
+    # Then we use this route's params and pass it to the origin `url_for`.
     class OtherRoute
       include ActiveModel::Model
 
@@ -72,13 +73,7 @@ module Wallaby
 
       # @return [Regexp]
       def prefix_regex
-        @prefix_regex ||= %r{\A#{prefix}(\Z|/)}
-      end
-
-      # @return [String] the prefix, e.g. `/admin/custom_categories`
-      #   when current controller path is `custom_categories`
-      def prefix
-        [script_name, controller_path].map(&:presence).compact.join(SLASH)
+        @prefix_regex ||= %r{\A(#{script_name})?/#{controller_path}(\(|/|\Z)}
       end
     end
   end

@@ -34,7 +34,7 @@ module Wallaby
     #     end
     #   end
     # @return [true] when user is authenticated successfully
-    # @raise [Wallaby::NotAuthenticated] when user fails to authenticate
+    # @raise [NotAuthenticated] when user fails to authenticate
     def authenticate_wallaby_user!
       authenticated = try :authenticate_user!
       raise NotAuthenticated if authenticated == false

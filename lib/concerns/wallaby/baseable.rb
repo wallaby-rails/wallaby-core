@@ -45,9 +45,9 @@ module Wallaby
       #     end
       #   end
       # @return [Class] assigned model class or Wallaby will guess it
-      #   (see {Wallaby::Guesser.class_for})
+      #   (see {Guesser.class_for})
       # @return [nil] if current class is marked as base class
-      # @raise [Wallaby::ModelNotFound] if model class isn't found
+      # @raise [ModelNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty
       def model_class # rubocop:disable Metrics/MethodLength
         return if base_class?

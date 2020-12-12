@@ -3,6 +3,8 @@ require 'generator_spec'
 require 'generators/wallaby/engine/controller/controller_generator'
 
 describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator do # rubocop:disable RSpec/DescribeMethod
+  let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
+
   destination File.expand_path('../../../../tmp', __dir__)
   arguments %w(admin/users)
 

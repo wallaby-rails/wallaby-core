@@ -2,7 +2,7 @@
 
 module Wallaby
   class Custom
-    # Model pagination provider for {Wallaby::Custom} mode
+    # Model pagination provider for {Custom} mode
     class ModelPaginationProvider < ::Wallaby::ModelPaginationProvider
       # By default, it doesn't support pagination
       # @return [false]

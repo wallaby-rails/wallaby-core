@@ -6,7 +6,7 @@ module Wallaby
     delegate :controller_configuration, to: Wallaby
     delegate :max_text_length, to: :controller_configuration
 
-    # @return [Wallaby::Configuration] shortcut method of configuration
+    # @return [Configuration] shortcut method of configuration
     def configuration
       Wallaby.configuration
     end
