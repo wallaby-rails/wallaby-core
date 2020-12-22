@@ -27,17 +27,22 @@ describe 'Validation module' do
     expect(resource.errors[:base]).to eq ['errors']
     expect(resource.string).to eq '2'
 
-    expect(resource.update_attributes(string: '3')).to be_truthy
-    expect(resource.errors[:base]).to be_blank
-    expect(resource.string).to eq '3'
+    if resource.respond_to?(:update_attributes)
+      expect(resource.update_attributes(string: '3')).to be_truthy
+      expect(resource.errors[:base]).to be_blank
+      expect(resource.string).to eq '3'
+    end
 
-    resource.errors.add :base, 'errors'
-    expect(resource.errors[:base]).to eq ['errors']
-    expect(resource.update_attributes!(string: '4')).to be_truthy
-    expect(resource.errors[:base]).to be_blank
-    expect(resource.string).to eq '4'
+    if resource.respond_to?(:update_attributes!)
+      resource.errors.add :base, 'errors'
+      expect(resource.errors[:base]).to eq ['errors']
+      expect(resource.update_attributes!(string: '4')).to be_truthy
+      expect(resource.errors[:base]).to be_blank
+      expect(resource.string).to eq '4'
+    end
 
     # skip validation
+    resource.errors.clear
     resource.errors.add :base, 'errors'
     expect(resource.errors[:base]).to eq ['errors']
     expect(resource.update_column(:string, '5')).to be_truthy

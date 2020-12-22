@@ -14,7 +14,7 @@ module Wallaby
           current_controller_class: controller_configuration
         ).execute.try do |klass|
           Logger.debug %(Current paginator: #{klass}), sourcing: false
-          klass.new current_model_class, collection, params
+          klass.new current_model_class, collection, pagination_params_for(params)
         end
     end
 
@@ -26,7 +26,14 @@ module Wallaby
     # @return [#each]
     # @see ModelServicer#paginate
     def paginate(query, options = { paginate: true })
-      options[:paginate] ? current_servicer.paginate(query, params) : query
+      return query unless options[:paginate]
+
+      current_servicer.paginate(query, pagination_params_for(params))
+    end
+
+    def pagination_params_for(params)
+      params[:per] ||= controller_configuration.page_size
+      params
     end
   end
 end

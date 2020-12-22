@@ -3,6 +3,7 @@
 require 'active_model'
 require 'parslet'
 require 'responders'
+require 'request_store'
 require 'wallaby/view'
 
 require 'wallaby/core/version'

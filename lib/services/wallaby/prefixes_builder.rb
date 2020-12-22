@@ -1,32 +1,78 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # To extend prefixes to provide more possibility
+  # (see #execute)
   class PrefixesBuilder
     include ActiveModel::Model
 
+    delegate :controller_path, to: :controller_class
+
+    # @!attribute prefixes
+    # @return [Array<String>]
     attr_accessor :prefixes
+    # @!attribute resources_name
+    # @return [String, nil]
     attr_accessor :resources_name
+    # @!attribute script_name
+    # @return [String]
     attr_accessor :script_name
+    # @!attribute controller_class
+    # @return [String]
+    attr_accessor :controller_class
 
+    # To extend prefixes to be able to look up the directory
+    # even if the custom controller doesn't not exist
+    # @return [Array<String>] modified prefixes
     def execute
-      return if prefixes.include? resources_path
+      return prefixes_dup unless resourcesful?
+      return prefixes_dup if possible_resources_path == controller_path
 
-      full_prefix = [script_path, resources_path].compact.join(SLASH)
-
-      return if full_prefix.blank? || prefixes.include?(full_prefix)
-
-      prefixes.insert 0, full_prefix
+      prefixes_dup.insert(
+        prefixes_dup.index(controller_path) + offset,
+        possible_resources_path
+      )
     end
 
-    private
+    protected
 
+    # @return [Array<String>]
+    def prefixes_dup
+      @prefixes_dup ||= prefixes.dup
+    end
+
+    # @return [Boolean]
+    def resourcesful?
+      resources_name.present?
+    end
+
+    # @return [Boolean]
+    def based_controller?
+      controller_class.model_class.blank?
+    end
+
+    # @return [Integer] 0 or 1
+    def offset
+      based_controller? ? 0 : 1
+    end
+
+    # @return [String]
+    def possible_resources_path
+      [script_path, resources_path].compact.join(SLASH)
+    end
+
+    # @return [String]
+    def wallaby_resources_path
+      ResourcesController.controller_path
+    end
+
+    # @return [String, nil]
     def resources_path
-      @resources_path ||= resources_name.try :gsub, COLONS, SLASH
+      resources_name.try(:gsub, COLONS, SLASH)
     end
 
+    # @return [String, nil]
     def script_path
-      @script_path ||= script_name.try :[], 1..-1
+      script_name.try(:[], 1..-1)
     end
   end
 end

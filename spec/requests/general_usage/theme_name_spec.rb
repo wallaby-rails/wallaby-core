@@ -39,7 +39,7 @@ describe 'uses theme', type: :request do
     it 'returns the prefixes' do
       http :get, prefixes_blogs_path
       expect(response).to be_successful
-      expect(parse_body_for(response)).to eq ['blogs/prefixes', 'blogs/form', 'blogs', 'simple_blog_theme/prefixes', 'simple_blog_theme/form', 'simple_blog_theme', 'application/prefixes', 'application/form', 'application']
+      expect(parse_body_for(response)).to eq ['blogs/prefixes', 'blogs', 'simple_blog_theme/prefixes', 'simple_blog_theme', 'application/prefixes', 'application']
     end
   end
 end
