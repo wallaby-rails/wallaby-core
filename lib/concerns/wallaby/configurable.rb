@@ -415,13 +415,9 @@ module Wallaby
       end
     end
 
-    protected
-
-    # Store controller class for later #{Wallaby.controller_configuration} usage.
-    def set_controller_configuration
-      RequestStore.store[:wallaby_controller] ||= self.class
+    # @return [Class] controller class
+    def wallaby_controller
+      @wallaby_controller ||= try(:controller).try(:class) || self.class
     end
-
-    alias controller_configuration set_controller_configuration
   end
 end

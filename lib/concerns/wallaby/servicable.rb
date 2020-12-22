@@ -12,7 +12,7 @@ module Wallaby
         ServicerFinder.new(
           script_name: script_name,
           model_class: current_model_class,
-          current_controller_class: controller_configuration
+          current_controller_class: wallaby_controller
         ).execute.try do |klass|
           Logger.debug %(Current servicer: #{klass}), sourcing: false
           klass.new current_model_class, current_authorizer, current_model_decorator

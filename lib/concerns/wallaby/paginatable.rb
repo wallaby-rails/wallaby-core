@@ -11,7 +11,7 @@ module Wallaby
         PaginatorFinder.new(
           script_name: script_name,
           model_class: current_model_class,
-          current_controller_class: controller_configuration
+          current_controller_class: wallaby_controller
         ).execute.try do |klass|
           Logger.debug %(Current paginator: #{klass}), sourcing: false
           klass.new current_model_class, collection, pagination_params_for(params)
@@ -31,8 +31,10 @@ module Wallaby
       current_servicer.paginate(query, pagination_params_for(params))
     end
 
+    # @param params [Hash, ActionController::Parameters]
+    # @return [Hash, ActionController::Parameters]
     def pagination_params_for(params)
-      params[:per] ||= controller_configuration.page_size
+      params[:per] ||= wallaby_controller.page_size
       params
     end
   end

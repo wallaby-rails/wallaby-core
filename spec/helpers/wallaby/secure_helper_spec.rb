@@ -9,7 +9,7 @@ describe Wallaby::SecureHelper do
 
     context 'when email_method is configured' do
       it 'returns user gravatar ' do
-        Wallaby.controller_configuration.email_method = 'email_address'
+        helper.wallaby_controller.email_method = 'email_address'
         user = instance_double 'user', email_address: 'tian@example.com'
         expect(helper.user_portrait(user: user)).to match(/<img /)
         expect(helper.user_portrait(user: user)).to match(%r{www.gravatar.com/avatar/})
@@ -45,7 +45,7 @@ describe Wallaby::SecureHelper do
 
     context 'when logout_path is configured' do
       it 'returns logout_path' do
-        Wallaby.controller_configuration.logout_path = 'logout_path'
+        helper.wallaby_controller.logout_path = 'logout_path'
         main_app = instance_double 'app', logout_path: '/logout_path'
         hide_const 'Devise'
         expect(helper.logout_path(user: nil, app: main_app)).to eq '/logout_path'
@@ -71,7 +71,7 @@ describe Wallaby::SecureHelper do
 
     context 'when logout_method is configured' do
       it 'returns logout_method' do
-        Wallaby.controller_configuration.logout_method = 'put'
+        helper.wallaby_controller.logout_method = 'put'
         hide_const 'Devise'
         expect(helper.logout_method(user: nil)).to eq 'put'
       end

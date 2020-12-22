@@ -160,17 +160,4 @@ module Wallaby
   def self.config
     yield configuration
   end
-
-  # @return [Class] the controller for current request
-  def self.controller_configuration
-    RequestStore.store[:wallaby_controller].tap do |config|
-      raise ArgumentError, <<~INSTRUCTION if config.nil?
-        Please make sure to set `before_action :set_controller_configuration` in the controller, for example:
-
-          class Admin::ApplicationController < Wallaby::ResourcesController
-            before_action :set_controller_configuration
-          end
-      INSTRUCTION
-    end
-  end
 end

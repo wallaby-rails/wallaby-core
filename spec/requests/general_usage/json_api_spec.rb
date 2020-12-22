@@ -44,7 +44,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
       end
     end
 
@@ -54,7 +54,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :unprocessable_entity
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+        expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
       end
     end
 
@@ -75,7 +75,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
       end
     end
 
@@ -86,7 +86,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :unprocessable_entity
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+        expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
       end
     end
 
@@ -144,7 +144,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
       end
     end
 
@@ -154,7 +154,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :unprocessable_entity
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+        expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
       end
     end
 
@@ -175,7 +175,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :bad_request
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+        expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
       end
     end
 
@@ -186,7 +186,7 @@ describe 'for Json API', type: :request do
         expect(response).to have_http_status :unprocessable_entity
         expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
         json = JSON.parse response.body
-        expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+        expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
       end
     end
 
@@ -245,7 +245,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :bad_request
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+          expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
         end
       end
 
@@ -255,7 +255,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :unprocessable_entity
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+          expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
         end
       end
 
@@ -276,7 +276,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :bad_request
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to eq [{ 'detail' => 'param is missing or the value is empty: picture', 'status' => 400 }]
+          expect(json['errors']).to include('detail' => a_string_including('param is missing or the value is empty: picture'), 'status' => 400)
         end
       end
 
@@ -287,7 +287,7 @@ describe 'for Json API', type: :request do
           expect(response).to have_http_status :unprocessable_entity
           expect(response.headers['Content-Type']).to include 'application/vnd.api+json'
           json = JSON.parse response.body
-          expect(json['errors']).to eq [{ 'detail' => "can't be blank", 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422 }]
+          expect(json['errors']).to include('detail' => a_string_including("can't be blank"), 'source' => { 'pointer' => '/data/attributes/name' }, 'status' => 422)
         end
       end
 

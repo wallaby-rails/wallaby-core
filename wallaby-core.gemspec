@@ -32,7 +32,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'railties', '>= 4.2.0', '<= 6.2.0'
 
   spec.add_dependency 'parslet'
-  spec.add_dependency 'request_store'
   spec.add_dependency 'responders'
   spec.add_dependency 'wallaby-view', '~> 0.1.2'
 

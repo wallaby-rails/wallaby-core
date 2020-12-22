@@ -5,8 +5,8 @@ describe Wallaby::ConfigurationHelper do
     it { expect(helper.configuration).to be_a Wallaby::Configuration }
   end
 
-  describe '#controller_configuration' do
-    it { expect(helper.controller_configuration).to eq Wallaby::ResourcesController }
+  describe '#wallaby_controller' do
+    it { expect(helper.wallaby_controller).to eq Wallaby::ResourcesController }
   end
 
   describe '#max_text_length' do

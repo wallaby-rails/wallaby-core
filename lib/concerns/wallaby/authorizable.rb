@@ -47,7 +47,7 @@ module Wallaby
       AuthorizerFinder.new(
         script_name: script_name,
         model_class: model_class,
-        current_controller_class: controller_configuration
+        current_controller_class: wallaby_controller
       ).execute.new model_class, self
     end
   end
