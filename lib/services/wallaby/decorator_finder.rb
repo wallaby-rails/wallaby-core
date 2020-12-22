@@ -12,7 +12,7 @@ module Wallaby
     #   - Order::ItemDecorator
     #   - ItemDecorator
     # - {#controller_class}'s default
-    #   {Configurable::ClassMethods#application_controller #application_controller}
+    #   {Configurable::ClassMethods#application_decorator #application_decorator}
     # @return [Class] decorator class
     def execute
       controller_class.resource_decorator ||

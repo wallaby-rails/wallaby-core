@@ -12,7 +12,7 @@ module Wallaby
     #   - Order::ItemAuthorizer
     #   - ItemAuthorizer
     # - {#controller_class #controller_class}'s default
-    #   {Configurable::ClassMethods#application_controller #application_controller}
+    #   {Configurable::ClassMethods#application_authorizer #application_authorizer}
     # @return [Class] authorizer class
     def execute
       controller_class.model_authorizer ||

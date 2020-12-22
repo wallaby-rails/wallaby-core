@@ -50,6 +50,25 @@ describe Wallaby::ResourceDecorator do
         end
       end
     end
+
+    ['action_'].each do |prefix|
+      title = prefix.delete '_'
+      describe "for #{title}" do
+        describe ".#{prefix}fields" do
+          it 'returns nil' do
+            expect { described_class.send("#{prefix}fields") }.to raise_error(NoMethodError)
+          end
+        end
+
+        describe ".#{prefix}field_names" do
+          it 'returns nil' do
+            next if prefix == ''
+
+            expect { described_class.send("#{prefix}field_names") }.to raise_error(NoMethodError)
+          end
+        end
+      end
+    end
   end
 
   describe 'instance methods' do
@@ -99,12 +118,12 @@ describe Wallaby::ResourceDecorator do
       end
 
       before do
-        ['', 'index_', 'show_', 'form_'].each do |prefix|
+        ['', 'index_', 'show_', 'form_', 'action_'].each do |prefix|
           subject.model_decorator.send "#{prefix}fields=", model_fields
         end
       end
 
-      ['', 'index_', 'show_', 'form_'].each do |prefix|
+      ['', 'index_', 'show_', 'form_', 'action_'].each do |prefix|
         title = prefix.delete '_'
         describe "for #{title}" do
           describe "##{prefix}fields" do
@@ -125,24 +144,26 @@ describe Wallaby::ResourceDecorator do
             end
           end
 
-          describe "##{prefix}metadata_of" do
-            it 'returns metadata' do
-              expect(subject.send("#{prefix}metadata_of", 'id')).to eq(
-                'type' =>   'integer',
-                'label' =>  'fake title'
-              )
+          if prefix != 'action_'
+            describe "##{prefix}metadata_of" do
+              it 'returns metadata' do
+                expect(subject.send("#{prefix}metadata_of", 'id')).to eq(
+                  'type' =>   'integer',
+                  'label' =>  'fake title'
+                )
+              end
             end
-          end
 
-          describe "##{prefix}label_of" do
-            it 'returns label' do
-              expect(subject.send("#{prefix}label_of", 'id')).to eq 'fake title'
+            describe "##{prefix}label_of" do
+              it 'returns label' do
+                expect(subject.send("#{prefix}label_of", 'id')).to eq 'fake title'
+              end
             end
-          end
 
-          describe "##{prefix}type_of" do
-            it 'returns type' do
-              expect(subject.send("#{prefix}type_of", 'id')).to eq 'integer'
+            describe "##{prefix}type_of" do
+              it 'returns type' do
+                expect(subject.send("#{prefix}type_of", 'id')).to eq 'integer'
+              end
             end
           end
         end

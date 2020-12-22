@@ -75,6 +75,18 @@ module Wallaby
       def h
         @h ||= Wallaby.configuration.resources_controller.helpers
       end
+
+      # Delegate missing method to {#model_decorator}
+      def method_missing(method_id, *args, &block)
+        return super unless model_decorator.try(:respond_to?, method_id)
+
+        model_decorator.try(method_id, *args, &block)
+      end
+
+      # Delegate missing method check to {#model_decorator}
+      def respond_to_missing?(method_id, _include_private)
+        model_decorator.try(:respond_to?, method_id) || super
+      end
     end
 
     # @!attribute [r] resource
@@ -149,14 +161,18 @@ module Wallaby
 
     # Delegate missing method to {#resource}
     def method_missing(method_id, *args, &block)
-      return super unless resource.respond_to? method_id
-
-      resource.try method_id, *args, &block
+      if resource.respond_to?(method_id)
+        resource.try(method_id, *args, &block)
+      elsif model_decorator.respond_to?(method_id)
+        model_decorator.try(method_id, *args, &block)
+      else
+        super
+      end
     end
 
     # Delegate missing method check to {#resource}
     def respond_to_missing?(method_id, _include_private)
-      resource.respond_to?(method_id) || super
+      [resource, model_decorator].any? { |v| v.respond_to?(method_id) } || super
     end
   end
 end

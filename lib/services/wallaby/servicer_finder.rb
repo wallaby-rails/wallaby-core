@@ -13,7 +13,7 @@ module Wallaby
     #   - Order::ItemServicer
     #   - ItemServicer
     # - {#current_controller_class #current_controller_class}'s default
-    #   {Configurable::ClassMethods#application_controller #application_controller}
+    #   {Configurable::ClassMethods#application_servicer #application_servicer}
     # @return [Class] servicer class
     def execute
       current_controller_class.model_servicer ||

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Configurable related for {ResourcesConcern} controllers
+  # Configurable related
   module Configurable
     extend ActiveSupport::Concern
 
@@ -11,10 +11,10 @@ module Wallaby
       attr_writer :engine_name
 
       # @!attribute [r] engine_name
-      # The engine name is used to help with URLs handling.
+      # It is used to help with URLs handling (see {Engine})
       #
       # So when to set this engine name?
-      # When Wallaby doesn't know what is the correct engine helper to use for current path.
+      # When {Wallaby} doesn't know what is the correct engine helper to use for current path.
       # @example To set an engine name:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.engine_name = 'admin_engine'
@@ -43,7 +43,6 @@ module Wallaby
       attr_writer :resource_decorator
 
       # @!attribute [r] resource_decorator
-      # Resource decorator is used to store metadata info and define decoration methods for a specific model class.
       # @example To set resource decorator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.resource_decorator = ProductDecorator
@@ -59,8 +58,7 @@ module Wallaby
       attr_writer :application_decorator
 
       # @!attribute [r] application_decorator
-      # The {#application_decorator} is a base class of {#resource_decorator}.
-      # It can be used to handle different models.
+      # It is the base class of {#resource_decorator}.
       # @example To set application decorator:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_decorator = AnotherApplicationDecorator
@@ -80,7 +78,6 @@ module Wallaby
       attr_writer :model_servicer
 
       # @!attribute [r] model_servicer
-      # The {#model_servicer} is used to take care of the general CRUD operations for a specific model class.
       # @example To set model servicer
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_servicer = ProductServicer
@@ -96,8 +93,7 @@ module Wallaby
       attr_writer :application_servicer
 
       # @!attribute [r] application_servicer
-      # The {#application_servicer} is a base class of {#model_servicer}.
-      # It can be used to handle different models.
+      # It is the base class of {#model_servicer}.
       # @example To set application servicer:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_servicer = AnotherApplicationServicer
@@ -117,7 +113,6 @@ module Wallaby
       attr_writer :model_authorizer
 
       # @!attribute [r] model_authorizer
-      # The {#model_authorizer} is used to take care of the authorization for a specific model class.
       # @example To set model authorizer
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_authorizer = ProductAuthorizer
@@ -133,8 +128,7 @@ module Wallaby
       attr_writer :application_authorizer
 
       # @!attribute [r] application_authorizer
-      # The {#application_authorizer} is a base class of {#model_authorizer}.
-      # It can be used to handle different models.
+      # It is the base class of {#model_authorizer}.
       # @example To set application authorizer:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_authorizer = AnotherApplicationAuthorizer
@@ -154,7 +148,6 @@ module Wallaby
       attr_writer :model_paginator
 
       # @!attribute [r] model_paginator
-      # The {#model_paginator} is used to take care of the pagination for a specific model class.
       # @example To set model paginator
       #   class Admin::ProductionsController < Admin::ApplicationController
       #     self.model_paginator = ProductPaginator
@@ -170,8 +163,7 @@ module Wallaby
       attr_writer :application_paginator
 
       # @!attribute [r] application_paginator
-      # The {#application_paginator} is a base class of {#model_paginator}.
-      # It can be used to handle different models.
+      # It is the base class of {#model_paginator}.
       # @example To set application paginator:
       #   class Admin::ApplicationController < Wallaby::ResourcesController
       #     self.application_paginator = AnotherApplicationPaginator
@@ -415,7 +407,7 @@ module Wallaby
       end
     end
 
-    # @return [Class] controller class
+    # @return [Class] its controller class
     def wallaby_controller
       @wallaby_controller ||= try(:controller).try(:class) || self.class
     end

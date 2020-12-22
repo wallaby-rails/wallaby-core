@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Decorator related attributes
+  # Decorator related
   module Decoratable
     # Get current model decorator. It comes from
     #
