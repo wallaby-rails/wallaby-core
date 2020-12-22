@@ -8,7 +8,6 @@ end
 
 RSpec.configure do |config|
   config.around :each, type: :helper do |example|
-    RequestStore.store[:wallaby_controller] = example.metadata[:wallaby_controller] || Wallaby::ResourcesController
     config.mock_with :rspec do |mocks|
       # NOTE: we turn this option off because it will complain
       # helper does not implement dynamics methods such as named route paths
@@ -16,12 +15,11 @@ RSpec.configure do |config|
       example.run
       mocks.verify_partial_doubles = true
     end
-    RequestStore.store[:wallaby_controller].clear
-    RequestStore.store[:wallaby_controller] = nil
   end
 
   config.before :each, type: :helper do |example|
     view.extend Wallaby::ResourcesHelper
+    view.instance_variable_set('@wallaby_controller', example.metadata[:wallaby_controller] || Wallaby::ResourcesController)
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
     helper.extend HelperSupport
@@ -33,5 +31,9 @@ RSpec.configure do |config|
         @default_url_options ||= { only_path: true, host: 'www.example.com' }
       end
     end
+  end
+
+  config.after :each, type: :helper do |_example|
+    view.instance_variable_get('@wallaby_controller').clear
   end
 end

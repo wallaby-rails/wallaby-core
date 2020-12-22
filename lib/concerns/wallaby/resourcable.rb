@@ -10,13 +10,13 @@ module Wallaby
 
     # Model class for current request. It comes from two places:
     #
-    # - {Wallaby.controller_configuration}'s **model_class**
+    # - {Configurable#wallaby_controller}'s **model_class**
     # - fall back to the model class converted from either the {#current_resources_name}
     #   or **controller_path**
     # @return [Class] model class for current request
     def current_model_class
       @current_model_class ||=
-        controller_configuration.model_class || Map.model_class_map(current_resources_name || controller_path)
+        wallaby_controller.model_class || Map.model_class_map(current_resources_name || controller_path)
     end
 
     # Shorthand of params[:id]

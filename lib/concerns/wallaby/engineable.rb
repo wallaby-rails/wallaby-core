@@ -23,7 +23,7 @@ module Wallaby
     # @return [String] engine name for current request
     # @see EngineNameFinder.execute
     def current_engine_name
-      @current_engine_name ||= controller_configuration.engine_name || EngineNameFinder.execute(request.path)
+      @current_engine_name ||= wallaby_controller.engine_name || EngineNameFinder.execute(request.path)
     end
 
     # @return [ActionDispatch::Journey::Route] engine route for current request

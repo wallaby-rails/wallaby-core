@@ -3,8 +3,7 @@
 module Wallaby
   # Configuration helper module. Provide shortcut methods to configurations.
   module ConfigurationHelper
-    delegate :controller_configuration, to: Wallaby
-    delegate :max_text_length, to: :controller_configuration
+    delegate :max_text_length, to: :wallaby_controller
 
     # @return [Configuration] shortcut method of configuration
     def configuration

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Decorator related attributes
+  # Decorator related
   module Decoratable
     # Get current model decorator. It comes from
     #
@@ -13,7 +13,7 @@ module Wallaby
     def current_model_decorator
       @current_model_decorator ||=
         current_decorator.try(:model_decorator) || \
-        Map.model_decorator_map(current_model_class, controller_configuration.application_decorator)
+        Map.model_decorator_map(current_model_class, wallaby_controller.application_decorator)
     end
 
     # Get current resource decorator. It comes from
@@ -26,7 +26,7 @@ module Wallaby
         DecoratorFinder.new(
           script_name: script_name,
           model_class: current_model_class,
-          current_controller_class: controller_configuration
+          current_controller_class: wallaby_controller
         ).execute.tap do |decorator|
           Logger.debug %(Current decorator: #{decorator}), sourcing: false
         end
@@ -50,7 +50,7 @@ module Wallaby
       DecoratorFinder.new(
         script_name: script_name,
         model_class: resource.class,
-        current_controller_class: controller_configuration
+        current_controller_class: wallaby_controller
       ).execute.new(resource)
     end
 

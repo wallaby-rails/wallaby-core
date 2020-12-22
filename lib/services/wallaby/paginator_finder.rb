@@ -13,7 +13,7 @@ module Wallaby
     #   - Order::ItemPaginator
     #   - ItemPaginator
     # - {#current_controller_class #current_controller_class}'s default
-    #   {Configurable::ClassMethods#application_controller #application_controller}
+    #   {Configurable::ClassMethods#application_paginator #application_paginator}
     # @return [Class] paginator class
     def execute
       current_controller_class.model_paginator ||

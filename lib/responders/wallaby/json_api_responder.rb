@@ -64,8 +64,8 @@ module Wallaby
         errors: decorated.errors.each_with_object([]) do |(field, message), json|
           json.push(
             status: 422,
-            source: { pointer: "/data/attributes/#{field}" },
-            detail: message
+            source: { pointer: "/data/attributes/#{field.try(:attribute) || field}" },
+            detail: field.try(:message) || message
           )
         end
       }

@@ -3,8 +3,10 @@
 module Wallaby
   # Model Decorator interface, designed to maintain metadata for all fields from the data source (database/api)
   # @see ResourceDecorator for more information on how to customize metadata
-  class ModelDecorator
+  class ModelDecorator # rubocop:disable Metrics/ClassLength
     include Fieldable
+
+    MISSING_METHODS_RELATED_TO_FIELDS = /(_fields|_field_names)=?\Z/.freeze
 
     # Initialize with model class
     # @param model_class [Class]
@@ -151,6 +153,22 @@ module Wallaby
       Map.resources_name_map model_class
     end
 
+    # Create missing methods that look like: `_fields`, `_field_names`
+    def method_missing(method_id, *args, &block)
+      method_name = method_id.to_s
+      return super unless method_name.match?(MISSING_METHODS_RELATED_TO_FIELDS)
+
+      action = method_name.gsub(MISSING_METHODS_RELATED_TO_FIELDS, EMPTY_STRING)
+      create_singleton_fields_methods_for(action)
+      create_singleton_field_names_methods_for(action)
+    end
+
+    # Check if method looks like: `_fields`, `_field_names`
+    def respond_to_missing?(method_id, _include_private)
+      method_name = method_id.to_s
+      method_name.match?(MISSING_METHODS_RELATED_TO_FIELDS) || super
+    end
+
     protected
 
     # Move primary key to the front for given field names.
@@ -180,6 +198,34 @@ module Wallaby
           or there is some error in the decorator class declaration.
       INSTRUCTION
       )
+    end
+
+    # Create fields methods for given action.
+    # @param action [String]
+    def create_singleton_fields_methods_for(action)
+      define_singleton_method("#{action}_fields") do
+        @singleton_fields ||= {}
+        @singleton_fields[action] ||= Utils.clone(fields)
+      end
+
+      define_singleton_method("#{action}_fields=") do |fields|
+        @singleton_fields ||= {}
+        @singleton_fields[action] = fields.with_indifferent_access
+      end
+    end
+
+    # Create field_names methods for given action.
+    # @param action [String]
+    def create_singleton_field_names_methods_for(action)
+      define_singleton_method("#{action}_field_names") do
+        @singleton_field_names ||= {}
+        @singleton_field_names[action] ||= reposition(try("#{action}_fields").keys, primary_key)
+      end
+
+      define_singleton_method("#{action}_field_names=") do |field_names|
+        @singleton_field_names ||= {}
+        @singleton_field_names[action] ||= field_names
+      end
     end
   end
 end

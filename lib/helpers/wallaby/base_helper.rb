@@ -36,7 +36,7 @@ module Wallaby
     # Turn a list of model classes into an inheritance tree.
     # @param classes [Array<Class>]
     # @return [Array<Node>]
-    def model_classes(classes = controller_configuration.all_models)
+    def model_classes(classes = wallaby_controller.all_models)
       nested_hash = classes.each_with_object({}) do |klass, hash|
         hash[klass] = Node.new(klass)
       end

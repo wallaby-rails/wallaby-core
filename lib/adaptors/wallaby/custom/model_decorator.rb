@@ -2,7 +2,7 @@
 
 module Wallaby
   class Custom
-    # {Wallaby::Custom} mode decorator that only pulls out all the attributes from setter/getter methods.
+    # {Custom} mode decorator that only pulls out all the attributes from setter/getter methods.
     class ModelDecorator < ::Wallaby::ModelDecorator
       # Assume that attributes come from the setter/getter, e.g. `name=`/`name`
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata

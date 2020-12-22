@@ -72,7 +72,7 @@ module Wallaby
 
     # @return [Sorting::LinkBuilder]
     # @see Sorting::LinkBuilder
-    def sort_link_builder(sorting_strategy = Wallaby.controller_configuration.sorting_strategy)
+    def sort_link_builder(sorting_strategy = wallaby_controller.sorting_strategy)
       @sort_link_builder ||=
         Sorting::LinkBuilder.new(
           current_model_decorator, params.slice(:sort).permit!, self, sorting_strategy

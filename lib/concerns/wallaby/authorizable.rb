@@ -5,7 +5,7 @@ module Wallaby
   module Authorizable
     # Model authorizer for current modal class.
     # @return [ModelAuthorizer] model authorizer
-    # @see AuthorizerFinder#execute How model authorizer is looked up
+    # @see #authorizer_of
     # @since wallaby-5.2.0
     def current_authorizer
       @current_authorizer ||=
@@ -24,7 +24,7 @@ module Wallaby
       return false unless subject
 
       klass = subject.is_a?(Class) ? subject : subject.class
-      authorizer_of(klass).authorized? action, subject
+      authorizer_of(klass).authorized?(action, subject)
     end
 
     # Check if user is allowed to perform action on given subject
@@ -34,20 +34,20 @@ module Wallaby
     # @return [false] if allowed
     # @since wallaby-5.2.0
     def unauthorized?(action, subject)
-      !authorized? action, subject
+      !authorized?(action, subject)
     end
 
     protected
 
     # @param model_class [Class]
     # @return [ModelAuthorizer] model authorizer for given model
-    # @see AuthorizerFinder#execute How model authorizer is looked up
+    # @see AuthorizerFinder#execute
     # @since wallaby-5.2.0
     def authorizer_of(model_class)
       AuthorizerFinder.new(
         script_name: script_name,
         model_class: model_class,
-        current_controller_class: controller_configuration
+        current_controller_class: wallaby_controller
       ).execute.new model_class, self
     end
   end

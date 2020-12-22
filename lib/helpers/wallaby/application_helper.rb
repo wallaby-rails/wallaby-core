@@ -4,6 +4,7 @@ module Wallaby
   # Wallaby application helper
   module ApplicationHelper
     include ConfigurationHelper
+    include Configurable
     include Engineable
     include Urlable
 
