@@ -36,6 +36,10 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'responders'
   spec.add_dependency 'wallaby-view', '~> 0.1.2'
 
+  spec.add_development_dependency 'github-markup'
+  spec.add_development_dependency 'redcarpet'
   spec.add_development_dependency 'rspec-rails'
+  spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'wallaby-cop'
+  spec.add_development_dependency 'yard'
 end
