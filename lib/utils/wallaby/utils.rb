@@ -16,7 +16,7 @@ module Wallaby
       return 'nil' unless object
       return object.name if object.is_a? Class
 
-      "#{object.class}##{object.id}"
+      "#{object.class}##{object.try(:id)}"
     end
   end
 end

@@ -55,15 +55,13 @@ describe Wallaby::ResourceDecorator do
       title = prefix.delete '_'
       describe "for #{title}" do
         describe ".#{prefix}fields" do
-          it 'returns nil' do
+          it do
             expect { described_class.send("#{prefix}fields") }.to raise_error(NoMethodError)
           end
         end
 
         describe ".#{prefix}field_names" do
-          it 'returns nil' do
-            next if prefix == ''
-
+          it do
             expect { described_class.send("#{prefix}field_names") }.to raise_error(NoMethodError)
           end
         end
@@ -201,6 +199,35 @@ describe Wallaby::ResourceDecorator do
         expect(subject.to_param).to eq 'key=value'
       end
     end
+
+    describe '#model_name' do
+      let(:resource) { [] }
+
+      it 'returns model name' do
+        expect(subject.model_name).to be_a ActiveModel::Name
+        expect(subject.model_name.plural).to eq 'arrays'
+      end
+    end
+
+    describe '#to_key' do
+      let(:resource) { Product.new(id: 111) }
+
+      it 'returns key' do
+        expect(subject.to_key).to eq [111]
+      end
+    end
+
+    describe 'missing methods' do
+      let(:resource) { Picture.new(id: 111) }
+
+      it 'calls the missing method from decorator' do
+        expect(subject.some_field_names).to eq %w(id name file created_at updated_at imageable)
+      end
+
+      it 'raises error when missing' do
+        expect { subject.abc }.to raise_error NoMethodError
+      end
+    end
   end
 
   context 'with descendants' do
@@ -311,6 +338,12 @@ describe Wallaby::ResourceDecorator do
               end
             end
           end
+        end
+      end
+
+      describe 'missing methods' do
+        it 'calls the missing method from decorator' do
+          expect(klass.some_field_names).to eq %w(id title published_at updated_at)
         end
       end
     end

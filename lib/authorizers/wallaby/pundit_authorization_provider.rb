@@ -14,6 +14,15 @@ module Wallaby
       defined?(Pundit) && context.respond_to?(:pundit_user)
     end
 
+    # Get the information from context for {ModelAuthorizationProvider#initialize}
+    # @param context [ActionController::Base, ActionView::Base]
+    # @return [Hash] options
+    def self.options_from(context)
+      {
+        user: context.try(:pundit_user) || context.try(:wallaby_user)
+      }
+    end
+
     # Check user's permission for an action on given subject.
     #
     # This method will be mostly used in controller.
@@ -35,8 +44,16 @@ module Wallaby
     # @return [true] if user is allowed to perform the action
     # @return [false] otherwise
     def authorized?(action, subject)
-      policy = Pundit.policy! user, subject
+      policy = Pundit.policy!(user, subject)
       policy.try normalize(action)
+    end
+
+    # Restrict user to access certain scope/query.
+    # @param action [Symbol, String]
+    # @param scope [Object]
+    # @return [Object]
+    def accessible_for(_action, scope)
+      Pundit.policy_scope!(user, scope)
     end
 
     # Restrict user to assign certain values.
@@ -49,7 +66,7 @@ module Wallaby
     # @param subject [Object]
     # @return [Hash] field value paired hash that user's allowed to assign
     def attributes_for(action, subject)
-      policy = Pundit.policy! user, subject
+      policy = Pundit.policy!(user, subject)
       policy.try("attributes_for_#{action}") || policy.try('attributes_for') || {}
     end
 
@@ -63,7 +80,7 @@ module Wallaby
     # @param subject [Object]
     # @return [Array] field list that user's allowed to change.
     def permit_params(action, subject)
-      policy = Pundit.policy! user, subject
+      policy = Pundit.policy!(user, subject)
       # @see https://github.com/varvet/pundit/blob/master/lib/pundit.rb#L258
       policy.try("permitted_attributes_for_#{action}") || policy.try('permitted_attributes')
     end

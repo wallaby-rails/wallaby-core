@@ -208,9 +208,7 @@ module Wallaby
       def models_to_exclude
         @models_to_exclude ||
           superclass.try(:models_to_exclude) ||
-          ClassArray.new( # exclude ::ActiveRecord::SchemaMigration
-            Map.mode_map.keys.include?(::ActiveRecord::SchemaMigration) ? ::ActiveRecord::SchemaMigration : []
-          )
+          DefaultModelsExcluder.execute
       end
 
       # @!attribute [w] models_to_exclude

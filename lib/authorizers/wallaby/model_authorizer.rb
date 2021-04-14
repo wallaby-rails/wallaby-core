@@ -39,7 +39,7 @@ module Wallaby
     attr_reader :provider
 
     # @!attribute [r] context
-    # @return [ActionController::Base, ActionView::Base]
+    # @return [ActionController::Base, ActionView::Base, nil]
     # @since 0.2.2
     attr_reader :context
 
@@ -48,29 +48,52 @@ module Wallaby
     # @since 0.2.2
     attr_reader :options
 
+    # @note use this method instead of {#initialize} to create authorizer instance
+    # Factory method to determine which provider and what options to use.
     # @param model_class [Class]
     # @param context [ActionController::Base, ActionView::Base]
-    # @param options [Symbol, String, nil]
-    def initialize(model_class, context, options = {})
-      @model_class = model_class || self.class.model_class
-      @context = context
-      @options = options
-      @provider = guess_provider_from(context)
+    def self.create(model_class, context)
+      model_class ||= self.model_class
+      provider_class = guess_and_set_provider_from(model_class, context)
+      options = provider_class.options_from(context)
+      new(model_class, provider: provider_class.new(options), context: context)
     end
 
-    protected
+    # Shortcut of {Map.authorizer_provider_map}
+    def self.providers_of(model_class)
+      Map.authorizer_provider_map(model_class)
+    end
+
+    # @param model_class [Class]
+    # @param provider_class [Hash]
+    # @param options [Hash]
+    def initialize(
+      model_class,
+      provider_name: nil,
+      provider: nil,
+      context: nil,
+      options: {}
+    )
+      @model_class = model_class || self.class.model_class
+      @options = options
+      @context = context
+      @provider = provider \
+        || self.class.providers_of(@model_class)[provider_name].new(options)
+    end
 
     # Go through the provider list and find out the one is
     # {Wallaby::ModelAuthorizationProvider.available? .available?}
+    # @param model_class [Class]
     # @param context [ActionController::Base, ActionView::Base]
-    def guess_provider_from(context)
+    # @return [Class] provider class
+    def self.guess_and_set_provider_from(model_class, context)
+      providers = providers_of(model_class)
       provider_class =
-        Map.authorizer_provider_map(model_class).try do |providers|
-          providers[options[:provider_name] || self.class.provider_name] \
-            || providers.values.find { |klass| klass.available? context } \
-            || providers[:default] # fallback to default
-        end
-      provider_class.new context, options
+        providers[provider_name] \
+          || providers.values.find { |klass| klass.available? context } \
+          || providers[:default] # fallback to default
+      self.provider_name ||= provider_class.provider_name
+      provider_class
     end
   end
 end

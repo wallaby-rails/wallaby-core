@@ -1,4 +1,5 @@
 require 'rails_helper'
+require 'active_record/connection_adapters/mysql2_adapter'
 
 describe 'Mysql Types' do
   it 'returns the expected native types' do

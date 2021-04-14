@@ -147,11 +147,13 @@ module Wallaby
       resource.try primary_key
     end
 
+    # @note this method is for the Rails helper methods to recognize non-ActiveModel models
     # @return [ActiveModel::Name]
     def model_name
       resource.try(:model_name) || ActiveModel::Name.new(model_class)
     end
 
+    # @note this method is for the form helper methods to recognize non-ActiveModel models
     # @return [nil] if no primary key
     # @return [Array<String>] primary key
     def to_key

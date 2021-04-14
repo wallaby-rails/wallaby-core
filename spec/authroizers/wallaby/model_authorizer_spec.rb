@@ -15,11 +15,11 @@ describe Wallaby::ModelAuthorizer do
 
   describe '.new' do
     it 'returns authorizer' do
-      expect(described_class.new(Product, :default)).to be_a described_class
+      expect(described_class.new(Product, provider_name: :default)).to be_a described_class
     end
 
     it 'has attributes' do
-      subject = described_class.new(Product, :default)
+      subject = described_class.new(Product, provider_name: :default)
       expect(subject).to respond_to :user
     end
   end
@@ -44,7 +44,7 @@ describe CoreAuthorizer do
 
   describe '.new' do
     it 'returns authorizer' do
-      expect(described_class.new(Product, :default)).to be_a Wallaby::ModelAuthorizer
+      expect(described_class.new(Product, provider_name: :default)).to be_a Wallaby::ModelAuthorizer
     end
   end
 end
@@ -68,7 +68,7 @@ describe ProductAuthorizer do
 
   describe '.new' do
     it 'raises error' do
-      expect(described_class.new(Product, :default)).to be_a Wallaby::ModelAuthorizer
+      expect(described_class.new(Product, provider_name: :default)).to be_a Wallaby::ModelAuthorizer
     end
   end
 end

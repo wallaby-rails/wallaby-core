@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Wallaby::DefaultAuthorizationProvider do
+describe Wallaby::CancancanAuthorizationProvider do
   describe '.available?' do
     it 'returns false' do
       expect(described_class).not_to be_available(nil)
@@ -9,7 +9,7 @@ describe Wallaby::DefaultAuthorizationProvider do
 
   describe '.options_from' do
     it 'returns options' do
-      expect(described_class.options_from(nil)).to eq(user: nil)
+      expect(described_class.options_from(nil)).to eq(user: nil, ability: nil)
     end
 
     context 'when wallaby_user defined', type: :controller do
@@ -17,24 +17,31 @@ describe Wallaby::DefaultAuthorizationProvider do
         def wallaby_user
           { email: 'wallaby@wallaby-rails.org.au' }
         end
+
+        def current_ability
+          Ability.new(wallaby_user)
+        end
       end
 
       it 'returns options' do
-        expect(described_class.options_from(controller)).to eq(user: { email: 'wallaby@wallaby-rails.org.au' })
+        expect(described_class.options_from(controller)).to match(
+          user: { email: 'wallaby@wallaby-rails.org.au' },
+          ability: a_kind_of(Ability)
+        )
       end
     end
   end
 
   describe '.provider_name' do
     it 'returns a string' do
-      expect(described_class.provider_name).to eq 'default'
+      expect(described_class.provider_name).to eq 'cancancan'
     end
   end
 
   describe 'instance methods' do
     subject { described_class.new options }
 
-    let(:options) { nil }
+    let(:options) { {} }
     let(:target_class) { Product }
     let(:target) { Product.new }
     let(:scope) { Product.where(nil) }
@@ -49,6 +56,19 @@ describe Wallaby::DefaultAuthorizationProvider do
         expect(subject.authorize(:edit, target)).to eq target
         expect(subject.authorize(:update, target)).to eq target
         expect(subject.authorize(:destroy, target)).to eq target
+      end
+
+      context 'when access denied' do
+        let(:ability) { Ability.new(nil) }
+        let(:options) { { ability: ability } }
+
+        before do
+          ability.cannot :index, target_class
+        end
+
+        it 'raises error' do
+          expect { subject.authorize(:index, target_class) }.to raise_error(Wallaby::Forbidden)
+        end
       end
     end
 

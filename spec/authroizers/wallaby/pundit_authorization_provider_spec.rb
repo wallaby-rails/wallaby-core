@@ -1,6 +1,62 @@
 require 'rails_helper'
 
-describe Wallaby::DefaultAuthorizationProvider do
+class ProductPolicy
+  attr_reader :user, :record
+
+  def initialize(user, record)
+    @user = user
+    @record = record
+  end
+
+  class Scope
+    def initialize(user, scope)
+      @user  = user
+      @scope = scope
+    end
+
+    def resolve
+      if user == 'admin'
+        scope
+      else
+        scope.where(featured: true)
+      end
+    end
+
+    private
+
+    attr_reader :user, :scope
+  end
+
+  def index?
+    user == 'admin'
+  end
+
+  def show?
+    index?
+  end
+
+  def new?
+    index?
+  end
+
+  def create?
+    index?
+  end
+
+  def edit?
+    index?
+  end
+
+  def update?
+    index?
+  end
+
+  def destroy?
+    index?
+  end
+end
+
+describe Wallaby::PunditAuthorizationProvider do
   describe '.available?' do
     it 'returns false' do
       expect(described_class).not_to be_available(nil)
@@ -17,24 +73,30 @@ describe Wallaby::DefaultAuthorizationProvider do
         def wallaby_user
           { email: 'wallaby@wallaby-rails.org.au' }
         end
+
+        def pundit_user
+          { username: 'wallaby-rails' }
+        end
       end
 
       it 'returns options' do
-        expect(described_class.options_from(controller)).to eq(user: { email: 'wallaby@wallaby-rails.org.au' })
+        expect(described_class.options_from(controller)).to match(
+          user: { username: 'wallaby-rails' }
+        )
       end
     end
   end
 
   describe '.provider_name' do
     it 'returns a string' do
-      expect(described_class.provider_name).to eq 'default'
+      expect(described_class.provider_name).to eq 'pundit'
     end
   end
 
   describe 'instance methods' do
     subject { described_class.new options }
 
-    let(:options) { nil }
+    let(:options) { { user: 'admin' } }
     let(:target_class) { Product }
     let(:target) { Product.new }
     let(:scope) { Product.where(nil) }
@@ -49,6 +111,14 @@ describe Wallaby::DefaultAuthorizationProvider do
         expect(subject.authorize(:edit, target)).to eq target
         expect(subject.authorize(:update, target)).to eq target
         expect(subject.authorize(:destroy, target)).to eq target
+      end
+
+      context 'when access denied' do
+        let(:options) { { user: 'guest' } }
+
+        it 'raises error' do
+          expect { subject.authorize(:index, target_class) }.to raise_error(Wallaby::Forbidden)
+        end
       end
     end
 
@@ -82,6 +152,14 @@ describe Wallaby::DefaultAuthorizationProvider do
         expect(subject.accessible_for(:edit, target)).to eq target
         expect(subject.accessible_for(:update, target)).to eq target
         expect(subject.accessible_for(:destroy, target)).to eq target
+      end
+
+      context 'when user is not admin' do
+        let(:options) { { user: 'guest' } }
+
+        it 'returns a different scope' do
+          expect(subject.accessible_for(:index, scope)).not_to eq(scope)
+        end
       end
     end
 

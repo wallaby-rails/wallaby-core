@@ -40,12 +40,6 @@ module Wallaby
       self.class.new origin.concat(other.try(:origin) || other)
     end
 
-    # @param other [Array]
-    # @return [ClassArray] new Class array
-    def -(other)
-      self.class.new origin - (other.try(:origin) || other)
-    end
-
     # @param item [Class, String]
     # @return [ClassArray] self
     def <<(item)
@@ -62,6 +56,10 @@ module Wallaby
     # @!method ==(other)
     # Compare #{origin} with other.
     delegate :==, to: :origin
+
+    # @!method to_a
+    # Get the array of #{origin}.
+    delegate :to_a, to: :origin
 
     # @!method blank?
     delegate :blank?, to: :internal

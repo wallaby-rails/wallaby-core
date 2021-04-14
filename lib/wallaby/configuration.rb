@@ -98,7 +98,9 @@ module Wallaby
 
     # @return [Configuration::Models] models configuration
     def models
-      @models ||= Models.new
+      Deprecator.alert 'config.models.presence', from: '0.3.0', alternative: <<~INSTRUCTION
+        Please use controller_class.models instead.
+      INSTRUCTION
     end
 
     # To globally configure the models that Wallaby should handle.
@@ -138,7 +140,9 @@ module Wallaby
 
     # @return [Configuration::Sorting] sorting configuration
     def sorting
-      @sorting ||= Sorting.new
+      Deprecator.alert 'config.sorting.strategy', from: '0.3.0', alternative: <<~INSTRUCTION
+        Please use controller_class.sorting_strategy instead.
+      INSTRUCTION
     end
 
     # Clear all configurations

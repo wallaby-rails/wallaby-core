@@ -10,6 +10,15 @@ module Wallaby
       false
     end
 
+    # It returns empty hash.
+    # @param context [ActionController::Base, ActionView::Base]
+    # @return [Hash]
+    def self.options_from(context)
+      {
+        user: context.try(:wallaby_user)
+      }
+    end
+
     # Do nothing
     # @param _action [Symbol, String]
     # @param subject [Object, Class]

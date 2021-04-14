@@ -6,7 +6,7 @@ describe Wallaby::Custom::ModelServiceProvider, type: :helper do
 
     let(:model_class) { Zipcode }
     let(:model_decorator) { Wallaby::Custom::ModelDecorator.new model_class }
-    let(:authorizer) { Wallaby::ModelAuthorizer.new model_class, helper }
+    let(:authorizer) { Wallaby::ModelAuthorizer.create model_class, helper }
     let(:resource) { model_class.new }
 
     before do

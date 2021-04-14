@@ -17,7 +17,7 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'rails', '~> 6.0.0'
+gem 'rails', '~> 6.1.0'
 
 # gem 'wallaby-active_record'
 gem 'wallaby-active_record', path: '../wallaby-active_record'
