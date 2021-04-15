@@ -43,14 +43,14 @@ module Wallaby
       # @param message [String,StandardError,Object]
       # @param sources [Array<String>] array of files
       def normalize(message, sources)
-        case message
-        when String
-          [message, sources && "\nfrom #{sources.join("     \n")}"]
-        when StandardError
-          [message.message, sources && "\n#{message.backtrace.join("\n")}"]
-        else
-          [message.inspect, sources && "\nfrom #{sources.join("     \n")}"]
+        if message.is_a?(StandardError)
+          return [
+            message.message,
+            sources && "\n#{message.backtrace.join("\n")}"
+          ]
         end
+
+        [message.to_s, sources && "\nfrom #{sources.join("     \n")}"]
       end
     end
   end

@@ -19,6 +19,20 @@ describe Wallaby::ModuleUtils do
   end
 end
 
+describe Wallaby::Configuration do
+  describe '#models=' do
+    it { expect { subject.models = nil }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#models' do
+    it { expect { subject.models }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#sorting' do
+    it { expect { subject.sorting }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
 describe Wallaby::Configuration::Mapping do
   describe '#resources_controller=' do
     it { expect { subject.resources_controller = nil }.to raise_error Wallaby::MethodRemoved }
@@ -194,5 +208,17 @@ end
 describe Wallaby::ResourcesHelper, type: :helper do
   describe '#type_render' do
     it { expect { helper.type_render }.to raise_error Wallaby::MethodRemoved }
+  end
+end
+
+describe 'routes' do
+  after { Rails.application.reload_routes! }
+
+  describe '#wresource' do
+    it { expect { Rails.application.routes.draw { wresource :test } }.to raise_error Wallaby::MethodRemoved }
+  end
+
+  describe '#wresources' do
+    it { expect { Rails.application.routes.draw { wresources :test } }.to raise_error Wallaby::MethodRemoved }
   end
 end

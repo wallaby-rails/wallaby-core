@@ -118,6 +118,15 @@ describe Wallaby::ResourcesRouter do
           end
         end
       end
+
+      context 'when model is array' do
+        let(:resources_name) { 'arrays' }
+
+        it 'shows not found' do
+          expect(default_controller).to receive(:action).with(:unprocessable_entity) { mocked_action }
+          subject.call mocked_env
+        end
+      end
     end
   end
 end

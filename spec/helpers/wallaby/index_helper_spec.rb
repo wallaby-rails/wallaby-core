@@ -52,4 +52,12 @@ describe Wallaby::IndexHelper, :wallaby_user do
       expect(helper.export_link(Product, url_params: parameters!(default_url_options.merge(date_from: '2018-06-11')))).to eq '<a title="Product" href="/admin/products.csv?date_from=2018-06-11">Export as CSV</a>'
     end
   end
+
+  describe '.filter_name_by' do
+    it 'returns filter name' do
+      expect(helper.filter_name_by(nil, {})).to eq :all
+      expect(helper.filter_name_by(:featured, {})).to eq :featured
+      expect(helper.filter_name_by(nil, featured: { default: true })).to eq :featured
+    end
+  end
 end

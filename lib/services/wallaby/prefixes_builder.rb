@@ -60,11 +60,6 @@ module Wallaby
       [script_path, resources_path].compact.join(SLASH)
     end
 
-    # @return [String]
-    def wallaby_resources_path
-      ResourcesController.controller_path
-    end
-
     # @return [String, nil]
     def resources_path
       resources_name.try(:gsub, COLONS, SLASH)

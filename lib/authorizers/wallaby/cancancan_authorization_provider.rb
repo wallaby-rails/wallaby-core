@@ -14,18 +14,25 @@ module Wallaby
       defined?(CanCanCan) && context.respond_to?(:current_ability)
     end
 
+    # Get the information from context for {ModelAuthorizationProvider#initialize}
+    # @param context [ActionController::Base, ActionView::Base]
+    # @return [Hash] options
+    def self.options_from(context)
+      {
+        ability: context.try(:current_ability),
+        user: context.try(:wallaby_user)
+      }
+    end
+
     # @!attribute [w] ability
     attr_writer :ability
 
     # @!attribute [r] ability
-    # @return [Ability] the Ability instance for {#user #user} (which is a
-    #   {AuthenticationConcern#wallaby_user #wallaby_user})
+    # @return [Ability] the Ability instance for {#user #user} or from the {#options}[:ability]
     def ability
       # NOTE: use current_ability's class to create the ability instance.
       # just in case that developer uses a different Ability class (e.g. UserAbility)
       @ability ||= options[:ability] || Ability.new(user)
-    rescue ArgumentError, NameError
-      context.current_ability
     end
 
     # Check user's permission for an action on given subject.

@@ -161,6 +161,7 @@ module Wallaby
       action = method_name.gsub(MISSING_METHODS_RELATED_TO_FIELDS, EMPTY_STRING)
       create_singleton_fields_methods_for(action)
       create_singleton_field_names_methods_for(action)
+      try(method_id, *args, &block)
     end
 
     # Check if method looks like: `_fields`, `_field_names`

@@ -26,4 +26,38 @@ describe Wallaby::ResourcesController, type: :controller do
       end
     end
   end
+
+  describe '.models && .models_to_exclude && .all_models' do
+    it 'returns models' do
+      expect(described_class.models).to be_blank
+      expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
+      expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata) if version?('>= 6.0')
+      expect(described_class.all_models).not_to include(ActiveRecord::SchemaMigration)
+      expect(described_class.all_models).not_to include(ActiveRecord::InternalMetadata) if version?('>= 6.0')
+    end
+
+    context 'when subclass' do
+      let!(:application_controller) { stub_const 'Admin::ApplicationController', base_class_from(described_class) }
+
+      it 'returns models' do
+        expect(application_controller.models).to be_blank
+        expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
+        if version?('>= 5.2')
+          expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata)
+        end
+        expect(application_controller.all_models).not_to include(ActiveRecord::SchemaMigration)
+        expect(application_controller.all_models).not_to include(ActiveRecord::InternalMetadata) if version?('>= 5.2')
+
+        Admin::ApplicationController.models_to_exclude = Product, *Admin::ApplicationController.models_to_exclude.to_a
+        expect(application_controller.models).to be_blank
+        expect(application_controller.models_to_exclude.to_a).to include(Product)
+        expect(application_controller.all_models).not_to include(Product)
+
+        Admin::ApplicationController.models = Product
+        expect(application_controller.models.to_a).to eq([Product])
+        expect(application_controller.models_to_exclude.to_a).to include(Product)
+        expect(application_controller.all_models).to include(Product)
+      end
+    end
+  end
 end

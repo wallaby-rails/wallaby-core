@@ -10,6 +10,13 @@ module Wallaby
 
       rescue_from NotAuthenticated, with: :unauthorized
       rescue_from Forbidden, with: :forbidden
+
+      # # @note This is a proxy method to ensure {#current_user} exists
+      unless method_defined?(:current_user)
+        def current_user
+          defined?(super) ? super : nil
+        end
+      end
     end
 
     # @note This is a template method that can be overridden by subclasses

@@ -40,6 +40,7 @@ describe 'Wallaby::FormBuilder', type: :helper do
   describe 'missing methods' do
     it 'delegates to helper' do
       expect(Wallaby::FormBuilder).not_to respond_to :index_path
+      expect(subject).to respond_to(:index_path)
       expect(subject.index_path(Product)).to eq '/admin/products'
     end
   end

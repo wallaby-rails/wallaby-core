@@ -5,7 +5,7 @@ module Wallaby
     # @deprecated
     class Pagination
       # @deprecated
-      def page_size=(page_size)
+      def page_size=(_page_size)
         Deprecator.alert 'config.pagination.page_size=', from: '0.3.0', alternative: <<~INSTRUCTION
           Please set #page_size= from the controller instead, for example:
 
@@ -13,8 +13,6 @@ module Wallaby
               self.page_size = 50
             end
         INSTRUCTION
-
-        Wallaby.configuration.resources_controller.page_size = page_size
       end
 
       # @deprecated

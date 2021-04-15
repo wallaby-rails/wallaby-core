@@ -9,7 +9,7 @@ module Wallaby
       attr_writer :provider_name
 
       # @!attribute [r] provider_name
-      # This is the provider name that can be set in Wallaby::ModelAuthorizer subclasses.
+      # This is the provider name that can be set in {ModelAuthorizer} subclasses.
       # @see ModelAuthorizer.provider_name
       # @return [String/Symbol] provider name
       def provider_name
@@ -22,15 +22,14 @@ module Wallaby
       def available?(_context)
         raise NotImplemented
       end
+
+      # @note Template method to get the required data from context.
+      # @param _context [ActionController::Base, ActionView::Base]
+      # @raise [NotImplemented]
+      def options_from(_context)
+        raise NotImplemented
+      end
     end
-
-    # @!attribute [r] context
-    # @return [ActionController::Base, ActionView::Base]
-    attr_reader :context
-
-    # @!attribute [r] user
-    # @return [Object]
-    attr_reader :user
 
     # @!attribute [r] options
     # @return [Hash]
@@ -38,10 +37,13 @@ module Wallaby
 
     # @param context [ActionController::Base, ActionView::Base]
     # @param options [Hash]
-    def initialize(context, options = {})
-      @context = context
-      @options = options
-      @user = context.try :wallaby_user
+    def initialize(options = {})
+      @options = options || {}
+    end
+
+    # @return [Object, nil] user object
+    def user
+      options[:user]
     end
 
     # @note It can be overridden in subclasses for customization purpose.

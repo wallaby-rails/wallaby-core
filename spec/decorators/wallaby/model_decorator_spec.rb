@@ -22,4 +22,24 @@ describe Wallaby::ModelDecorator do
       end
     end
   end
+
+  describe '#all_fields' do
+    it { expect(subject.all_fields).to be_a Wallaby::AllFields }
+  end
+
+  describe 'other fields' do
+    it 'generates the methods' do
+      subject.some_fields = { name: { type: 'string' } }
+      expect(subject).to respond_to :some_fields
+      expect(subject).to respond_to :some_field_names
+      expect(subject).to respond_to :some_field_names=
+      expect(subject.some_fields).to eq({ 'name' => { 'type' => 'string' } })
+
+      subject.other_field_names = ['name']
+      expect(subject).to respond_to :other_fields
+      expect(subject).to respond_to :other_field_names
+      expect(subject).to respond_to :other_field_names=
+      expect(subject.other_field_names).to eq(['name'])
+    end
+  end
 end
