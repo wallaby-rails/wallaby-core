@@ -4,7 +4,7 @@ module Wallaby
   class Custom
     # {Custom} mode decorator that only pulls out all the attributes from setter/getter methods.
     class ModelDecorator < ::Wallaby::ModelDecorator
-      # Assume that attributes come from the setter/getter, e.g. `name=`/`name`
+      # Retrieve the attributes from the setter/getter method, e.g. `name=`/`name`
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def fields
         @fields ||=
@@ -32,21 +32,6 @@ module Wallaby
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def form_fields
         @form_fields ||= Utils.clone fields
-      end
-
-      # @return [Array<String>] a list of field names for index page
-      def index_field_names
-        @index_field_names ||= reposition index_fields.keys, primary_key
-      end
-
-      # @return [Array<String>] a list of field names for show page
-      def show_field_names
-        @show_field_names ||= reposition show_fields.keys, primary_key
-      end
-
-      # @return [Array<String>] a list of field names for form (new/edit) page
-      def form_field_names
-        @form_field_names ||= form_fields.keys - [primary_key.to_s]
       end
 
       # @param resource [Object]

@@ -78,6 +78,7 @@ module Wallaby
 
       # Delegate missing method to {#model_decorator}
       def method_missing(method_id, *args, &block)
+        return if ModelDecorator::MISSING_METHODS_RELATED_TO_FIELDS.match?(method_id.to_s) && model_decorator.blank?
         return super unless model_decorator.try(:respond_to?, method_id)
 
         model_decorator.try(method_id, *args, &block)

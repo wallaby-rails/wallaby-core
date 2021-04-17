@@ -1,11 +1,17 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # A simple wrapper so that all fields (index/show/form) can be set in one-line.
+  # A simple wrapper so that all fields (index/show/form and other fields appear before itself)
+  # can be set in one-line.
   #
   # @example set type for name to `'string'` in decorator
   #   class ProductDecorator < ApplicationDecorator
+  #     some_fields[:id][:sort_disabled] = true
   #     all_fields[:name][:type] = 'string'
+  #     # index_fields[:name][:type] => 'string'
+  #     # show_fields[:name][:type] => 'string'
+  #     # form_fields[:name][:type] => 'string'
+  #     # some_fields[:name][:type] => 'string'
   #   end
   class AllFields
     def initialize(decorator)
@@ -25,8 +31,8 @@ module Wallaby
     # @param value [Object]
     # @return [Object] value
     def []=(last_key, value)
-      %i(index_fields show_fields form_fields).each do |fields|
-        last = @keys.reduce(@decorator.try(fields)) do |metadata, key|
+      all_fields.each do |fields_method|
+        last = @keys.reduce(@decorator.try(fields_method)) do |metadata, key|
           metadata.try :[], key
         end
         last.try :[]=, last_key, value
@@ -34,6 +40,19 @@ module Wallaby
 
       @keys = []
       value # rubocop:disable Lint/Void
+    end
+
+    protected
+
+    def all_fields
+      existing_fields = %w(index_fields show_fields form_fields)
+      possible_fields =
+        @decorator
+        .model_decorator.instance_variables
+        .map(&:to_s)
+        .grep(/\A@[a-zA-Z]\w*_fields\Z/)
+        .map { |s| s[1..-1] }
+      existing_fields + possible_fields
     end
   end
 end

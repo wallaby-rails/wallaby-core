@@ -56,13 +56,13 @@ describe Wallaby::ResourceDecorator do
       describe "for #{title}" do
         describe ".#{prefix}fields" do
           it do
-            expect { described_class.send("#{prefix}fields") }.to raise_error(NoMethodError)
+            expect(described_class.send("#{prefix}fields")).to be_nil
           end
         end
 
         describe ".#{prefix}field_names" do
           it do
-            expect { described_class.send("#{prefix}field_names") }.to raise_error(NoMethodError)
+            expect(described_class.send("#{prefix}field_names")).to be_nil
           end
         end
       end
