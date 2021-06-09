@@ -37,6 +37,15 @@ describe Wallaby::Configuration do
     end
   end
 
+  describe '#model_paths' do
+    it 'returns model paths' do
+      expect(subject.model_paths).to eq %w(app/models)
+      subject.model_paths = 'app/extra', 'app/core'
+      expect(subject.model_paths).to eq ['app/extra', 'app/core']
+      expect { subject.model_paths = :'app/models' }.to raise_error ArgumentError, 'Please provide a list of string paths, e.g. `["app/models", "app/core"]`'
+    end
+  end
+
   describe '#clear' do
     it 'clears all the instance variables' do
       subject.base_controller

@@ -9,8 +9,8 @@ module Wallaby
       attr_writer :provider_name
 
       # @!attribute [r] provider_name
-      # This is the provider name that can be set in {ModelAuthorizer} subclasses.
-      # @see ModelAuthorizer.provider_name
+      # This is the provider name (e.g. `:default`/`:cancancan`/`:pundit`)
+      # that can be set in {ModelAuthorizer} subclasses's {ModelAuthorizer.provider_name}.
       # @return [String/Symbol] provider name
       def provider_name
         @provider_name ||= name.demodulize.gsub(/(Authorization)?Provider/, EMPTY_STRING).underscore
@@ -35,7 +35,6 @@ module Wallaby
     # @return [Hash]
     attr_reader :options
 
-    # @param context [ActionController::Base, ActionView::Base]
     # @param options [Hash]
     def initialize(options = {})
       @options = options || {}

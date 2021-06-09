@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # @note This authorization provider DOES NOT use the
-  #   {https://github.com/varvet/pundit#customize-pundit-user pundit_user} helper.
-  #   It uses the one from {AuthenticationConcern#wallaby_user #wallaby_user} instead.
   # {https://github.com/varvet/pundit Pundit} base authorization provider.
   class PunditAuthorizationProvider < ModelAuthorizationProvider
     # Detect and see if Pundit is in use.
@@ -25,7 +22,7 @@ module Wallaby
 
     # Check user's permission for an action on given subject.
     #
-    # This method will be mostly used in controller.
+    # This method is mostly used in controller.
     # @param action [Symbol, String]
     # @param subject [Object, Class]
     # @raise [Forbidden] when user is not authorized to perform the action.
@@ -49,7 +46,7 @@ module Wallaby
     end
 
     # Restrict user to access certain scope/query.
-    # @param action [Symbol, String]
+    # @param _action [Symbol, String]
     # @param scope [Object]
     # @return [Object]
     def accessible_for(_action, scope)

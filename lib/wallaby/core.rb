@@ -102,6 +102,7 @@ require 'services/wallaby/authorizer_finder'
 require 'services/wallaby/servicer_finder'
 require 'services/wallaby/paginator_finder'
 require 'services/wallaby/default_models_excluder'
+require 'services/wallaby/fields_regulator'
 
 require 'services/wallaby/map/mode_mapper'
 require 'services/wallaby/map/model_class_mapper'

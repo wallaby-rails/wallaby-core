@@ -121,4 +121,53 @@ describe Wallaby::Custom::ModelDecorator do
       expect(subject.guess_title(resource)).to be_nil
     end
   end
+
+  describe 'missing method' do
+    describe '#action_fields' do
+      it 'returns metadata' do
+        expect(subject.action_fields).to be_a ::ActiveSupport::HashWithIndifferentAccess
+        expect(subject.action_fields).to eq subject.fields
+      end
+    end
+
+    describe '#action_fields=' do
+      it 'returns metadata' do
+        custom_fields = { 'dc' => { 'type' => 'string', 'label' => 'DC' } }
+        subject.action_fields = custom_fields
+        expect(subject.action_fields).to eq custom_fields
+      end
+    end
+
+    describe '#action_field_names' do
+      it 'returns metadata' do
+        expect(subject.action_field_names).to match_array %w(dc id lat locality long postcode state status type)
+      end
+    end
+
+    describe '#action_field_names=' do
+      it 'returns metadata' do
+        custom_field_names = %w(dc id lat locality long postcode state status type)
+        subject.action_field_names = custom_field_names
+        expect(subject.action_field_names).to eq custom_field_names
+      end
+    end
+
+    describe '#action_metadata_of' do
+      it 'returns metadata' do
+        expect(subject.action_metadata_of('dc')).to eq({ 'label' => 'Dc', 'type' => 'string' })
+      end
+    end
+
+    describe '#action_type_of' do
+      it 'returns type' do
+        expect(subject.action_type_of('dc')).to eq('string')
+      end
+    end
+
+    describe '#action_label_of' do
+      it 'returns label' do
+        expect(subject.action_label_of('dc')).to eq('Dc')
+      end
+    end
+  end
 end

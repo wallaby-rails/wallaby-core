@@ -1,7 +1,11 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
-  %i(logout_path logout_method email_method).each do |config_method|
+  {
+    logout_path: ['logout', 'users/custom_logout'],
+    logout_method: %w(delete put),
+    email_method: %w(email email_address)
+  }.each do |config_method, (application_value, user_value)|
     describe ".#{config_method}" do
       it 'returns nil' do
         expect(described_class.try(config_method)).to be_nil

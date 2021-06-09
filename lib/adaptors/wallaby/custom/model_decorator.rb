@@ -2,9 +2,9 @@
 
 module Wallaby
   class Custom
-    # {Custom} mode decorator that only pulls out all the attributes from setter/getter methods.
+    # {Custom} mode decorator that only pulls out all the attributes from setter/getter pair methods.
     class ModelDecorator < ::Wallaby::ModelDecorator
-      # Assume that attributes come from the setter/getter, e.g. `name=`/`name`
+      # Retrieve the attributes from the setter/getter pair methods, e.g. `name=` and `name`
       # @return [ActiveSupport::HashWithIndifferentAccess] metadata
       def fields
         @fields ||=
@@ -34,21 +34,9 @@ module Wallaby
         @form_fields ||= Utils.clone fields
       end
 
-      # @return [Array<String>] a list of field names for index page
-      def index_field_names
-        @index_field_names ||= reposition index_fields.keys, primary_key
-      end
-
-      # @return [Array<String>] a list of field names for show page
-      def show_field_names
-        @show_field_names ||= reposition show_fields.keys, primary_key
-      end
-
-      # @return [Array<String>] a list of field names for form (new/edit) page
-      def form_field_names
-        @form_field_names ||= form_fields.keys - [primary_key.to_s]
-      end
-
+      # It returns an ActiveModel::Errors instance. However, this instance does not contain any errors.
+      # You might want to override this method in the custom resource decorator
+      # and get the errors out from the given **resource**.
       # @param resource [Object]
       # @return [ActiveModel::Errors]
       def form_active_errors(resource)

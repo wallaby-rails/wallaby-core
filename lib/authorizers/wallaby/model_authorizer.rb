@@ -65,7 +65,9 @@ module Wallaby
     end
 
     # @param model_class [Class]
-    # @param provider_class [Hash]
+    # @param provider_name [String]
+    # @param provider [Wallaby::ModelAuthorizationProvider]
+    # @param context [ActionController::Base, ActionView::Base]
     # @param options [Hash]
     def initialize(
       model_class,

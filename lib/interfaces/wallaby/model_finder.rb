@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Model finder interface
+  # see {#all}
   class ModelFinder
-    # Need to implement this method to get all the available model for a mode
-    # @return [Array<Class>] a list of model class
+    # @note Template method to return all the available models for a {Mode}
+    # @return [Array<Class>] a list of model classes
     def all
       raise NotImplemented
     end

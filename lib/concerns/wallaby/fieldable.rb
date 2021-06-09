@@ -1,78 +1,64 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Field helper for model decorator
+  # Field helper method collection
+  # that takes care of `fields`, `field_names` related methods for model decorator
   module Fieldable
     # @param field_name [String, Symbol] field name
-    # @return [Hash] metadata information for a given field
-    def metadata_of(field_name)
-      fields[field_name] || {}
+    # @param prefix [String]
+    # @return [ActiveSupport::HashWithIndifferentAccess] metadata
+    def metadata_of(field_name, prefix = '')
+      prefix_fields(prefix)[field_name] || {}
     end
+    alias prefix_metadata_of metadata_of
 
     # @param field_name [String, Symbol] field name
-    # @return [String] label for a given field
-    def label_of(field_name)
-      metadata_of(field_name)[:label] || field_name.to_s.humanize
+    # @param prefix [String]
+    # @return [String] label for the given field
+    def label_of(field_name, prefix = '')
+      metadata_of(field_name, prefix)[:label] || field_name.to_s.humanize
     end
+    alias prefix_label_of label_of
 
     # @param field_name [String, Symbol] field name
-    # @return [String, Symbol] type for a given field
-    def type_of(field_name)
-      ensure_type_is_present field_name, metadata_of(field_name)[:type]
+    # @param prefix [String]
+    # @return [String, Symbol] type for the given field
+    def type_of(field_name, prefix = '')
+      ensure_type_is_present field_name, metadata_of(field_name, prefix)[:type], prefix
+    end
+    alias prefix_type_of type_of
+
+    # @param prefix [String]
+    # @return [ActiveSupport::HashWithIndifferentAccess] metadata
+    def prefix_fields(prefix)
+      variable = "@#{prefix}fields"
+      instance_variable_get(variable) || instance_variable_set(variable, Utils.clone(fields))
     end
 
-    # @param field_name [String, Symbol] field name
-    # @return [Hash] index metadata information for a given field
-    def index_metadata_of(field_name)
-      index_fields[field_name] || {}
+    # Set metadata for the given prefix
+    # @param fields [Hash] fields metadata
+    # @param prefix [String]
+    # @return [ActiveSupport::HashWithIndifferentAccess] metadata
+    def prefix_fields=(fields, prefix)
+      variable = "@#{prefix}fields"
+      instance_variable_set(variable, FieldsRegulator.new(fields).execute)
     end
 
-    # @param field_name [String, Symbol] field name
-    # @return [String] index label for a given field
-    def index_label_of(field_name)
-      index_metadata_of(field_name)[:label] || field_name.to_s.humanize
+    # @param prefix [String]
+    # @return [Array<String>] a list of field names
+    def prefix_field_names(prefix)
+      variable = "@#{prefix}field_names"
+      instance_variable_get(variable) || \
+        instance_variable_set(variable, reposition(prefix_fields(prefix).keys, primary_key))
     end
 
-    # @param field_name [String, Symbol] field name
-    # @return [String, Symbol] index type for a given field
-    def index_type_of(field_name)
-      ensure_type_is_present field_name, index_metadata_of(field_name)[:type], 'index_'
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [Hash] show metadata information for a given field
-    def show_metadata_of(field_name)
-      show_fields[field_name] || {}
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [String] show label for a given field
-    def show_label_of(field_name)
-      show_metadata_of(field_name)[:label] || field_name.to_s.humanize
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [String, Symbol] show type for a given field
-    def show_type_of(field_name)
-      ensure_type_is_present field_name, show_metadata_of(field_name)[:type], 'show_'
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [Hash] form metadata information for a given field
-    def form_metadata_of(field_name)
-      form_fields[field_name] || {}
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [String] form label for a given field
-    def form_label_of(field_name)
-      form_metadata_of(field_name)[:label] || field_name.to_s.humanize
-    end
-
-    # @param field_name [String, Symbol] field name
-    # @return [String, Symbol] form type for a given field
-    def form_type_of(field_name)
-      ensure_type_is_present field_name, form_metadata_of(field_name)[:type], 'form_'
+    # Set field names for the given prefix
+    # @param field_names [Array<String>]
+    # @param prefix [String]
+    # @return [Array<String>] a list of field names
+    def prefix_field_names=(field_names, prefix)
+      variable = "@#{prefix}field_names"
+      instance_variable_set(variable, Array(field_names).flatten)
     end
   end
 end
