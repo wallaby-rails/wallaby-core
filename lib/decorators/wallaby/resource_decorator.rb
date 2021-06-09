@@ -4,19 +4,19 @@ module Wallaby
   # Decorator base class. It's designed to be used as the decorator (AKA presenter/view object)
   # for the associated model instance (which means it should be used in the views only).
   #
-  # And it holds the following metadata information for associated model class:
+  # And it holds the following field metadata information for associated model class:
   #
-  # - {#fields}
-  # - {#field_names}
-  # - {#index_fields}
-  # - {#index_field_names}
-  # - {#show_fields}
-  # - {#show_field_names}
-  # - {#form_fields}
-  # - {#form_field_names}
+  # - {#fields} - all other `*_fields` methods origin from it. and it's frozen.
+  # - {#field_names} - all other `*_field_names` methods origin from it. and it's frozen.
+  # - {#index_fields} - field metdata used on index page
+  # - {#index_field_names} - field name list used on index page
+  # - {#show_fields} - field metdata used on show page
+  # - {#show_field_names} - field name list used on show page
+  # - {#form_fields} - field metdata used on new/create/edit/update page
+  # - {#form_field_names} - field name list used on new/create/edit/update page
   #
   # For better practice, please create an application decorator class (see example)
-  # to better control the functions shared between different resource decorators.
+  # to better control the functions shared between different decorators.
   # @example Create an application class for Admin Interface usage
   #   class Admin::ApplicationDecorator < Wallaby::ResourceDecorator
   #     base_class!
@@ -53,10 +53,34 @@ module Wallaby
       ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i(model_class)
 
     class << self
+      # @!attribute fields
+      #   (see Wallaby::ModelDecorator#fields)
+
+      # @!attribute field_names
+      #   (see Wallaby::ModelDecorator#field_names)
+
+      # @!attribute index_fields
+      #   (see Wallaby::ModelDecorator#index_fields)
+
+      # @!attribute index_field_names
+      #   (see Wallaby::ModelDecorator#index_field_names)
+
+      # @!attribute show_fields
+      #   (see Wallaby::ModelDecorator#show_fields)
+
+      # @!attribute show_field_names
+      #   (see Wallaby::ModelDecorator#show_field_names)
+
+      # @!attribute form_fields
+      #   (see Wallaby::ModelDecorator#form_fields)
+
+      # @!attribute form_field_names
+      #   (see Wallaby::ModelDecorator#form_field_names)
+
       delegate(*DELEGATE_METHODS, to: :model_decorator, allow_nil: true)
 
-      # Return associated model decorator. It is the instance that pull out all the metadata
-      # information for the associated model.
+      # Return associated {ModelDecorator model decorator}. It is the instance that pull out all the metadata
+      # information from the associated model.
       # @param model_class [Class]
       # @return [ModelDecorator]
       # @return [nil] if itself is a base class or the given model_class is blank
@@ -70,13 +94,12 @@ module Wallaby
       attr_writer :h
 
       # @!attribute [r] h
-      # @return [ActionView::Base]
-      #   {Configuration::Mapping#resources_controller resources controller}'s helpers
+      # @return [ActionView::Base] {ResourcesController}'s helpers
       def h
-        @h ||= Wallaby.configuration.resources_controller.helpers
+        @h ||= superclass.try(:h) || ResourcesController.helpers
       end
 
-      # Delegate missing method to {#model_decorator}
+      # Delegate missing method to {.model_decorator}
       def method_missing(method_id, *args, &block)
         return if ModelDecorator::MISSING_METHODS_RELATED_TO_FIELDS.match?(method_id.to_s) && model_decorator.blank?
         return super unless model_decorator.try(:respond_to?, method_id)
@@ -84,7 +107,7 @@ module Wallaby
         model_decorator.try(method_id, *args, &block)
       end
 
-      # Delegate missing method check to {#model_decorator}
+      # Delegate missing method check to {.model_decorator}
       def respond_to_missing?(method_id, _include_private)
         model_decorator.try(:respond_to?, method_id) || super
       end
@@ -98,15 +121,14 @@ module Wallaby
     # @return [ModelDecorator]
     attr_reader :model_decorator
 
-    # @return [ActionView::Base]
-    #   {Configuration::Mapping#resources_controller resources controller}'s helpers
+    # @return [ActionView::Base] {ResourcesController}'s helpers
     # @see .h
     def h
       self.class.h
     end
 
     delegate(*DELEGATE_METHODS, to: :model_decorator)
-    # NOTE: this delegation is to make url helper method working properly with resource decorator instance
+    # NOTE: this delegation is to make Rails URL helper methods working properly with decorator instance
     delegate :to_s, :to_param, to: :resource
 
     # @param resource [Object]
@@ -133,8 +155,9 @@ module Wallaby
     # It falls back to primary key value when no text field is found.
     # @return [String] a label
     def to_label
-      # NOTE: `.to_s` at the end is to ensure String is returned that won't cause any
-      # issue when `#to_label` is used in a link_to block. Coz integer is ignored.
+      # NOTE: `.to_s` at the end is to ensure String is returned.
+      # There is an issue when {#to_label} returns an integer value, and it is used in a #link_to block,
+      # the #link_to will generate empty link text when integer value is given in the block.
       (model_decorator.guess_title(resource) || primary_key_value).to_s
     end
 
@@ -148,13 +171,13 @@ module Wallaby
       resource.try primary_key
     end
 
-    # @note this method is for the Rails helper methods to recognize non-ActiveModel models
+    # @note this method is for the Rails URL helper methods to recognize non-ActiveModel models
     # @return [ActiveModel::Name]
     def model_name
       resource.try(:model_name) || ActiveModel::Name.new(model_class)
     end
 
-    # @note this method is for the form helper methods to recognize non-ActiveModel models
+    # @note this method is for the Rails form helper methods to recognize non-ActiveModel models
     # @return [nil] if no primary key
     # @return [Array<String>] primary key
     def to_key

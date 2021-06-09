@@ -60,4 +60,112 @@ describe Wallaby::ResourcesController, type: :controller do
       end
     end
   end
+
+  describe '.logout_path & .logout_method & .email_method' do
+    it 'returns models' do
+      expect(described_class.logout_path).to be_nil
+      expect(described_class.logout_method).to be_nil
+    end
+
+    context 'when subclass' do
+      let!(:application_controller) { stub_const 'Admin::ApplicationController', base_class_from(described_class) }
+
+      it 'returns models' do
+        expect(application_controller.logout_path).to be_nil
+        expect(application_controller.logout_method).to be_nil
+        expect(application_controller.email_method).to be_nil
+
+        application_controller.logout_path = 'signout'
+        application_controller.logout_method = 'put'
+        application_controller.email_method = 'email_address'
+        expect(application_controller.logout_path).to eq 'signout'
+        expect(application_controller.logout_method).to eq 'put'
+        expect(application_controller.email_method).to eq 'email_address'
+
+        application_controller.logout_path = :signout
+        application_controller.logout_method = :put
+        application_controller.email_method = :email_address
+        expect(application_controller.logout_path).to eq :signout
+        expect(application_controller.logout_method).to eq :put
+        expect(application_controller.email_method).to eq :email_address
+
+        application_controller.logout_path = nil
+        application_controller.logout_method = nil
+        application_controller.email_method = nil
+        expect(application_controller.logout_path).to be_nil
+        expect(application_controller.logout_method).to be_nil
+        expect(application_controller.email_method).to be_nil
+
+        expect { application_controller.logout_path = Rails.root }.to raise_error ArgumentError, 'Please provide a String/Symbol value or nil'
+        expect { application_controller.logout_method = 'something else' }.to raise_error ArgumentError, 'Please provide valid RFC2616 HTTP method (e.g. options, get, head, post, put, delete, trace, connect) or nil'
+        expect { application_controller.email_method = Rails.root }.to raise_error ArgumentError, 'Please provide a String/Symbol value or nil'
+      end
+    end
+  end
+
+  describe '.max_text_length' do
+    it 'returns models' do
+      expect(described_class.max_text_length).to eq 20
+    end
+
+    context 'when subclass' do
+      let!(:application_controller) { stub_const 'Admin::ApplicationController', base_class_from(described_class) }
+
+      it 'returns models' do
+        expect(application_controller.max_text_length).to eq 20
+
+        application_controller.max_text_length = 50
+        expect(application_controller.max_text_length).to eq 50
+
+        application_controller.max_text_length = nil
+        expect(application_controller.max_text_length).to eq 20
+
+        expect { application_controller.max_text_length = Rails.root }.to raise_error ArgumentError, 'Please provide a Integer value or nil'
+      end
+    end
+  end
+
+  describe '.page_size' do
+    it 'returns models' do
+      expect(described_class.page_size).to eq 20
+    end
+
+    context 'when subclass' do
+      let!(:application_controller) { stub_const 'Admin::ApplicationController', base_class_from(described_class) }
+
+      it 'returns models' do
+        expect(application_controller.page_size).to eq 20
+
+        application_controller.page_size = 50
+        expect(application_controller.page_size).to eq 50
+
+        application_controller.page_size = nil
+        expect(application_controller.page_size).to eq 20
+
+        expect { application_controller.page_size = Rails.root }.to raise_error ArgumentError, 'Please provide a Integer value or nil'
+      end
+    end
+  end
+
+  describe '.sorting_strategy' do
+    it 'returns models' do
+      expect(described_class.sorting_strategy).to eq :multiple
+    end
+
+    context 'when subclass' do
+      let!(:application_controller) { stub_const 'Admin::ApplicationController', base_class_from(described_class) }
+
+      it 'returns models' do
+        expect(application_controller.sorting_strategy).to eq :multiple
+
+        application_controller.sorting_strategy = :single
+        expect(application_controller.sorting_strategy).to eq :single
+
+        application_controller.sorting_strategy = nil
+        expect(application_controller.sorting_strategy).to eq :multiple
+
+        expect { application_controller.sorting_strategy = Rails.root }.to raise_error ArgumentError, 'Please provide a value of :multiple, :single or nil'
+      end
+    end
+  end
 end

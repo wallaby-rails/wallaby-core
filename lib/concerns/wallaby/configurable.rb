@@ -272,12 +272,15 @@ module Wallaby
 
       # @!attribute [w] logout_method
       def logout_method=(logout_method)
-        case logout_method
-        when String, Symbol, nil
+        normalized = logout_method.present? ? logout_method.to_s.downcase : nil
+        rfc2616 = ActionDispatch::Request::RFC2616.map(&:downcase)
+
+        if normalized.nil? || rfc2616.include?(normalized)
           @logout_method = logout_method
-        else
-          raise ArgumentError, 'Please provide a String/Symbol value or nil'
+          return
         end
+
+        raise ArgumentError, "Please provide valid RFC2616 HTTP method (e.g. #{rfc2616.join(', ')}) or nil"
       end
 
       # @!attribute [r] email_method
@@ -390,7 +393,7 @@ module Wallaby
         when :multiple, :single, nil
           @sorting_strategy = sorting_strategy
         else
-          raise ArgumentError, 'Please provide a value of `:multiple`, `:single` or nil'
+          raise ArgumentError, 'Please provide a value of :multiple, :single or nil'
         end
       end
     end

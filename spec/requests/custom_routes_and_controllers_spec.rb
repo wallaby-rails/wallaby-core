@@ -9,19 +9,19 @@ describe 'overrides the resourceful routes', type: :request do
     expect(response).to render_template :index
   end
 
-  it 'reneders custom member action' do
+  it 'renders custom member action' do
     http :get, '/admin/categories/1/member_only'
     expect(response).to be_successful
     expect(response.body).to eq 'This is a member only action for Admin::CategoriesController'
   end
 
-  it 'reneders custom collection action' do
+  it 'renders custom collection action' do
     http :get, '/admin/categories/collection_only'
     expect(response).to be_successful
     expect(response.body).to eq 'This is a collection only action for Admin::CategoriesController'
   end
 
-  it 'reneders links' do
+  it 'renders links' do
     http :get, '/admin/categories/links'
     expect(response).to be_successful
     expect(page_json['category']['index']).to include('/admin/categories')
@@ -44,19 +44,19 @@ describe 'add custom resourceful routes', type: :request do
     expect(response).to render_template :index
   end
 
-  it 'reneders custom member action' do
+  it 'renders custom member action' do
     http :get, '/admin/custom_categories/1/member_only'
     expect(response).to be_successful
     expect(response.body).to eq 'This is a member only action for Admin::CustomCategoriesController'
   end
 
-  it 'reneders custom collection action' do
+  it 'renders custom collection action' do
     http :get, '/admin/custom_categories/collection_only'
     expect(response).to be_successful
     expect(response.body).to eq 'This is a collection only action for Admin::CustomCategoriesController'
   end
 
-  it 'reneders links' do
+  it 'renders links' do
     http :get, '/admin/custom_categories/links'
     expect(response).to be_successful
     expect(page_json['category']['index']).to include('/admin/custom_categories')

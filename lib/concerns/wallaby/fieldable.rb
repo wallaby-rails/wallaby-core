@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Field helper that takes care of `fields`, `field_names` related methods for model decorator
+  # Field helper method collection
+  # that takes care of `fields`, `field_names` related methods for model decorator
   module Fieldable
     # @param field_name [String, Symbol] field name
     # @param prefix [String]

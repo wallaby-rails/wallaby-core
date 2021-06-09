@@ -45,14 +45,19 @@ module Wallaby
     protected
 
     def all_fields
-      existing_fields = %w(index_fields show_fields form_fields)
-      possible_fields =
-        @decorator
+      existing_fields + possible_fields_from_instance_variables
+    end
+
+    def existing_fields
+      %w(index_fields show_fields form_fields)
+    end
+
+    def possible_fields_from_instance_variables
+      @decorator
         .model_decorator.instance_variables
         .map(&:to_s)
         .grep(/\A@[a-zA-Z]\w*_fields\Z/)
         .map { |s| s[1..-1] }
-      existing_fields + possible_fields
     end
   end
 end
