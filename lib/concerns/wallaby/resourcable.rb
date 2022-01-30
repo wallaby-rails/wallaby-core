@@ -38,6 +38,14 @@ module Wallaby
       @resource_params ||= current_servicer.permit params, action_name
     end
 
+    def create_params
+      resource_params
+    end
+
+    def update_params
+      resource_params
+    end
+
     # @note This is a template method that can be overridden by subclasses.
     # This is a method to return collection for index page.
     #
@@ -64,14 +72,10 @@ module Wallaby
     # @option options [Boolean] :paginate see {Paginatable#paginate}
     # @yield [collection] (since wallaby-5.2.0) a block to run to extend collection, e.g. call chain with more queries
     # @return [#each] a collection of records
-    def collection(options = {}, &block)
+    def collection(params: self.params, paginate: true, **options, &block)
       @collection ||=
         ModuleUtils.yield_for(
-          begin
-            options[:paginate] = true unless options.key?(:paginate)
-            options[:params] ||= params
-            paginate current_servicer.collection(options.delete(:params)), options
-          end,
+          paginate(current_servicer.collection(params), ({ paginate: paginate }).merge(options)),
           &block
         )
     end
@@ -100,27 +104,26 @@ module Wallaby
     #       # NOTE: make sure `@resource` and conditional assignment (the OR EQUAL) operator are used
     #       @resource ||= resource_id.present? ? Product.find_by_slug(resource_id) : Product.new(arrival: true)
     #     end
-    # @param options [Hash] (since wallaby-5.2.0)
-    # @option options [Hash, ActionController::Parameters] :find_params
-    #   parameters/options for resource finding
-    # @option options [Hash, ActionController::Parameters] :new_params
-    #   parameters/options for new resource initialization
     # @yield [resource] (since wallaby-5.2.0) a block to run to extend resource, e.g. making change to the resource.
     #   Please make sure to return the resource at the end of block
     # @return [Object] either persisted or unpersisted resource instance
     # @raise [ResourceNotFound] if resource is not found
-    def resource(options = {}, &block)
+    def resource(&block)
       @resource ||=
         ModuleUtils.yield_for(
-          # this will testify both resource and resources
           if resource_id.present?
-            current_servicer.find resource_id, options[:find_params]
-          else
-            current_servicer.new options[:new_params]
+            current_servicer.find resource_id
           end,
           &block
         )
+      @resource || new_resource(&block)
     end
     alias resource! resource
+
+    def new_resource(&block)
+      @resource ||=
+        ModuleUtils.yield_for(current_servicer.new, &block)
+    end
+    alias new_resource! new_resource
   end
 end

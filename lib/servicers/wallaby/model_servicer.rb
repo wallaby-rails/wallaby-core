@@ -81,7 +81,7 @@ module Wallaby
     # Initialize an instance of the model class.
     # @param params [ActionController::Parameters]
     # @return [Object] initialized resource
-    def new(params)
+    def new(params = {})
       provider.new params, authorizer
     end
 
@@ -90,7 +90,7 @@ module Wallaby
     # @param id [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] found resource
-    def find(id, params)
+    def find(id, params = {})
       provider.find id, params, authorizer
     end
 
@@ -117,7 +117,7 @@ module Wallaby
     # @param resource [Object]
     # @param params [ActionController::Parameters]
     # @return [Object] resource
-    def destroy(resource, params)
+    def destroy(resource, params = {})
       provider.destroy resource, params, authorizer
     end
   end

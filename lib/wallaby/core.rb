@@ -49,7 +49,6 @@ require 'concerns/wallaby/configurable'
 require 'concerns/wallaby/urlable'
 
 require 'concerns/wallaby/decoratable'
-require 'concerns/wallaby/defaultable'
 require 'concerns/wallaby/engineable'
 require 'concerns/wallaby/fieldable'
 require 'concerns/wallaby/paginatable'
