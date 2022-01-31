@@ -16,8 +16,8 @@ gemspec
 
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
-# gem 'rails', git: 'https://github.com/rails/rails', branch: 'master'
-gem 'rails', '~> 6.1.0'
+# gem 'rails', git: 'https://github.com/rails/rails', branch: 'main'
+gem 'rails', '~> 7.0.0'
 
 # gem 'wallaby-active_record'
 gem 'wallaby-active_record', path: '../wallaby-active_record'
@@ -35,7 +35,7 @@ gem 'pundit'
 gem 'sqlite3'
 # gem 'sqlite3', '< 1.4.0'
 
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'master'
+gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main'
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
 # gem 'will_paginate'
 

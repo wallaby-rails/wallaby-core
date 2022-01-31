@@ -8,7 +8,7 @@ describe Wallaby::SecureHelper do
     end
 
     context 'when email_method is configured' do
-      it 'returns user gravatar ' do
+      it 'returns user gravatar' do
         helper.wallaby_controller.email_method = 'email_address'
         user = instance_double 'user', email_address: 'tian@example.com'
         expect(helper.user_portrait(user: user)).to match(/<img /)
@@ -23,7 +23,7 @@ describe Wallaby::SecureHelper do
     end
 
     context 'when user object respond_to email' do
-      it 'returns user gravatar ' do
+      it 'returns user gravatar' do
         user = instance_double 'user', email: 'tian@example.com'
         expect(helper.user_portrait(user: user)).to match(/<img /)
         expect(helper.user_portrait(user: user)).to match(%r{www.gravatar.com/avatar/})

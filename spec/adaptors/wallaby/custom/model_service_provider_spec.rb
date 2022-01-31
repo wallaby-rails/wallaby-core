@@ -15,7 +15,11 @@ describe Wallaby::Custom::ModelServiceProvider, type: :helper do
 
     describe '#permit' do
       it 'raises not implemented' do
-        expect { subject.permit(parameters, :index, authorizer) }.to raise_error Wallaby::NotImplemented
+        if version? '> 7.0.0'
+          expect { subject.permit(parameters, :index, authorizer) }.to raise_error Zeitwerk::NameError
+        else
+          expect { subject.permit(parameters, :index, authorizer) }.to raise_error Wallaby::NotImplemented
+        end
       end
     end
 

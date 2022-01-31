@@ -39,9 +39,9 @@ db_namespace = namespace :db do
           should_reconnect = ActiveRecord::Base.connection_pool.active_connection?
           ActiveRecord::Schema.verbose = false
           schema_file = File.join ActiveRecord::Tasks::DatabaseTasks.db_dir, "#{ type }_schema.rb"
-          if Rails::VERSION::MAJOR == 6 && Rails::VERSION::MINOR >= 1
+          if Rails::VERSION::MAJOR == 6 && Rails::VERSION::MINOR >= 1 || Rails::VERSION::MAJOR >= 7
             ActiveRecord::Tasks::DatabaseTasks.load_schema ActiveRecord::Base.configurations.configs_for(env_name: type).first, :ruby, schema_file
-          elsif Rails::VERSION::MAJOR >= 5
+          elsif Rails::VERSION::MAJOR >= 5 && Rails::VERSION::MAJOR <=6
             ActiveRecord::Tasks::DatabaseTasks.load_schema ActiveRecord::Base.configurations[type], :ruby, schema_file
           else
             ActiveRecord::Tasks::DatabaseTasks.load_schema_for ActiveRecord::Base.configurations[type], :ruby, schema_file

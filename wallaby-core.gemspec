@@ -19,7 +19,8 @@ Gem::Specification.new do |spec|
   spec.metadata = {
     'homepage_uri' => spec.homepage,
     'source_code_uri' => spec.homepage,
-    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md"
+    'changelog_uri' => "#{spec.homepage}/blob/master/CHANGELOG.md",
+    'rubygems_mfa_required' => 'true'
   }
 
   spec.files = Dir[
@@ -28,8 +29,8 @@ Gem::Specification.new do |spec|
     'README.md'
   ]
 
-  spec.add_dependency 'activemodel', '>= 4.2.0', '<= 6.2.0'
-  spec.add_dependency 'railties', '>= 4.2.0', '<= 6.2.0'
+  spec.add_dependency 'activemodel', '>= 4.2.0', '<7.1.0'
+  spec.add_dependency 'railties', '>= 4.2.0', '<7.1.0'
 
   spec.add_dependency 'parslet'
   spec.add_dependency 'responders'
