@@ -10,7 +10,8 @@ module Wallaby
       def execute(all:, whitelisted:, blacklisted:)
         invalid, valid =
           if whitelisted.present? then [whitelisted - all, whitelisted]
-          else [blacklisted - all, all - blacklisted]
+          else
+            [blacklisted - all, all - blacklisted]
           end
         return valid if invalid.blank?
 

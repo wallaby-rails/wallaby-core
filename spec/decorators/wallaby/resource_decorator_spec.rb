@@ -70,7 +70,8 @@ describe Wallaby::ResourceDecorator do
   end
 
   describe 'instance methods' do
-    let(:subject) { described_class.new resource }
+    subject { described_class.new resource }
+
     let(:resource) { model_class.new }
     let(:model_class) { Product }
 

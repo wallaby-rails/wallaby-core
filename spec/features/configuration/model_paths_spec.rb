@@ -20,7 +20,7 @@ describe Wallaby::Configuration do
     expect(subject.model_paths).to eq ['app/models']
   end
 
-  context 'when non-String list is provided ' do
+  context 'when non-String list is provided' do
     it 'raises ArgumentError' do
       expect { subject.model_paths = %r{app/(core|models)} }.to raise_error ArgumentError
       expect { subject.model_paths = %i(app/core app/models) }.to raise_error ArgumentError

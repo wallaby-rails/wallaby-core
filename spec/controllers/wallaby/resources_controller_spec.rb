@@ -1,7 +1,7 @@
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
-  describe 'instance methods ' do
+  describe 'instance methods' do
     let!(:model_class) { Product }
 
     before do
@@ -130,7 +130,7 @@ describe Wallaby::ResourcesController do
     end
 
     describe 'CampervansController' do
-      describe 'class methods ' do
+      describe 'class methods' do
         describe '.model_class' do
           it 'returns model class' do
             expect(CampervansController.model_class).to eq Campervan
