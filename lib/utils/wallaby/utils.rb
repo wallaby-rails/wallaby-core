@@ -7,7 +7,7 @@ module Wallaby
     # @param object [Object]
     # @return [Object] a clone object
     def self.clone(object)
-      ::Marshal.load(::Marshal.dump(object))
+      object.try(:deep_dup) || object && ::Marshal.load(::Marshal.dump(object))
     end
 
     # @param object [Object, nil]
