@@ -7,7 +7,20 @@ module Wallaby
     # @param object [Object]
     # @return [Object] a clone object
     def self.clone(object)
-      object.try(:deep_dup) || object && ::Marshal.load(::Marshal.dump(object))
+      # NOTE: Neither marshal/deep_dup/dup achieves real and correct deep copy,
+      # so here we need a custom solution below:
+      case object
+      when Hash
+        object.each_with_object(object.class.new) { |(key, value), hash| hash[key] = clone(value) }
+      when Array
+        object.each_with_object(object.class.new) { |value, array| array << clone(value) }
+      when Class
+        # NOTE: `Class.dup` will turn the duplicate class into anonymous class
+        # therefore, we just return the Class itself here
+        object
+      else
+        object.dup
+      end
     end
 
     # @param object [Object, nil]
