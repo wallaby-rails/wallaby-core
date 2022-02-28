@@ -11,13 +11,13 @@ describe Wallaby::ClassHash do
     it 'assigns and return' do
       subject[Class] = Module
       expect(subject[Class]).to eq Module
-      expect(subject['Class']).to eq nil
+      expect(subject['Class']).to be_nil
       expect(subject.internal).to eq ['Class', true] => ['Module', true]
       expect(subject).to eq Class => Module
 
       subject[Class] = 'Module'
       expect(subject[Class]).to eq 'Module'
-      expect(subject['Class']).to eq nil
+      expect(subject['Class']).to be_nil
       expect(subject).to eq Class => 'Module'
 
       subject['Class'] = 'Module'

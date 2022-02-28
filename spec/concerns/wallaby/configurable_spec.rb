@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Wallaby::ResourcesController, type: :controller do
   describe '.resource_decorator && .application_decorator' do
     it 'returns decorator class' do
-      expect(described_class.resource_decorator).to eq nil
+      expect(described_class.resource_decorator).to be_nil
       expect(described_class.application_decorator).to eq Wallaby::ResourceDecorator
     end
 
