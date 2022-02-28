@@ -7,11 +7,13 @@ module Wallaby
     # @param object [Object]
     # @return [Object] a clone object
     def self.clone(object)
-      # NOTE: Neither marshal/deep_dup/dup achieves real and correct deep copy,
+      # NOTE: Neither marshal/deep_dup/dup are able to achieve real and correct deep copy,
       # so here we need a custom solution below:
       case object
       when Hash
-        object.each_with_object(object.class.new) { |(key, value), hash| hash[key] = clone(value) }
+        object.each_with_object(
+          object.class.new(object.default)
+        ) { |(key, value), hash| hash[key] = clone(value) }
       when Array
         object.each_with_object(object.class.new) { |value, array| array << clone(value) }
       when Class
