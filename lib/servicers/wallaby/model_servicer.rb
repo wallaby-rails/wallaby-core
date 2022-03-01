@@ -53,7 +53,7 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses.
-    # Whitelist parameters for mass assignment.
+    # Allowlist parameters for mass assignment.
     # @param params [Hash, ActionController::Parameters]
     # @param action [String, Symbol, nil]
     # @return [ActionController::Parameters] permitted params

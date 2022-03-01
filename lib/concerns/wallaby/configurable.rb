@@ -196,7 +196,7 @@ module Wallaby
         @models = ClassArray.new models.flatten
       end
 
-      # @note If models are whitelisted using {#models}, models exclusion will NOT be applied.
+      # @note If models are allowlisted using {#models}, models exclusion will NOT be applied.
       # @!attribute [r] models_to_exclude
       # To configure the models to exclude that the controller should be handling.
       # It takes both Class and Class String.
@@ -220,8 +220,8 @@ module Wallaby
       def all_models
         ModelClassFilter.execute(
           all: Map.mode_map.keys,
-          whitelisted: models.origin,
-          blacklisted: models_to_exclude.origin
+          allowlisted: models.origin,
+          denylisted: models_to_exclude.origin
         )
       end
     end

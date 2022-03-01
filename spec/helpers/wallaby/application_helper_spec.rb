@@ -55,7 +55,7 @@ describe Wallaby::ApplicationHelper do
       end
 
       it 'generates URL for array' do
-        expect(helper.url_for(['products'])).to eq '/products'
+        expect(helper.url_for([:products])).to eq '/products'
         expect(helper.url_for(%i(profile postcodes))).to eq '/profile/postcodes'
         expect(helper.url_for(%i(before products))).to eq '/before/products'
         expect { helper.url_for(%i(admin products)) }.to raise_error NoMethodError

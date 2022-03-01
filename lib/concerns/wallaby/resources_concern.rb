@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Resources concern which mades controller to behave like {ResourcesController}
+  # Resources concern defining the controller behaviors
+  # for {ResourcesController} and other controllers that include itself
   module ResourcesConcern
     extend ActiveSupport::Concern
 
@@ -64,7 +65,8 @@ module Wallaby
     #     def index
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       index!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       index!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -102,7 +104,8 @@ module Wallaby
     #     def new
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       new!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       new!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -139,7 +142,8 @@ module Wallaby
     #     def create
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       create!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       create!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -181,7 +185,8 @@ module Wallaby
     #     def show
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       show!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       show!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -215,7 +220,8 @@ module Wallaby
     #     def edit
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       edit!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       edit!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -252,7 +258,8 @@ module Wallaby
     #     def update
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       update!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       update!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end
@@ -295,7 +302,8 @@ module Wallaby
     #     def destroy
     #       # do something before the original action
     #       responder_options = {} # NOTE: see `responder_options` parameter for more details
-    #       destroy!(responder_options) do |format| # NOTE: this is better than using `super`
+    #       # NOTE: this is better than using `super` in many ways, but choose the one that better fits your scenario
+    #       destroy!(responder_options) do |format|
     #         # NOTE: this block is for `respond_with` which works similar to `respond_to`
     #         # customize response behaviour, or do something before the request is rendered
     #       end

@@ -5,14 +5,11 @@ module Wallaby
   class ModelClassFilter
     class << self
       # @param all [Array<Class>]
-      # @param whitelisted [Array<Class>]
-      # @param blacklisted [Array<Class>]
-      def execute(all:, whitelisted:, blacklisted:)
+      # @param allowlisted [Array<Class>]
+      # @param denylisted [Array<Class>]
+      def execute(all:, allowlisted:, denylisted:)
         invalid, valid =
-          if whitelisted.present? then [whitelisted - all, whitelisted]
-          else
-            [blacklisted - all, all - blacklisted]
-          end
+          allowlisted.present? ? [allowlisted - all, allowlisted] : [denylisted - all, all - denylisted]
         return valid if invalid.blank?
 
         raise InvalidError, <<~INSTRUCTION

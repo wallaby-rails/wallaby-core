@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Default authorization provider that whitelists everything.
+  # Default authorization provider that allowlists everything.
   class DefaultAuthorizationProvider < ModelAuthorizationProvider
     # It returns false so that it can be used as the last resort.
     # @param _context [ActionController::Base, ActionView::Base]

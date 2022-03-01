@@ -12,11 +12,11 @@ module Wallaby
       @model_decorator = model_decorator
     end
 
-    # To whitelist params for a model class
+    # To allowlist params for a model class
     # @param _params [ActionController::Parameters]
     # @param _action [String, Symbol]
     # @param _authorizer [ModelAuthorizer]
-    # @return [ActionController::Parameters] whitelisted params
+    # @return [ActionController::Parameters] allowlisted params
     def permit(_params, _action, _authorizer)
       raise NotImplemented
     end

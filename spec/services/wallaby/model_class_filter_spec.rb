@@ -5,35 +5,35 @@ describe Wallaby::ModelClassFilter do
     subject do
       described_class.execute(
         all: all,
-        whitelisted: whitelisted,
-        blacklisted: blacklisted
+        allowlisted: allowlisted,
+        denylisted: denylisted
       )
     end
 
     let(:all) { [AllPostgresType, AllMysqlType, AllSqliteType] }
-    let(:whitelisted) { [] }
-    let(:blacklisted) { [] }
+    let(:allowlisted) { [] }
+    let(:denylisted) { [] }
 
     it 'returns all models' do
       expect(subject).to eq [AllPostgresType, AllMysqlType, AllSqliteType]
     end
 
     context 'when there are excludes' do
-      let(:blacklisted) { [AllPostgresType] }
+      let(:denylisted) { [AllPostgresType] }
 
       it 'excludes AllPostgresType' do
         expect(subject).to eq [AllMysqlType, AllSqliteType]
       end
 
       context 'when models are set' do
-        let(:whitelisted) { [AllSqliteType] }
+        let(:allowlisted) { [AllSqliteType] }
 
         it 'returns the models being set' do
           expect(subject).to eq [AllSqliteType]
         end
 
         context 'when some of the models being set are invalid' do
-          let(:whitelisted) { [Wallaby, AllSqliteType] }
+          let(:allowlisted) { [Wallaby, AllSqliteType] }
 
           it 'raises error' do
             expect { subject }.to raise_error Wallaby::InvalidError
@@ -43,14 +43,14 @@ describe Wallaby::ModelClassFilter do
     end
 
     context 'when models are set' do
-      let(:whitelisted) { [AllSqliteType] }
+      let(:allowlisted) { [AllSqliteType] }
 
       it 'returns the models being set' do
         expect(subject).to eq [AllSqliteType]
       end
 
       context 'when some of the models being set are invalid' do
-        let(:whitelisted) { [Wallaby, AllSqliteType] }
+        let(:allowlisted) { [Wallaby, AllSqliteType] }
 
         it 'raises error' do
           expect { subject }.to raise_error Wallaby::InvalidError
@@ -58,7 +58,7 @@ describe Wallaby::ModelClassFilter do
       end
 
       context 'when there are excludes' do
-        let(:blacklisted) { [AllPostgresType] }
+        let(:denylisted) { [AllPostgresType] }
 
         it 'still returns the models being set' do
           expect(subject).to eq [AllSqliteType]
