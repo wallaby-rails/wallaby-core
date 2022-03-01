@@ -57,7 +57,7 @@ module Wallaby
         map[error] = :"#{error}_path"
       end.merge(
         home: :root_path,
-        # for resourcesful actions
+        # for resourceful actions
         index: :resources_path,
         new: :new_resource_path,
         show: :resource_path,

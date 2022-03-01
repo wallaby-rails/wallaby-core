@@ -38,7 +38,7 @@ describe 'routing' do
         end
       end
 
-      it 'dispatches resourcesful routes to Admin::ApplicationController' do
+      it 'dispatches resourceful routes to Admin::ApplicationController' do
         controller  = Admin::ApplicationController
         resources   = 'products'
 
@@ -107,7 +107,7 @@ describe 'routing' do
           end
         end
 
-        it 'dispatches resourcesful routes to CoreController' do
+        it 'dispatches resourceful routes to CoreController' do
           controller = CoreController
           resources = 'products'
 
@@ -178,7 +178,7 @@ describe 'routing' do
         end
       end
 
-      it 'dispatches resourcesful routes to InnerController' do
+      it 'dispatches resourceful routes to InnerController' do
         controller = InnerController
         resources = 'products'
 
@@ -234,7 +234,7 @@ describe 'routing' do
           expect(response.body).to eq 'home_body'
         end
 
-        it 'dispatches resourcesful routes to InnerController' do
+        it 'dispatches resourceful routes to InnerController' do
           controller = InnerController
           resources = 'products'
 

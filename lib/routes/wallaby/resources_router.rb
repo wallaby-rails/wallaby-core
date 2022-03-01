@@ -102,7 +102,7 @@ module Wallaby
     def validate_model_by(resources_name)
       return unless resources_name # maybe it's for landing page or error page
 
-      # now this is for our lovely resourcesful actions
+      # now this is for our lovely resourceful actions
       model_class = Classifier.to_class(Inflector.to_model_name(resources_name))
       raise ModelNotFound, resources_name unless model_class
       return if Map.mode_map[model_class]

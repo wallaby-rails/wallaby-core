@@ -55,7 +55,7 @@ module Wallaby
     end
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to list records that user can access.
+    # This is a resourceful action to list records that user can access.
     #
     # It can be customized as below in subclasses:
     #
@@ -97,7 +97,7 @@ module Wallaby
     alias index! index
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to show the form to create record that user is allowed to.
+    # This is a resourceful action to show the form to create record that user is allowed to.
     #
     # It can be customized as below in subclasses:
     #
@@ -132,7 +132,7 @@ module Wallaby
     alias new! new
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to create a record that user is allowed to.
+    # This is a resourceful action to create a record that user is allowed to.
     #
     # If record is created successfully, user will be navigated to the record show page.
     # Otherwise, the form will be shown again with error messages.
@@ -160,11 +160,10 @@ module Wallaby
     #         render :new
     #       end
     #     end
+    # @param location [Proc, String] (since 0.3.0) location for responder_options
     # @param responder_options [Hash] (since wallaby-5.2.0) responder_options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
-    #   respond_with}. In addition, responder_options `:params` is supported, see below
-    # @option responder_options [Hash, ActionController::Parameters] :params
-    #   permitted parameters for servicer to create the record. _(defaults to: {#resource_params})_
+    #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -178,7 +177,7 @@ module Wallaby
     alias create! create
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to display the record details that user is allowed to.
+    # This is a resourceful action to display the record details that user is allowed to.
     #
     # It can be customized as below in subclasses:
     #
@@ -213,7 +212,7 @@ module Wallaby
     alias show! show
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to show the form to edit record that user is allowed to.
+    # This is a resourceful action to show the form to edit record that user is allowed to.
     #
     # It can be customized as below in subclasses:
     #
@@ -248,7 +247,7 @@ module Wallaby
     alias edit! edit
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to update the record that user is allowed to.
+    # This is a resourceful action to update the record that user is allowed to.
     #
     # If record is updated successfully, user will be navigated to the record show page.
     # Otherwise, the form will be shown again with error messages.
@@ -277,11 +276,10 @@ module Wallaby
     #         render :new
     #       end
     #     end
+    # @param location [Proc, String] (since 0.3.0) location for responder_options
     # @param responder_options [Hash] (since wallaby-5.2.0) responder_options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
-    #   respond_with}. In addition, responder_options `:params` is supported, see below
-    # @option responder_options [Hash, ActionController::Parameters] :params
-    #   permitted parameters for servicer to update the record. _(defaults to: {#resource_params})_
+    #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -290,12 +288,12 @@ module Wallaby
     def update(location: -> { show_path resource }, **responder_options, &block)
       current_authorizer.authorize :update, resource
       current_servicer.update resource, update_params
-      respond_with resource, ({ location: location }).merge(responder_options), &block
+      respond_with resource, responder_options.merge(location: location), &block
     end
     alias update! update
 
     # @note This is a template method that can be overridden by subclasses.
-    # This is a resourcesful action to delete the record that user is allowed to.
+    # This is a resourceful action to delete the record that user is allowed to.
     #
     # It can be customized as below in subclasses:
     #
@@ -317,11 +315,10 @@ module Wallaby
     #       @resource.destroy
     #       redirect_to helper.index_path(current_model_class)
     #     end
+    # @param location [Proc, String] (since 0.3.0) location for responder_options
     # @param responder_options [Hash] (since wallaby-5.2.0) responder_options for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
-    #   respond_with}. In addition, responder_options `:params` is supported, see below
-    # @option responder_options [Hash, ActionController::Parameters] :params
-    #   permitted parameters for servicer to destroy the record. _(defaults to: {#resource_params})_
+    #   respond_with}
     # @yield [format] block for
     #   {https://www.rubydoc.info/gems/responders/ActionController/RespondWith#respond_with-instance_method
     #   respond_with}
@@ -330,7 +327,7 @@ module Wallaby
     def destroy(location: -> { index_path current_model_class }, **responder_options, &block)
       current_authorizer.authorize :destroy, resource
       current_servicer.destroy resource
-      respond_with resource, ({ location: location }).merge(responder_options), &block
+      respond_with resource, responder_options.merge(location: location), &block
     end
     alias destroy! destroy
   end

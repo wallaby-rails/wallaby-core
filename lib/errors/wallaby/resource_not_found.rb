@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 module Wallaby
-  # Resource not found error
-  class ResourceNotFound < NotFound
+  class ResourceNotFound < NotFound # :nodoc:
     # @return [String] resource not found error message
     def message
       Locale.t 'errors.not_found.resource', resource: super

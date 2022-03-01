@@ -93,19 +93,14 @@ describe Wallaby::ResourcesController do
       end
     end
 
-    describe '#resource' do
+    describe '#new_resource' do
       it 'returns new resource' do
         controller.action_name = 'new'
-        expect(controller.send(:resource)).to be_new_record
+        expect(controller.send(:new_resource)).to be_new_record
       end
+    end
 
-      context 'when action is create' do
-        it 'returns new resource' do
-          controller.action_name = 'create'
-          expect(controller.send(:resource)).to be_new_record
-        end
-      end
-
+    describe '#resource' do
       context 'when resource id is provided' do
         it 'returns the resource' do
           resource = Product.create!(name: 'new Product')

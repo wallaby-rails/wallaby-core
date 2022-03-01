@@ -3,7 +3,7 @@ require 'rails_helper'
 describe 'overrides the resourceful routes', type: :request do
   let!(:category) { Category.create(name: FFaker::Name.name) }
 
-  it 'renders resourcesful actions (e.g. index) ok' do
+  it 'renders resourceful actions (e.g. index) ok' do
     http :get, '/admin/categories'
     expect(response).to be_successful
     expect(response).to render_template :index
@@ -38,7 +38,7 @@ end
 describe 'add custom resourceful routes', type: :request do
   let!(:category) { Category.create(name: FFaker::Name.name) }
 
-  it 'renders resourcesful actions (e.g. index) ok' do
+  it 'renders resourceful actions (e.g. index) ok' do
     http :get, '/admin/custom_categories'
     expect(response).to be_successful
     expect(response).to render_template :index

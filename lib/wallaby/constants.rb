@@ -35,21 +35,21 @@ module Wallaby
   FORM_ACTIONS = { new: 'form', create: 'form', edit: 'form', update: 'form' }.with_indifferent_access.freeze
   SAVE_ACTIONS = %w(create update).freeze
 
-  SCRIPT_NAME = 'SCRIPT_NAME'
-  PATH_INFO = 'PATH_INFO'
+  SCRIPT_NAME = 'SCRIPT_NAME' # :nodoc:
+  PATH_INFO = 'PATH_INFO' # :nodoc:
   # Page size list
   # @see Configuration::Pagination#page_size
   PERS = [10, 20, 50, 100].freeze
-  CSV = 'csv'
-  WILDCARD = 'QUERY'
+  CSV = 'csv' # :nodoc:
+  WILDCARD = 'QUERY' # :nodoc:
 
   # A constant of error path for error handling
   ERROR_PATH = 'error'
 
-  CONTROLLER = 'Controller'
-  DECORATOR = 'Decorator'
-  SERVICER = 'Servicer'
-  AUTHORIZER = 'Authorizer'
-  PAGINATOR = 'Paginator'
-  FINDER = 'Finder'
+  CONTROLLER = 'Controller' # :nodoc:
+  DECORATOR = 'Decorator' # :nodoc:
+  SERVICER = 'Servicer' # :nodoc:
+  AUTHORIZER = 'Authorizer' # :nodoc:
+  PAGINATOR = 'Paginator' # :nodoc:
+  FINDER = 'Finder' # :nodoc:
 end

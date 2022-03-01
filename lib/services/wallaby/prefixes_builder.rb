@@ -24,7 +24,7 @@ module Wallaby
     # even if the custom controller doesn't not exist
     # @return [Array<String>] modified prefixes
     def execute
-      return prefixes_dup unless resourcesful?
+      return prefixes_dup unless resourceful?
       return prefixes_dup if possible_resources_path == controller_path
 
       prefixes_dup.insert(
@@ -41,7 +41,7 @@ module Wallaby
     end
 
     # @return [Boolean]
-    def resourcesful?
+    def resourceful?
       resources_name.present?
     end
 
