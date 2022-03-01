@@ -64,7 +64,7 @@ module Wallaby
             Otherwise, please specify the `model_class` in `#{name}`'s declaration as follows:
 
               class #{name}
-                self.model_class = CorrectClass
+                self.model_class = CorrectModelClass
               end
           INSTRUCTION
         )

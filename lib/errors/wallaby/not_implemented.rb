@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Wallaby
-  class NotImplemented < GeneralError
+  class NotImplemented < GeneralError # :nodoc:
   end
 end

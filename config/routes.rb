@@ -16,7 +16,7 @@ Wallaby::Engine.routes.draw do
       route.get code.to_s, defaults: { action: status }
     end
 
-    # Resourcesful routes.
+    # resourceful routes.
     #
     # `:resources` param here will be converted to the model class in the controller.
     # For instance, `"order::items"` will become `Order::Item` later,

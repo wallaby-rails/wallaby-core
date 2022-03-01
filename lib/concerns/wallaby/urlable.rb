@@ -14,7 +14,7 @@ module Wallaby
       EngineUrlFor.execute(context: self, params: params, options: options) || super(params)
     end
 
-    # Generate the resourcesful index path for given model class.
+    # Generate the resourceful index path for given model class.
     # @param model_class [Class]
     # @param url_params [Hash]
     # @return [String] index page path
@@ -26,7 +26,7 @@ module Wallaby
       )
     end
 
-    # Generate the resourcesful new path for given model class.
+    # Generate the resourceful new path for given model class.
     # @param model_class [Class]
     # @param url_params [Hash]
     # @return [String] new page path
@@ -38,7 +38,7 @@ module Wallaby
       )
     end
 
-    # Generate the resourcesful show path for given resource.
+    # Generate the resourceful show path for given resource.
     # @param resource [Object]
     # @param url_params [Hash]
     # @return [String] show page path
@@ -51,7 +51,7 @@ module Wallaby
       )
     end
 
-    # Generate the resourcesful edit path for given resource.
+    # Generate the resourceful edit path for given resource.
     # @param resource [Object]
     # @param url_params [Hash]
     # @return [String] edit page path

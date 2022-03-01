@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 module Wallaby
-  class InvalidError < GeneralError
+  class InvalidError < GeneralError # :nodoc:
   end
 end

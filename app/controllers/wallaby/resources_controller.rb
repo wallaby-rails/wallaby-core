@@ -7,7 +7,7 @@ module Wallaby
   # Resources controller is the superclass for all customization controllers.
   # It can be used for both Admin Interface and general purpose.
   #
-  # It contains typical resourcesful action template methods
+  # It contains typical resourceful action template methods
   # that can be overridden by subclasses when customizing:
   #
   # - {ResourcesConcern#index #index}
