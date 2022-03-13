@@ -11,9 +11,9 @@ module Wallaby
       # so here we need a custom solution below:
       case object
       when Hash
-        object.each_with_object(
-          object.class.new(object.default)
-        ) { |(key, value), hash| hash[key] = clone(value) }
+        object
+          .each_with_object(object.class.new) { |(key, value), hash| hash[key] = clone(value) }
+          .tap { |hash| hash.default = object.default }
       when Array
         object.each_with_object(object.class.new) { |value, array| array << clone(value) }
       when Class
