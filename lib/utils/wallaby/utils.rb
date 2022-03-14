@@ -9,8 +9,7 @@ module Wallaby
       # therefore, this is our solution:
       case object
       when Hash
-        # NOTE: `default` should be cloned as well
-        object.each_with_object(object.class.new(object.default)) { |(key, value), hash| hash[key] = clone(value) }
+        HashCloner.execute(object)
       when Array
         object.each_with_object(object.class.new) { |value, array| array << clone(value) }
       when Class
@@ -29,6 +28,17 @@ module Wallaby
       return "#{object.class}##{object.try(:id)}" if object.is_a?(::ActiveRecord::Base)
 
       object.inspect
+    end
+
+    # Service object to clone Hash
+    class HashCloner
+      def self.execute(object)
+        # NOTE: `default`/`default_proc` should be cloned as well
+        default_method = object.default_proc ? :default_proc : :default
+        object
+          .each_with_object(object.class.new) { |(key, value), hash| hash[key] = Utils.clone(value) }
+          .tap { |hash| hash.try("#{default_method}=", object.try(default_method)) }
+      end
     end
   end
 end
