@@ -2,6 +2,6 @@
 
 module Wallaby
   module Core
-    VERSION = '0.2.6' # :nodoc:
+    VERSION = '0.2.7' # :nodoc:
   end
 end

@@ -158,5 +158,11 @@ module Wallaby
     def respond_to_missing?(method_id, _include_private)
       resource.respond_to?(method_id) || super
     end
+
+    # @see https://github.com/rails/rails/compare/v7.0.2.4..7-0-stable#diff-44b94eca66c7497711821a8e6bcdfde4684bb7b8efa15e64da6532449f03ef0bR441
+    # @note This overwritten method is a response to the above change
+    def to_model
+      self
+    end
   end
 end
