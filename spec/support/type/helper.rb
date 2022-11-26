@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module HelperSupport
   def url_options
     # NOTE: make it possible to change the url_options from controller

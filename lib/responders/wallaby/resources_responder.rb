@@ -20,13 +20,13 @@ module Wallaby
       timestamp = Time.zone.now.to_s(:number)
       filename =
         (request.params[:resources] || controller.controller_path)
-        .gsub(/#{SLASH}|#{COLONS}/, HYPHEN)
+        .gsub(/#{SLASH}|#{COLONS}/o, HYPHEN)
       "#{filename}-exported-#{timestamp}.#{format}"
     end
 
     # @return [Boolean] true if there is exception or resource has errors
     # @return [Boolean] false otherwise
-    def has_errors? # rubocop:disable Naming/PredicateName
+    def has_errors?
       resource.nil? || resource.is_a?(Exception) || controller.decorate(resource).errors.present?
     end
   end

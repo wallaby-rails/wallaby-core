@@ -36,7 +36,7 @@ module Wallaby
           value = metadata.with_indifferent_access[key]
           value ||= field_name.to_s if key.to_sym == :name
           value = value.to_s if value.is_a? Symbol
-          requirement === value # rubocop:disable Style/CaseEquality
+          requirement === value
         end
       end
     end

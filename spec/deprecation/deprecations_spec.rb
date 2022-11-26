@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::Map do
@@ -212,7 +213,9 @@ describe Wallaby::ResourcesHelper, type: :helper do
 end
 
 describe 'routes' do
-  after { Rails.application.reload_routes! }
+  after do
+    Rails.application.reload_routes!
+  end
 
   describe '#wresource' do
     it { expect { Rails.application.routes.draw { wresource :test } }.to raise_error Wallaby::MethodRemoved }

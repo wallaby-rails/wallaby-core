@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesHelper, :wallaby_user do
@@ -19,7 +20,9 @@ describe Wallaby::ResourcesHelper, :wallaby_user do
     end
 
     context 'when resources is enumerable' do
-      before { AllPostgresType.create string: 'string' }
+      before do
+        AllPostgresType.create string: 'string'
+      end
 
       let(:resources) { AllPostgresType.where(nil) }
 

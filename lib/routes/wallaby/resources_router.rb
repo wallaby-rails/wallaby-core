@@ -61,7 +61,7 @@ module Wallaby
     #   {Configuration#resources_controller Wallaby.configuration.resources_controller}
     # @param options [Hash]
     # @return [Class] controller class
-    def find_controller_class_by(options) # rubocop:disable Metrics/MethodLength
+    def find_controller_class_by(options)
       return default_controller(options) unless options[:resources]
 
       Classifier.to_class(

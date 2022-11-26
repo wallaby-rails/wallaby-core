@@ -27,17 +27,18 @@ module Wallaby
       end
 
       def possible_class_from(class_name, denamespace: false)
+        target = nil
         parts = denamespace ? class_name.split(COLONS) : [class_name]
-        parts.each_with_index do |_, index|
-          klass = Classifier.to_class(parts[index..-1].join(COLONS))
+        parts.each_with_index.find do |_, index|
+          klass = Classifier.to_class(parts[index..].join(COLONS))
           next unless klass
           # additional checking, the given block should return true to continue
           next if block_given? && !yield(klass)
 
-          return klass
+          target = klass
         end
 
-        nil
+        target
       end
     end
   end

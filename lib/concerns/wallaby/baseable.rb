@@ -49,7 +49,7 @@ module Wallaby
       # @return [nil] if current class is marked as base class
       # @raise [ModelNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty
-      def model_class # rubocop:disable Metrics/MethodLength
+      def model_class
         return if base_class?
 
         @model_class ||= Guesser.class_for(name) || raise(

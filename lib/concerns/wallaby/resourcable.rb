@@ -106,7 +106,7 @@ module Wallaby
           &block
         )
     end
-    alias collection! collection
+    alias_method :collection!, :collection
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a method to return resource for
@@ -139,7 +139,7 @@ module Wallaby
       @resource ||=
         ModuleUtils.yield_for(current_servicer.find(resource_id), &block)
     end
-    alias resource! resource
+    alias_method :resource!, :resource
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a method to return resource for
@@ -168,9 +168,9 @@ module Wallaby
     # @return [Object] unpersisted resource instance
     # @since 0.3.0
     def new_resource(&block)
-      @resource ||= # rubocop:disable Naming/MemoizedInstanceVariableName
+      @resource ||=
         ModuleUtils.yield_for(current_servicer.new, &block)
     end
-    alias new_resource! new_resource
+    alias_method :new_resource!, :new_resource
   end
 end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class ProfileServicer < Wallaby::ModelServicer
   def permit(params, action)
     params.fetch(:profile, params).permit(model_decorator.form_field_names)

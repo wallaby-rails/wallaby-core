@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ModelServicer do
@@ -60,7 +61,7 @@ describe Wallaby::ModelServicer do
     describe '#destroy' do
       it 'removes record' do
         record = AllPostgresType.create
-        expect { subject.destroy record, params }.to change(AllPostgresType, :count).from(1).to(0)
+        expect { subject.destroy record, params }.to change { AllPostgresType.count }.from(1).to(0)
       end
     end
   end

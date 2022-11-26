@@ -10,7 +10,7 @@ module Wallaby
     def metadata_of(field_name, prefix = '')
       prefix_fields(prefix)[field_name] || {}
     end
-    alias prefix_metadata_of metadata_of
+    alias_method :prefix_metadata_of, :metadata_of
 
     # @param field_name [String, Symbol] field name
     # @param prefix [String]
@@ -18,7 +18,7 @@ module Wallaby
     def label_of(field_name, prefix = '')
       metadata_of(field_name, prefix)[:label] || field_name.to_s.humanize
     end
-    alias prefix_label_of label_of
+    alias_method :prefix_label_of, :label_of
 
     # @param field_name [String, Symbol] field name
     # @param prefix [String]
@@ -26,7 +26,7 @@ module Wallaby
     def type_of(field_name, prefix = '')
       ensure_type_is_present field_name, metadata_of(field_name, prefix)[:type], prefix
     end
-    alias prefix_type_of type_of
+    alias_method :prefix_type_of, :type_of
 
     # @param prefix [String]
     # @return [ActiveSupport::HashWithIndifferentAccess] metadata

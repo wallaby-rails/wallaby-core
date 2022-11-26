@@ -1,8 +1,9 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'generator_spec'
 require 'generators/wallaby/engine/install/install_generator'
 
-describe Wallaby::Engine::InstallGenerator, 'with default', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::InstallGenerator, 'with default', type: :generator do
   destination File.expand_path('../../../../tmp', __dir__)
 
   before do
@@ -49,9 +50,9 @@ describe Wallaby::Engine::InstallGenerator, 'with default', type: :generator do 
   end
 end
 
-describe Wallaby::Engine::InstallGenerator, 'with argument backend', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::InstallGenerator, 'with argument backend', type: :generator do
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(backend)
+  arguments %w[backend]
 
   before do
     prepare_destination

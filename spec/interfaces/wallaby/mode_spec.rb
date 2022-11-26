@@ -1,7 +1,8 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::Mode do
-  %w(model_decorator model_finder model_service_provider model_pagination_provider default_authorization_provider).each do |method_id|
+  %w[model_decorator model_finder model_service_provider model_pagination_provider default_authorization_provider].each do |method_id|
     describe ".#{method_id}" do
       let(:klass_name) { "#{described_class}::#{method_class}" }
       let(:method_class) { method_id.classify }

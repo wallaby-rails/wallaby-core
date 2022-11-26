@@ -25,7 +25,7 @@ module ActionDispatch
       # @option options [Array] :via HTTP methods that {Wallaby::Engine} processes
       def wallaby_mount(options, &block)
         # define routes under namespace (e.g. `:admin`) before mounting the {Wallaby:Engine} (e.g. at `/admin`)
-        namespace(options[:at][1..-1] || '', options.except(:at), &block) if block_given?
+        namespace(options[:at][1..] || '', options.except(:at), &block) if block
         mount Wallaby::Engine, options.slice(:at, :as, :via)
       end
 

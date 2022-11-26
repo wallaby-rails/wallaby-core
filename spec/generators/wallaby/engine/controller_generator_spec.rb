@@ -1,12 +1,13 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'generator_spec'
 require 'generators/wallaby/engine/controller/controller_generator'
 
-describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator do
   let!(:admin_application_controller) { stub_const('Admin::ApplicationController', base_class_from(Wallaby::ResourcesController)) }
 
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/users)
+  arguments %w[admin/users]
 
   before do
     prepare_destination
@@ -29,9 +30,9 @@ describe Wallaby::Engine::ControllerGenerator, 'with a name', type: :generator d
   end
 end
 
-describe Wallaby::Engine::ControllerGenerator, 'with name and parent', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::ControllerGenerator, 'with name and parent', type: :generator do
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/users backend/application)
+  arguments %w[admin/users backend/application]
 
   before do
     prepare_destination

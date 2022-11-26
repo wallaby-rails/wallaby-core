@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
 module Wallaby
-  class NotAuthenticated < GeneralError # :nodoc:
-  end
+  NotAuthenticated = Class.new(GeneralError)
 end

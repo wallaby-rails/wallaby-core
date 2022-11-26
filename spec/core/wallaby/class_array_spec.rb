@@ -1,9 +1,10 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ClassArray do
   it 'stores Class key/value as String' do
     subject = described_class.new [Class, Module]
-    expect(subject.internal).to eq %w(Class Module)
+    expect(subject.internal).to eq %w[Class Module]
     expect(subject).to eq [Class, Module]
   end
 
@@ -34,7 +35,7 @@ describe Wallaby::ClassArray do
 
       subject << Class
       expect(subject[1]).to eq Class
-      expect(subject.internal).to eq %w(Module Class)
+      expect(subject.internal).to eq %w[Module Class]
       expect(subject).to eq [Module, Class]
     end
   end

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class PostcodeServicer < Wallaby::ModelServicer
   def permit(params, action)
     params.fetch(:postcode, params).permit(model_decorator.form_field_names)

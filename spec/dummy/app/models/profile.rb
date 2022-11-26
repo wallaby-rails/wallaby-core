@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Profile
   attr_accessor :id, :first_name, :last, :email
 
@@ -15,7 +16,7 @@ class Profile
     self.class == other.class && id.to_s == other.id.to_s
   end
 
-  alias == eql?
+  alias_method :==, :eql?
 
   class << self
     def cache_store

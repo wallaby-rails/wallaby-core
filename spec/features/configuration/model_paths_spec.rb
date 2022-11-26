@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::Configuration do
@@ -23,7 +24,7 @@ describe Wallaby::Configuration do
   context 'when non-String list is provided' do
     it 'raises ArgumentError' do
       expect { subject.model_paths = %r{app/(core|models)} }.to raise_error ArgumentError
-      expect { subject.model_paths = %i(app/core app/models) }.to raise_error ArgumentError
+      expect { subject.model_paths = %i[app/core app/models] }.to raise_error ArgumentError
     end
   end
 end

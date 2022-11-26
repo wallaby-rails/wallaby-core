@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'active_record/connection_adapters/sqlite3_adapter'
 
@@ -6,18 +7,19 @@ describe 'Sqlite Types' do
     {
       '>= 5.2' => {
         size_of_native_types: 12,
-        native_types: %w(binary boolean date datetime decimal float integer json primary_key string text time),
+        native_types: %w[binary boolean date datetime decimal float integer json primary_key string text time],
         size_of_supporting_types: 17,
-        supporting_types: %w(binary blob boolean char clob date datetime decimal double float int json number numeric text time timestamp)
+        supporting_types: %w[binary blob boolean char clob date datetime decimal double float int json number numeric text time timestamp]
       }
     }
   end
+
   let(:general) do
     {
       size_of_native_types: 11,
-      native_types: %w(binary boolean date datetime decimal float integer primary_key string text time),
+      native_types: %w[binary boolean date datetime decimal float integer primary_key string text time],
       size_of_supporting_types: 16,
-      supporting_types: %w(binary blob boolean char clob date datetime decimal double float int number numeric text time timestamp)
+      supporting_types: %w[binary blob boolean char clob date datetime decimal double float int number numeric text time timestamp]
     }
   end
 

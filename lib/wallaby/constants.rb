@@ -22,7 +22,7 @@ module Wallaby
   DEFAULT_PROVIDER = 'default'
 
   # HTTP error types that Wallaby handles
-  ERRORS = %i(
+  ERRORS = %i[
     bad_request
     forbidden
     internal_server_error
@@ -30,10 +30,10 @@ module Wallaby
     not_implemented
     unauthorized
     unprocessable_entity
-  ).freeze
-  MODEL_ACTIONS = %i(index new create show edit update destroy).freeze
+  ].freeze
+  MODEL_ACTIONS = %i[index new create show edit update destroy].freeze
   FORM_ACTIONS = { new: 'form', create: 'form', edit: 'form', update: 'form' }.with_indifferent_access.freeze
-  SAVE_ACTIONS = %w(create update).freeze
+  SAVE_ACTIONS = %w[create update].freeze
 
   SCRIPT_NAME = 'SCRIPT_NAME' # :nodoc:
   PATH_INFO = 'PATH_INFO' # :nodoc:

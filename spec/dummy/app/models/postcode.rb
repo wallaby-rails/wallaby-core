@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class Postcode
   attr_accessor :postcode, :locality, :state, :long, :lat, :id, :dc, :type, :status
 
@@ -11,7 +12,7 @@ class Postcode
     self.class == other.class && id.to_s == other.id.to_s
   end
 
-  alias == eql?
+  alias_method :==, :eql?
 
   class << self
     def cache_store
@@ -29,7 +30,7 @@ class Postcode
           Rails.root.join('app/csv/postcodes.csv'),
           headers: true,
           header_converters: [->(h) { h.downcase }],
-          converters: :all,
+          converters: :all
         ).map do |row|
           Postcode.new row.to_h
         end

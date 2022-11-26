@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +12,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 0) do
-
   create_table "all_sqlite_types", force: :cascade do |t|
     t.binary   "binary"
     t.boolean  "boolean"
@@ -24,5 +24,4 @@ ActiveRecord::Schema.define(version: 0) do
     t.text     "text"
     t.time     "time"
   end
-
 end

@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
   {
     logout_path: ['logout', 'users/custom_logout'],
-    logout_method: %w(delete put),
-    email_method: %w(email email_address)
+    logout_method: %w[delete put],
+    email_method: %w[email email_address]
   }.each do |config_method, (application_value, user_value)|
     describe ".#{config_method}" do
       it 'returns nil' do
@@ -16,11 +17,14 @@ describe Wallaby::ResourcesController do
         let(:application_controller) do
           stub_const('Admin::ApplicationController', base_class_from(described_class))
         end
+
         let(:user_controller) do
           stub_const('Admin::ApplicationController', base_class_from(application_controller))
         end
 
-        before { application_controller.try :"#{config_method}=", application_value }
+        before do
+          application_controller.try :"#{config_method}=", application_value
+        end
 
         it "returns its #{config_method}" do
           expect(application_controller.try(config_method)).to eq application_value

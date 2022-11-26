@@ -94,7 +94,7 @@ module Wallaby
       current_authorizer.authorize :index, current_model_class
       respond_with collection, responder_options, &block
     end
-    alias index! index
+    alias_method :index!, :index
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to show the form to create record that user is allowed to.
@@ -129,7 +129,7 @@ module Wallaby
       current_authorizer.authorize :new, new_resource
       respond_with new_resource, responder_options, &block
     end
-    alias new! new
+    alias_method :new!, :new
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to create a record that user is allowed to.
@@ -174,7 +174,7 @@ module Wallaby
       current_servicer.create new_resource, create_params
       respond_with new_resource, responder_options.merge(location: location), &block
     end
-    alias create! create
+    alias_method :create!, :create
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to display the record details that user is allowed to.
@@ -209,7 +209,7 @@ module Wallaby
       current_authorizer.authorize :show, resource
       respond_with resource, responder_options, &block
     end
-    alias show! show
+    alias_method :show!, :show
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to show the form to edit record that user is allowed to.
@@ -244,7 +244,7 @@ module Wallaby
       current_authorizer.authorize :edit, resource
       respond_with resource, responder_options, &block
     end
-    alias edit! edit
+    alias_method :edit!, :edit
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to update the record that user is allowed to.
@@ -290,7 +290,7 @@ module Wallaby
       current_servicer.update resource, update_params
       respond_with resource, responder_options.merge(location: location), &block
     end
-    alias update! update
+    alias_method :update!, :update
 
     # @note This is a template method that can be overridden by subclasses.
     # This is a resourceful action to delete the record that user is allowed to.
@@ -329,6 +329,6 @@ module Wallaby
       current_servicer.destroy resource
       respond_with resource, responder_options.merge(location: location), &block
     end
-    alias destroy! destroy
+    alias_method :destroy!, :destroy
   end
 end
