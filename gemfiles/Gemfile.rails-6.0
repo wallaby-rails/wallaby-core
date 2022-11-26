@@ -13,7 +13,7 @@ gemspec path: '../'
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 gem 'rails', '~> 6.0.0'
-gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: 'main'
+gem 'wallaby-active_record', git: 'https://github.com/wallaby-rails/wallaby-active_record.git', branch: ENV['GITHUB_BASE_REF']
 gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'main'
 
 gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main'
@@ -25,6 +25,14 @@ gem 'mysql2'
 gem 'pg'
 gem 'pundit'
 gem 'sqlite3'
+
+# @see https://stackoverflow.com/a/71192990
+gem 'psych', '< 4'
+
+# @see https://stackoverflow.com/a/70500221
+gem 'net-smtp', require: false
+gem 'net-imap', require: false
+gem 'net-pop', require: false
 
 group :test do
   gem 'database_cleaner'
