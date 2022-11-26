@@ -38,7 +38,7 @@ Wallaby::Engine.routes.draw do
       # @see Wallaby::ResourcesConcern#create
       route.post '', defaults: { action: 'create' }
       # @see Wallaby::ResourcesConcern#update
-      route.match ':id', via: %i(patch put), defaults: { action: 'update' }
+      route.match ':id', via: %i[patch put], defaults: { action: 'update' }
       # @see Wallaby::ResourcesConcern#destroy
       route.delete ':id', defaults: { action: 'destroy' }
     end

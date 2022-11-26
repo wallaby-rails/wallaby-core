@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'routing' do
@@ -16,7 +17,9 @@ describe 'routing' do
     let(:script_name) { '/admin' }
     let(:configuration_resources_controller) { nil }
 
-    before { Wallaby.configuration.resources_controller = configuration_resources_controller }
+    before do
+      Wallaby.configuration.resources_controller = configuration_resources_controller
+    end
 
     context 'with /admin' do
       it 'dispatches landing routes to Admin::ApplicationController' do

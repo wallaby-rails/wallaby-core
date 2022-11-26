@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesController do
@@ -85,6 +86,7 @@ describe Wallaby::ResourcesController do
 
         collection = controller.send :collection
         expect(assigns(:collection)).to eq collection
+
         if version? '>= 6'
           expect(collection.to_sql).to eq 'SELECT "products".* FROM "products" LIMIT 10 OFFSET 10'
         else

@@ -1,6 +1,8 @@
+# frozen_string_literal: true
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  begin # all sorts of mounted path to check if wallaby gets confused or not.
+  # all sorts of mounted path to check if wallaby gets confused or not.
+  begin
     get '/admin/abc', to: Wallaby::ResourcesRouter.new, as: :abc
     namespace :core do
       mount Wallaby::Engine, at: '/admin', as: :nested_engine
@@ -35,7 +37,8 @@ Rails.application.routes.draw do
   end
   get '/something/else', to: 'wallaby/resources#index', defaults: { resources: 'products' }
 
-  begin # for non-admin usage
+  # for non-admin usage
+  begin
     # testing custom mode purpose
     resources :postcodes
     resources :zipcodes

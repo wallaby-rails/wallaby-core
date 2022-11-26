@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 class InnerController < Wallaby::ResourcesController
-  self.base_class!
+  base_class!
 end

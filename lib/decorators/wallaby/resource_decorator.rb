@@ -50,7 +50,7 @@ module Wallaby
     #   (see Wallaby::ModelDecorator#form_field_names)
 
     DELEGATE_METHODS =
-      ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i(model_class)
+      ModelDecorator.public_instance_methods(false) + Fieldable.public_instance_methods(false) - %i[model_class]
 
     class << self
       # @!attribute fields

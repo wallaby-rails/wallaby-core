@@ -5,9 +5,17 @@ module Wallaby
   class Deprecator
     include ActiveModel::Model
 
+    # @!attribute method_instance
+    # @return [Method]
     attr_accessor :method_instance
+    # @!attribute from
+    # @return [String]
     attr_accessor :from
+    # @!attribute mod
+    # @return [Class]
     attr_accessor :mod
+    # @!attribute alternative
+    # @return [Method]
     attr_accessor :alternative
 
     # Log an warning deprecation message or raise {MethodRemoved} when the given method is obsolete.

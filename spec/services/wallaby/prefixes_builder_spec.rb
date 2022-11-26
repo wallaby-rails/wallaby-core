@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::PrefixesBuilder do
@@ -80,7 +81,7 @@ describe Wallaby::PrefixesBuilder do
       let(:resources_name) { 'blogs' }
       let(:script_name) { '' }
 
-      it { is_expected.to eq %w(blogs application) }
+      it { is_expected.to eq %w[blogs application] }
     end
   end
 end

@@ -42,7 +42,7 @@ gem 'pundit'
 gem 'sqlite3'
 # gem 'sqlite3', '< 1.4.0'
 
-gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main'
+gem 'simple_blog_theme', git: 'https://github.com/tian-im/simple_blog_theme.git', branch: 'main' # rubocop:disable Cop/GemFetcher
 # gem 'simple_blog_theme', path: '/simple_blog_theme'
 # gem 'will_paginate'
 

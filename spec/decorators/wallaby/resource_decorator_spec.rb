@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourceDecorator do
@@ -109,10 +110,10 @@ describe Wallaby::ResourceDecorator do
     describe 'fields' do
       let(:model_fields) do
         {
-          'id'            => { 'type' => 'integer', 'label' => 'fake title' },
-          'title'         => { 'type' => 'string', 'label' => 'fake title' },
-          'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
-          'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' }
+          'id' => { 'type' => 'integer', 'label' => 'fake title' },
+          'title' => { 'type' => 'string', 'label' => 'fake title' },
+          'published_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+          'updated_at' => { 'type' => 'datetime', 'label' => 'fake title' }
         }
       end
 
@@ -136,9 +137,9 @@ describe Wallaby::ResourceDecorator do
               next if prefix == ''
 
               if prefix == 'form_'
-                expect(subject.send("#{prefix}field_names")).to eq(%w(title published_at))
+                expect(subject.send("#{prefix}field_names")).to eq(%w[title published_at])
               else
-                expect(subject.send("#{prefix}field_names")).to eq(%w(id title published_at updated_at))
+                expect(subject.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
               end
             end
           end
@@ -147,8 +148,8 @@ describe Wallaby::ResourceDecorator do
             describe "##{prefix}metadata_of" do
               it 'returns metadata' do
                 expect(subject.send("#{prefix}metadata_of", 'id')).to eq(
-                  'type' =>   'integer',
-                  'label' =>  'fake title'
+                  'type' => 'integer',
+                  'label' => 'fake title'
                 )
               end
             end
@@ -222,7 +223,7 @@ describe Wallaby::ResourceDecorator do
       let(:resource) { Picture.new(id: 111) }
 
       it 'calls the missing method from decorator' do
-        expect(subject.some_field_names).to eq %w(id name file created_at updated_at imageable)
+        expect(subject.some_field_names).to eq %w[id name file created_at updated_at imageable]
       end
 
       it 'raises error when missing' do
@@ -237,10 +238,10 @@ describe Wallaby::ResourceDecorator do
     let(:klass) { stub_const 'ProductDecorator', Class.new(application_decorator) }
     let(:model_fields) do
       {
-        'id'            => { 'type' => 'integer', 'label' => 'fake title' },
-        'title'         => { 'type' => 'string', 'label' => 'fake title' },
-        'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
-        'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' }
+        'id' => { 'type' => 'integer', 'label' => 'fake title' },
+        'title' => { 'type' => 'string', 'label' => 'fake title' },
+        'published_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+        'updated_at' => { 'type' => 'datetime', 'label' => 'fake title' }
       }
     end
 
@@ -271,23 +272,23 @@ describe Wallaby::ResourceDecorator do
 
               it 'returns fields hash' do
                 expect(klass.send("#{prefix}fields")).to eq(
-                  'title'         => { 'type' => 'string', 'label' => 'fake title' },
-                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
+                  'title' => { 'type' => 'string', 'label' => 'fake title' },
+                  'published_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id' => { 'type' => 'integer', 'label' => 'fake title' }
                 )
               end
 
               it 'caches the fields hash' do
                 expect { klass.send("#{prefix}fields").delete 'title' }.to change { klass.send "#{prefix}fields" }.from(
-                  'title'         => { 'type' => 'string', 'label' => 'fake title' },
-                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
+                  'title' => { 'type' => 'string', 'label' => 'fake title' },
+                  'published_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id' => { 'type' => 'integer', 'label' => 'fake title' }
                 ).to(
-                  'published_at'  => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'updated_at'    => { 'type' => 'datetime', 'label' => 'fake title' },
-                  'id'            => { 'type' => 'integer', 'label' => 'fake title' }
+                  'published_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'updated_at' => { 'type' => 'datetime', 'label' => 'fake title' },
+                  'id' => { 'type' => 'integer', 'label' => 'fake title' }
                 )
               end
             end
@@ -301,9 +302,9 @@ describe Wallaby::ResourceDecorator do
                 next if prefix == ''
 
                 if prefix == 'form_'
-                  expect(klass.send("#{prefix}field_names")).to eq(%w(title published_at))
+                  expect(klass.send("#{prefix}field_names")).to eq(%w[title published_at])
                 else
-                  expect(klass.send("#{prefix}field_names")).to eq(%w(id title published_at updated_at))
+                  expect(klass.send("#{prefix}field_names")).to eq(%w[id title published_at updated_at])
                 end
               end
 
@@ -311,9 +312,9 @@ describe Wallaby::ResourceDecorator do
                 next if prefix == ''
 
                 if prefix == 'form_'
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w(title published_at)).to(['published_at'])
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[title published_at]).to(['published_at'])
                 else
-                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w(id title published_at updated_at)).to(%w(id published_at updated_at))
+                  expect { klass.send("#{prefix}field_names").delete 'title' }.to change { klass.send "#{prefix}field_names" }.from(%w[id title published_at updated_at]).to(%w[id published_at updated_at])
                 end
               end
             end
@@ -321,8 +322,8 @@ describe Wallaby::ResourceDecorator do
             describe ".#{prefix}metadata_of" do
               it 'returns metadata' do
                 expect(klass.send("#{prefix}metadata_of", 'id')).to eq(
-                  'type' =>   'integer',
-                  'label' =>  'fake title'
+                  'type' => 'integer',
+                  'label' => 'fake title'
                 )
               end
             end
@@ -344,7 +345,7 @@ describe Wallaby::ResourceDecorator do
 
       describe 'missing methods' do
         it 'calls the missing method from decorator' do
-          expect(klass.some_field_names).to eq %w(id title published_at updated_at)
+          expect(klass.some_field_names).to eq %w[id title published_at updated_at]
         end
       end
     end

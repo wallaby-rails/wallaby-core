@@ -34,7 +34,7 @@ module Wallaby
     # @return [Array<String>] model paths
     # @since 0.2.2
     def model_paths
-      @model_paths ||= %w(app/models)
+      @model_paths ||= %w[app/models]
     end
 
     # @!attribute [w] base_controller

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ClassesHelper
   def base_class_from(base = Class)
     Class.new(base) do

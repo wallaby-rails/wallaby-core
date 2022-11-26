@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe 'PostgreSQL Types' do
@@ -6,33 +7,33 @@ describe 'PostgreSQL Types' do
       5 => {
         0 => {
           size_of_column_methods: 30,
-          column_methods: %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml),
+          column_methods: %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml],
           size_of_native_types: 38,
-          native_types: %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml),
+          native_types: %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml],
           size_of_all_types: 40,
-          all_types: %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml),
+          all_types: %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml],
           size_of_supporting_types: 40,
-          supporting_types: %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
+          supporting_types: %w[bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml]
         },
         1 => {
           size_of_column_methods: 32,
-          column_methods: %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml),
+          column_methods: %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml],
           size_of_native_types: 40,
-          native_types: %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml),
+          native_types: %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml],
           size_of_all_types: 42,
-          all_types: %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml),
+          all_types: %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml],
           size_of_supporting_types: 40,
-          supporting_types: %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
+          supporting_types: %w[bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml]
         },
         2 => {
           size_of_column_methods: 31,
-          column_methods: %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml),
+          column_methods: %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml],
           size_of_native_types: 40,
-          native_types: %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml),
+          native_types: %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml],
           size_of_all_types: 42,
-          all_types: %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml),
+          all_types: %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml],
           size_of_supporting_types: 40,
-          supporting_types: %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
+          supporting_types: %w[bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml]
         }
       }
     }
@@ -47,40 +48,40 @@ describe 'PostgreSQL Types' do
 
     if version? '~> 5.0.0'
       expect(column_methods.length).to eq 30
-      expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)
+      expect(column_methods.sort).to eq %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial tsrange tstzrange tsvector uuid xml]
 
       expect(native_types.length).to eq 38
-      expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
+      expect(native_types.sort).to eq %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml]
 
       expect(all_types.length).to eq 40
-      expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
+      expect(all_types.sort).to eq %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb line lseg ltree macaddr money numrange path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml]
     elsif version? '~> 5.1.0'
       expect(column_methods.length).to eq 32
-      expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)
+      expect(column_methods.sort).to eq %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml]
 
       expect(native_types.length).to eq 40
-      expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
+      expect(native_types.sort).to eq %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml]
 
       expect(all_types.length).to eq 42
-      expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
+      expect(all_types.sort).to eq %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml]
     elsif version? '~> 5.2.0'
       expect(column_methods.length).to eq 31
-      expect(column_methods.sort).to eq %w(bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml)
+      expect(column_methods.sort).to eq %w[bigserial bit bit_varying box cidr circle citext daterange hstore inet int4range int8range interval jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial tsrange tstzrange tsvector uuid xml]
 
       expect(native_types.length).to eq 40
-      expect(native_types.sort).to eq %w(binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml)
+      expect(native_types.sort).to eq %w[binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key string text time tsrange tstzrange tsvector uuid xml]
 
       expect(all_types.length).to eq 42
-      expect(all_types.sort).to eq %w(bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml)
+      expect(all_types.sort).to eq %w[bigserial binary bit bit_varying boolean box cidr circle citext date daterange datetime decimal float hstore inet int4range int8range integer interval json jsonb line lseg ltree macaddr money numrange oid path point polygon primary_key serial string text time tsrange tstzrange tsvector uuid xml]
     elsif version? '~> 4.2.0'
       expect(column_methods.length).to eq 21
-      expect(column_methods.sort).to eq %w(bit bit_varying cidr citext daterange hstore inet int4range int8range json jsonb ltree macaddr money numrange point tsrange tstzrange tsvector uuid xml)
+      expect(column_methods.sort).to eq %w[bit bit_varying cidr citext daterange hstore inet int4range int8range json jsonb ltree macaddr money numrange point tsrange tstzrange tsvector uuid xml]
 
       expect(native_types.length).to eq 34
-      expect(native_types.sort).to eq %w(bigint bigserial binary bit bit_varying boolean cidr citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange point primary_key string text time tsrange tstzrange tsvector uuid xml)
+      expect(native_types.sort).to eq %w[bigint bigserial binary bit bit_varying boolean cidr citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange point primary_key string text time tsrange tstzrange tsvector uuid xml]
 
       expect(all_types.length).to eq 34
-      expect(all_types.sort).to eq %w(bigint bigserial binary bit bit_varying boolean cidr citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange point primary_key string text time tsrange tstzrange tsvector uuid xml)
+      expect(all_types.sort).to eq %w[bigint bigserial binary bit bit_varying boolean cidr citext date daterange datetime decimal float hstore inet int4range int8range integer json jsonb ltree macaddr money numrange point primary_key string text time tsrange tstzrange tsvector uuid xml]
     end
   end
 
@@ -92,12 +93,14 @@ describe 'PostgreSQL Types' do
     end
 
     expect(supporting_types.length).to eq 40
-    expect(supporting_types.sort).to eq %w(bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml)
+    expect(supporting_types.sort).to eq %w[bit bool box bpchar bytea char cidr circle citext date float4 float8 hstore inet int2 int4 int8 interval json jsonb line lseg ltree macaddr money name numeric oid path point polygon text time timestamp timestamptz tsvector uuid varbit varchar xml]
   end
 
   if Rails::VERSION::MAJOR >= 5
     describe 'point' do
-      after { AllPostgresType.attribute :point, :point }
+      after do
+        AllPostgresType.attribute :point, :point
+      end
 
       it 'raises if point value is invalid' do
         record = nil
@@ -118,7 +121,9 @@ describe 'PostgreSQL Types' do
       end
 
       context 'with legacy point' do
-        before { AllPostgresType.attribute :point, :legacy_point }
+        before do
+          AllPostgresType.attribute :point, :legacy_point
+        end
 
         it 'raises if legacy point value is invalid' do
           record = nil

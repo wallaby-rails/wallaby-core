@@ -42,7 +42,7 @@ module Wallaby
 
     def collection_data
       {
-        data: resource.map(&method(:single)),
+        data: resource.map { |r| single(r) },
         links: {
           self: controller.url_for(resources: params[:resources], action: 'index')
         }

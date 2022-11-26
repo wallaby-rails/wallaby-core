@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesController, type: :controller do
@@ -42,9 +43,11 @@ describe Wallaby::ResourcesController, type: :controller do
       it 'returns models' do
         expect(application_controller.models).to be_blank
         expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
+
         if version?('>= 5.2')
           expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata)
         end
+
         expect(application_controller.all_models).not_to include(ActiveRecord::SchemaMigration)
         expect(application_controller.all_models).not_to include(ActiveRecord::InternalMetadata) if version?('>= 5.2')
 

@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesRouter do
@@ -14,6 +15,7 @@ describe Wallaby::ResourcesRouter do
         'REQUEST_METHOD' => 'GET'
       )
     end
+
     let(:params) { Hash resources: resources_name, action: action_name }
     let(:mocked_action) { ->(_env) { response } }
     let(:response) { [200, {}, [action_name]] }

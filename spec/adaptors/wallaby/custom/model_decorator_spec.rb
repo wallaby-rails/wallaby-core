@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::Custom::ModelDecorator do
@@ -64,19 +65,19 @@ describe Wallaby::Custom::ModelDecorator do
 
   describe '#index_field_names' do
     it 'excludes fields that have long value' do
-      expect(subject.index_field_names).to match_array %w(dc id lat locality long postcode state status type)
+      expect(subject.index_field_names).to match_array %w[dc id lat locality long postcode state status type]
     end
   end
 
   describe '#show_field_names' do
     it 'includes all field names' do
-      expect(subject.show_field_names).to match_array %w(dc id lat locality long postcode state status type)
+      expect(subject.show_field_names).to match_array %w[dc id lat locality long postcode state status type]
     end
   end
 
   describe '#form_field_names' do
     it 'excludes id, created_at, updated_at, has_scope and is_through fields' do
-      expect(subject.form_field_names).to match_array %w(dc lat locality long postcode state status type)
+      expect(subject.form_field_names).to match_array %w[dc lat locality long postcode state status type]
       expect(subject.form_field_names).not_to include 'id'
     end
   end
@@ -140,13 +141,13 @@ describe Wallaby::Custom::ModelDecorator do
 
     describe '#action_field_names' do
       it 'returns metadata' do
-        expect(subject.action_field_names).to match_array %w(dc id lat locality long postcode state status type)
+        expect(subject.action_field_names).to match_array %w[dc id lat locality long postcode state status type]
       end
     end
 
     describe '#action_field_names=' do
       it 'returns metadata' do
-        custom_field_names = %w(dc id lat locality long postcode state status type)
+        custom_field_names = %w[dc id lat locality long postcode state status type]
         subject.action_field_names = custom_field_names
         expect(subject.action_field_names).to eq custom_field_names
       end

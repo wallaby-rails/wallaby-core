@@ -15,13 +15,13 @@ module Wallaby
       # Require models under {Configuration#model_paths}
       # @see #model_file_paths
       def require_models
-        new.model_file_paths.each(&method(:require_dependency))
+        new.model_file_paths.each { |path| require_dependency(path) }
       end
     end
 
     # @return [Array<String>] model files under {Configuration#model_paths}
     def model_file_paths
-      sort(all_eager_load_file_paths).select(&method(:indexed))
+      sort(all_eager_load_file_paths).select { |path| indexed(path) }
     end
 
     # @!attribute [w] eager_load_paths
@@ -62,7 +62,7 @@ module Wallaby
 
     # Check if the path is in the {Configuration#model_paths}
     def indexed(path)
-      model_paths.index(&path.method(:include?))
+      model_paths.index { |p| path.include?(p) }
     end
   end
 end

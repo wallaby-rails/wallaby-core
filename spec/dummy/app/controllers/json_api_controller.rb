@@ -1,4 +1,5 @@
+# frozen_string_literal: true
 class JsonApiController < Wallaby::ResourcesController
-  self.base_class!
+  base_class!
   self.responder = Wallaby::JsonApiResponder
 end

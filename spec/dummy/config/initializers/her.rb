@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 if defined? Her
   Her::API.setup url: "http://localhost:3000/admin" do |c|
     # Request

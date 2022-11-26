@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'parslet/convenience'
 require 'parslet/rig/rspec'

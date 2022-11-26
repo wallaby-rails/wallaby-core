@@ -22,8 +22,8 @@ module Wallaby
     def initialize(hash = {})
       @internal =
         (hash || {})
-        .transform_keys(&method(:class_name_of))
-        .transform_values(&method(:class_name_of))
+        .transform_keys { |klass| class_name_of(klass) }
+        .transform_values { |klass| class_name_of(klass) }
     end
 
     # @!attribute [r] origin
@@ -31,10 +31,14 @@ module Wallaby
     def origin
       # NOTE: DO NOT cache it by using instance variable!
       @internal
-        .transform_keys(&method(:to_class))
-        .transform_values(&method(:to_class))
+        .transform_keys { |klass| to_class(klass) }
+        .transform_values { |klass| to_class(klass) }
         .reject { |k, v| k.nil? || v.nil? }
     end
+
+    # @!method key?
+    # Return if {#origin} has the given key.
+    delegate :key?, to: :origin
 
     # @!method keys
     # Return the keys of {#origin}.

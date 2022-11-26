@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 module ParametersHelper
   def parameters(hash = {})
     ActionController::Parameters.new hash

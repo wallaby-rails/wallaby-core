@@ -1,10 +1,11 @@
+# frozen_string_literal: true
 require 'rails_helper'
 require 'generator_spec'
 require 'generators/wallaby/engine/decorator/decorator_generator'
 
-describe Wallaby::Engine::DecoratorGenerator, 'with a name', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::DecoratorGenerator, 'with a name', type: :generator do
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/user)
+  arguments %w[admin/user]
 
   before do
     prepare_destination
@@ -27,9 +28,9 @@ describe Wallaby::Engine::DecoratorGenerator, 'with a name', type: :generator do
   end
 end
 
-describe Wallaby::Engine::DecoratorGenerator, 'with name and parent', type: :generator do # rubocop:disable RSpec/DescribeMethod
+describe Wallaby::Engine::DecoratorGenerator, 'with name and parent', type: :generator do
   destination File.expand_path('../../../../tmp', __dir__)
-  arguments %w(admin/user backend/application)
+  arguments %w[admin/user backend/application]
 
   before do
     prepare_destination

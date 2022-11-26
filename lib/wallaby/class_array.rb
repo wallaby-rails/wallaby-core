@@ -10,7 +10,7 @@ module Wallaby
       @internal = (array || []).flatten
       return if @internal.blank?
 
-      @internal.map!(&method(:class_name_of)).compact!
+      @internal.map! { |klass| class_name_of(klass) }.compact!
     end
 
     # @!attribute [r] internal
@@ -21,7 +21,7 @@ module Wallaby
     # @return [Array] The original array.
     def origin
       # NOTE: DO NOT cache it using instance variable!
-      @internal.map(&method(:to_class)).compact
+      @internal.map { |klass| to_class(klass) }.compact
     end
 
     # Save the value to the {#internal} array at the given index, and convert the Class value to String

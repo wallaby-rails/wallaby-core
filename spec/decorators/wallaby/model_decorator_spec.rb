@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ModelDecorator do
@@ -14,7 +15,7 @@ describe Wallaby::ModelDecorator do
   end
 
   describe '#index/show/form_fields=' do
-    %w(index_ show_ form_).each do |prefix|
+    %w[index_ show_ form_].each do |prefix|
       it 'ensures assigned hash becomes ::ActiveSupport::HashWithIndifferentAccess' do
         subject.send "#{prefix}fields=", name: { type: 'string' }
         expect(subject.instance_variable_get("@#{prefix}fields")).to be_a ::ActiveSupport::HashWithIndifferentAccess

@@ -1,2 +1,5 @@
 inherit_gem:
   wallaby-cop: rubocop.yml
+
+RSpec/FilePath:
+  Enabled: false

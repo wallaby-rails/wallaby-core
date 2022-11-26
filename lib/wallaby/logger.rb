@@ -4,7 +4,7 @@ module Wallaby
   # Custom logger
   module Logger
     class << self
-      %i(unknown fatal error warn info debug).each do |method_id|
+      %i[unknown fatal error warn info debug].each do |method_id|
         define_method method_id do |message, replacements = {}|
           sourcing = replacements.delete(:sourcing) # sourcing can be set to false
           heading = replacements.delete(:heading) || 'WALLABY '

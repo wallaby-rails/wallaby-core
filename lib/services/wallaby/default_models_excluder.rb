@@ -25,7 +25,7 @@ module Wallaby
       def active_record_schema_migration_class
         exists =
           defined?(::ActiveRecord::SchemaMigration) \
-            && Map.mode_map.keys.include?(::ActiveRecord::SchemaMigration)
+            && Map.mode_map.key?(::ActiveRecord::SchemaMigration)
 
         exists ? ::ActiveRecord::SchemaMigration : nil
       end
@@ -36,7 +36,7 @@ module Wallaby
       def active_record_internal_metadata_class
         exists =
           defined?(::ActiveRecord::InternalMetadata) \
-            && Map.mode_map.keys.include?(::ActiveRecord::InternalMetadata)
+            && Map.mode_map.key?(::ActiveRecord::InternalMetadata)
 
         exists ? ::ActiveRecord::InternalMetadata : nil
       end

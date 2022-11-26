@@ -16,7 +16,7 @@ module Wallaby
       return fa_icon 'user' if email.blank?
 
       image_tag(
-        "#{request.protocol}www.gravatar.com/avatar/#{::Digest::MD5.hexdigest email.downcase}",
+        "#{request.protocol}www.gravatar.com/avatar/#{::Digest::MD5.hexdigest email.downcase}", # rubocop:disable Fips/MD5
         class: 'user'
       )
     end
@@ -33,6 +33,7 @@ module Wallaby
           scope = ::Devise::Mapping.find_scope! user
           "destroy_#{scope}_session_path"
         end
+
       app.try method_name if method_name
     end
 
@@ -43,6 +44,7 @@ module Wallaby
     # @return [String, Symbol] http method to log out
     def logout_method(user: wallaby_user, http_method: wallaby_controller.logout_method)
       http_method ||
+
         if defined? ::Devise
           scope = ::Devise::Mapping.find_scope! user
           mapping = ::Devise.mappings[scope]

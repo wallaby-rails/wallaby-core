@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::Map::ModeMapper do
@@ -13,7 +14,9 @@ describe Wallaby::Map::ModeMapper do
     end
 
     context 'when class_names are not blank' do
-      before { Wallaby.configuration.custom_models = [Array, Hash] }
+      before do
+        Wallaby.configuration.custom_models = [Array, Hash]
+      end
 
       it 'returns a mode map' do
         expect(described_class.execute([Wallaby::Custom])).to be_a Wallaby::ClassHash

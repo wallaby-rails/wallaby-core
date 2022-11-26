@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'rails_helper'
 
 describe Wallaby::ResourcesController, type: :controller do
@@ -23,13 +24,16 @@ describe Wallaby::ResourcesController, type: :controller do
     it 'returns engine name' do
       expect(controller.request.env['SCRIPT_NAME']).to eq '/admin'
       expect(controller.current_engine_name).to eq 'wallaby_engine'
+
       if version?('< 5.1')
         expect(controller.current_engine.root_path(script_name: '/admin')).to eq '/admin/'
       else
         expect(controller.current_engine.root_path).to eq '/admin/'
       end
+
       controller.request.env['SCRIPT_NAME'] = '/inner'
       expect(controller.current_engine_name).to eq 'wallaby_engine'
+
       if version?('< 5.1')
         expect(controller.current_engine.root_path(script_name: '/admin')).to eq '/admin/'
       else
@@ -41,6 +45,7 @@ describe Wallaby::ResourcesController, type: :controller do
       it 'returns engine name' do
         controller.request.env['SCRIPT_NAME'] = '/inner'
         expect(controller.current_engine_name).to eq 'inner_engine'
+
         if version?('< 5.1')
           expect(controller.current_engine.root_path(script_name: '/inner')).to eq '/inner/'
         else

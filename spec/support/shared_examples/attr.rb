@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 RSpec.shared_examples 'has attribute with default value' do |attr_name, default_value, valid_value = Class, &block|
   instance_exec(&block) if block
 
