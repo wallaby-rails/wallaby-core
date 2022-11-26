@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.1'
+ruby '2.7.6'
 
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -23,6 +23,13 @@ gem 'rails', '~> 7.0.0'
 gem 'wallaby-active_record', path: '../wallaby-active_record'
 gem 'wallaby-cop', path: '../wallaby-cop'
 # gem 'wallaby-her', path: '../wallaby-her'
+
+# target_branch = !ENV['GITHUB_BASE_REF']&.empty? && ENV['GITHUB_BASE_REF']
+# target_branch ||= !ENV['GITHUB_REF_NAME']&.empty? && ENV['GITHUB_REF_NAME']
+# target_branch ||= 'develop'
+
+# gem 'wallaby-core', git: 'https://github.com/wallaby-rails/wallaby-core.git', branch: target_branch
+# gem 'wallaby-cop', git: 'https://github.com/wallaby-rails/wallaby-cop.git', branch: 'main'
 
 # gem 'activestorage'
 gem 'cancancan'
@@ -60,7 +67,8 @@ end
 
 # @see https://github.com/sass/sassc-ruby/issues/146
 # TODO: remove this line when it's resolved
-gem 'sassc', '< 2.2.0'
+# gem 'sassc', '< 2.2.0'
+gem 'sassc'
 
 group :test do
   gem 'database_cleaner'
