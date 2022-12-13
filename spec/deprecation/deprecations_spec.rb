@@ -211,17 +211,3 @@ describe Wallaby::ResourcesHelper, type: :helper do
     it { expect { helper.type_render }.to raise_error Wallaby::MethodRemoved }
   end
 end
-
-describe 'routes' do
-  after do
-    Rails.application.reload_routes!
-  end
-
-  describe '#wresource' do
-    it { expect { Rails.application.routes.draw { wresource :test } }.to raise_error Wallaby::MethodRemoved }
-  end
-
-  describe '#wresources' do
-    it { expect { Rails.application.routes.draw { wresources :test } }.to raise_error Wallaby::MethodRemoved }
-  end
-end

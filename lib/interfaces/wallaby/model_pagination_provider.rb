@@ -5,13 +5,9 @@ module Wallaby
   class ModelPaginationProvider
     # @param collection [#to_a]
     # @param params [ActionController::Parameters]
-    # @param options [Hash] options
-    # @param model_decorator [ModelDecorator, nil]
-    def initialize(collection, params, options: {}, model_decorator: nil)
+    def initialize(collection, params)
       @collection = collection
       @params = params
-      @options = options
-      @model_decorator = model_decorator
     end
 
     # If a collection has pagination feature

@@ -137,7 +137,7 @@ module Wallaby
     # @raise [ResourceNotFound] if resource is not found
     def resource(&block)
       @resource ||=
-        ModuleUtils.yield_for(current_servicer.find(resource_id), &block)
+        ModuleUtils.yield_for(current_servicer.find(resource_id, {}), &block)
     end
     alias_method :resource!, :resource
 
@@ -169,7 +169,7 @@ module Wallaby
     # @since 0.3.0
     def new_resource(&block)
       @resource ||=
-        ModuleUtils.yield_for(current_servicer.new, &block)
+        ModuleUtils.yield_for(current_servicer.new({}), &block)
     end
     alias_method :new_resource!, :new_resource
   end

@@ -58,15 +58,15 @@ RSpec.configure do |config|
 
   config.before do
     DatabaseCleaner.start
-    # [AllMysqlType, AllSqliteType].each do |model_klass|
-    #   DatabaseCleaner[:active_record, model: model_klass].start
-    # end
+    [AllMysqlType, AllSqliteType].each do |model_klass|
+      DatabaseCleaner[:active_record, db: model_klass].start
+    end
   end
 
   config.after do
     DatabaseCleaner.clean
-    # [AllMysqlType, AllSqliteType].each do |model_klass|
-    #   DatabaseCleaner[:active_record, model: model_klass].clean
-    # end
+    [AllMysqlType, AllSqliteType].each do |model_klass|
+      DatabaseCleaner[:active_record, db: model_klass].clean
+    end
   end
 end

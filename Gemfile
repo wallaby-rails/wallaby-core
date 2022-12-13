@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.6'
+ruby '2.7.5'
 
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
