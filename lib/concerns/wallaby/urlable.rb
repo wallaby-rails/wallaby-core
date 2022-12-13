@@ -46,7 +46,7 @@ module Wallaby
       decorated = decorate resource
       with_query = url_params.delete :with_query
       url_for(
-        { action: :show, id: decorated.primary_key_value }.merge(url_params),
+        ParamsUtils.presence(action: :show, id: decorated.try(:primary_key_value)).merge(url_params),
         { model_class: decorated.model_class, with_query: with_query }
       )
     end

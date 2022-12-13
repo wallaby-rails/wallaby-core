@@ -169,7 +169,7 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Forbidden] if user has no access
-    def create(location: -> { show_path new_resource }, **responder_options, &block)
+    def create(location: -> { { action: :show, id: new_resource.id } }, **responder_options, &block)
       current_authorizer.authorize :create, new_resource
       current_servicer.create new_resource, create_params
       respond_with new_resource, responder_options.merge(location: location), &block
@@ -285,7 +285,7 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Forbidden] if user has no access
-    def update(location: -> { show_path resource }, **responder_options, &block)
+    def update(location: -> { { action: :show } }, **responder_options, &block)
       current_authorizer.authorize :update, resource
       current_servicer.update resource, update_params
       respond_with resource, responder_options.merge(location: location), &block
@@ -324,9 +324,9 @@ module Wallaby
     #   respond_with}
     #   to customize response behaviour.
     # @raise [Forbidden] if user has no access
-    def destroy(location: -> { index_path current_model_class }, **responder_options, &block)
+    def destroy(location: -> { { action: resource_id ? :index : :show } }, **responder_options, &block)
       current_authorizer.authorize :destroy, resource
-      current_servicer.destroy resource
+      current_servicer.destroy resource, {}
       respond_with resource, responder_options.merge(location: location), &block
     end
     alias_method :destroy!, :destroy

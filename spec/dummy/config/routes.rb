@@ -42,6 +42,9 @@ Rails.application.routes.draw do
     # testing custom mode purpose
     resources :postcodes
     resources :zipcodes
+    wresource :single_resource do
+      wresources :multiple_resources
+    end
     resource :profile do
       resources :postcodes
     end
