@@ -34,7 +34,7 @@ describe 'Sqlite Types' do
 
   it 'supports the following types' do
     supporting_types = AllSqliteType.connection.send(:type_map).try do |type_map|
-      type_map.instance_variable_get('@mapping').keys.map do |key|
+      type_map.instance_variable_get(:@mapping).keys.map do |key|
         key.source.gsub(/\^|(\\.*\Z)/, '')
       end.compact.uniq
     end
