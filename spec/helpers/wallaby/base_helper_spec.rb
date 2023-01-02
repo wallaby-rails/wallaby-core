@@ -40,7 +40,7 @@ describe Wallaby::BaseHelper, :wallaby_user, type: :helper do
       it 'returns an array' do
         classes = [Product, Order]
         expect(helper.model_classes(classes).map(&:klass)).to eq [Product, Order]
-        expect(helper.model_classes(classes).map(&:children).flatten).to be_blank if Rails::VERSION::MAJOR >= 5
+        expect(helper.model_classes(classes).map(&:children).flatten).to be_blank if Rails::VERSION::MAJOR >= 5 # rubocop:disable Performance/FlatMap
       end
     end
 
