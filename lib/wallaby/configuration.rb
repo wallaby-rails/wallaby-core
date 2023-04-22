@@ -76,8 +76,8 @@ module Wallaby
     def resources_controller
       to_class(
         @resources_controller ||=
-          to_class('Admin::ApplicationController') && \
-            'Admin::ApplicationController' || 'Wallaby::ResourcesController'
+          (to_class('Admin::ApplicationController') && \
+            'Admin::ApplicationController') || 'Wallaby::ResourcesController'
       )
     end
 

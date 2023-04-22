@@ -44,7 +44,7 @@ module Wallaby
 
       # Helper method for the template to comment out a line
       def commenting
-        file_name == self.class.arguments.first.default && '# ' || ''
+        (file_name == self.class.arguments.first.default && '# ') || ''
       end
 
       def mount_wallaby_to_given_name # :nodoc:

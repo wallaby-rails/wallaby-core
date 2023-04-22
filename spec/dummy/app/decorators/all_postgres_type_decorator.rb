@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AllPostgresTypeDecorator < Wallaby::ResourceDecorator
   # self.fields[:color][:type] = 'color'
   # self.fields[:email][:type] = 'email'

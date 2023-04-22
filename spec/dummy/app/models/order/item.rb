@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Order
   class Item < ActiveRecord::Base
     belongs_to :order

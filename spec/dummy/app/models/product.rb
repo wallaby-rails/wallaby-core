@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Product < ActiveRecord::Base
   has_one :product_detail
   has_one :picture, -> { where name: 'abc' }, as: :imageable

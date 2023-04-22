@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 require 'active_record/connection_adapters/sqlite3_adapter'
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   # Ordinary controller setup for spec/features/custom_routes_and_controllers_spec.rb
   class CustomCategoriesController < Admin::ApplicationController
@@ -14,6 +15,12 @@ module Admin
 
     def links
       render json: {
+        custom_category: {
+          index: url_for(resources: 'categories', action: :index),
+          new: url_for(resources: 'categories', action: :new),
+          show: url_for(resources: 'categories', action: :show, id: 1),
+          edit: url_for(resources: 'categories', action: :edit, id: 1)
+        },
         category: {
           index: index_path(Category),
           new: new_path(Category),

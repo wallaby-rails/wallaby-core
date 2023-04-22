@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 RSpec.configure do |config|
   config.before do
     Wallaby.configuration.resources_controller.try(:clear)

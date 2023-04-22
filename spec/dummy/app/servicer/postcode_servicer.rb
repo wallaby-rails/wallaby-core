@@ -1,22 +1,23 @@
 # frozen_string_literal: true
+
 class PostcodeServicer < Wallaby::ModelServicer
-  def permit(params, action)
+  def permit(params, _action)
     params.fetch(:postcode, params).permit(model_decorator.form_field_names)
   end
 
-  def collection(params)
+  def collection(_params)
     Postcode.all
   end
 
-  def paginate(query, params)
+  def paginate(query, _params)
     query
   end
 
-  def new(params)
+  def new(_params)
     Postcode.new
   end
 
-  def find(id, params)
+  def find(id, _params)
     Postcode.find id
   end
 
@@ -30,7 +31,7 @@ class PostcodeServicer < Wallaby::ModelServicer
     Postcode.update resource
   end
 
-  def destroy(resource, params)
+  def destroy(resource, _params)
     Postcode.destroy resource
   end
 end
