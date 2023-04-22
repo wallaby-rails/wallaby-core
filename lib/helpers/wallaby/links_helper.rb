@@ -72,7 +72,7 @@ module Wallaby
         block: -> { decorate(resource).to_label.to_s }
       )
 
-      default = options[:readonly] && block.call || nil
+      default = (options[:readonly] && block.call) || nil
       return default if unauthorized? :show, extract(resource)
 
       url = options[:url] || show_path(resource, url_params: url_params)
@@ -99,7 +99,7 @@ module Wallaby
         block: -> { "#{wt 'links.edit'} #{decorate(resource).to_label}" }
       )
 
-      default = options[:readonly] && block.call || nil
+      default = (options[:readonly] && block.call) || nil
       return default if unauthorized? :edit, extract(resource)
 
       url = options[:url] || edit_path(resource, url_params: url_params)

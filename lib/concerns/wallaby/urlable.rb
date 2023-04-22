@@ -11,8 +11,8 @@ module Wallaby
     # @see https://api.rubyonrails.org/classes/ActionView/RoutingUrlFor.html#method-i-url_for
     #   ActionView::RoutingUrlFor#url_for
     def url_for(params = nil, options = {})
-      !options[:super] &&
-        EngineUrlFor.execute(context: self, params: params, options: options) ||
+      (!options[:super] &&
+        EngineUrlFor.execute(context: self, params: params, options: options)) ||
         super(params)
     end
 

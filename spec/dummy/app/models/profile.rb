@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Profile
   attr_accessor :id, :first_name, :last, :email
 
@@ -35,7 +36,7 @@ class Profile
       cache_store.write cache_key, resource
     end
 
-    def destroy(resource)
+    def destroy(_resource)
       cache_store.write cache_key, nil
     end
   end

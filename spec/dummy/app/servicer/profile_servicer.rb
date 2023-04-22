@@ -1,14 +1,15 @@
 # frozen_string_literal: true
+
 class ProfileServicer < Wallaby::ModelServicer
-  def permit(params, action)
+  def permit(params, _action)
     params.fetch(:profile, params).permit(model_decorator.form_field_names)
   end
 
-  def new(params)
+  def new(_params)
     Profile.new
   end
 
-  def find(id, params)
+  def find(_id, _params)
     Profile.find
   end
 
@@ -23,7 +24,7 @@ class ProfileServicer < Wallaby::ModelServicer
     Profile.save resource
   end
 
-  def destroy(resource, params)
+  def destroy(resource, _params)
     Profile.destroy resource
   end
 end

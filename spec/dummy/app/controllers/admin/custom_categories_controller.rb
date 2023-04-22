@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Admin
   # Ordinary controller setup for spec/features/custom_routes_and_controllers_spec.rb
   class CustomCategoriesController < Admin::ApplicationController

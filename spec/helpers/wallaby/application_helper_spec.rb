@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'rails_helper'
 
 describe Wallaby::ApplicationHelper do
@@ -13,11 +14,12 @@ describe Wallaby::ApplicationHelper do
       allow(helper).to receive(:current_model_class).and_return(model_class) if model_class.present?
     end
 
-    context 'under /admin', script_name: '/admin' do
+    context 'when /admin', script_name: '/admin' do
       context 'when it is under /admin home' do
         let(:url_options) do
-          {:host=>"localhost", :port=>5000, :protocol=>"http://", :_recall=>{:action=>"home"}, :script_name=>""}
+          { host: "localhost", port: 5000, protocol: "http://", _recall: { action: "home" }, script_name: "" }
         end
+
         let(:controller_path) { 'admin/application' }
 
         context 'when options is hash or permitted parameters' do
@@ -97,8 +99,9 @@ describe Wallaby::ApplicationHelper do
 
       context 'when it is under /admin/products' do
         let(:url_options) do
-          {:host=>"localhost", :port=>5000, :protocol=>"http://", :_recall=>{:action=>"index", :resources=>"products"}, :script_name=>""}
+          { host: "localhost", port: 5000, protocol: "http://", _recall: { action: "index", resources: "products" }, script_name: "" }
         end
+
         let(:controller_path) { 'admin/application' }
         let(:model_class) { Product }
 
@@ -123,8 +126,9 @@ describe Wallaby::ApplicationHelper do
 
       context 'when it is under overriden /admin/categories' do
         let(:url_options) do
-          {:host=>"localhost", :port=>5000, :protocol=>"http://", :_recall=>{:action=>"index"}, :script_name=>""}
+          { host: "localhost", port: 5000, protocol: "http://", _recall: { action: "index" }, script_name: "" }
         end
+
         let(:controller_path) { 'admin/categories' }
         let(:model_class) { Category }
 
@@ -154,8 +158,9 @@ describe Wallaby::ApplicationHelper do
 
       context 'when it is under overriden /admin/custom_categories' do
         let(:url_options) do
-          {:host=>"localhost", :port=>5000, :protocol=>"http://", :_recall=>{:action=>"index"}, :script_name=>""}
+          { host: "localhost", port: 5000, protocol: "http://", _recall: { action: "index" }, script_name: "" }
         end
+
         let(:controller_path) { 'admin/custom_categories' }
         let(:model_class) { Category }
 

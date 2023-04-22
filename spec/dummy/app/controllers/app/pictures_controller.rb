@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module App
   class PicturesController < ApplicationController
     include Wallaby::ResourcesConcern

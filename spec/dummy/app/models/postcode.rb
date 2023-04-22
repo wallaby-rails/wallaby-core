@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Postcode
   attr_accessor :postcode, :locality, :state, :long, :lat, :id, :dc, :type, :status
 

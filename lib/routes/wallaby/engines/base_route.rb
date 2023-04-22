@@ -45,7 +45,7 @@ module Wallaby
       def resources_name
         @resources_name ||=
           params[:resources] || recall[:resources] ||
-          options[:model_class] && Inflector.to_resources_name(options[:model_class])
+          (options[:model_class] && Inflector.to_resources_name(options[:model_class]))
       end
 
       # Recall is the path params of current request
