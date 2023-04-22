@@ -24,14 +24,37 @@ RSpec.configure do |config|
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
     helper.output_buffer = ''
     helper.extend HelperSupport
+  end
 
-    if view.respond_to? :default_url_options
-      view.default_url_options = { only_path: true, host: 'www.example.com' }
-    else
-      def view.default_url_options
-        @default_url_options ||= { only_path: true, host: 'www.example.com' }
-      end
-    end
+  # custom default_url_options
+  config.before :each, type: :helper do |example|
+    custom_default_url_options =
+      {
+        only_path: true, # no url helper will be tested
+        host: 'www.example.com'
+      }.merge(example.metadata[:default_url_options] || {})
+
+    allow(view)
+      .to receive(:default_url_options)
+      .and_return(custom_default_url_options)
+  end
+
+  # custom model_class
+  config.before :each, type: :helper do |example|
+    next if example.metadata[:model_class].blank?
+
+    allow(view)
+      .to receive(:model_class)
+      .and_return(example.metadata[:model_class])
+  end
+
+  # custom current_model_class
+  config.before :each, type: :helper do |example|
+    next if example.metadata[:current_model_class].blank?
+
+    allow(view)
+      .to receive(:current_model_class)
+      .and_return(example.metadata[:current_model_class])
   end
 
   config.after :each, type: :helper do |_example|
