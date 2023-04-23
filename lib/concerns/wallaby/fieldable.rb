@@ -58,7 +58,7 @@ module Wallaby
     # @return [Array<String>] a list of field names
     def prefix_field_names=(field_names, prefix)
       variable = "@#{prefix}field_names"
-      instance_variable_set(variable, Array(field_names).flatten)
+      instance_variable_set(variable, Array.wrap(field_names).flatten)
     end
   end
 end

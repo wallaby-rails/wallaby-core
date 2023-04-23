@@ -9,7 +9,7 @@ module Wallaby
           sourcing = replacements.delete(:sourcing) # sourcing can be set to false
           heading = replacements.delete(:heading) || 'WALLABY '
           new_message, from = normalize(
-            message, (sourcing != false && Array(caller[sourcing || 0])) || nil
+            message, (sourcing != false && Array.wrap(caller[sourcing || 0])) || nil
           )
           Wallaby.configuration.logger.try(
             method_id,
