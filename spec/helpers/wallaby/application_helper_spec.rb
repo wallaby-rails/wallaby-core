@@ -2,8 +2,8 @@
 
 require 'rails_helper'
 
-describe Wallaby::ApplicationHelper do
-  describe '#url_for' do
+describe Wallaby::ApplicationHelper, :wallaby_user do
+  describe 'url related' do
     let(:url_options) { nil }
     let(:controller_path) { nil }
     let(:model_class) { nil }
@@ -39,6 +39,9 @@ describe Wallaby::ApplicationHelper do
             expect(helper.url_for(resources: 'categories', action: 'new')).to eq '/admin/categories/new'
             expect(helper.url_for(resources: 'categories', action: 'show', id: 1)).to eq '/admin/categories/1'
             expect(helper.url_for(resources: 'categories', action: 'edit', id: 1)).to eq '/admin/categories/1/edit'
+
+            expect(helper.index_path(Product)).to eq '/admin/products'
+            expect(helper.index_path(Category)).to eq '/admin/categories'
           end
 
           it 'generates URL for permitted parameters' do
@@ -75,6 +78,9 @@ describe Wallaby::ApplicationHelper do
             expect(helper.url_for(resources: 'categories', action: 'new')).to eq '/before_engine/categories/new'
             expect(helper.url_for(resources: 'categories', action: 'show', id: 1)).to eq '/before_engine/categories/1'
             expect(helper.url_for(resources: 'categories', action: 'edit', id: 1)).to eq '/before_engine/categories/1/edit'
+
+            expect(helper.index_path(Product)).to eq '/before_engine/products'
+            expect(helper.index_path(Category)).to eq '/before_engine/categories'
           end
         end
 
@@ -121,6 +127,9 @@ describe Wallaby::ApplicationHelper do
           expect(helper.url_for(resources: 'categories', action: 'new')).to eq '/admin/categories/new'
           expect(helper.url_for(resources: 'categories', action: 'show', id: 1)).to eq '/admin/categories/1'
           expect(helper.url_for(resources: 'categories', action: 'edit', id: 1)).to eq '/admin/categories/1/edit'
+
+          expect(helper.index_path(Product)).to eq '/admin/products'
+          expect(helper.index_path(Category)).to eq '/admin/categories'
         end
       end
 
@@ -153,6 +162,9 @@ describe Wallaby::ApplicationHelper do
           expect(helper.url_for(resources: 'categories', action: 'new')).to eq '/admin/categories/new'
           expect(helper.url_for(resources: 'categories', action: 'show', id: 1)).to eq '/admin/categories/1'
           expect(helper.url_for(resources: 'categories', action: 'edit', id: 1)).to eq '/admin/categories/1/edit'
+
+          expect(helper.index_path(Product)).to eq '/admin/products'
+          expect(helper.index_path(Category)).to eq '/admin/categories'
         end
       end
 
@@ -185,6 +197,9 @@ describe Wallaby::ApplicationHelper do
           expect(helper.url_for(resources: 'categories', action: 'new')).to eq '/admin/custom_categories/new'
           expect(helper.url_for(resources: 'categories', action: 'show', id: 1)).to eq '/admin/custom_categories/1'
           expect(helper.url_for(resources: 'categories', action: 'edit', id: 1)).to eq '/admin/custom_categories/1/edit'
+
+          expect(helper.index_path(Product)).to eq '/admin/products'
+          expect(helper.index_path(Category)).to eq '/admin/custom_categories'
         end
       end
     end
