@@ -224,7 +224,7 @@ describe Wallaby::ResourceDecorator do
       let(:resource) { Picture.new(id: 111) }
 
       it 'calls the missing method from decorator' do
-        expect(subject.some_field_names).to eq %w[id name file created_at updated_at imageable]
+        expect(subject.some_field_names).to eq %w[id imageable name file created_at updated_at]
       end
 
       it 'raises error when missing' do
