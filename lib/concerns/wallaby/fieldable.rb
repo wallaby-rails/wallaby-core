@@ -50,7 +50,7 @@ module Wallaby
       variable = "@#{prefix}field_names"
       instance_variable_get(variable) || \
         instance_variable_set(variable, begin
-          fields = prefix_fields(prefix).reject { |k, metadata| metadata[:hidden] }
+          fields = prefix_fields(prefix).reject { |_k, metadata| metadata[:hidden] }
           reposition(fields.keys, primary_key)
         end)
     end
