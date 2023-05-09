@@ -49,7 +49,10 @@ module Wallaby
     def prefix_field_names(prefix)
       variable = "@#{prefix}field_names"
       instance_variable_get(variable) || \
-        instance_variable_set(variable, reposition(prefix_fields(prefix).keys, primary_key))
+        instance_variable_set(variable, begin
+          fields = prefix_fields(prefix).reject { |k, metadata| metadata[:hidden] }
+          reposition(fields.keys, primary_key)
+        end)
     end
 
     # Set field names for the given prefix

@@ -139,7 +139,7 @@ module Wallaby
     # @param primary_key [String, Symbol] primary key name
     # @return [Array<String, Symbol>]
     # a new list of field names that primary key goes first
-    def reposition(field_names, primary_key)
+    def reposition(field_names, primary_key = self.primary_key)
       field_names.unshift(primary_key.to_s).uniq
     end
 
