@@ -13,7 +13,7 @@ module Wallaby
         hash = {}
         current_sort = @hash[field_name]
         hash[field_name] = next_value_for current_sort
-        rebuild_str_from hash
+        HashBuilder.to_str(hash)
       end
     end
   end

@@ -35,18 +35,7 @@ module Wallaby
         hash = @hash.except field_name
         current_sort = @hash[field_name]
         hash[field_name] = next_value_for current_sort
-        rebuild_str_from hash
-      end
-
-      # @param hash [Hash] sort order hash
-      # @return [String] a sort order string, e.g. `'name asc'`
-      def rebuild_str_from(hash)
-        hash.each_with_object(EMPTY_STRING.dup) do |(name, sort), str|
-          next unless sort
-
-          str << (str == EMPTY_STRING ? str : COMMA)
-          str << name.to_s << SPACE << sort
-        end
+        HashBuilder.to_str(hash)
       end
 
       # @param current [String, nil] current sort order

@@ -36,4 +36,17 @@ describe Wallaby::Sorting::HashBuilder do
       expect(described_class.build(str)).to eq 'name' => 'asc', 'updated_at' => 'desc'
     end
   end
+
+  describe '.to_str' do
+    it 'returns a sorting string' do
+      hash = { 'name' => 'asc' }
+      expect(described_class.to_str(hash)).to eq 'name asc'
+
+      hash = { 'name' => 'asc', 'updated_at' => 'desc' }
+      expect(described_class.to_str(hash)).to eq 'name asc,updated_at desc'
+
+      hash = { 'name' => 'invalid sort', 'updated_at' => 'desc' }
+      expect(described_class.to_str(hash)).to eq 'updated_at desc'
+    end
+  end
 end

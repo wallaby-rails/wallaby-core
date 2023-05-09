@@ -14,6 +14,15 @@ module Wallaby
           (sort_string || EMPTY_STRING).scan(SORT_REGEX) { |_, key, order| hash[key] = order }
         end
       end
+
+      def self.to_str(hash)
+        hash.each_with_object(EMPTY_STRING.dup) do |(name, sort), str|
+          next unless /\Aasc|desc\Z/i.match?(sort)
+
+          str << (str == EMPTY_STRING ? str : COMMA)
+          str << name.to_s << SPACE << sort << (block_given? ? yield(name) : EMPTY_STRING)
+        end
+      end
     end
   end
 end
