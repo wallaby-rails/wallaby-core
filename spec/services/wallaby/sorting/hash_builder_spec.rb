@@ -45,7 +45,16 @@ describe Wallaby::Sorting::HashBuilder do
       hash = { 'name' => 'asc', 'updated_at' => 'desc' }
       expect(described_class.to_str(hash)).to eq 'name asc,updated_at desc'
 
+      hash = { 'name' => 'asc nulls last', 'updated_at' => 'desc nulls first' }
+      expect(described_class.to_str(hash)).to eq 'name asc nulls last,updated_at desc nulls first'
+
       hash = { 'name' => 'invalid sort', 'updated_at' => 'desc' }
+      expect(described_class.to_str(hash)).to eq 'updated_at desc'
+
+      hash = { 'name' => 'asc nulls', 'updated_at' => 'desc' }
+      expect(described_class.to_str(hash)).to eq 'updated_at desc'
+
+      hash = { 'name' => 'asc nulls unknown', 'updated_at' => 'desc' }
       expect(described_class.to_str(hash)).to eq 'updated_at desc'
     end
   end
