@@ -17,7 +17,7 @@ module Wallaby
 
       def self.to_str(hash)
         hash.each_with_object(EMPTY_STRING.dup) do |(name, sort), str|
-          next unless /\Aasc|desc\Z/i.match?(sort)
+          next unless /\A(asc|desc)( nulls (first|last))?\Z/i.match?(sort)
 
           str << (str == EMPTY_STRING ? str : COMMA)
           str << name.to_s << SPACE << sort << (block_given? ? yield(name) : EMPTY_STRING)
