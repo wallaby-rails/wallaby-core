@@ -103,10 +103,14 @@ module Wallaby
       return unless resources_name # maybe it's for landing page or error page
 
       # now this is for our lovely resourceful actions
-      model_class = Classifier.to_class(Inflector.to_model_name(resources_name))
-      raise ModelNotFound, resources_name unless model_class
+      model_name = Inflector.to_model_name(resources_name)
+      model_class = Classifier.to_class(model_name)
+      raise ModelNotFound, model_name unless model_class
       return if Map.mode_map[model_class]
 
+      Wallaby::Logger.warn <<~MESSAGE
+        Cannot find the mode for #{model_name} and don't know how to handle it.
+      MESSAGE
       raise UnprocessableEntity, Locale.t('errors.unprocessable_entity.model', model: model_class)
     end
 

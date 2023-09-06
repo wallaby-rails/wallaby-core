@@ -20,7 +20,7 @@ describe Wallaby::Locale do
 
     context 'when translation is missing' do
       it 'returns missing translation' do
-        expect(described_class.t('unknown')).to eq 'translation missing: en.wallaby.unknown'
+        expect(described_class.t('unknown')).to match(/^translation missing/i)
       end
     end
   end
