@@ -168,6 +168,8 @@ module Wallaby
 
     # @return [Object] primary key value
     def primary_key_value
+      return if primary_key.blank?
+
       resource.try primary_key
     end
 

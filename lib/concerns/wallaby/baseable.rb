@@ -47,7 +47,7 @@ module Wallaby
       # @return [Class] assigned model class or Wallaby will guess it
       #   (see {Guesser.class_for})
       # @return [nil] if current class is marked as base class
-      # @raise [ModelNotFound] if model class isn't found
+      # @raise [ClassNotFound] if model class isn't found
       # @raise [ArgumentError] if base class is empty
       def model_class
         return if base_class?
