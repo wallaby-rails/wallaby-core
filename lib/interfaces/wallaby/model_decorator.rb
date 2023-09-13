@@ -140,6 +140,8 @@ module Wallaby
     # @return [Array<String, Symbol>]
     # a new list of field names that primary key goes first
     def reposition(field_names, primary_key = self.primary_key)
+      return field_names if primary_key.blank?
+
       field_names.unshift(primary_key.to_s).uniq
     end
 
@@ -155,7 +157,7 @@ module Wallaby
         1. Check type's value from metadata `#{prefix}_fields[:#{field_name}][:type]`.
           If it is missing, specify the type as below:
 
-          #{prefix}field_name[:#{field_name}][:type] = 'string'
+          #{prefix}fields[:#{field_name}][:type] = 'string'
 
         2. If metadata `#{prefix}_fields` is blank, maybe table hasn't be created yet
           or there is some error in the decorator class declaration.
