@@ -70,7 +70,7 @@ module Wallaby
             || providers.values.find { |klass| klass.available? context } \
             || providers[:default] # fallback to default
         end
-      provider_class.new context, options
+      provider_class.new context, **options
     end
   end
 end
