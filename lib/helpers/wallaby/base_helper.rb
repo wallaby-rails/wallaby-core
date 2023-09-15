@@ -56,7 +56,7 @@ module Wallaby
       options = { html_options: { class: 'dropdown-item' } }
       content_tag :ul, class: 'dropdown-menu', 'aria-labelledby': base_class do
         array.sort_by(&:name).each do |node|
-          content = index_link(node.klass, options).try :<<, model_tree(node.children)
+          content = index_link(node.klass, **options).try :<<, model_tree(node.children)
           concat content_tag(:li, content)
         end
       end

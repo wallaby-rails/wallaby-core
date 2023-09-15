@@ -11,11 +11,11 @@ module Wallaby
       # @return [String] translation
       def t(key, options = {})
         translator = options.delete(:translator) || I18n.method(:t)
-        return translator.call(key, options) unless key.is_a?(String) || key.is_a?(Symbol)
+        return translator.call(key, **options) unless key.is_a?(String) || key.is_a?(Symbol)
 
         new_key, new_defaults = normalize key, options.delete(:default)
 
-        translator.call(new_key, { default: new_defaults }.merge(options))
+        translator.call(new_key, **{ default: new_defaults }.merge(options))
       end
 
       private
