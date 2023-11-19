@@ -32,8 +32,12 @@ describe Wallaby::ResourcesController, type: :controller do
   describe '.models && .models_to_exclude && .all_models' do
     it 'returns models' do
       expect(described_class.models).to be_blank
-      expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
-      expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata) if version?('>= 6.0')
+      expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration) if version?('< 7.1')
+
+      if version?('>= 6.0') && version?('< 7.1')
+        expect(described_class.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata)
+      end
+
       expect(described_class.all_models).not_to include(ActiveRecord::SchemaMigration)
       expect(described_class.all_models).not_to include(ActiveRecord::InternalMetadata) if version?('>= 6.0')
     end
@@ -43,9 +47,12 @@ describe Wallaby::ResourcesController, type: :controller do
 
       it 'returns models' do
         expect(application_controller.models).to be_blank
-        expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
 
-        if version?('>= 5.2')
+        if version?('< 7.1')
+          expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::SchemaMigration)
+        end
+
+        if version?('>= 5.2') && version?('< 7.1')
           expect(application_controller.models_to_exclude.to_a).to include(ActiveRecord::InternalMetadata)
         end
 

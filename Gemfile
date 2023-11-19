@@ -75,6 +75,6 @@ group :test do
   gem 'generator_spec'
   gem 'rails-controller-testing'
   gem 'rspec-rails', '4.0.0.beta3'
-  gem 'simplecov', '~> 0.17.0'
+  gem 'simplecov'
   gem 'webmock'
 end

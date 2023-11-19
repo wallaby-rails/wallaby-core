@@ -2,13 +2,21 @@
 
 require 'rails_helper'
 
+def stub_version
+  before do
+    stub_const("Wallaby::Core::VERSION", Wallaby::Core::VERSION.gsub(/\.beta.*\Z/, ""))
+  end
+end
+
 describe Wallaby::Map do
+  stub_version
   describe '.model_classes' do
     it { expect { described_class.model_classes }.to raise_error Wallaby::MethodRemoved }
   end
 end
 
 describe Wallaby::Baseable do
+  stub_version
   describe '.namespace' do
     it { expect { Wallaby::ResourcesController.namespace }.to raise_error Wallaby::MethodRemoved }
     it { expect { Wallaby::ResourcesController.namespace = nil }.to raise_error Wallaby::MethodRemoved }
@@ -16,12 +24,14 @@ describe Wallaby::Baseable do
 end
 
 describe Wallaby::ModuleUtils do
+  stub_version
   describe '.try_to' do
     it { expect { described_class.try_to(Object, :to_s) }.to raise_error Wallaby::MethodRemoved }
   end
 end
 
 describe Wallaby::Configuration do
+  stub_version
   describe '#models=' do
     it { expect { subject.models = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -36,6 +46,7 @@ describe Wallaby::Configuration do
 end
 
 describe Wallaby::Configuration::Mapping do
+  stub_version
   describe '#resources_controller=' do
     it { expect { subject.resources_controller = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -78,6 +89,7 @@ describe Wallaby::Configuration::Mapping do
 end
 
 describe Wallaby::Configuration::Metadata do
+  stub_version
   describe '#max=' do
     it { expect { subject.max = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -88,6 +100,7 @@ describe Wallaby::Configuration::Metadata do
 end
 
 describe Wallaby::Configuration::Models do
+  stub_version
   describe '#set' do
     it { expect { subject.set nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -106,6 +119,7 @@ describe Wallaby::Configuration::Models do
 end
 
 describe Wallaby::Configuration::Pagination do
+  stub_version
   describe '#page_size=' do
     it { expect { subject.page_size = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -116,6 +130,7 @@ describe Wallaby::Configuration::Pagination do
 end
 
 describe Wallaby::Configuration::Security do
+  stub_version
   describe '#logout_path=' do
     it { expect { subject.logout_path = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -158,6 +173,7 @@ describe Wallaby::Configuration::Security do
 end
 
 describe Wallaby::Configuration::Sorting do
+  stub_version
   describe '#strategy=' do
     it { expect { subject.strategy = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -168,6 +184,7 @@ describe Wallaby::Configuration::Sorting do
 end
 
 describe Wallaby::Configuration::Features do
+  stub_version
   describe '#turbolinks_enabled=' do
     it { expect { subject.turbolinks_enabled = nil }.to raise_error Wallaby::MethodRemoved }
   end
@@ -178,6 +195,7 @@ describe Wallaby::Configuration::Features do
 end
 
 describe Wallaby::ConfigurationHelper, type: :helper do
+  stub_version
   describe '#default_metadata' do
     it { expect { helper.default_metadata }.to raise_error Wallaby::MethodRemoved }
   end
@@ -208,6 +226,7 @@ describe Wallaby::ConfigurationHelper, type: :helper do
 end
 
 describe Wallaby::ResourcesHelper, type: :helper do
+  stub_version
   describe '#type_render' do
     it { expect { helper.type_render }.to raise_error Wallaby::MethodRemoved }
   end
