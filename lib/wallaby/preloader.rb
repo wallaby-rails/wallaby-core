@@ -30,7 +30,9 @@ module Wallaby
     # @!attribute [r] eager_load_paths
     # @return [Array<String, Pathname>]
     def eager_load_paths # :nodoc:
-      @eager_load_paths ||= Rails.configuration.eager_load_paths
+      @eager_load_paths ||=
+        Rails.configuration.paths['app'].expanded
+          .concat(Rails.configuration.eager_load_paths)
     end
 
     # @!attribute [w] model_paths
