@@ -46,4 +46,5 @@ Rails.application.configure do
   config.cache_store = :null_store
   # config.logger = Logger.new(STDOUT)
   # config.log_level = :info
+  config.active_storage.service = :local if defined? ActiveStorage
 end

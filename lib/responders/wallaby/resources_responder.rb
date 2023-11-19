@@ -17,7 +17,7 @@ module Wallaby
 
     # @return [String] file name with export timestamp
     def file_name_to_export
-      timestamp = Time.zone.now.to_s(:number)
+      timestamp = Time.zone.now.to_fs(:number)
       filename =
         (request.params[:resources] || controller.controller_path)
         .gsub(/#{SLASH}|#{COLONS}/o, HYPHEN)

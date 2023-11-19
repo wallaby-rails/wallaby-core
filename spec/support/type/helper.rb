@@ -23,7 +23,7 @@ RSpec.configure do |config|
     view.extend Wallaby::ResourcesHelper
     view.instance_variable_set(:@wallaby_controller, example.metadata[:wallaby_controller] || Wallaby::ResourcesController)
     view.request.env['SCRIPT_NAME'] = example.metadata[:script_name] || '/admin'
-    helper.output_buffer = ''
+    helper.output_buffer = ActionView::OutputBuffer.new
     helper.extend HelperSupport
   end
 
