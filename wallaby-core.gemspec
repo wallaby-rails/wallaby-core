@@ -29,8 +29,8 @@ Gem::Specification.new do |spec|
     'README.md'
   ]
 
-  spec.add_dependency 'activemodel', '>= 4.2.0', '<7.1.0'
-  spec.add_dependency 'railties', '>= 4.2.0', '<7.1.0'
+  spec.add_dependency 'activemodel', '>= 6.0.0'
+  spec.add_dependency 'railties', '>= 6.0.0'
 
   spec.add_dependency 'parslet'
   spec.add_dependency 'responders'
