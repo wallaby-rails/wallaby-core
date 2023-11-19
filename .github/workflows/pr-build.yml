@@ -65,9 +65,8 @@ jobs:
         run: git diff --name-only ${{ github.event.pull_request.base.sha }} --diff-filter AMT | xargs bundle exec rubocop --force-exclusion
 
       - name: Rspec
-        run: |
-          if [ "$GITHUB_BASE_REF" = "main" ]; then curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter; fi
-          if [ "$GITHUB_BASE_REF" = "main" ]; then chmod +x ./cc-test-reporter; fi
-          if [ "$GITHUB_BASE_REF" = "main" ]; then ./cc-test-reporter before-build; fi
-          bundle exec rake --trace db:test:prepare spec
-          if [ "$GITHUB_BASE_REF" = "main" ]; then ./cc-test-reporter after-build -r ${{ secrets.CC_TEST_REPORTER_ID }}; fi
+        uses: paambaati/codeclimate-action@v2.2.4
+        env:
+          CC_TEST_REPORTER_ID: ${{ secrets.CC_TEST_REPORTER_ID }}
+        with:
+          coverageCommand: bundle exec rake --trace db:test:prepare spec
