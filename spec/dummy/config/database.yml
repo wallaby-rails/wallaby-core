@@ -40,7 +40,7 @@ postgresql: &postgresql
   host: 127.0.0.1
   adapter: postgresql
   database: wallaby_core_<%= Rails.root.basename.to_s %>_<%= Rails.env %>
-  username: <%= ENV['POSTGRES_USER'] %>
+  username: <%= ENV['POSTGRES_USER'] || "postgres" %>
   password: <%= ENV['POSTGRES_PASSWORD'] %>
   min_messages: ERROR
 
