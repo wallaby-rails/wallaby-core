@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.5'
+ruby '3.2.2'
 
 # Declare your gem's dependencies in wallaby.gemspec.
 # Bundler will treat runtime dependencies like base dependencies, and
@@ -17,7 +17,7 @@ gemspec
 # To use a debugger
 # gem 'byebug', group: [:development, :test]
 # gem 'rails', git: 'https://github.com/rails/rails', branch: 'main'
-gem 'rails', '~> 7.0.0'
+gem 'rails', '~> 7.1.0'
 
 # gem 'wallaby-active_record'
 gem 'wallaby-active_record', path: '../wallaby-active_record'
@@ -74,7 +74,7 @@ group :test do
   gem 'deep-cover'
   gem 'generator_spec'
   gem 'rails-controller-testing'
-  gem 'rspec-rails', '4.0.0.beta3'
+  gem 'rspec-rails'
   gem 'simplecov'
   gem 'webmock'
 end
