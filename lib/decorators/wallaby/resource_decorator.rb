@@ -179,6 +179,12 @@ module Wallaby
       resource.try(:model_name) || ActiveModel::Name.new(model_class)
     end
 
+    # @see https://github.com/rails/rails/compare/v7.0.2.4..7-0-stable#diff-44b94eca66c7497711821a8e6bcdfde4684bb7b8efa15e64da6532449f03ef0bR441
+    # @note This overwritten method is a response to the above change
+    def to_model
+      self
+    end
+
     # @note this method is for the Rails form helper methods to recognize non-ActiveModel models
     # @return [nil] if no primary key
     # @return [Array<String>] primary key
