@@ -12,17 +12,16 @@ module Wallaby
     include ActiveModel::Model
 
     class << self
-      # @return [true] mark this as pending
-      def pending!
-        @pending = true
+      def clear
+        @all_required = nil
       end
 
       # Require all files
       # @see #all_file_paths
       def require_all
-        return unless @pending
+        return if @all_required
 
-        @pending = nil
+        @all_required = true
         Logger.debug 'Loading all files', sourcing: false
         new.all_file_paths.each(&method(:require_dependency))
       end
@@ -36,7 +35,7 @@ module Wallaby
 
     # @return [Array<String>] all files under **Rails.configuration.eager_load_paths**
     def all_file_paths
-      sort all_eager_load_file_paths
+      sort(all_eager_load_file_paths)
     end
 
     # @return [Array<String>] model files under {Wallaby::Configuration#model_paths}
