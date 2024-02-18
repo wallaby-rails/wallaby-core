@@ -403,7 +403,7 @@ module Wallaby
       # Clear all configurations
       def clear
         ClassMethods.instance_methods.grep(/=/).each do |name|
-          instance_variable_set "@#{name[0...-1]}", nil
+          instance_variable_set :"@#{name[0...-1]}", nil
         end
       end
     end

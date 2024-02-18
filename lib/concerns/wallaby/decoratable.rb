@@ -23,11 +23,7 @@ module Wallaby
     # @return [ResourceDecorator] current resource decorator for this request
     def current_decorator
       @current_decorator ||=
-        DecoratorFinder.new(
-          script_name: script_name,
-          model_class: current_model_class,
-          current_controller_class: wallaby_controller
-        ).execute.tap do |decorator|
+        decorator_of(current_model_class).tap do |decorator|
           Logger.debug %(Current decorator: #{decorator}), sourcing: false
         end
     end
@@ -37,6 +33,15 @@ module Wallaby
     def current_fields
       @current_fields ||=
         current_model_decorator.try(:"#{action_name}_fields")
+    end
+
+    # Get the decorator of a klass
+    def decorator_of(klass)
+      DecoratorFinder.new(
+        script_name: script_name,
+        model_class: klass,
+        current_controller_class: wallaby_controller
+      ).execute
     end
 
     # Wrap resource(s) with decorator(s).

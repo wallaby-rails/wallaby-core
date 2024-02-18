@@ -4,7 +4,7 @@ RSpec.shared_examples 'has attribute with default value' do |attr_name, default_
   instance_exec(&block) if block
 
   it 'modifies the attribute' do
-    subject.send "#{attr_name}=", valid_value
+    subject.send :"#{attr_name}=", valid_value
     expect(subject.send(attr_name)).to eq valid_value
   end
 

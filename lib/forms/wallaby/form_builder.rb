@@ -20,7 +20,7 @@ module Wallaby
       content_tag :ul, class: 'errors' do
         errors.each do |message|
           concat content_tag :li, content_tag(
-            :small, raw(message)
+            :small, raw(message) # rubocop:disable Rails/OutputSafety
           )
         end
       end

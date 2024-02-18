@@ -16,7 +16,7 @@ module Wallaby
           next if class_names.blank?
 
           class_names.each_with_object(hash) do |mode_name, map|
-            mode_name.model_finder.new.all.each do |model_class|
+            mode_name.model_finder.new.all.each do |model_class| # rubocop:disable Rails/FindEach
               map[model_class] = mode_name
             end
           end

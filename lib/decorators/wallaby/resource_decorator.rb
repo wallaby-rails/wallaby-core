@@ -99,6 +99,13 @@ module Wallaby
         @h ||= superclass.try(:h) || ResourcesController.helpers
       end
 
+      # @!attribute [w] readonly
+      attr_writer :readonly
+
+      def readonly?
+        @readonly
+      end
+
       # Delegate missing method to {.model_decorator}
       def method_missing(method_id, *args, &block)
         return if ModelDecorator::MISSING_METHODS_RELATED_TO_FIELDS.match?(method_id.to_s) && model_decorator.blank?
@@ -191,6 +198,12 @@ module Wallaby
     def to_key
       key = resource.try primary_key
       key ? [key] : nil
+    end
+
+    # @return [true, false] if resource responds to method `.readonly?`
+    # @return [false] otherwise
+    def readonly?
+      resource.try(:readonly?) || self.class.try(:readonly?)
     end
 
     # Delegate missing method to {#resource}
