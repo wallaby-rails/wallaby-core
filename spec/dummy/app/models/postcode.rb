@@ -5,7 +5,7 @@ class Postcode
 
   def initialize(hash = {})
     hash.each do |k, v|
-      public_send "#{k}=", v
+      public_send :"#{k}=", v
     end
   end
 

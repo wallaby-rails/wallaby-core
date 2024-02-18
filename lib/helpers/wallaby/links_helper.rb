@@ -15,7 +15,7 @@ module Wallaby
     # @return [String] anchor link to index page for a given model class
     # @return [nil] if user's not authorized
     def index_link(model_class, options: {}, url_params: {}, html_options: {}, &block)
-      return if unauthorized? :index, model_class
+      return if unauthorized?(:index, model_class)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
@@ -38,7 +38,7 @@ module Wallaby
     # @return [String, nil] anchor element
     # @return [nil] if user's not authorized
     def new_link(model_class, options: {}, url_params: {}, html_options: {}, &block)
-      return if unauthorized? :new, model_class
+      return if unauthorized?(:new, model_class) || decorator_of(model_class).readonly?
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block,
@@ -73,9 +73,9 @@ module Wallaby
       )
 
       default = (options[:readonly] && block.call) || nil
-      return default if unauthorized? :show, extract(resource)
+      return default if unauthorized?(:show, extract(resource))
 
-      url = options[:url] || show_path(resource, url_params: url_params)
+      url = options[:url] || show_path(resource.itself, url_params: url_params)
       link_to url, html_options, &block
     end
 
@@ -100,9 +100,9 @@ module Wallaby
       )
 
       default = (options[:readonly] && block.call) || nil
-      return default if unauthorized? :edit, extract(resource)
+      return default if unauthorized?(:edit, extract(resource)) || resource.try(:readonly?)
 
-      url = options[:url] || edit_path(resource, url_params: url_params)
+      url = options[:url] || edit_path(resource.itself, url_params: url_params)
       link_to url, html_options, &block
     end
 
@@ -119,7 +119,7 @@ module Wallaby
     # @return [String, nil] anchor element
     # @return [nil] if user's not authorized
     def delete_link(resource, options: {}, url_params: {}, html_options: {}, &block)
-      return if unauthorized? :destroy, extract(resource)
+      return if unauthorized?(:destroy, extract(resource)) || resource.try(:readonly?)
 
       html_options, block = LinkOptionsNormalizer.normalize(
         html_options, block, class: 'resource__destroy', block: -> { wt 'links.delete' }
@@ -128,7 +128,7 @@ module Wallaby
       html_options[:method] ||= :delete
       (html_options[:data] ||= {})[:confirm] ||= wt 'links.confirm.delete'
 
-      url = options[:url] || show_path(resource, url_params: url_params)
+      url = options[:url] || show_path(resource.itself, url_params: url_params)
       link_to url, html_options, &block
     end
 

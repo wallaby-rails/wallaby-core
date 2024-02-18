@@ -155,6 +155,16 @@ describe Wallaby::LinksHelper, :wallaby_user do
         expect(helper.new_link(Product)).to be_nil
       end
     end
+
+    context 'when readonly' do
+      it 'returns nil' do
+        stub_const('Admin::ProductDecorator', Class.new(Wallaby::ResourceDecorator) do
+          self.readonly = true
+        end)
+
+        expect(helper.new_link(Product)).to be_nil
+      end
+    end
   end
 
   describe '#show_link' do
@@ -274,6 +284,17 @@ describe Wallaby::LinksHelper, :wallaby_user do
         end
       end
     end
+
+    context 'when readonly' do
+      it 'returns nil' do
+        stub_const('Admin::ProductDecorator', Class.new(Wallaby::ResourceDecorator) do
+          self.readonly = true
+        end)
+
+        expect(helper.edit_link(Admin::ProductDecorator.new(resource))).to be_nil
+        expect(helper.edit_link(resource)).to eq("<a title=\"Edit iPhone\" class=\"resource__update\" href=\"/admin/products/1/edit\">Edit iPhone</a>")
+      end
+    end
   end
 
   describe '#delete_link' do
@@ -333,6 +354,17 @@ describe Wallaby::LinksHelper, :wallaby_user do
           end)
           expect(helper.delete_link(resource)).to be_nil
         end
+      end
+    end
+
+    context 'when readonly' do
+      it 'returns nil' do
+        stub_const('Admin::ProductDecorator', Class.new(Wallaby::ResourceDecorator) do
+          self.readonly = true
+        end)
+
+        expect(helper.delete_link(Admin::ProductDecorator.new(resource))).to be_nil
+        expect(helper.delete_link(resource)).to eq("<a title=\"Delete\" class=\"resource__destroy\" data-confirm=\"Please confirm to delete\" rel=\"nofollow\" data-method=\"delete\" href=\"/admin/products/1\">Delete</a>")
       end
     end
   end

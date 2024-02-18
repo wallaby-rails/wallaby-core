@@ -15,7 +15,7 @@ module Wallaby
       # Require models under {Configuration#model_paths}
       # @see #model_file_paths
       def require_models
-        new.model_file_paths.each { |path| require_dependency(path) }
+        new.model_file_paths.each { |path| require_dependency(path) } # rubocop:disable Rails/RequireDependency, Lint/RedundantCopDisableDirective
       end
     end
 

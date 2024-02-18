@@ -9,7 +9,7 @@ class Profile
 
   def assign(hash)
     hash.each do |k, v|
-      public_send "#{k}=", v
+      public_send :"#{k}=", v
     end
   end
 
