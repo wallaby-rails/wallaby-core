@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Support readonly option ([#86](https://github.com/wallaby-rails/wallaby-core/pull/86))
 - Support custom mapping_actions ([#73](https://github.com/wallaby-rails/wallaby-core/pull/73))
 - feat: support `nulls first`/`nulls last` for `params[:sort]`  ([#71](https://github.com/wallaby-rails/wallaby-core/pull/71))
 - feat: support to hide a field by setting `field_metadata[:hidden]` ([#68](https://github.com/wallaby-rails/wallaby-core/pull/68))
@@ -60,6 +61,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - chore: remove gem kaminari from gemfiles ([#64](https://github.com/wallaby-rails/wallaby-core/pull/64))
 
+
+## [0.2.10](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.10) - 2024-01-17
+
+### Changed
+
+- Suppress preloading ([#83](https://github.com/wallaby-rails/wallaby-core/pull/83), [#85](https://github.com/wallaby-rails/wallaby-core/pull/85))
 
 ## [0.2.9](https://github.com/wallaby-rails/wallaby-core/releases/tag/0.2.9) - 2023-11-19
 
